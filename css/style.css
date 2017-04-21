@@ -4,3 +4,7 @@
     text-align: center;
     background-color: #2F394D;
 }
+
+#fp-nav.left ul li a span {
+    background: #E4E3D3;
+}
