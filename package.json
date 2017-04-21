@@ -1,0 +1,22 @@
+{
+  "name": "dataviz-hw3",
+  "version": "1.0.0",
+  "description": "Visualizations of police killings in the United States.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hschafer/dataviz-hw3-temp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hschafer/dataviz-hw3-temp/issues"
+  },
+  "homepage": "https://github.com/hschafer/dataviz-hw3-temp#readme",
+  "devDependencies": {
+    "webpack": "^2.4.1"
+  }
+}
