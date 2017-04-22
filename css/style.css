@@ -8,3 +8,26 @@
 #fp-nav.left ul li a span {
     background: #E4E3D3;
 }
+
+.states {
+    fill: #E4E3D3;
+}
+
+.states :hover {
+    fill: #2F394D;
+}
+
+.state-borders {
+    fill: none;
+    stroke: #2F394D;
+    stroke-width: 0.5px;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    pointer-events: none;
+}
+
+.us-outline {
+    stroke: #E4E3D3;
+    stroke-width: 1px;
+    fill: none;
+}
