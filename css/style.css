@@ -17,7 +17,7 @@
 .symbol {
   fill: steelblue;
   fill-opacity: .7;
-  stroke: #fff;
+  stroke: none;
 }
 
 .states:hover {
