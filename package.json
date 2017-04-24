@@ -4,7 +4,8 @@
   "description": "Visualizations of police killings in the United States.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "./node_modules/webpack/bin/webpack.js --watch"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,8 @@
   },
   "homepage": "https://github.com/hschafer/dataviz-hw3-temp#readme",
   "devDependencies": {
-    "webpack": "^2.4.1"
+    "webpack": "^2.4.1",
+    "topojson": "^3.0.0"
+
   }
 }

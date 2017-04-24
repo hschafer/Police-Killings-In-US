@@ -10,7 +10,14 @@
 }
 
 .states {
-    fill: #E4E3D3;
+  fill: #ccc;
+  stroke: #fff;
+}
+
+.symbol {
+  fill: steelblue;
+  fill-opacity: .8;
+  stroke: #fff;
 }
 
 .states :hover {
