@@ -43,7 +43,10 @@ function ready(error, us, data) {
         .domain([0, d3.max(cityData, function(d) { return d.num_records; })])
         .range([0, 15]);
 
-    
+    var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
     svg = d3.select("#section2").select(".fp-tableCell")
         .append("svg")
         .attr("width", w)
@@ -72,7 +75,21 @@ function ready(error, us, data) {
         .attr("class", "symbol")
         .attr("cx", function (d) { return projection([d.longitude, d.latitude])[0]; })
         .attr("cy", function (d) { return projection([d.longitude, d.latitude])[1]; })
-        .attr("r",  function (d) { return radius(d.num_records); });
+        .attr("r",  function (d) { return radius(d.num_records); })
+        .on("mouseover", function(d) {
+          console.log("hi")
+          div.transition()
+            .duration(200)
+            .style("opacity", .9);
+          div.html(d.longitude + "<br/>" + d.latitude)
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY) - 28 + "px");
+          })
+        .on("mouseout", function(d) {
+          div.transition()
+            .duration(500)
+            .style("opacity", 0);
+          });
 
 	svg.call(zoom);
 }
