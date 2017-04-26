@@ -12,6 +12,7 @@
 .states {
   fill: #ccc;
   stroke: #fff;
+  cursor: pointer;
 }
 
 .symbol {
@@ -22,6 +23,10 @@
 
 .states:hover {
     fill: #E4E3D3;
+}
+
+.states.active {
+    fill: orange;
 }
 
 .state-borders {
@@ -37,4 +42,9 @@
     stroke: #E4E3D3;
     stroke-width: 1px;
     fill: none;
+}
+
+.background {
+  fill: none;
+  pointer-events: all;
 }

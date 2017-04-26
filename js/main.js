@@ -4,9 +4,17 @@ var w = 1200;
 var h = 500;
 
 var svg = null; // global for callbacks
+var activeState = d3.select(null);
+
 var projection = d3.geoAlbersUsa()
-        .translate([w / 2, h / 2])
-        .scale([900]);
+    .translate([w / 2, h / 2])
+    .scale([900]);
+var path = d3.geoPath()
+        .projection(projection);
+
+var zoom = d3.zoom()
+    .scaleExtent([1, 8])
+    .on("zoom", zoomed);
 
 $(document).ready(function () {
     $('#fullpage').fullpage({
@@ -35,20 +43,27 @@ function ready(error, us, data) {
         .domain([0, d3.max(cityData, function(d) { return d.num_records; })])
         .range([0, 15]);
 
-    var path = d3.geoPath()
-        .projection(projection);
-
+    
     svg = d3.select("#section2").select(".fp-tableCell")
         .append("svg")
         .attr("width", w)
         .attr("height", h);
+
+	svg.append("rect")
+        .attr("class", "background")
+        .attr("width", w)
+        .attr("height", h)
+        .style("fill", "none")
+        .style("pointer-events", "all")
+        .call(zoom);
 
     svg.selectAll("path")
         .data(us.features)
         .enter()
         .append("path")
         .attr("class", "states")
-        .attr("d", path);
+        .attr("d", path)
+        .on("click", clicked);
 
     svg.selectAll("circle")
         .data(cityData)
@@ -59,14 +74,35 @@ function ready(error, us, data) {
         .attr("cy", function (d) { return projection([d.longitude, d.latitude])[1]; })
         .attr("r",  function (d) { return radius(d.num_records); });
 
-    svg.append("rect")
-        .attr("width", w)
-        .attr("height", h)
-        .style("fill", "none")
-        .style("pointer-events", "all")
-        .call(d3.zoom()
-                .scaleExtent([1, 8])
-                .on("zoom", zoomed));
+	svg.call(zoom);
+}
+
+function clicked(d) {
+    activeState.classed("active", false);
+    var zoomLevel;
+    if (activeState.node() === this) {
+		// If it is a click on the same state, we want to zoom out
+        activeState = d3.select(null);
+        svg.transition()
+            .duration(750)
+            .call(zoom.transform, d3.zoomIdentity);
+        zoomLevel = d3.zoomIdentity;
+    } else {
+		// We are clicking on a new state
+        activeState = d3.select(this).classed("active", true);
+        var bounds = path.bounds(d),
+            dx = bounds[1][0] - bounds[0][0],
+            dy = bounds[1][1] - bounds[0][1],
+            x = (bounds[0][0] + bounds[1][0]) / 2,
+            y = (bounds[0][1] + bounds[1][1]) / 2,
+            scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / w, dy / h))),
+            translate = [w / 2 - scale * x, h / 2 - scale * y];
+        zoomLevel = d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale);
+    }
+
+	svg.transition()
+    	.duration(750)
+        .call( zoom.transform, zoomLevel);
 }
 
 function zoomed() {
