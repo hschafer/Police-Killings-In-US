@@ -15,18 +15,30 @@
   cursor: pointer;
 }
 
-.symbol {
-  fill: steelblue;
-  fill-opacity: .7;
-  stroke: none;
-}
-
 .states:hover {
     fill: #E4E3D3;
 }
 
 .states.active {
     fill: orange;
+}
+
+.states.unclickable {
+  cursor:  default;
+}
+
+.states.unclickable:hover {
+  fill: #ccc;  
+}
+
+.states.unclickable.active {
+  fill: orange;
+}
+
+.symbol {
+  fill: steelblue;
+  fill-opacity: .7;
+  stroke: none;
 }
 
 .state-borders {
@@ -52,8 +64,8 @@
 div.tooltip {
   position: absolute;
   text-align: center;
-  height: 50px;
-  padding: 2px;
+  max-height: 100px;
+  padding: 5px;
   font: 12px sans-serif;
   background: lightsteelblue;
   border: 0px;
@@ -61,6 +73,8 @@ div.tooltip {
   overflow: scroll;
 }
 
-div.tooltip:hover {
-  fill: orange;
+::-webkit-scrollbar {
+  width: 0px;
+  background: : transparent;
+  height: 0px;
 }

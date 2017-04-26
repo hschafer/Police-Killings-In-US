@@ -5,6 +5,7 @@ var h = 500;
 
 var svg = null; // global for callbacks
 var activeState = d3.select(null);
+var tooltipActive = null;
 
 var projection = d3.geoAlbersUsa()
     .translate([w / 2, h / 2])
@@ -43,12 +44,6 @@ function ready(error, us, data) {
         .domain([0, d3.max(cityData, function(d) { return d.num_records; })])
         .range([0, 15]);
 
-    var div = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .attr("id", "tool")
-        .style("opacity", 0);
-    div.append("ul");
-
     svg = d3.select("#section2").select(".fp-tableCell")
         .append("svg")
         .attr("width", w)
@@ -70,6 +65,11 @@ function ready(error, us, data) {
         .attr("d", path)
         .on("click", clicked);
 
+    var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+    div.append("ul");
+
     svg.selectAll("circle")
         .data(cityData)
         .enter()
@@ -79,58 +79,64 @@ function ready(error, us, data) {
         .attr("cy", function (d) { return projection([d.longitude, d.latitude])[1]; })
         .attr("r",  function (d) { return radius(d.num_records); })
         .on("click", function(d) {
-          console.log("hi", d)
-          div.transition()
-            .duration(200)
-            .style("opacity", .9);
-          //div.html(d.longitude + "<br/>" + d.latitude)
-          // div.html("hi erika!")
-          //   .style("left", (d3.event.pageX) + "px")
-          //   .style("top", (d3.event.pageY) - 28 + "px");
-        div.select("ul").selectAll("li")
-                .data(d.records)
-                .enter()
-                .append("li")
-                .text(function(record){ console.log(record); return record.name; });
+            tooltipActive = true;
+            d3.selectAll(".states").classed("unclickable", true);
+            div.transition()
+                .duration(200)
+                .style("opacity", .9);
 
-        div.style("left", (d3.event.pageX) + "px")
-            .style("top", (d3.event.pageY) - 28 + "px")
+            var list = div.select("ul").selectAll("li")
+                .data(d.records);
+            list.enter()
+                .append("li")
+                .text(function(record){ return record.name; });
+            list.text(function(record){ return record.name; });
+            list.exit()
+                .remove();
+
+            div.select("u")
+
+            div.style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY) - 28 + "px")
         });
-        // .on("mouseout", function(d) {
-        //   div.transition()
-        //     .duration(500)
-        //     .style("opacity", 0);
-        //   });
 
 	svg.call(zoom);
 }
 
 function clicked(d) {
-    activeState.classed("active", false);
-    var zoomLevel;
-    if (activeState.node() === this) {
-		// If it is a click on the same state, we want to zoom out
-        activeState = d3.select(null);
-        svg.transition()
-            .duration(750)
-            .call(zoom.transform, d3.zoomIdentity);
-        zoomLevel = d3.zoomIdentity;
-    } else {
-		// We are clicking on a new state
-        activeState = d3.select(this).classed("active", true);
-        var bounds = path.bounds(d),
-            dx = bounds[1][0] - bounds[0][0],
-            dy = bounds[1][1] - bounds[0][1],
-            x = (bounds[0][0] + bounds[1][0]) / 2,
-            y = (bounds[0][1] + bounds[1][1]) / 2,
-            scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / w, dy / h))),
-            translate = [w / 2 - scale * x, h / 2 - scale * y];
-        zoomLevel = d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale);
-    }
+    if (tooltipActive) {
+        var div = d3.select("body").select("div.tooltip");
+        div.style("opacity", 0);
+        tooltipActive = false;
+        d3.selectAll(".states").classed("unclickable", false);
 
-	svg.transition()
-    	.duration(750)
-        .call( zoom.transform, zoomLevel);
+    } else {
+        activeState.classed("active", false);
+        var zoomLevel;
+        if (activeState.node() === this) {
+    		// If it is a click on the same state, we want to zoom out
+            activeState = d3.select(null);
+            svg.transition()
+                .duration(750)
+                .call(zoom.transform, d3.zoomIdentity);
+            zoomLevel = d3.zoomIdentity;
+        } else {
+    		// We are clicking on a new state
+            activeState = d3.select(this).classed("active", true);
+            var bounds = path.bounds(d),
+                dx = bounds[1][0] - bounds[0][0],
+                dy = bounds[1][1] - bounds[0][1],
+                x = (bounds[0][0] + bounds[1][0]) / 2,
+                y = (bounds[0][1] + bounds[1][1]) / 2,
+                scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / w, dy / h))),
+                translate = [w / 2 - scale * x, h / 2 - scale * y];
+            zoomLevel = d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale);
+        }
+
+    	svg.transition()
+        	.duration(750)
+            .call( zoom.transform, zoomLevel);
+    }
 }
 
 function zoomed() {
