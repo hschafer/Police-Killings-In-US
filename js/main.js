@@ -45,7 +45,9 @@ function ready(error, us, data) {
 
     var div = d3.select("body").append("div")
         .attr("class", "tooltip")
+        .attr("id", "tool")
         .style("opacity", 0);
+    div.append("ul");
 
     svg = d3.select("#section2").select(".fp-tableCell")
         .append("svg")
@@ -76,20 +78,29 @@ function ready(error, us, data) {
         .attr("cx", function (d) { return projection([d.longitude, d.latitude])[0]; })
         .attr("cy", function (d) { return projection([d.longitude, d.latitude])[1]; })
         .attr("r",  function (d) { return radius(d.num_records); })
-        .on("mouseover", function(d) {
-          console.log("hi")
+        .on("click", function(d) {
+          console.log("hi", d)
           div.transition()
             .duration(200)
             .style("opacity", .9);
-          div.html(d.longitude + "<br/>" + d.latitude)
-            .style("left", (d3.event.pageX) + "px")
-            .style("top", (d3.event.pageY) - 28 + "px");
-          })
-        .on("mouseout", function(d) {
-          div.transition()
-            .duration(500)
-            .style("opacity", 0);
-          });
+          //div.html(d.longitude + "<br/>" + d.latitude)
+          // div.html("hi erika!")
+          //   .style("left", (d3.event.pageX) + "px")
+          //   .style("top", (d3.event.pageY) - 28 + "px");
+        div.select("ul").selectAll("li")
+                .data(d.records)
+                .enter()
+                .append("li")
+                .text(function(record){ console.log(record); return record.name; });
+
+        div.style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY) - 28 + "px")
+        });
+        // .on("mouseout", function(d) {
+        //   div.transition()
+        //     .duration(500)
+        //     .style("opacity", 0);
+        //   });
 
 	svg.call(zoom);
 }
@@ -151,6 +162,7 @@ function groupData(data) {
             "longitude": parseFloat(parts[2]),
             "latitude" : parseFloat(parts[3]),
             "num_records": val["values"].length,
+            "records": val["values"],
             "id": "" + index
         }
     });
