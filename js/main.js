@@ -1,5 +1,13 @@
 const topojson = require('topojson');
 
+var w = 1200;
+var h = 500;
+
+var svg = null; // global for callbacks
+var projection = d3.geoAlbersUsa()
+        .translate([w / 2, h / 2])
+        .scale([900]);
+
 $(document).ready(function () {
     $('#fullpage').fullpage({
         autoScrolling: false,
@@ -23,21 +31,14 @@ function ready(error, us, data) {
 
     var cityData = groupData(data);
 
-    var w = 1200;
-    var h = 500;
-
     var radius = d3.scaleSqrt()
         .domain([0, d3.max(cityData, function(d) { return d.num_records; })])
-        .range([0, 10]);
-
-    var projection = d3.geoAlbersUsa()
-        .translate([w / 2, h / 2])
-        .scale([900]);
+        .range([0, 15]);
 
     var path = d3.geoPath()
         .projection(projection);
 
-    var svg = d3.select("#section2").select(".fp-tableCell")
+    svg = d3.select("#section2").select(".fp-tableCell")
         .append("svg")
         .attr("width", w)
         .attr("height", h);
@@ -49,7 +50,6 @@ function ready(error, us, data) {
         .attr("class", "states")
         .attr("d", path);
 
-
     svg.selectAll("circle")
         .data(cityData)
         .enter()
@@ -58,6 +58,30 @@ function ready(error, us, data) {
         .attr("cx", function (d) { return projection([d.longitude, d.latitude])[0]; })
         .attr("cy", function (d) { return projection([d.longitude, d.latitude])[1]; })
         .attr("r",  function (d) { return radius(d.num_records); });
+
+    svg.append("rect")
+        .attr("width", w)
+        .attr("height", h)
+        .style("fill", "none")
+        .style("pointer-events", "all")
+        .call(d3.zoom()
+                .scaleExtent([1, 8])
+                .on("zoom", zoomed));
+}
+
+function zoomed() {
+  var transform = d3.event.transform;
+  svg.selectAll("circle")
+      .attr("cx", function(d) {
+        var projectedX = projection([d.longitude, d.latitude])[0];
+        return transform.applyX(projectedX);
+      })
+      .attr("cy", function(d) {
+        var projectedY = projection([d.longitude, d.latitude])[1];
+        return transform.applyY(projectedY);
+      });
+  svg.selectAll(".states")
+      .attr("transform", transform);
 }
 
 function groupData(data) {
