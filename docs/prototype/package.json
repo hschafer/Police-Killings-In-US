@@ -20,6 +20,10 @@
   "devDependencies": {
     "webpack": "^2.4.1",
     "topojson": "^3.0.0"
-
+  },
+  "dependencies": {
+    "d3": "^4.8.0",
+    "d3-queue": "^3.0.5",
+    "jquery": "^3.2.1"
   }
 }

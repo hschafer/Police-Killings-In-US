@@ -1,7 +1,8 @@
 const topojson = require('topojson');
+const d3 = require('d3');
 
-var w = 1200;
-var h = 500;
+var w = 1500;
+var h = 1000;
 
 var svg = null; // global for callbacks
 var activeState = d3.select(null);
@@ -9,7 +10,8 @@ var tooltipActive = null;
 
 var projection = d3.geoAlbersUsa()
     .translate([w / 2, h / 2])
-    .scale([900]);
+    .scale([1600]);
+
 var path = d3.geoPath()
         .projection(projection);
 

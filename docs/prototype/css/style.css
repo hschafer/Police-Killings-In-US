@@ -1,12 +1,17 @@
+html {
+    --outline-color: #E4E3D3;
+    --background-color: #2F394D;
+}
+
 .section {
-    color: #E4E3D3;
+    color: var(--outline-color);
     font-size: 6em;
     text-align: center;
-    background-color: #2F394D;
+    background-color: var(--background-color);
 }
 
 #fp-nav.left ul li a span {
-    background: #E4E3D3;
+    background: var(--outline-color);
 }
 
 .states {
@@ -16,7 +21,7 @@
 }
 
 .states:hover {
-    fill: #E4E3D3;
+    fill: var(--outline-color);
 }
 
 .states.active {
@@ -43,7 +48,7 @@
 
 .state-borders {
     fill: none;
-    stroke: #2F394D;
+    stroke: var(--background-color);
     stroke-width: 0.5px;
     stroke-linejoin: round;
     stroke-linecap: round;
@@ -51,13 +56,14 @@
 }
 
 .us-outline {
-    stroke: #E4E3D3;
+    stroke: var(--outline-color);
     stroke-width: 1px;
     fill: none;
 }
 
 .background {
   fill: none;
+    stroke: var(--outline-color);
   pointer-events: all;
 }
 
