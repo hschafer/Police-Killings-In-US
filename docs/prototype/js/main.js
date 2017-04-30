@@ -1,8 +1,17 @@
 const topojson = require('topojson');
 const d3 = require('d3');
 
-var w = 1500;
-var h = 1000;
+//var w = 1500;
+//var h = 1000;
+
+// size rectangle that holds map
+// proportional to window
+// not using CSS (i.e. width: 80%) for these
+// so that we can use the actual numerical values
+// to scale map
+var w = $(window).width() * (3.0 / 4);
+var h = $(window).height() * (3.0 / 4);
+var scale = w; // used to scale US map
 
 var svg = null; // global for callbacks
 var activeState = d3.select(null);
@@ -10,7 +19,7 @@ var tooltipActive = null;
 
 var projection = d3.geoAlbersUsa()
     .translate([w / 2, h / 2])
-    .scale([1600]);
+    .scale([scale]);
 
 var path = d3.geoPath()
         .projection(projection);
@@ -40,16 +49,33 @@ $(document).ready(function () {
 function ready(error, us, data) {
     if (error) throw error;
 
+    // append title for map
+    var section2Container =  d3.select("#section2")
+        .select(".fp-tableCell")
+        .append("div")
+        .attr("id", "section2Container");
+
+    section2Container.append("div")
+        .attr("class", "sectionTitle")
+        .html("Police Killings in the United States");
+
+    var section2Row = section2Container
+        .append("div")
+        .attr("class", "sectionRow");
+
     var cityData = groupData(data);
 
     var radius = d3.scaleSqrt()
         .domain([0, d3.max(cityData, function(d) { return d.num_records; })])
         .range([0, 15]);
 
-    svg = d3.select("#section2").select(".fp-tableCell")
-        .append("svg")
+    var svgContainer = section2Row.append("div")
+        .attr("id", "usSvgContainer");
+
+    svg = svgContainer.append("svg")
         .attr("width", w)
-        .attr("height", h);
+        .attr("height", h)
+        .attr("class", "mapSVG");
 
 	svg.append("rect")
         .attr("class", "background")
@@ -103,6 +129,17 @@ function ready(error, us, data) {
         });
 
 	svg.call(zoom);
+
+    var mapInfo = section2Row.append("div")
+        .attr("class", "mapInfo");
+
+    mapInfo.append("p")
+        .html("Shown here is every fatal shooting " +
+            "in the United States by a police " +
+            "officer in the line of duty since Jan. 1, 2015");
+
+    mapInfo.append("p")
+        .html("Click on a state to zoom in.");
 }
 
 function clicked(d) {

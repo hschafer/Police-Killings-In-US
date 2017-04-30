@@ -1,13 +1,39 @@
 html {
     --outline-color: #E4E3D3;
     --background-color: #2F394D;
+    --secondary-color: #ccc;
 }
 
 .section {
-    color: var(--outline-color);
+    color: var(--secondary-color);
     font-size: 6em;
     text-align: center;
     background-color: var(--background-color);
+    font-family: 'Ropa Sans', sans-serif;
+}
+
+.sectionTitle {
+    font-size: 30pt;
+    margin-bottom: 20pt;
+}
+
+.sectionRow {
+    display: table;
+}
+
+.mapInfo {
+    display: table-cell;
+    font-size: 20pt;
+    vertical-align: top;
+    padding-left: 10pt;
+}
+
+#section2 {
+    text-align: left;
+}
+
+.mapSVG {
+    display: table-cell;
 }
 
 #fp-nav.left ul li a span {
@@ -15,9 +41,9 @@ html {
 }
 
 .states {
-  fill: #ccc;
-  stroke: #fff;
-  cursor: pointer;
+    fill: var(--secondary-color);
+    stroke: #fff;
+    cursor: pointer;
 }
 
 .states:hover {
@@ -29,21 +55,21 @@ html {
 }
 
 .states.unclickable {
-  cursor:  default;
+    cursor: default;
 }
 
 .states.unclickable:hover {
-  fill: #ccc;  
+    fill: var(--secondary-color);
 }
 
 .states.unclickable.active {
-  fill: orange;
+    fill: orange;
 }
 
 .symbol {
-  fill: steelblue;
-  fill-opacity: .7;
-  stroke: none;
+    fill: steelblue;
+    fill-opacity: .7;
+    stroke: none;
 }
 
 .state-borders {
@@ -62,25 +88,33 @@ html {
 }
 
 .background {
-  fill: none;
+    fill: none;
     stroke: var(--outline-color);
-  pointer-events: all;
+    pointer-events: all;
+}
+
+
+#section2Container {
+    width: 90%;
+    height: 90%;
+    margin: auto;
+    display:table;
 }
 
 div.tooltip {
-  position: absolute;
-  text-align: center;
-  max-height: 100px;
-  padding: 5px;
-  font: 12px sans-serif;
-  background: lightsteelblue;
-  border: 0px;
-  border-radius: 8px;
-  overflow: scroll;
+    position: absolute;
+    text-align: center;
+    max-height: 100px;
+    padding: 5px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    overflow: scroll;
 }
 
 ::-webkit-scrollbar {
-  width: 0px;
-  background: : transparent;
-  height: 0px;
+    width: 0px;
+    background:: transparent;
+    height: 0px;
 }
