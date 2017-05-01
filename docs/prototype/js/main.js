@@ -161,7 +161,8 @@ function ready(error, us, data) {
 
     cityTip.append("h2")
         .attr("id", "cityName")
-        .html("CityName");
+        .classed("invisibleText", true)
+        .html("...");
 
      var cityVictims = mapInfo.append("div")
         .attr("id", "cityVictims");
