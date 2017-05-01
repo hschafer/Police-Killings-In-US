@@ -6,7 +6,7 @@ const d3 = require('d3');
 // not using CSS (i.e. width: 80%) for these
 // so that we can use the actual numerical values
 // to scale map
-var w = $(window).width() * (3.0 / 4);
+var w = $(window).width() * (2.0 / 3);
 var h = $(window).height() * (3.0 / 4);
 var scale = w; // used to scale US map
 
@@ -110,6 +110,9 @@ function ready(error, us, data) {
         .attr("r",  function (d) { return radius(d.num_records); })
         .on("mouseover", function(d) {
 
+            // remove invisibility
+            d3.select("#cityName").classed("invisibleText", false);
+
             // set city  name
            d3.select("#cityName").html(d.records[0].city);
 
@@ -121,6 +124,9 @@ function ready(error, us, data) {
 
         })
         .on("mouseout", function(d) {
+
+            // apply invisibility
+            d3.select("#cityName").classed("invisibleText", true);
             d3.select("#cityName").html("...");
             var listNodes = d3.select("#victimList").selectAll("*");
             listNodes.remove();
@@ -163,10 +169,15 @@ function ready(error, us, data) {
         .attr("id", "cityName")
         .html("CityName");
 
-    mapInfo.append("div")
-        .attr("id", "cityVictims")
-        .append("h5")
-        .html("Victims")
+     var cityVictims = mapInfo.append("div")
+        .attr("id", "cityVictims");
+
+    cityVictims.append("h5")
+        .attr("id", "victimsLabel")
+        .html("Victims");
+
+    cityVictims.append("div")
+        .attr("id", "victimListDiv")
         .append("ul")
         .attr("id", "victimList");
 }

@@ -1,7 +1,7 @@
 html {
     --outline-color: #E4E3D3;
     --background-color: #2F394D;
-    --secondary-color: #ccc;
+    --secondary-color: #b1b1b1;
 }
 
 .section {
@@ -18,16 +18,29 @@ html {
 }
 
 .sectionSubtitle {
+    margin-top: 2pt;
     font-size: 15pt;
+    color: var(--outline-color);
+}
+
+.invisibleText {
+    visibility: hidden;
 }
 
 #cityName {
     margin-top: 1pt;
+    color: var(--outline-color);
 }
 
 #cityLabel {
     margin-top: 1pt;
     margin-bottom: 1pt;
+    color: var(--secondary-color);
+}
+
+#victimsLabel {
+   margin-bottom: 5pt;
+    color: var(--secondary-color);
 }
 
 #cityVictims {
@@ -36,6 +49,17 @@ html {
 
 #victimList {
     list-style-type: none;
+    margin:0pt;
+    padding: 0pt;
+    font-size: 11pt;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+    color: var(--outline-color);
+}
+
+#victimList li {
+    margin-bottom: 5pt;
 }
 
 .sectionRow {
