@@ -18592,6 +18592,7 @@ function ready(error, us, data) {
         .attr("id", "section2Container");
 
     var section2HeaderRow = section2Container.append("div")
+        .attr("id", "section2HeaderRow")
         .attr("class", "sectionRow");
 
     section2HeaderRow.append("div")
@@ -18603,6 +18604,17 @@ function ready(error, us, data) {
             "in the United States by a police " +
             "officer in the line of duty since Jan. 1, 2015");
 
+    var hoverDirections = section2HeaderRow.append("div")
+        .attr("id", "hoverDirections");
+
+    hoverDirections.append("p")
+        .attr("class", "directionsParagraph")
+        .attr("id", "zoomDirection")
+        .html("Click anywhere to zoom.");
+
+    hoverDirections.append("p")
+        .attr("class", "directionsParagraph")
+        .html("Hover over any city to see details.");
 
     var section2Row = section2Container
         .append("div")
@@ -18623,7 +18635,7 @@ function ready(error, us, data) {
         .attr("class", "mapSVG");
 
 	svg.append("rect")
-        .attr("class", "background")
+        .attr("id", "background")
         .attr("width", w)
         .attr("height", h)
         .style("fill", "none")
@@ -18692,6 +18704,7 @@ function ready(error, us, data) {
 
 	svg.call(zoom);
 
+
     var mapInfo = section2Row.append("div")
         .attr("class", "mapInfo");
 
@@ -18718,6 +18731,16 @@ function ready(error, us, data) {
         .attr("id", "victimListDiv")
         .append("ul")
         .attr("id", "victimList");
+
+    // kind of hacky
+    // we have to do this last to get the position of the mapInfo sidebar
+    d3.select("#hoverDirections").style("width", function() {
+        var containerWidth = parseFloat(d3.select("#section2Container").style("width"));
+        var mapWidth = parseFloat(d3.select("#usSvgContainer").select("svg").attr("width"));
+        var result = containerWidth
+            - mapWidth - parseFloat(d3.select(".mapInfo").style("padding-left"));
+        return result + "px";
+    });
 }
 
 function clicked(d) {
