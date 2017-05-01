@@ -98,7 +98,6 @@ function ready(error, us, data) {
     var div = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
-    div.append("ul");
 
     svg.selectAll("circle")
         .data(cityData)
@@ -122,22 +121,14 @@ function ready(error, us, data) {
                 victimsList.append("li").html(d.records[person].name);
             }
 
-        })
-        .on("mouseout", function(d) {
-
-            // apply invisibility
-            d3.select("#cityName").classed("invisibleText", true);
-            d3.select("#cityName").html("...");
-            var listNodes = d3.select("#victimList").selectAll("*");
-            listNodes.remove();
-        })
-        .on("click", function(d) {
-            //tooltipActive = true;
+            // set tooltip
+            tooltipActive = true;
             //d3.selectAll(".states").classed("unclickable", true);
-            //div.transition()
-            //    .duration(200)
-            //    .style("opacity", .9);
-            //
+            div.transition()
+                .duration(200)
+                .style("opacity", .9);
+            div.append("h2")
+                .html(d.records[0].city);
             //var list = div.select("ul").selectAll("li")
             //    .data(d.records);
             //list.enter()
@@ -149,8 +140,24 @@ function ready(error, us, data) {
             //
             //div.select("u");
             //
-            //div.style("left", (d3.event.pageX) + "px")
-            //    .style("top", (d3.event.pageY) - 28 + "px")
+            div.style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY) - 28 + "px")
+
+        })
+        .on("mouseout", function(d) {
+
+            // tooltip
+            div.selectAll("h2").remove();
+            div.style("opacity", 0);
+            tooltipActive = false;
+
+            // apply invisibility
+            d3.select("#cityName").classed("invisibleText", true);
+            d3.select("#cityName").html("...");
+            var listNodes = d3.select("#victimList").selectAll("*");
+            listNodes.remove();
+        })
+        .on("click", function(d) {
         });
 
 	svg.call(zoom);

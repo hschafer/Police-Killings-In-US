@@ -39,7 +39,7 @@ html {
 }
 
 #victimsLabel {
-   margin-bottom: 5pt;
+    margin-bottom: 5pt;
     color: var(--secondary-color);
 }
 
@@ -49,7 +49,7 @@ html {
 
 #victimList {
     list-style-type: none;
-    margin:0pt;
+    margin: 0pt;
     padding: 0pt;
     font-size: 11pt;
     -webkit-column-count: 2;
@@ -138,24 +138,25 @@ html {
     pointer-events: all;
 }
 
-
 #section2Container {
     width: 90%;
     height: 90%;
     margin: auto;
-    display:table;
+    display: table;
 }
 
 div.tooltip {
     position: absolute;
-    text-align: center;
     max-height: 100px;
-    padding: 5px;
-    font: 12px sans-serif;
-    background: lightsteelblue;
+    background: var(--background-color);
     border: 0px;
-    border-radius: 8px;
-    overflow: scroll;
+    font-family: 'Ropa Sans', sans-serif;
+    color: var(--outline-color);
+    padding: 4pt;
+}
+
+div.tooltip h2 {
+    margin: 0;
 }
 
 ::-webkit-scrollbar {
