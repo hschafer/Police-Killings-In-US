@@ -18591,7 +18591,10 @@ function ready(error, us, data) {
         .append("div")
         .attr("id", "section2Container");
 
-    section2Container.append("div")
+    var section2HeaderRow = section2Container.append("div")
+        .attr("class", "sectionRow");
+
+    section2HeaderRow.append("div")
         .attr("class", "sectionTitle")
         .html("Police Killings in the United States")
         .append("p")
@@ -18599,6 +18602,7 @@ function ready(error, us, data) {
         .html("Every fatal shooting " +
             "in the United States by a police " +
             "officer in the line of duty since Jan. 1, 2015");
+
 
     var section2Row = section2Container
         .append("div")
@@ -18700,7 +18704,8 @@ function ready(error, us, data) {
 
     cityTip.append("h2")
         .attr("id", "cityName")
-        .html("CityName");
+        .classed("invisibleText", true)
+        .html("...");
 
      var cityVictims = mapInfo.append("div")
         .attr("id", "cityVictims");
