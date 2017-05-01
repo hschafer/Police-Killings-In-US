@@ -1,9 +1,6 @@
 const topojson = require('topojson');
 const d3 = require('d3');
 
-//var w = 1500;
-//var h = 1000;
-
 // size rectangle that holds map
 // proportional to window
 // not using CSS (i.e. width: 80%) for these
@@ -57,7 +54,12 @@ function ready(error, us, data) {
 
     section2Container.append("div")
         .attr("class", "sectionTitle")
-        .html("Police Killings in the United States");
+        .html("Police Killings in the United States")
+        .append("p")
+        .attr("class", "sectionSubtitle")
+        .html("Every fatal shooting " +
+            "in the United States by a police " +
+            "officer in the line of duty since Jan. 1, 2015");
 
     var section2Row = section2Container
         .append("div")
@@ -106,26 +108,43 @@ function ready(error, us, data) {
         .attr("cx", function (d) { return projection([d.longitude, d.latitude])[0]; })
         .attr("cy", function (d) { return projection([d.longitude, d.latitude])[1]; })
         .attr("r",  function (d) { return radius(d.num_records); })
+        .on("mouseover", function(d) {
+
+            // set city  name
+           d3.select("#cityName").html(d.records[0].city);
+
+            // add victims
+            var victimsList = d3.select("#victimList");
+            for (var person = 0; person < d.records.length; person++) {
+                victimsList.append("li").html(d.records[person].name);
+            }
+
+        })
+        .on("mouseout", function(d) {
+            d3.select("#cityName").html("...");
+            var listNodes = d3.select("#victimList").selectAll("*");
+            listNodes.remove();
+        })
         .on("click", function(d) {
-            tooltipActive = true;
-            d3.selectAll(".states").classed("unclickable", true);
-            div.transition()
-                .duration(200)
-                .style("opacity", .9);
-
-            var list = div.select("ul").selectAll("li")
-                .data(d.records);
-            list.enter()
-                .append("li")
-                .text(function(record){ return record.name; });
-            list.text(function(record){ return record.name; });
-            list.exit()
-                .remove();
-
-            div.select("u")
-
-            div.style("left", (d3.event.pageX) + "px")
-                .style("top", (d3.event.pageY) - 28 + "px")
+            //tooltipActive = true;
+            //d3.selectAll(".states").classed("unclickable", true);
+            //div.transition()
+            //    .duration(200)
+            //    .style("opacity", .9);
+            //
+            //var list = div.select("ul").selectAll("li")
+            //    .data(d.records);
+            //list.enter()
+            //    .append("li")
+            //    .text(function(record){ return record.name; });
+            //list.text(function(record){ return record.name; });
+            //list.exit()
+            //    .remove();
+            //
+            //div.select("u");
+            //
+            //div.style("left", (d3.event.pageX) + "px")
+            //    .style("top", (d3.event.pageY) - 28 + "px")
         });
 
 	svg.call(zoom);
@@ -133,13 +152,23 @@ function ready(error, us, data) {
     var mapInfo = section2Row.append("div")
         .attr("class", "mapInfo");
 
-    mapInfo.append("p")
-        .html("Shown here is every fatal shooting " +
-            "in the United States by a police " +
-            "officer in the line of duty since Jan. 1, 2015");
+    var cityTip = mapInfo.append("div")
+        .attr("id", "cityTip");
 
-    mapInfo.append("p")
-        .html("Click on a state to zoom in.");
+    cityTip.append("h5")
+        .attr("id", "cityLabel")
+        .html("City");
+
+    cityTip.append("h2")
+        .attr("id", "cityName")
+        .html("CityName");
+
+    mapInfo.append("div")
+        .attr("id", "cityVictims")
+        .append("h5")
+        .html("Victims")
+        .append("ul")
+        .attr("id", "victimList");
 }
 
 function clicked(d) {
