@@ -18661,14 +18661,14 @@ function ready(error, us, data) {
             }
 
             // set tooltip
-            tooltipActive = true;
-            div.transition()
-                .duration(200)
-                .style("opacity", .9);
-            div.append("h2")
-                .html(d.records[0].city + ", " + d.records[0].state);
-            div.style("left", (d3.event.pageX) + "px")
-                .style("top", (d3.event.pageY) - 28 + "px")
+            if (d.records.length > 0) {
+                tooltipActive = true;
+                div.style("opacity", .9);
+                div.append("h2")
+                    .html(d.records[0].city + ", " + d.records[0].state);
+                div.style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY) - 28 + "px")
+            }
 
         })
         .on("mouseout", function(d) {
@@ -18716,13 +18716,6 @@ function ready(error, us, data) {
 }
 
 function clicked(d) {
-    if (tooltipActive) {
-        var div = d3.select("body").select("div.tooltip");
-        div.style("opacity", 0);
-        tooltipActive = false;
-        d3.selectAll(".states").classed("unclickable", false);
-
-    } else {
         activeState.classed("active", false);
         var zoomLevel;
         if (activeState.node() === this) {
@@ -18748,7 +18741,6 @@ function clicked(d) {
     	svg.transition()
         	.duration(750)
             .call( zoom.transform, zoomLevel);
-    }
 }
 
 function zoomed() {
