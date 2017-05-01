@@ -18652,7 +18652,7 @@ function ready(error, us, data) {
             d3.select("#cityName").classed("invisibleText", false);
 
             // set city  name
-           d3.select("#cityName").html(d.records[0].city);
+           d3.select("#cityName").html(d.records[0].city + ", " + d.records[0].state);
 
             // add victims
             var victimsList = d3.select("#victimList");
@@ -18662,32 +18662,19 @@ function ready(error, us, data) {
 
             // set tooltip
             tooltipActive = true;
-            //d3.selectAll(".states").classed("unclickable", true);
             div.transition()
                 .duration(200)
                 .style("opacity", .9);
             div.append("h2")
-                .html(d.records[0].city);
-            //var list = div.select("ul").selectAll("li")
-            //    .data(d.records);
-            //list.enter()
-            //    .append("li")
-            //    .text(function(record){ return record.name; });
-            //list.text(function(record){ return record.name; });
-            //list.exit()
-            //    .remove();
-            //
-            //div.select("u");
-            //
+                .html(d.records[0].city + ", " + d.records[0].state);
             div.style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY) - 28 + "px")
 
         })
         .on("mouseout", function(d) {
-
             // tooltip
-            div.selectAll("h2").remove();
             div.style("opacity", 0);
+            div.selectAll("h2").remove();
             tooltipActive = false;
 
             // apply invisibility
