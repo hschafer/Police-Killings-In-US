@@ -18666,7 +18666,7 @@ function ready(error, us, data) {
             d3.select("#cityName").classed("invisibleText", false);
 
             // set city  name
-            d3.select("#cityName").html(d.records[0].city + ", " + d.records[0].state);
+            d3.select("#cityName").html(d.city + ", " + d.state);
 
             // add victims
             var victimsList = d3.select("#victimList");
@@ -18679,7 +18679,7 @@ function ready(error, us, data) {
                 tooltipActive = true;
                 div.style("opacity", .9);
                 div.append("h2")
-                    .html(d.records[0].city + ", " + d.records[0].state);
+                    .html(d.city + ", " + d.state);
                 div.style("left", (d3.event.pageX) + 15 + "px")
                     .style("top", (d3.event.pageY) - 28 + "px")
             }
@@ -18785,22 +18785,27 @@ function zoomed() {
 
 function groupData(data) {
     var groupedData = d3.nest()
-        .key(function(d) { return d.city + ", " + d.state + "," + d.computed_long + "," + d.computed_lat; })
+        .key(function(d) { return d.city + ", " + d.state})
         .entries(data);
 
     return groupedData.map(function(val, index) {
         var key = val["key"];
         var parts = key.split(",");
 
+        var singleRecord = val["values"][0]; // get a single person to get lat/long
+        var latitude = parseFloat(singleRecord.computed_lat);
+        var longitude = parseFloat(singleRecord.computed_long);
+
         return {
-            "name": parts[0],
-            "longitude": parseFloat(parts[2]),
-            "latitude" : parseFloat(parts[3]),
+            "city": parts[0],
+            "state": parts[1],
+            "longitude": longitude,
+            "latitude" : latitude,
             "num_records": val["values"].length,
             "records": val["values"],
             "id": "" + index
         }
-    });
+    }).sort(function (a, b) { return d3.descending(a.num_records, b.num_records); });
 }
 
 
