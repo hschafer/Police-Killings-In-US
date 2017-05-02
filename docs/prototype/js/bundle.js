@@ -18628,10 +18628,12 @@ function ready(error, us, cityData) {
 
     svgContainer.append("button")
         .attr("id", "zoomIn")
+        .on("click", function() { zoomButtonClick(3/2); })
         .append("img")
         .attr("src", "resources/zoom_in.svg");
     svgContainer.append("button")
         .attr("id", "zoomOut")
+        .on("click", function() { zoomButtonClick(2/3); })
         .append("img")
         .attr("src", "resources/zoom_out.svg");
 
@@ -18794,7 +18796,10 @@ function zoomed() {
         var projectedY = projection([d.longitude, d.latitude])[1];
         return transform.applyY(projectedY);
     });
+}
 
+function zoomButtonClick(zoomLevel) {
+    zoom.scaleBy(svg.transition(), zoomLevel);
 }
 
 
