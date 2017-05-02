@@ -38,11 +38,11 @@ $(document).ready(function () {
     // see details of recent changes here: https://github.com/d3/d3/blob/master/CHANGES.md
     d3.queue()
         .defer(d3.json, "data/us-states.json")
-        .defer(d3.csv, "data/data-police-shootings-master/computed.csv")
+        .defer(d3.json, "data/condensed_data.json")
         .await(ready);
 });
 
-function ready(error, us, data) {
+function ready(error, us, cityData) {
     if (error) throw error;
 
     // append title for map
@@ -79,8 +79,6 @@ function ready(error, us, data) {
     var section2Row = section2Container
         .append("div")
         .attr("class", "sectionRow");
-
-    var cityData = groupData(data);
 
     var radius = d3.scaleSqrt()
         .domain([0, d3.max(cityData, function(d) { return d.num_records; })])
@@ -244,27 +242,4 @@ function zoomed() {
       .attr("transform", transform);
 }
 
-function groupData(data) {
-    var groupedData = d3.nest()
-        .key(function(d) { return d.city + ", " + d.state})
-        .entries(data);
 
-    return groupedData.map(function(val, index) {
-        var key = val["key"];
-        var parts = key.split(",");
-
-        var singleRecord = val["values"][0]; // get a single person to get lat/long
-        var latitude = parseFloat(singleRecord.computed_lat);
-        var longitude = parseFloat(singleRecord.computed_long);
-
-        return {
-            "city": parts[0],
-            "state": parts[1],
-            "longitude": longitude,
-            "latitude" : latitude,
-            "num_records": val["values"].length,
-            "records": val["values"],
-            "id": "" + index
-        }
-    }).sort(function (a, b) { return d3.descending(a.num_records, b.num_records); });
-}
