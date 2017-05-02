@@ -22,7 +22,7 @@ var path = d3.geoPath()
         .projection(projection);
 
 var zoom = d3.zoom()
-    .scaleExtent([1, 8])
+    .scaleExtent([1, 10])
     .on("zoom", zoomed);
 
 $(document).ready(function () {
@@ -90,7 +90,8 @@ function ready(error, us, cityData) {
     svg = svgContainer.append("svg")
         .attr("width", w)
         .attr("height", h)
-        .attr("class", "mapSVG");
+        .attr("class", "mapSVG")
+        .call(zoom);
 
 	svg.append("rect")
         .attr("id", "background")
@@ -98,7 +99,6 @@ function ready(error, us, cityData) {
         .attr("height", h)
         .style("fill", "none")
         .style("pointer-events", "all")
-        .call(zoom);
 
     svg.selectAll("path")
         .data(us.features)
@@ -157,9 +157,6 @@ function ready(error, us, cityData) {
         })
         .on("click", function(d) {
         });
-
-	svg.call(zoom);
-
 
     var mapInfo = section2Row.append("div")
         .attr("class", "mapInfo");
@@ -224,22 +221,29 @@ function clicked(d) {
 
     	svg.transition()
         	.duration(750)
-            .call( zoom.transform, zoomLevel);
+            .call(zoom.transform, zoomLevel);
 }
 
 function zoomed() {
-  var transform = d3.event.transform;
-  svg.selectAll("circle")
-      .attr("cx", function(d) {
+    var circles = svg.selectAll("circle");
+    var states = svg.selectAll(".states");
+
+    // If we are back at zoom level 1 then transition to center
+    var transform = d3.event.transform;
+    if (transform.k === 1) {
+        transform.x = 0;
+        transform.y = 0;
+        circles = circles.transition(30);
+        states = states.transition(30);
+    }
+
+    states.attr("transform", transform);
+    circles.attr("cx", function(d) {
         var projectedX = projection([d.longitude, d.latitude])[0];
         return transform.applyX(projectedX);
-      })
-      .attr("cy", function(d) {
+    }).attr("cy", function(d) {
         var projectedY = projection([d.longitude, d.latitude])[1];
         return transform.applyY(projectedY);
-      });
-  svg.selectAll(".states")
-      .attr("transform", transform);
+    });
+
 }
-
-
