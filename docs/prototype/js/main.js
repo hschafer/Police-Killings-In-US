@@ -31,7 +31,6 @@ $(document).ready(function () {
         navigation: true,
         navigationPosition: 'left',
         menu: '#menu'
-
     });
 
     // NOTE: d3.geo functions all have new syntax as of D3 4.0 release
@@ -124,12 +123,11 @@ function ready(error, us, data) {
         .attr("cy", function (d) { return projection([d.longitude, d.latitude])[1]; })
         .attr("r",  function (d) { return radius(d.num_records); })
         .on("mouseover", function(d) {
-
             // remove invisibility
             d3.select("#cityName").classed("invisibleText", false);
 
             // set city  name
-           d3.select("#cityName").html(d.records[0].city + ", " + d.records[0].state);
+            d3.select("#cityName").html(d.records[0].city + ", " + d.records[0].state);
 
             // add victims
             var victimsList = d3.select("#victimList");
@@ -143,10 +141,9 @@ function ready(error, us, data) {
                 div.style("opacity", .9);
                 div.append("h2")
                     .html(d.records[0].city + ", " + d.records[0].state);
-                div.style("left", (d3.event.pageX) + "px")
+                div.style("left", (d3.event.pageX) + 15 + "px")
                     .style("top", (d3.event.pageY) - 28 + "px")
             }
-
         })
         .on("mouseout", function(d) {
             // tooltip
