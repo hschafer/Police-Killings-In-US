@@ -184,3 +184,19 @@ div.tooltip h2 {
     opacity: .7;
     text-align: left;
 }
+
+#usSvgContainer {
+    position: relative;
+}
+
+button {
+    position: absolute;
+    width: 40px;
+    height: 25px;
+    left: 2px;
+    top: 2px;
+}
+
+#zoomOut {
+    left: 50px;
+}

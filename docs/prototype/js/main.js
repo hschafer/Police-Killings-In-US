@@ -87,6 +87,16 @@ function ready(error, us, cityData) {
     var svgContainer = section2Row.append("div")
         .attr("id", "usSvgContainer");
 
+    svgContainer.append("button")
+        .attr("id", "zoomIn")
+        .append("img")
+        .attr("src", "resources/zoom_in.svg");
+    svgContainer.append("button")
+        .attr("id", "zoomOut")
+        .append("img")
+        .attr("src", "resources/zoom_out.svg");
+
+
     svg = svgContainer.append("svg")
         .attr("width", w)
         .attr("height", h)
