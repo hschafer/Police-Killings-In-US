@@ -18665,6 +18665,7 @@ function ready(error, us, cityData) {
             deselectCity();
         });
 
+    randomSelection(cityData); // make it happen right away
     var timer = setInterval(randomSelection, 3000, cityData);
 
     svg.on("mouseenter", function() {
@@ -18675,7 +18676,9 @@ function ready(error, us, cityData) {
             timer = null;
         }
     });
-    svg.on("mouseleave", function() { timer = setInterval(randomSelection, 3000, cityData); });
+    svg.on("mouseleave", function() {
+        timer = setInterval(randomSelection, 3000, cityData);
+    });
 
     // kind of hacky
     // we have to do this last to get the position of the mapInfo sidebar
