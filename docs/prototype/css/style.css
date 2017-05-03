@@ -39,6 +39,15 @@ html {
     margin-bottom: 4pt;
 }
 
+.section1Subtitle {
+    margin-top: 15pt;
+    font-size: 15pt;
+    color: var(--outline-color);
+    text-align: center;
+    margin: auto;
+    margin-top: 20pt;
+}
+
 .section3Subtitle, .section4Subtitle {
     margin-top: 15pt;
     font-size: 20pt;
@@ -47,8 +56,13 @@ html {
     margin: auto;
 }
 
-.section3Text, .section4Text {
+.section3Text {
     font-size: 13pt;
+    text-align: left;
+}
+
+.section4Text {
+    font-size: 15pt;
     text-align: left;
 }
 
