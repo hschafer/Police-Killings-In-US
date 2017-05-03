@@ -130,8 +130,7 @@ function ready(error, us, cityData) {
 
     svg.on("mouseenter", function() {
         if (timer) {
-            d3.select("#section2").select("#usSvgContainer").selectAll("circle.symbol")
-                .classed("highlighted", false);
+            d3.select("#highlightedCity").remove();
             clearInterval(timer);
             deselectCity();
             timer = null;
@@ -152,10 +151,16 @@ function ready(error, us, cityData) {
 
 function randomSelection(cityData) {
     var randCity = cityData[Math.floor(Math.random() * cityData.length)];
-    var circles = d3.select("#section2").select("#usSvgContainer").selectAll("circle.symbol");
-    circles.classed("highlighted", false);
-    circles.filter(function(d) { return d.city === randCity.city && d.state === randCity.state; })
-        .classed("highlighted", true);
+    var svg = d3.select(".mapSVG");
+    var circle = svg.selectAll("#highlightedCity").data([randCity]);
+    circle.enter().append('circle')
+        .attr("id", "highlightedCity")
+        .attr("class", "symbol")
+      .merge(circle)
+        .attr("cx", function (d) { return projection([d.longitude, d.latitude])[0]; })
+        .attr("cy", function (d) { return projection([d.longitude, d.latitude])[1]; })
+        .attr("r",  function (d) { return radius(d.num_records); });
+    circle.exit().remove();
     deselectCity();
     selectCity(randCity);
 }

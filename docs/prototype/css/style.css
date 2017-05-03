@@ -182,7 +182,7 @@ html {
     stroke: #3f75a2;
 }
 
-.symbol.highlighted {
+.symbol#highlightedCity {
     fill: orange;
     stroke: #cc8400;
 }
