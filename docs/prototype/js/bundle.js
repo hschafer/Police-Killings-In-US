@@ -18645,12 +18645,15 @@ function ready(error, us, cityData) {
 
     var timer = setInterval(randomSelection, 3000, cityData);
 
-    svg.on("mouseover", function () {
-        d3.select("#section2").select("#usSvgContainer").selectAll("circle.symbol").classed("highlighted", false);
-        deselectCity();
-        clearInterval(timer);
+    svg.on("mouseenter", function () {
+        if (timer) {
+            d3.select("#section2").select("#usSvgContainer").selectAll("circle.symbol").classed("highlighted", false);
+            clearInterval(timer);
+            deselectCity();
+            timer = null;
+        }
     });
-    svg.on("mouseout", function () {
+    svg.on("mouseleave", function () {
         timer = setInterval(randomSelection, 3000, cityData);
     });
 
