@@ -49,6 +49,7 @@ html {
 
 #cityName {
     margin-top: 1pt;
+    margin-bottom: 10px;
     color: var(--outline-color);
 }
 
@@ -59,7 +60,7 @@ html {
 }
 
 #victimsLabel {
-    margin-top: 25px;
+    margin-top: 5px;
     margin-bottom: 5pt;
     color: var(--secondary-color);
 }
