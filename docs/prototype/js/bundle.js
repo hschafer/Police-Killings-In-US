@@ -18599,6 +18599,12 @@ function ready(error, us, cityData) {
     svgContainer.select("#zoomOut")
         .on("click", function() { zoomButtonClick(2/3); });
 
+    // disable body scrolling while inside SVG container
+    svgContainer.on("mouseover",
+            function () { document.body.style.overflow = 'hidden'; })
+        .on("mouseout",
+            function() { document.body.style.overflow = 'auto'; });
+
     svg = svgContainer.append("svg")
         .attr("width", w)
         .attr("height", h)
