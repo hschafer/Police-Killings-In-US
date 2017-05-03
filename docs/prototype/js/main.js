@@ -38,66 +38,27 @@ $(document).ready(function () {
     // see details of recent changes here: https://github.com/d3/d3/blob/master/CHANGES.md
     d3.queue()
         .defer(d3.json, "data/us-states.json")
-        .defer(d3.json, "data/condensed_data.json")
+        .defer(d3.json, "data/who_are_victims.json")
         .await(ready);
 });
 
 function ready(error, us, cityData) {
     if (error) throw error;
 
-    // append title for map
-    var section2Container =  d3.select("#section2")
-        .select(".fp-tableCell")
-        .append("div")
-        .attr("id", "section2Container");
-
-    var section2HeaderRow = section2Container.append("div")
-        .attr("id", "section2HeaderRow")
-        .attr("class", "sectionRow");
-
-    section2HeaderRow.append("div")
-        .attr("class", "sectionTitle")
-        .html("Police Killings in the United States")
-        .append("p")
-        .attr("class", "sectionSubtitle")
-        .html("Every fatal shooting " +
-            "in the United States by a police " +
-            "officer in the line of duty since Jan. 1, 2015");
-
-    var hoverDirections = section2HeaderRow.append("div")
-        .attr("id", "hoverDirections");
-
-    hoverDirections.append("p")
-        .attr("class", "directionsParagraph")
-        .attr("id", "zoomDirection")
-        .html("Click anywhere to zoom.");
-
-    hoverDirections.append("p")
-        .attr("class", "directionsParagraph")
-        .html("Hover over any city to see details.");
-
-    var section2Row = section2Container
-        .append("div")
-        .attr("class", "sectionRow");
-
     var radius = d3.scaleSqrt()
         .domain([0, d3.max(cityData, function(d) { return d.num_records; })])
         .range([0, 15]);
 
-    var svgContainer = section2Row.append("div")
-        .attr("id", "usSvgContainer");
+    var section2Container =  d3.select("#section2Container");
+    var section2HeaderRow = d3.select("#section2HeaderRow");
+    var section2Row = d3.select(".sectionRow");
+    var svgContainer = d3.select("#usSvgContainer");
 
-    svgContainer.append("button")
-        .attr("id", "zoomIn")
-        .on("click", function() { zoomButtonClick(3/2); })
-        .append("img")
-        .attr("src", "resources/zoom_in.svg");
-    svgContainer.append("button")
-        .attr("id", "zoomOut")
-        .on("click", function() { zoomButtonClick(2/3); })
-        .append("img")
-        .attr("src", "resources/zoom_out.svg");
-
+    // attach event listeners for zooming
+    svgContainer.select("#zoomIn")
+        .on("click", function() { zoomButtonClick(3/2); });
+    svgContainer.select("#zoomOut")
+        .on("click", function() { zoomButtonClick(2/3); });
 
     svg = svgContainer.append("svg")
         .attr("width", w)
@@ -166,36 +127,7 @@ function ready(error, us, cityData) {
             d3.select("#cityName").html("...");
             var listNodes = d3.select("#victimList").selectAll("*");
             listNodes.remove();
-        })
-        .on("click", function(d) {
         });
-
-    var mapInfo = section2Row.append("div")
-        .attr("class", "mapInfo");
-
-    var cityTip = mapInfo.append("div")
-        .attr("id", "cityTip");
-
-    cityTip.append("h5")
-        .attr("id", "cityLabel")
-        .html("City");
-
-    cityTip.append("h2")
-        .attr("id", "cityName")
-        .classed("invisibleText", true)
-        .html("...");
-
-     var cityVictims = mapInfo.append("div")
-        .attr("id", "cityVictims");
-
-    cityVictims.append("h5")
-        .attr("id", "victimsLabel")
-        .html("Victims");
-
-    cityVictims.append("div")
-        .attr("id", "victimListDiv")
-        .append("ul")
-        .attr("id", "victimList");
 
     // kind of hacky
     // we have to do this last to get the position of the mapInfo sidebar
