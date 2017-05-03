@@ -168,6 +168,11 @@ html {
     stroke: #3f75a2;
 }
 
+.symbol.highlighted {
+    fill: orange;
+    stroke: #cc8400;
+}
+
 .state-borders {
     fill: none;
     stroke: var(--background-color);

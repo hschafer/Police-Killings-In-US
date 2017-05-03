@@ -18624,17 +18624,7 @@ function ready(error, us, cityData) {
     }).attr("r", function (d) {
         return radius(d.num_records);
     }).on("mouseover", function (d) {
-        // remove invisibility
-        d3.select("#cityName").classed("invisibleText", false);
-
-        // set city  name
-        d3.select("#cityName").html(d.city + ", " + d.state);
-
-        // add victims
-        var victimsList = d3.select("#victimList");
-        for (var person = 0; person < d.records.length; person++) {
-            victimsList.append("li").html(d.records[person].name);
-        }
+        selectCity(d);
 
         // set tooltip
         if (d.records.length > 0) {
@@ -18650,10 +18640,18 @@ function ready(error, us, cityData) {
         tooltipActive = false;
 
         // apply invisibility
-        d3.select("#cityName").classed("invisibleText", true);
-        d3.select("#cityName").html("...");
-        var listNodes = d3.select("#victimList").selectAll("*");
-        listNodes.remove();
+        deselectCity();
+    });
+
+    var timer = setInterval(randomSelection, 3000, cityData);
+
+    svg.on("mouseover", function () {
+        d3.select("#section2").select("#usSvgContainer").selectAll("circle.symbol").classed("highlighted", false);
+        deselectCity();
+        clearInterval(timer);
+    });
+    svg.on("mouseout", function () {
+        timer = setInterval(randomSelection, 3000, cityData);
     });
 
     // kind of hacky
@@ -18664,6 +18662,36 @@ function ready(error, us, cityData) {
         var result = containerWidth - mapWidth - parseFloat(d3.select(".mapInfo").style("padding-left"));
         return result + "px";
     });
+}
+
+function randomSelection(cityData) {
+    var randCity = cityData[Math.floor(Math.random() * cityData.length)];
+    var circles = d3.select("#section2").select("#usSvgContainer").selectAll("circle.symbol");
+    circles.classed("highlighted", false);
+    circles.filter(function (d) {
+        return d.city === randCity.city && d.state === randCity.state;
+    }).classed("highlighted", true);
+    deselectCity();
+    selectCity(randCity);
+}
+
+function selectCity(d) {
+    // remove invisibility
+    d3.select("#cityName").classed("invisibleText", false);
+    d3.select("#cityName").html(d.city + ", " + d.state);
+
+    // add victims
+    var victimsList = d3.select("#victimList");
+    for (var person = 0; person < d.records.length; person++) {
+        victimsList.append("li").html(d.records[person].name);
+    }
+}
+
+function deselectCity() {
+    d3.select("#cityName").classed("invisibleText", true);
+    d3.select("#cityName").html("...");
+    var listNodes = d3.select("#victimList").selectAll("*");
+    listNodes.remove();
 }
 
 function clicked(d) {
