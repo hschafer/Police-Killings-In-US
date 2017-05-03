@@ -12,6 +12,19 @@ html {
     font-family: 'Ropa Sans', sans-serif;
 }
 
+#section1 {
+    background: url(https://i.ytimg.com/vi/Tu-A7K_NTXw/maxresdefault.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#section1 .fp-tableCell {
+    /* This is the same as --background-color :( */
+    background: rgba(47, 57, 77, 0.7);
+}
+
 .sectionTitle {
     font-size: 30pt;
     margin-bottom: 20pt;
