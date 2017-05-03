@@ -18634,7 +18634,7 @@ function ready(error, us, cityData) {
         .attr("class", "tooltip")
         .style("opacity", 0);
 
-    svg.selectAll("circle")
+    svg.selectAll(".symbol")
         .data(cityData)
         .enter()
         .append("circle")
@@ -18679,6 +18679,8 @@ function ready(error, us, cityData) {
     svg.on("mouseleave", function() {
         timer = setInterval(randomSelection, 3000, cityData);
     });
+
+    makeLegend(cityData);
 
     // kind of hacky
     // we have to do this last to get the position of the mapInfo sidebar
@@ -18727,35 +18729,32 @@ function deselectCity() {
 }
 
 function clicked(d) {
-        activeState.classed("active", false);
-        var zoomLevel;
-        if (activeState.node() === this) {
-    		// If it is a click on the same state, we want to zoom out
-            activeState = d3.select(null);
-            svg.transition()
-                .duration(750)
-                .call(zoom.transform, d3.zoomIdentity);
-            zoomLevel = d3.zoomIdentity;
-        } else {
-    		// We are clicking on a new state
-            activeState = d3.select(this).classed("active", true);
-            var bounds = path.bounds(d),
-                dx = bounds[1][0] - bounds[0][0],
-                dy = bounds[1][1] - bounds[0][1],
-                x = (bounds[0][0] + bounds[1][0]) / 2,
-                y = (bounds[0][1] + bounds[1][1]) / 2,
-                scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / w, dy / h))),
-                translate = [w / 2 - scale * x, h / 2 - scale * y];
-            zoomLevel = d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale);
-        }
+    activeState.classed("active", false);
+    var zoomLevel;
+    if (activeState.node() === this) {
+		// If it is a click on the same state, we want to zoom out
+        activeState = d3.select(null);
+        zoomLevel = d3.zoomIdentity;
+    } else {
+		// We are clicking on a new state
+        activeState = d3.select(this).classed("active", true);
+        var bounds = path.bounds(d),
+            dx = bounds[1][0] - bounds[0][0],
+            dy = bounds[1][1] - bounds[0][1],
+            x = (bounds[0][0] + bounds[1][0]) / 2,
+            y = (bounds[0][1] + bounds[1][1]) / 2,
+            scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / w, dy / h))),
+            translate = [w / 2 - scale * x, h / 2 - scale * y];
+        zoomLevel = d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale);
+    }
 
-    	svg.transition()
-        	.duration(750)
-            .call(zoom.transform, zoomLevel);
+	svg.transition()
+        .duration(750)
+        .call(zoom.transform, zoomLevel);
 }
 
 function zoomed() {
-    var circles = svg.selectAll("circle");
+    var circles = svg.selectAll(".symbol");
     var states = svg.selectAll(".states");
 
     // If we are back at zoom level 1 then transition to center
@@ -18779,6 +18778,41 @@ function zoomed() {
 
 function zoomButtonClick(zoomLevel) {
     zoom.scaleBy(svg.transition(), zoomLevel);
+}
+
+function makeLegend(cityData) {
+    var legendWidth = 100;
+    var legendHeight = 70;
+    var maxLegend = d3.max(cityData, function(d) { return d.num_records; });
+    var toShow = [1, maxLegend / 2, maxLegend];
+
+    var legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", "translate(" + (w - legendWidth) + "," + (h - legendHeight) + ")");
+    legend.append("rect")
+        .attr("width", legendWidth)
+        .attr("height", legendHeight)
+        .text("Hello!");
+
+    legend.selectAll("circle")
+        .data(toShow)
+        .enter().append("circle")
+        .attr("class", "legendCircle")
+        .attr("cy", function(d) { return legendHeight / 2 - radius(d) + radius(maxLegend); })
+        .attr("cx", function(d, i) { return legendWidth / 2 - 5; })
+        .attr("r", function(d) { return radius(d); });
+    legend.selectAll("text")
+        .data(toShow)
+        .enter().append("text")
+        .attr("class", "legendLabel")
+        .attr("y", function(d, i) { return legendHeight / 2 + 15 * (1 - i); })
+        .attr("x", legendWidth / 2 + radius(maxLegend) + 5)
+        .html(function(d) { return d; });
+    legend.append("text")
+        .attr("class", "legendLabel")
+        .attr("y", legendHeight - 5)
+        .attr("x", 5)
+        .html("Number of Victims");
 }
 
 
