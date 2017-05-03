@@ -127,7 +127,7 @@ html {
 .symbol {
     fill: steelblue;
     fill-opacity: .7;
-    stroke: none;
+    stroke: #3f75a2;
 }
 
 .state-borders {

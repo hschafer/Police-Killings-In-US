@@ -23,7 +23,7 @@ var path = d3.geoPath()
         .projection(projection);
 
 var zoom = d3.zoom()
-    .scaleExtent([1, 10])
+    .scaleExtent([1, 20])
     .on("zoom", zoomed);
 
 $(document).ready(function () {
@@ -45,6 +45,8 @@ $(document).ready(function () {
 
 function ready(error, us, cityData) {
     if (error) throw error;
+
+    cityData.sort(function(a, b) { d3.descending(a.num_records, b.num_records); });
 
     radius = d3.scaleSqrt()
         .domain([0, d3.max(cityData, function(d) { return d.num_records; })])
@@ -196,7 +198,7 @@ function zoomed() {
         var projectedY = projection([d.longitude, d.latitude])[1];
         return transform.applyY(projectedY);
     }).attr("r", function(d) {
-        return radius(d.num_records) * transform.k;
+        return radius(d.num_records) * (3 + transform.k) / 4;
     });
 }
 
