@@ -9,6 +9,7 @@ const d3 = require('d3');
 var w = $(window).width() * (2.0 / 3);
 var h = $(window).height() * (3.0 / 4);
 var scale = w; // used to scale US map
+var radius = null; // global to recalculate radius
 
 var svg = null; // global for callbacks
 var activeState = d3.select(null);
@@ -45,7 +46,7 @@ $(document).ready(function () {
 function ready(error, us, cityData) {
     if (error) throw error;
 
-    var radius = d3.scaleSqrt()
+    radius = d3.scaleSqrt()
         .domain([0, d3.max(cityData, function(d) { return d.num_records; })])
         .range([0, 15]);
 
@@ -194,6 +195,8 @@ function zoomed() {
     }).attr("cy", function(d) {
         var projectedY = projection([d.longitude, d.latitude])[1];
         return transform.applyY(projectedY);
+    }).attr("r", function(d) {
+        return radius(d.num_records) * transform.k;
     });
 }
 
