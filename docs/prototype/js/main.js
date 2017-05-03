@@ -29,6 +29,7 @@ var zoom = d3.zoom()
 $(document).ready(function () {
     $('#fullpage').fullpage({
         autoScrolling: false,
+        fitToSection: false,
         navigation: true,
         navigationPosition: 'left',
         menu: '#menu'

@@ -18566,6 +18566,7 @@ var zoom = d3.zoom().scaleExtent([1, 20]).on("zoom", zoomed);
 $(document).ready(function () {
     $('#fullpage').fullpage({
         autoScrolling: false,
+        fitToSection: false,
         navigation: true,
         navigationPosition: 'left',
         menu: '#menu'
