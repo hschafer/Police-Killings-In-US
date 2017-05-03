@@ -23,6 +23,7 @@ html {
     margin-top: 2pt;
     font-size: 15pt;
     color: var(--outline-color);
+    margin-bottom: 4pt;
 }
 
 .section3Subtitle, .section4Subtitle {
@@ -97,10 +98,10 @@ html {
 
 .directionsParagraph {
     margin-top: 0pt;
+    margin-bottom: 1pt;
 }
 
 #zoomDirection {
-    margin-bottom: 2pt;
 }
 
 .mapInfo {
@@ -213,6 +214,7 @@ div.tooltip h2 {
     font-size: 12pt;
     opacity: .7;
     text-align: left;
+    padding-bottom: 7pt;
 }
 
 #usSvgContainer {
