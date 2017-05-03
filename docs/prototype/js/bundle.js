@@ -18735,8 +18735,6 @@ function zoomed() {
     if (transform.k === 1) {
         transform.x = 0;
         transform.y = 0;
-        circles = circles.transition(30);
-        states = states.transition(30);
     }
 
     states.attr("transform", transform);
