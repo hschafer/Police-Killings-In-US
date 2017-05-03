@@ -49,7 +49,48 @@
                     </div>
                 </div>
             </div>
-            <div id="section3" class="section">Section 3</div>
+            <div id="section3" class="section">
+                <div id = "section3Container">
+                    <div id = "section3HeaderRow" class="sectionRow">
+                        <div class="sectionTitle">
+                            Design Rationale
+                            <p class="section3Subtitle">Motivation</p>
+                            <p class="section3Text"> Our overall project goal is to visualize aggregate information about police killings and to tell the stories of victims.  For our prototype we aim to allow users to see that this trend of police killings is apparent throughout the country, while also displaying information about individual victims.  To do this, we chose to create a map visualization showing of the number of police killings in each city, and some specific information about each victim.  We display victim information on a city level because the amount of data would be overwhelming to look at simultaneously.</p>
+                            <p class="section3Subtitle">Tooltips</p>
+                            <p class="section3Text">Once we chose to create a map, we decided to include tooltips for each city to  allow for deeper exploration of the dataset.  Initially, the tooltips included both the city name and the list of victim names.  This required the user to scroll through the list of names for cities with more police killings.  This UI was difficult to use and obscured many of the names behind scrolling, defeating our primary purpose of highlighting each victim.  Because of this, we moved the list of names to the side of the map.  We display the city name on the side of the map and on the tooltip to ensure the connection between the map and the names is apparent.</p>
+                            <p class="section3Subtitle">Zoom</p>
+                            <p class="section3Text">Zooming is a very important feature for map visualizations in general.  It is effective at allowing users to drill down to show more specific information, and users have come to expect the ability to zoom in.  We initially just implemented scroll zoom and click-to-zoom.  We decided to have both of these features because they serve slighty different purposes.  Click-to-zoom allows users who are interested in specific states to easily get an optimized state view.  Scroll zoom is best for users who want to freely explore the data or want to zoom in on a very specific area.  We later added the zoom buttons to assist users who may not be comfortable with scroll zoom.</p>
+                            <p class="section3Subtitle">Bubbles</p>
+                            <p class="section3Text">TODO</p>
+                            <p class="section3Subtitle">Other Considerations</p>
+                            <p class="section3Text">This topic is obviously very heavy, so we wanted a simple, darker color scheme that would not distract from the content.  </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div id="section4" class="section">
+                <div id = "section4Container">
+                    <div id = "section4HeaderRow" class="sectionRow">
+                        <div class="sectionTitle">
+                            Development Process
+                            <p class="section4Subtitle">Overall</p>
+                            <p class="section4Text">In general, we discussed the motivation and design of our visualization.  We collaborated to decide which interactions to support, and to prioritize certain aspects of our data.  Implementation was split up between us, though we ended up doing some things collaboratively.  </p>
+                            <p class="section4Subtitle">Specifics</p>
+                            <ul class="section4Text">
+                                <li>Meredith Lampe</li>
+                                <li>Nick Mooney</li>
+                                <li>Hunter Schafer</li>
+                                <li>Erika Wolfe</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer">
+                    <a href="https://cse442-17s.github.io/">CSE 442 Data Visualization</a> -
+                    <a href="http://www.washington.edu">University of Washington</a>
+                </div>
+            </div>
         </div>
     </body>
 </html>

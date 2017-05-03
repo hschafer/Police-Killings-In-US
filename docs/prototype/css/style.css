@@ -16,6 +16,7 @@ html {
     font-size: 30pt;
     margin-bottom: 20pt;
     display: table-cell;
+    color: --secondary-color;
 }
 
 .sectionSubtitle {
@@ -24,12 +25,31 @@ html {
     color: var(--outline-color);
 }
 
+.section3Subtitle, .section4Subtitle {
+    margin-top: 15pt;
+    font-size: 20pt;
+    color: var(--outline-color);
+    text-align: left;
+    margin: auto;
+}
+
+.section3Text, .section4Text {
+    font-size: 15pt;
+    text-align: left;
+}
+
 .invisibleText {
     visibility: hidden;
 }
 
+.footer {
+    font-size: 15pt;
+    color: white;
+}
+
 #cityName {
     margin-top: 1pt;
+    margin-bottom: 25px;
     color: var(--outline-color);
 }
 
@@ -40,6 +60,7 @@ html {
 }
 
 #victimsLabel {
+    margin-top: 25px;
     margin-bottom: 5pt;
     color: var(--secondary-color);
 }
@@ -52,7 +73,7 @@ html {
     list-style-type: none;
     margin: 0pt;
     padding: 0pt;
-    font-size: 11pt;
+    font-size: 10.5pt;
     -webkit-column-count: 2;
     -moz-column-count: 2;
     column-count: 2;
@@ -65,6 +86,11 @@ html {
 
 .sectionRow {
     display: table;
+}
+
+.sectionRow div {
+    padding-top: 15pt;
+    font-size: 24pt;
 }
 
 #section2HeaderRow {
@@ -158,6 +184,12 @@ html {
     display: table;
 }
 
+#section3Container, #section4Container {
+    width: 90%;
+    height: 90%;
+    margin: auto;
+}
+
 div.tooltip {
     position: absolute;
     max-height: 100px;
@@ -199,4 +231,8 @@ button {
 
 #zoomOut {
     left: 50px;
+}
+
+a { 
+    color: steelblue;
 }
