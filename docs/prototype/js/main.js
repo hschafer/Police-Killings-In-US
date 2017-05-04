@@ -161,14 +161,15 @@ function ready(error, us, cityData) {
 function randomSelection(cityData) {
     var randCity = cityData[Math.floor(Math.random() * cityData.length)];
     var svg = d3.select(".mapSVG");
+    var domNode = svg.selectAll(".symbol").filter(function(d) { return d.id === randCity.id; });
     var circle = svg.selectAll("#highlightedCity").data([randCity]);
     circle.enter().append('circle')
         .attr("id", "highlightedCity")
         .attr("class", "symbol")
       .merge(circle)
-        .attr("cx", function (d) { return projection([d.longitude, d.latitude])[0]; })
-        .attr("cy", function (d) { return projection([d.longitude, d.latitude])[1]; })
-        .attr("r",  function (d) { return radius(d.num_records); });
+        .attr("cx", domNode.attr("cx"))
+        .attr("cy", domNode.attr("cy"))
+        .attr("r", domNode.attr("r"));
     circle.exit().remove();
     deselectCity();
     selectCity(randCity);
