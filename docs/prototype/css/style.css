@@ -183,8 +183,8 @@ html {
 }
 
 .symbol#highlightedCity {
-    fill: orange;
-    stroke: #cc8400;
+    fill: #c51d1d;
+    stroke: #b11a1a;
 }
 
 .state-borders {
