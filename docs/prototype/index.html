@@ -2,6 +2,7 @@
 <html>
     <head>
         <link rel="icon" href="resources/favicon.png" />
+        <title>Killings by Police Officers</title>
         <!-- Include dependencies -->
         <link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css" />
         <link href="https://fonts.googleapis.com/css?family=Ropa+Sans" rel="stylesheet">
@@ -71,7 +72,9 @@
                                 Zooming is a very important feature for map visualizations in general.  It is effective at allowing users to drill down to show more specific information, and users have come to expect the ability to zoom in.  We initially just implemented scroll zoom and click-to-zoom.  We decided to have both of these features because they serve slighty different purposes.  Click-to-zoom allows users who are interested in specific states to easily get an optimized state view.  Scroll zoom is best for users who want to freely explore the data or want to zoom in on a very specific area.  We later added the zoom buttons to assist users who may not be comfortable with scroll zoom.
                             </p>
                             <p class="section3Subtitle">Bubbles</p>
-                            <p class="section3Text">TODO</p>
+                            <p class="section3Text">
+                                We use the area of bubbles to represent the number of people killed by police in each city.  It is important that users can see every city that has an incident and can generally compare the number of incidents per city, and an area encoding fulfills this purpose.  We briefly considered using color rather than size to encode the number of victims, but there are a lot of complex connotations with different color schemes that we wanted to avoid.
+                            </p>
                         </div>
                     </div>
 
@@ -86,10 +89,10 @@
                             <p class="section4Text">In general, we discussed the motivation and design of our visualization.  We collaborated to decide which interactions to support, and to prioritize certain aspects of our data.  Implementation was split up between us, though we ended up doing some things collaboratively.  </p>
                             <p class="section4Subtitle">Specifics</p>
                             <ul class="section4Text">
-                                <li>Meredith Lampe: Initial map setup, grid layout within each section, changing the tooltips to only include the city name, moving the list of victims/city name to the right side of the page, adding descriptive text to the map</li>
+                                <li>Meredith Lampe: Initial map setup, grid layout within each section, changing the tooltips to only include the city name, moving the list of victims/city name to the right side of the page, adding descriptive text to the map, general styling</li>
                                 <li>Nick Mooney: Setup the project framework and tools, making github page, sizing bubbles correctly when zooming, stop the page from scrolling down when zoomed out completely</li>
-                                <li>Hunter Schafer: Overall page layout, initial scroll zoom, click to zoom, migrating files from our temporary github project, processing data to extract desired features, mapping data to bubbles on the map, center the map when zoomed out completely, title page, random selection of cities</li>
-                                <li>Erika Wolfe: Preliminary zooming, initial tooltips including the ability to scroll through the list of victim names, saving condensed data to remove javascript processing, write and organize write-up</li>
+                                <li>Hunter Schafer: Overall page layout, initial scroll zoom, click to zoom, migrating files from our temporary github project, processing data to extract desired features, mapping data to bubbles on the map, center the map when zoomed out completely, title page, random selection of cities, key</li>
+                                <li>Erika Wolfe: Preliminary zooming, initial tooltips including the ability to scroll through the list of victim names, saving condensed data to remove javascript processing, writing and styling the write-up</li>
                             </ul>
                             <p class="section4Text">
                                 In total, this application took us about 35 - 40 hours of work.  The aspects that took the most time are getting the map to show up correctly initially, getting the bubbles to show on the city locations initially, and finalizing the details for zooming.  The early work on the map took a long time because we were still getting comfortable with D3, and we had some trouble with the relationship between the map and the bubbles.
