@@ -26,6 +26,10 @@ var zoom = d3.zoom()
     .scaleExtent([1, 20])
     .on("zoom", zoomed);
 
+var legendWidth = 100;
+var legendHeight = 70;
+var maxLegend = -1;
+
 $(document).ready(function () {
     $('#fullpage').fullpage({
         autoScrolling: false,
@@ -225,6 +229,11 @@ function zoomed() {
         transform.y = 0;
     }
 
+    var scaleTransform = function(d, scale) {
+        scale = (typeof scale === "undefined") ? 4 : scale;
+        return d * (scale - 1 + transform.k) / scale;
+    }
+
     states.attr("transform", transform);
     circles.attr("cx", function(d) {
         var projectedX = projection([d.longitude, d.latitude])[0];
@@ -232,9 +241,30 @@ function zoomed() {
     }).attr("cy", function(d) {
         var projectedY = projection([d.longitude, d.latitude])[1];
         return transform.applyY(projectedY);
-    }).attr("r", function(d) {
-        return radius(d.num_records) * (3 + transform.k) / 4;
-    });
+    }).attr("r", function(d) { return scaleTransform(radius(d.num_records)); });
+
+    // resize the legend
+    var newLegendWidth = scaleTransform(legendWidth, 11);
+    var newLegendHeight = scaleTransform(legendHeight, 11);
+    svg.selectAll(".legend")
+        .attr("transform", "translate(" + (w - newLegendWidth) + "," + (h - newLegendHeight) + ")");
+    svg.selectAll(".legend rect")
+        .attr("width", newLegendWidth)
+        .attr("height", newLegendHeight);
+
+    svg.selectAll(".legendCircle")
+        .attr("r", function(d) { return scaleTransform(radius(d)); })
+        .attr("cy", function(d) {
+            return newLegendHeight / 2 - scaleTransform(radius(d)) + scaleTransform(radius(maxLegend));
+        }).attr("cx", newLegendWidth / 2 - 4);
+    svg.selectAll(".legendLabel")
+        .attr("y", function(d, i) {
+            return newLegendHeight / 2 + (newLegendHeight / 4) * (1 - i);
+        }).attr("x", newLegendWidth / 2 + scaleTransform(radius(maxLegend)) + 5)
+    svg.select("#legendTitle")
+        .attr("y", newLegendHeight - 5)
+        .attr("x", 5);
+
 }
 
 function zoomButtonClick(zoomLevel) {
@@ -242,9 +272,7 @@ function zoomButtonClick(zoomLevel) {
 }
 
 function makeLegend(cityData) {
-    var legendWidth = 100;
-    var legendHeight = 70;
-    var maxLegend = d3.max(cityData, function(d) { return d.num_records; });
+    maxLegend = d3.max(cityData, function(d) { return d.num_records; });
     var toShow = [1, maxLegend / 2, maxLegend];
 
     var legend = svg.append("g")
@@ -266,11 +294,13 @@ function makeLegend(cityData) {
         .data(toShow)
         .enter().append("text")
         .attr("class", "legendLabel")
-        .attr("y", function(d, i) { return legendHeight / 2 + 15 * (1 - i); })
+        .attr("y", function(d, i) {
+            return legendHeight / 2 + (legendHeight / 4) * (1 - i);
+        })
         .attr("x", legendWidth / 2 + radius(maxLegend) + 5)
         .html(function(d) { return d; });
     legend.append("text")
-        .attr("class", "legendLabel")
+        .attr("id", "legendTitle")
         .attr("y", legendHeight - 5)
         .attr("x", 5)
         .html("Number of Victims");

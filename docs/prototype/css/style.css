@@ -213,7 +213,7 @@ html {
     fill: none;
 }
 
-.legend .legendLabel {
+.legend .legendLabel, .legend #legendTitle {
     font-size: small;
     fill: var(--outline-color);
 }
