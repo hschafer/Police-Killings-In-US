@@ -75,6 +75,10 @@ html {
     color: white;
 }
 
+.github-logo {
+    fill: var(--secondary-color);
+}
+
 #cityName {
     margin-top: 1pt;
     margin-bottom: 10px;
