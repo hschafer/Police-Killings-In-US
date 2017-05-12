@@ -56,12 +56,7 @@ html {
     margin: auto;
 }
 
-.section3Text {
-    font-size: 13pt;
-    text-align: left;
-}
-
-.section4Text {
+.sectionText {
     font-size: 13pt;
     text-align: left;
 }
@@ -228,17 +223,11 @@ html {
     pointer-events: all;
 }
 
-#section2Container {
+.sectionContainer {
     width: 90%;
     height: 90%;
     margin: auto;
     display: table;
-}
-
-#section3Container, #section4Container {
-    width: 90%;
-    height: 90%;
-    margin: auto;
 }
 
 div.tooltip {

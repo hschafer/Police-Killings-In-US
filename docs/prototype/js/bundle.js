@@ -18540,6 +18540,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const topojson = __webpack_require__(1);
 const d3 = __webpack_require__(0);
 
+(function() {
 // size rectangle that holds map
 // proportional to window
 // not using CSS (i.e. width: 80%) for these
@@ -18845,6 +18846,7 @@ function makeLegend(cityData) {
         .attr("x", 5)
         .html("Number of Victims");
 }
+}());
 
 
 /***/ })

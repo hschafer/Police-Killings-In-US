@@ -1,6 +1,7 @@
 const topojson = require('topojson');
 const d3 = require('d3');
 
+(function() {
 // size rectangle that holds map
 // proportional to window
 // not using CSS (i.e. width: 80%) for these
@@ -306,3 +307,4 @@ function makeLegend(cityData) {
         .attr("x", 5)
         .html("Number of Victims");
 }
+}());
