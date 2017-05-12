@@ -74,6 +74,10 @@ html {
     fill: var(--secondary-color);
 }
 
+#pieSvgContainer, #ethnicitySectionText {
+    display: table-cell;
+}
+
 #cityName {
     margin-top: 1pt;
     margin-bottom: 10px;
