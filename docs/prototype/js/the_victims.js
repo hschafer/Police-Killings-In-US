@@ -30,14 +30,6 @@ const d3 = require('d3');
     var maxLegend = -1;
 
     $(document).ready(function () {
-        $('#fullpage').fullpage({
-            autoScrolling: false,
-            fitToSection: false,
-            navigation: true,
-            navigationPosition: 'left',
-            menu: '#menu'
-        });
-
         // NOTE: d3.geo functions all have new syntax as of D3 4.0 release
         // d3.geo.albersUsa() call from example site is now d3.geoAlbersUsa
         // see details of recent changes here: https://github.com/d3/d3/blob/master/CHANGES.md
