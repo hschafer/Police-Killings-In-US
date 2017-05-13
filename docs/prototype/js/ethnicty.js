@@ -1,5 +1,7 @@
 const d3 = require('d3');
 const d3Chromatic = require('d3-scale-chromatic');
+require('waypoints/lib/jquery.waypoints.js');
+
 
 (function() {
     var w = $(window).width() * 0.5;
@@ -44,14 +46,15 @@ const d3Chromatic = require('d3-scale-chromatic');
         svg.append("g")
             .attr("transform", "translate(" + w / 4 + "," + h / 2 + ")")
             .attr("id", "victimPie");
-
         svg.append("g")
-            .attr("transform", "translate(" + 3 * w / 4 + "," + h / 2 + ")")
+            .attr("transform", "translate(" + w / 4 + "," + h / 2 + ")")
             .attr("id", "censusPie")
+
     });
 
     function ready(error, victimData, censusData) {
         if (error) throw error;
+
         for (var i = 0; i < victimData.length; i++) {
             var d = victimData[i];
             if (d.race === "") {
@@ -63,17 +66,29 @@ const d3Chromatic = require('d3-scale-chromatic');
             .rollup(function (victims) { return victims.length })
             .entries(victimData);
 
+        ethnicities = ethnicities.sort(compareStrings);
+        censusData = censusData.sort(compareStrings);
+
         var victimPie = svg.select("#victimPie");
-        var censusPie = svg.select("#censusPie");
         drawPie(victimPie, ethnicities);
-        drawPie(censusPie, censusData);
+        // make a dummy pie chart now so scrolling is fast
+        var censusPie = svg.select("#censusPie");
+        drawPie(censusPie, ethnicities);
+
+        var waypoint = new Waypoint({
+            element: $("#pieSvgContainer"),
+            handler: function() {
+                animatePieChart(victimData, censusData);
+                waypoint.disable();
+            },
+            offset: 200
+        });
+
     }
 
     function drawPie(g, data) {
-        var sorted = data.sort(compareStrings);
-        console.log(sorted);
         var arc = g.selectAll(".arc")
-            .data(pie(sorted))
+            .data(pie(data))
             .enter().append("g")
             .attr("class", "arc");
         arc.append("path")
@@ -83,6 +98,13 @@ const d3Chromatic = require('d3-scale-chromatic');
             .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
             .attr("dy", "0.35em")
             .text(function(d) { return d.data.key; });
+    }
+
+    function animatePieChart(victimData, censusData) {
+        console.log("alert");
+        var censusPie = svg.select("#censusPie");
+        censusPie.transition().duration(750)
+            .attr("transform", "translate(" + 3 * w / 4 + "," + h / 2 + ")")
     }
 
     function compareStrings(s1, s2) {
