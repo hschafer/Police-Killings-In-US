@@ -78,6 +78,10 @@ html {
     display: table-cell;
 }
 
+#pieSvgContainer {
+    border-color: var(--secondary-color);
+}
+
 #cityName {
     margin-top: 1pt;
     margin-bottom: 10px;
@@ -221,7 +225,7 @@ html {
     fill: var(--outline-color);
 }
 
-#background {
+.backgroundRect {
     fill: none;
     stroke: var(--outline-color);
     pointer-events: all;
