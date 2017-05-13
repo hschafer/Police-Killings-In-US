@@ -16,13 +16,9 @@ require('waypoints/lib/jquery.waypoints.js');
     var path = d3.arc()
         .outerRadius(radius - 10)
         .innerRadius(0);
-    var outerArc = d3.arc()
-	    .innerRadius(radius * 0.9)
-	    .outerRadius(radius * 0.9);
     var label = d3.arc()
         .outerRadius(radius + 20)
         .innerRadius(radius + 10);
-
 
     $(document).ready(function() {
         d3.queue()
@@ -45,10 +41,10 @@ require('waypoints/lib/jquery.waypoints.js');
 
         svg.append("g")
             .attr("transform", "translate(" + w / 4 + "," + h / 2 + ")")
-            .attr("id", "victimPie");
+            .attr("id", "censusPie")
         svg.append("g")
             .attr("transform", "translate(" + w / 4 + "," + h / 2 + ")")
-            .attr("id", "censusPie")
+            .attr("id", "victimPie")
 
     });
 
@@ -63,17 +59,16 @@ require('waypoints/lib/jquery.waypoints.js');
         }
         var ethnicities = d3.nest()
             .key(function(d) { return d.race; })
-            .rollup(function (victims) { return victims.length })
+            .rollup(function (victims) { return victims.length / victimData.length})
             .entries(victimData);
 
         ethnicities = ethnicities.sort(compareStrings);
         censusData = censusData.sort(compareStrings);
 
-        var victimPie = svg.select("#victimPie");
-        drawPie(victimPie, ethnicities);
-        // make a dummy pie chart now so scrolling is fast
         var censusPie = svg.select("#censusPie");
-        drawPie(censusPie, ethnicities);
+        drawPie(censusPie, censusData, false);
+        var victimPie = svg.select("#victimPie");
+        drawPie(victimPie, ethnicities, true);
 
         var waypoint = new Waypoint({
             element: $("#pieSvgContainer"),
@@ -86,7 +81,7 @@ require('waypoints/lib/jquery.waypoints.js');
 
     }
 
-    function drawPie(g, data) {
+    function drawPie(g, data, showLabel) {
         var arc = g.selectAll(".arc")
             .data(pie(data))
             .enter().append("g")
@@ -97,14 +92,18 @@ require('waypoints/lib/jquery.waypoints.js');
         arc.append("text")
             .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
             .attr("dy", "0.35em")
+            .attr("class", "label")
+            .attr("display", showLabel ? null : "none")
             .text(function(d) { return d.data.key; });
     }
 
     function animatePieChart(victimData, censusData) {
-        console.log("alert");
         var censusPie = svg.select("#censusPie");
         censusPie.transition().duration(750)
             .attr("transform", "translate(" + 3 * w / 4 + "," + h / 2 + ")")
+        censusPie.selectAll(".label")
+            .transition().delay(500)
+            .attr("display", null);
     }
 
     function compareStrings(s1, s2) {
