@@ -1,26 +1,26 @@
 [
     {
-        "key": "W",
+        "key": "White",
         "value": 61.6
     },
     {
-        "key": "B",
+        "key": "African American",
         "value": 13.3
     },
     {
-        "key": "A",
+        "key": "Asian",
         "value": 5.6
     },
     {
-        "key": "H",
+        "key": "Hispanic",
         "value": 17.6
     },
     {
-        "key": "N",
+        "key": "Native American",
         "value": 1.2
     },
     {
-        "key": "O",
+        "key": "Other",
         "value": 0.7
     }
 ]

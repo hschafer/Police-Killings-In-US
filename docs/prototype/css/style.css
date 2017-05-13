@@ -74,6 +74,17 @@ html {
     fill: var(--secondary-color);
 }
 
+#ethnicityContainer .legendLabel {
+    margin: 0;
+}
+
+#ethnicityContainer .key-dot {
+    display: inline-block;
+    height: 10px;
+    margin-right: .5em;
+    width: 10px;
+}
+
 #pieSvgContainer, #ethnicitySectionText {
     display: table-cell;
 }
@@ -209,18 +220,18 @@ html {
     fill: none;
 }
 
-.legend rect {
+#section2 .legend rect {
     stroke: var(--outline-color);
     fill: var(--background-color);
     opacity: 0.7;
 }
 
-.legend .legendCircle {
+#section2 .legend .legendCircle {
     stroke: var(--outline-color);
     fill: none;
 }
 
-.legend .legendLabel, .legend #legendTitle {
+#section2 .legend .legendLabel, #section2 .legend #legendTitle {
     font-size: small;
     fill: var(--outline-color);
 }

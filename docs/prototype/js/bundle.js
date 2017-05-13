@@ -16757,6 +16757,9 @@ __webpack_require__(71);
 (function() {
     var w = $(window).width() * 0.5;
     var h = $(window).height() * 0.5;
+    var legendHeight = h / 8;
+    var verticalTranslate = legendHeight + (h - legendHeight) / 2;
+
     var radius = Math.min(w, h) / 3;
     var svg = null;
 
@@ -16767,13 +16770,10 @@ __webpack_require__(71);
     var path = d3.arc()
         .outerRadius(radius - 10)
         .innerRadius(0);
-    var label = d3.arc()
-        .outerRadius(radius + 20)
-        .innerRadius(radius + 10);
 
     $(document).ready(function() {
         d3.queue()
-            .defer(d3.csv, "data/data-police-shootings-master/computed.csv")
+            .defer(d3.json, "data/victims_percentage.json")
             .defer(d3.json, "data/us-census.json")
             .await(ready);
 
@@ -16788,38 +16788,32 @@ __webpack_require__(71);
             .attr("width", w)
             .attr("height", h)
             .attr("class", "backgroundRect");
-
+        svg.append("g")
+            .attr("width", w)
+            .attr("height", legendHeight)
+            .attr("id", "legendContainer");
 
         svg.append("g")
-            .attr("transform", "translate(" + w / 4 + "," + h / 2 + ")")
+            .attr("transform", "translate(" + w / 4 + "," + verticalTranslate + ")")
             .attr("id", "censusPie")
         svg.append("g")
-            .attr("transform", "translate(" + w / 4 + "," + h / 2 + ")")
+            .attr("transform", "translate(" + w / 4 + "," + verticalTranslate + ")")
             .attr("id", "victimPie")
 
     });
 
     function ready(error, victimData, censusData) {
         if (error) throw error;
-
-        for (var i = 0; i < victimData.length; i++) {
-            var d = victimData[i];
-            if (d.race === "") {
-                d.race = "O"; // Other
-            }
-        }
-        var ethnicities = d3.nest()
-            .key(function(d) { return d.race; })
-            .rollup(function (victims) { return victims.length / victimData.length})
-            .entries(victimData);
-
-        ethnicities = ethnicities.sort(compareStrings);
+        victimData = victimData.sort(compareStrings);
         censusData = censusData.sort(compareStrings);
+
+        console.log(victimData);
+        makeLegend(victimData);
 
         var censusPie = svg.select("#censusPie");
         drawPie(censusPie, censusData, false);
         var victimPie = svg.select("#victimPie");
-        drawPie(victimPie, ethnicities, true);
+        drawPie(victimPie, victimData, true);
 
         var waypoint = new Waypoint({
             element: $("#pieSvgContainer"),
@@ -16829,7 +16823,73 @@ __webpack_require__(71);
             },
             offset: 200
         });
+    }
 
+    function makeLegend(ethnicities) {
+        var padding = 5;
+        var legendMarkerWidth = (w - padding * (ethnicities.length + 1)) / ethnicities.length;
+        svg.select("#legendContainer").selectAll("rect")
+            .data(ethnicities)
+            .enter()
+            .append("rect")
+            .attr("width", legendMarkerWidth)
+            .attr("height", h / 8)
+            .attr("fill", function(_, i) { console.log(color(i)); return color(i); })
+            .attr("transform", function(_, i) {
+                return "translate(" + ((legendMarkerWidth + padding) * i + padding)  + ", " + padding + ")"
+            })
+            .append("text")
+            .text(function(d) { return d.key; });
+
+        // failed attempt 1
+        //var legend= svg.select('#legendContainer').selectAll(".legend")
+        //    .data(ethnicities)
+        //var div = legend.enter().append("div")
+        //    .attr("class", "legends")
+        //var p = div.append("p")
+        //    .attr("class", "legendLabel")
+        //p.append("span")
+        //    .attr("class","key-dot")
+        //    .style("background", function(d,i) { return color(i); } )
+        //p.insert("text")
+        //    .text(function(d,i) { return d.key; } )
+
+        // failed attempt 2
+        //var dataL = 0;
+        //var offset = 100;
+        //var legend = svg.select("#legendContainer").selectAll(".legend")
+        //    .data(ethnicities)
+        //    .enter()
+        //    .append("g")
+        //    .attr("class", "legend")
+        //    .attr("transform", function(d, i) {
+        //        var oldDataL = dataL;
+        //        dataL +=  d.key.length + offset
+        //        if (i == 0) {
+        //            return "translate(0,0)"
+        //        } else {
+        //            return "translate(" + (oldDataL) + ",0)"
+        //        }
+        //    });
+
+        //legend.append('rect')
+        //    .attr("x", 0)
+        //    .attr("y", 0)
+        //    .attr("width", 10)
+        //    .attr("height", 10)
+        //    .style("fill", function (d, i) {
+        //        return color(i)
+        //    });
+
+        //legend.append('text')
+        //    .attr("x", 20)
+        //    .attr("y", 10)
+        //    .text(function (d, i) {
+        //        return d.key
+        //    })
+        //    .attr("class", "textselected")
+        //    .style("text-anchor", "start")
+        //    .style("font-size", 15);
     }
 
     function drawPie(g, data, showLabel) {
@@ -16840,21 +16900,12 @@ __webpack_require__(71);
         arc.append("path")
             .attr("d", path)
             .attr("fill", function(_, i) {return color(i); });
-        arc.append("text")
-            .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
-            .attr("dy", "0.35em")
-            .attr("class", "label")
-            .attr("display", showLabel ? null : "none")
-            .text(function(d) { return d.data.key; });
     }
 
     function animatePieChart(victimData, censusData) {
         var censusPie = svg.select("#censusPie");
         censusPie.transition().duration(750)
-            .attr("transform", "translate(" + 3 * w / 4 + "," + h / 2 + ")")
-        censusPie.selectAll(".label")
-            .transition().delay(500)
-            .attr("display", null);
+            .attr("transform", "translate(" + 3 * w / 4 + "," + verticalTranslate + ")")
     }
 
     function compareStrings(s1, s2) {
