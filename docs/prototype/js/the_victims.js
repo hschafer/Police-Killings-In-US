@@ -6,7 +6,7 @@ const d3 = require('d3');
     // so that we can use the actual numerical values
     // to scale map
     var w = $(window).width() * (2.0 / 3);
-    var h = $(window).height() * (3.0 / 4);
+    var h = $(window).height() * (2.0 / 3);
     var scale = w; // used to scale US map
     var radius = null; // global to recalculate radius
 
@@ -65,19 +65,22 @@ const d3 = require('d3');
             .on("mouseout",
                 function() { document.body.style.overflow = 'auto'; });
 
+        // append map SVG
         svg = svgContainer.append("svg")
             .attr("width", w)
             .attr("height", h)
             .attr("class", "mapSVG")
             .call(zoom);
 
+        // append background container for map
     	svg.append("rect")
             .attr("id", "background")
             .attr("width", w)
             .attr("height", h)
             .style("fill", "none")
-            .style("pointer-events", "all")
+            .style("pointer-events", "all");
 
+        // append state paths
         svg.selectAll("path")
             .data(us.features)
             .enter()
@@ -85,6 +88,12 @@ const d3 = require('d3');
             .attr("class", "states")
             .attr("d", path)
             .on("click", clicked);
+
+        // style map filters
+        d3.select("#victimMapFilters")
+            .attr("height", h * (1.0 / 3) + "px");
+
+        appendSlider(d3.select("#victimDateFilter"));
 
         var div = d3.select("body").append("div")
             .attr("class", "tooltip")
@@ -148,6 +157,73 @@ const d3 = require('d3');
             return result + "px";
         });
     }
+
+    function appendSlider(parent) {
+
+        var maxDate = 180;
+        var svg = parent.append("svg")
+            .attr("width", parent.style("width"));
+
+        var margin = {right: 50, left: 50},
+            width = 500,
+            height = 50;
+
+        var x = d3.scaleLinear()
+            .domain([0, maxDate])
+            .range([0, width])
+            .clamp(true);
+
+        var slider = svg.append("g")
+            .attr("class", "slider")
+            .attr("transform", "translate(10, 10)");
+
+        slider.append("line")
+            .attr("class", "track")
+            .attr("x1", x.range()[0])
+            .attr("x2", x.range()[1])
+            .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
+            .attr("class", "track-inset")
+            .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
+            .attr("class", "track-overlay")
+            .call(d3.drag()
+                .on("start.interrupt", function() { slider.interrupt(); })
+                .on("start drag", function() {
+                    console.log("start drag");
+                    dateFilterDrag(x.invert(d3.event.x));
+                }));
+
+        slider.insert("g", ".track-overlay")
+            .attr("class", "ticks")
+            .attr("transform", "translate(0," + 18 + ")")
+            .selectAll("text")
+            .data(x.ticks(10))
+            .enter().append("text")
+            .attr("x", x)
+            .attr("text-anchor", "middle")
+            .text(function(d) {
+                return d;
+            });
+
+        var lowerHandle = slider.insert("circle", ".track-overlay")
+            .attr("class", "dateFilterHandle")
+            .attr("r", 9);
+
+        var upperHandle = slider.insert("circle", ".track-overlay")
+            .attr("class", "dateFilterHandle")
+            .attr("r", 9);
+
+        slider.transition() // Gratuitous intro!
+            .duration(750);
+
+        function dateFilterDragLower(h) {
+            lowerHandle.attr("cx", x(h));
+        }
+
+        function dateFilterDragUpper(h) {
+            upperHandle.attr("cx", x(h));
+        }
+    }
+
 
     function randomSelection(cityData) {
         var randCity = cityData[Math.floor(Math.random() * cityData.length)];
