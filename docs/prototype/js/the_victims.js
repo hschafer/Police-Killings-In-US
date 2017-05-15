@@ -114,7 +114,40 @@ const d3 = require('d3');
         svg.selectAll(".symbol")
             .data(cityData)
             .enter()
-            .append("circle")
+            .call(function (d) {
+                appendCitySymbol(d);
+            });
+
+        randomSelection(cityData); // make it happen right away
+        var timer = setInterval(randomSelection, 3000, cityData);
+
+        svg.on("mouseenter", function () {
+            if (timer) {
+                d3.select("#highlightedCity").remove();
+                clearInterval(timer);
+                deselectCity();
+                timer = null;
+            }
+        });
+        svg.on("mouseleave", function () {
+            timer = setInterval(randomSelection, 3000, cityData);
+        });
+
+        makeLegend(cityData);
+
+        // kind of hacky
+        // we have to do this last to get the position of the mapInfo sidebar
+        d3.select("#hoverDirections").style("width", function () {
+            var containerWidth = parseFloat(d3.select("#section2Container").style("width"));
+            var mapWidth = parseFloat(d3.select("#usSvgContainer").select("svg").attr("width"));
+            var result = containerWidth
+                - mapWidth - parseFloat(d3.select(".mapInfo").style("padding-left"));
+            return result + "px";
+        });
+    }
+
+    function appendCitySymbol(d) {
+        d.append("circle")
             .attr("class", "symbol")
             .attr("cx", function (d) {
                 return projection([d.longitude, d.latitude])[0];
@@ -147,34 +180,6 @@ const d3 = require('d3');
                 // apply invisibility
                 deselectCity();
             });
-
-
-        randomSelection(cityData); // make it happen right away
-        var timer = setInterval(randomSelection, 3000, cityData);
-
-        svg.on("mouseenter", function () {
-            if (timer) {
-                d3.select("#highlightedCity").remove();
-                clearInterval(timer);
-                deselectCity();
-                timer = null;
-            }
-        });
-        svg.on("mouseleave", function () {
-            timer = setInterval(randomSelection, 3000, cityData);
-        });
-
-        makeLegend(cityData);
-
-        // kind of hacky
-        // we have to do this last to get the position of the mapInfo sidebar
-        d3.select("#hoverDirections").style("width", function () {
-            var containerWidth = parseFloat(d3.select("#section2Container").style("width"));
-            var mapWidth = parseFloat(d3.select("#usSvgContainer").select("svg").attr("width"));
-            var result = containerWidth
-                - mapWidth - parseFloat(d3.select(".mapInfo").style("padding-left"));
-            return result + "px";
-        });
     }
 
     function appendSlider(parent, cityData) {
@@ -187,8 +192,7 @@ const d3 = require('d3');
             width = 500,
             height = 50;
 
-        var x = d3.scaleLinear()
-            .domain([0, maxDate])
+        var x = d3.scaleTime()
             .range([0, width])
             .clamp(true);
 
@@ -198,8 +202,6 @@ const d3 = require('d3');
 
         var lowerHandle;
         var upperHandle;
-        var lowerHandleIsDragging = false; // initially not dragging anything
-        var upperHandleIsDragging = false;
 
         slider.append("line")
             .attr("class", "track")
@@ -233,26 +235,54 @@ const d3 = require('d3');
         var lowerHandleDrag = d3.drag()
             .on('drag', function () {
                 lowerHandleIsDragging = true;
+
+                // if handle is within expected area, move it to where it is being
+                // dragged to and update viz (this check prevents user from dragging
+                // handle off of track or in front of upper handle)
                 if (d3.event.x >= x.range()[0]
                     && d3.event.x < d3.select("#upperDateFilterHandle").attr("cx")) {
+
+                    // move handle to where user has dragged it to
                     lowerHandle.attr('cx', d3.event.x);
+
+                    // filter out values from viz with dates lower than where handle is
+                    // just do two buckets: all years, or years >= than 2016
                     var filtered = cityData.filter(function (d) {
-                        return d.city == "Los Angeles";
-                        //for (var recordIndex = 0; recordIndex < d.records.length; recordIndex++) {
-                        //    var record = d.records[recordIndex];
-                        //    var date = new Date(record.date);
-                        //    if (date.getYear() > 2017) {
-                        //        return true;
-                        //    }
-                        //}
-                        //return false;
+                        var dateLowerBoundary = x(d3.event.x);
+                        var mid = (x.range()[0] + x.range()[1]) / 2.0;
+                        //var yearBoundary = dateLowerBoundary <
+                        //console.log("current handle pos" + dateLowerBoundary);
+                        var newRecords = [];
+                        for (var recordIndex = 0; recordIndex < d.records.length; recordIndex++) {
+                            var record = d.records[recordIndex];
+                            var year = record.date.split('-')[0]; // janky date parsing
+                            if (dateLowerBoundary < mid ||
+                                (dateLowerBoundary >= mid && year >= 2016)) {
+                                newRecords[newRecords.length] = record;
+                            }
+                        }
+                        d.records = newRecords;
+                        if (d.records.length == 0) {
+                            return false;
+                        } else {
+                            return true;
+                        }
                     });
 
                     // re-bind city symbols to filtered data
-                    d3.selectAll(".symbol")
-                        .data(filtered)
-                        .exit()
+
+                    var citySymbols = d3.selectAll(".symbol").data(filtered);
+
+                    citySymbols.exit()
                         .remove();
+
+                    citySymbols.enter()
+                        .call(function (d) {
+                            appendCitySymbol(d);
+                        });
+
+
+
                 }
             });
 
@@ -281,7 +311,6 @@ const d3 = require('d3');
         slider.transition() // Gratuitous intro!
             .duration(750);
     }
-
 
     function randomSelection(cityData) {
         var randCity = cityData[Math.floor(Math.random() * cityData.length)];
