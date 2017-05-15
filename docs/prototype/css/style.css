@@ -82,6 +82,10 @@ html {
     display: inherit;
 }
 
+#pieSvgContainer {
+    border: 0.25pt solid var(--outline-color);
+}
+
 #ethnicityContainer .key-dot {
     display: inline-block;
     height: 10px;
@@ -243,6 +247,7 @@ html {
 .backgroundRect {
     fill: none;
     stroke: var(--outline-color);
+    stroke-width: 1px;
     pointer-events: all;
 }
 

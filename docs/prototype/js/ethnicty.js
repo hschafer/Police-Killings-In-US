@@ -3,10 +3,13 @@ const d3Chromatic = require('d3-scale-chromatic');
 const Chart = require('chart.js');
 require('waypoints/lib/jquery.waypoints.js');
 
+Chart.defaults.global.defaultFontColor = "#b1b1b1";
+
 
 (function() {
     var w = $(window).width() * 0.5;
     var h = $(window).height() * 0.5;
+    var chartH = h / 2;
     var legendHeight = h / 8;
     var verticalTranslate = legendHeight + (h - legendHeight) / 2;
 
@@ -34,13 +37,9 @@ require('waypoints/lib/jquery.waypoints.js');
             .attr("width", w)
             .attr("height", h)
             .attr("class", "pieSVG");
-        svg.append("rect")
-            .attr("width", w)
-            .attr("height", h)
-            .attr("class", "backgroundRect");
         svgContainer.append("canvas")
             .attr("width", w)
-            .attr("height", h / 2)
+            .attr("height", chartH)
             .attr("id", "diffChart")
             .style("display", "none");
 
@@ -71,6 +70,7 @@ require('waypoints/lib/jquery.waypoints.js');
 
         // set this up now but it will remain hidden
         var diffs = victimData.map(function(d, i) { return { "key": d.key, "value": d.value - censusData[i].value}; });
+        var colors = diffs.map(function(_, i) { return color(i); });
         var diffChart = new Chart($("#diffChart"), {
             type: 'bar',
             data: {
@@ -78,16 +78,17 @@ require('waypoints/lib/jquery.waypoints.js');
                 datasets: [{
                     label: 'Difference Between Census and Victims',
                     data: diffs.map(function(d) { return d.value; }),
-                    backgroundColor: diffs.map(function(_, i) {
-                        var col = d3.color(color(i));
-                        col.opacity = 0.2;
-                        return col;
-                    }),
-                    borderColor: diffs.map(function(_, i) { return color(i); }),
+                    backgroundColor: colors,
+                    borderColor: colors,
                     borderWidth: 1
                 }]
             },
             options: {
+                legend: {
+                    labels: {
+                        boxWidth: 0
+                    }
+                },
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -189,7 +190,7 @@ require('waypoints/lib/jquery.waypoints.js');
         var censusPie = svg.select("#censusPie");
         censusPie.transition().duration(750)
             .attr("transform", "translate(" + 3 * w / 4 + "," + verticalTranslate + ")");
-        setTimeout(function() { $("#diffChart").fadeIn("slow"); }, 500);
+        setTimeout(function() { $("#diffChart").fadeIn("slow"); }, 800);
     }
 
     function compareStrings(s1, s2) {
