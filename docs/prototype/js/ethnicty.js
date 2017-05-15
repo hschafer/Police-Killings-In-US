@@ -41,7 +41,9 @@ require('waypoints/lib/jquery.waypoints.js');
         svgContainer.append("canvas")
             .attr("width", w)
             .attr("height", h / 2)
-            .attr("id", "diffChart");
+            .attr("id", "diffChart")
+            .style("display", "none");
+
         svg.append("g")
             .attr("width", w)
             .attr("height", legendHeight)
@@ -60,7 +62,6 @@ require('waypoints/lib/jquery.waypoints.js');
         victimData = victimData.sort(compareStrings);
         censusData = censusData.sort(compareStrings);
 
-        console.log(victimData);
         makeLegend(victimData);
 
         var censusPie = svg.select("#censusPie");
@@ -68,31 +69,21 @@ require('waypoints/lib/jquery.waypoints.js');
         var victimPie = svg.select("#victimPie");
         drawPie(victimPie, victimData, true);
 
+        // set this up now but it will remain hidden
         var diffs = victimData.map(function(d, i) { return { "key": d.key, "value": d.value - censusData[i].value}; });
-
         var diffChart = new Chart($("#diffChart"), {
             type: 'bar',
             data: {
                 labels: diffs.map(function(d) { return d.key; }),
                 datasets: [{
-                    label: '# of Votes',
+                    label: 'Difference Between Census and Victims',
                     data: diffs.map(function(d) { return d.value; }),
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
+                    backgroundColor: diffs.map(function(_, i) {
+                        var col = d3.color(color(i));
+                        col.opacity = 0.2;
+                        return col;
+                    }),
+                    borderColor: diffs.map(function(_, i) { return color(i); }),
                     borderWidth: 1
                 }]
             },
@@ -197,16 +188,17 @@ require('waypoints/lib/jquery.waypoints.js');
     function animatePieChart(victimData, censusData) {
         var censusPie = svg.select("#censusPie");
         censusPie.transition().duration(750)
-            .attr("transform", "translate(" + 3 * w / 4 + "," + verticalTranslate + ")")
+            .attr("transform", "translate(" + 3 * w / 4 + "," + verticalTranslate + ")");
+        setTimeout(function() { $("#diffChart").fadeIn("slow"); }, 500);
     }
 
     function compareStrings(s1, s2) {
         if (s1.key < s2.key) {
-            return 1;
+            return -1;
         } else if (s2.key === s1.key) {
             return 0;
         } else {
-            return -1;
+            return 1;
         }
     }
 }());
