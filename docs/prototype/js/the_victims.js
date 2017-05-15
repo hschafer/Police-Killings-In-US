@@ -236,18 +236,21 @@ const d3 = require('d3');
                 if (d3.event.x >= x.range()[0]
                     && d3.event.x < d3.select("#upperDateFilterHandle").attr("cx")) {
                     lowerHandle.attr('cx', d3.event.x);
-                    cityData.filter(function (d) {
-                        for (var recordIndex = 0; recordIndex < d.records.length; recordIndex++) {
-                            var record = d.records[recordIndex];
-                            var date = new Date(record.date);
-                            if (date.getYear() > 2017) {
-                                return true;
-                            }
-                        }
-                        return false;
+                    var filtered = cityData.filter(function (d) {
+                        return d.city == "Los Angeles";
+                        //for (var recordIndex = 0; recordIndex < d.records.length; recordIndex++) {
+                        //    var record = d.records[recordIndex];
+                        //    var date = new Date(record.date);
+                        //    if (date.getYear() > 2017) {
+                        //        return true;
+                        //    }
+                        //}
+                        //return false;
                     });
-                    d3.select(".symbol")
-                        .data(cityData)
+
+                    // re-bind city symbols to filtered data
+                    d3.selectAll(".symbol")
+                        .data(filtered)
                         .exit()
                         .remove();
                 }
