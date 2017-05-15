@@ -78,6 +78,10 @@ html {
     margin: 0;
 }
 
+#ethnicitySectionContainer  canvas {
+    display: inherit;
+}
+
 #ethnicityContainer .key-dot {
     display: inline-block;
     height: 10px;

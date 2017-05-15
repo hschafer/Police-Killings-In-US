@@ -1,5 +1,6 @@
 const d3 = require('d3');
 const d3Chromatic = require('d3-scale-chromatic');
+const Chart = require('chart.js');
 require('waypoints/lib/jquery.waypoints.js');
 
 
@@ -37,6 +38,10 @@ require('waypoints/lib/jquery.waypoints.js');
             .attr("width", w)
             .attr("height", h)
             .attr("class", "backgroundRect");
+        svgContainer.append("canvas")
+            .attr("width", w)
+            .attr("height", h / 2)
+            .attr("id", "diffChart");
         svg.append("g")
             .attr("width", w)
             .attr("height", legendHeight)
@@ -48,7 +53,6 @@ require('waypoints/lib/jquery.waypoints.js');
         svg.append("g")
             .attr("transform", "translate(" + w / 4 + "," + verticalTranslate + ")")
             .attr("id", "victimPie")
-
     });
 
     function ready(error, victimData, censusData) {
@@ -63,6 +67,45 @@ require('waypoints/lib/jquery.waypoints.js');
         drawPie(censusPie, censusData, false);
         var victimPie = svg.select("#victimPie");
         drawPie(victimPie, victimData, true);
+
+        var diffs = victimData.map(function(d, i) { return { "key": d.key, "value": d.value - censusData[i].value}; });
+
+        var diffChart = new Chart($("#diffChart"), {
+            type: 'bar',
+            data: {
+                labels: diffs.map(function(d) { return d.key; }),
+                datasets: [{
+                    label: '# of Votes',
+                    data: diffs.map(function(d) { return d.value; }),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
 
         var waypoint = new Waypoint({
             element: $("#pieSvgContainer"),
