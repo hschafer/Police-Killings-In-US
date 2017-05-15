@@ -292,7 +292,9 @@ a {
 }
 
 .ticks {
-    font: 10px sans-serif;
+    /*stroke: var(--outline-color);*/
+    fill: var(--outline-color);
+    font-size: medium;
 }
 
 .track,
@@ -319,7 +321,7 @@ a {
     cursor: crosshair;
 }
 
-.handle {
+.dateFilterHandle {
     fill: #fff;
     stroke: #000;
     stroke-opacity: 0.5;

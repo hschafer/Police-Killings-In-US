@@ -1,5 +1,5 @@
 const d3 = require('d3');
-(function() {
+(function () {
     // size rectangle that holds map
     // proportional to window
     // not using CSS (i.e. width: 80%) for these
@@ -19,7 +19,7 @@ const d3 = require('d3');
         .scale([scale]);
 
     var path = d3.geoPath()
-            .projection(projection);
+        .projection(projection);
 
     var zoom = d3.zoom()
         .scaleExtent([1, 20])
@@ -42,28 +42,40 @@ const d3 = require('d3');
     function ready(error, us, cityData) {
         if (error) throw error;
 
-        cityData.sort(function(a, b) { d3.descending(a.num_records, b.num_records); });
+        cityData.sort(function (a, b) {
+            d3.descending(a.num_records, b.num_records);
+        });
 
         radius = d3.scaleSqrt()
-            .domain([0, d3.max(cityData, function(d) { return d.num_records; })])
+            .domain([0, d3.max(cityData, function (d) {
+                return d.num_records;
+            })])
             .range([0, 15]);
 
-        var section2Container =  d3.select("#section2Container");
+        var section2Container = d3.select("#section2Container");
         var section2HeaderRow = d3.select("#section2HeaderRow");
         var section2Row = d3.select(".sectionRow");
         var svgContainer = d3.select("#usSvgContainer");
 
         // attach event listeners for zooming
         svgContainer.select("#zoomIn")
-            .on("click", function() { zoomButtonClick(3/2); });
+            .on("click", function () {
+                zoomButtonClick(3 / 2);
+            });
         svgContainer.select("#zoomOut")
-            .on("click", function() { zoomButtonClick(2/3); });
+            .on("click", function () {
+                zoomButtonClick(2 / 3);
+            });
 
         // disable body scrolling while inside SVG container
         svgContainer.on("mouseover",
-                function () { document.body.style.overflow = 'hidden'; })
+            function () {
+                document.body.style.overflow = 'hidden';
+            })
             .on("mouseout",
-                function() { document.body.style.overflow = 'auto'; });
+                function () {
+                    document.body.style.overflow = 'auto';
+                });
 
         // append map SVG
         svg = svgContainer.append("svg")
@@ -73,7 +85,7 @@ const d3 = require('d3');
             .call(zoom);
 
         // append background container for map
-    	svg.append("rect")
+        svg.append("rect")
             .attr("id", "background")
             .attr("width", w)
             .attr("height", h)
@@ -93,7 +105,7 @@ const d3 = require('d3');
         d3.select("#victimMapFilters")
             .attr("height", h * (1.0 / 3) + "px");
 
-        appendSlider(d3.select("#victimDateFilter"));
+        appendSlider(d3.select("#victimDateFilter"), cityData);
 
         var div = d3.select("body").append("div")
             .attr("class", "tooltip")
@@ -104,10 +116,16 @@ const d3 = require('d3');
             .enter()
             .append("circle")
             .attr("class", "symbol")
-            .attr("cx", function (d) { return projection([d.longitude, d.latitude])[0]; })
-            .attr("cy", function (d) { return projection([d.longitude, d.latitude])[1]; })
-            .attr("r",  function (d) { return radius(d.num_records); })
-            .on("mouseover", function(d) {
+            .attr("cx", function (d) {
+                return projection([d.longitude, d.latitude])[0];
+            })
+            .attr("cy", function (d) {
+                return projection([d.longitude, d.latitude])[1];
+            })
+            .attr("r", function (d) {
+                return radius(d.num_records);
+            })
+            .on("mouseover", function (d) {
                 selectCity(d);
 
                 // set tooltip
@@ -120,7 +138,7 @@ const d3 = require('d3');
                         .style("top", (d3.event.pageY) - 28 + "px")
                 }
             })
-            .on("mouseout", function(d) {
+            .on("mouseout", function (d) {
                 // tooltip
                 div.style("opacity", 0);
                 div.selectAll("h2").remove();
@@ -130,10 +148,11 @@ const d3 = require('d3');
                 deselectCity();
             });
 
+
         randomSelection(cityData); // make it happen right away
         var timer = setInterval(randomSelection, 3000, cityData);
 
-        svg.on("mouseenter", function() {
+        svg.on("mouseenter", function () {
             if (timer) {
                 d3.select("#highlightedCity").remove();
                 clearInterval(timer);
@@ -141,7 +160,7 @@ const d3 = require('d3');
                 timer = null;
             }
         });
-        svg.on("mouseleave", function() {
+        svg.on("mouseleave", function () {
             timer = setInterval(randomSelection, 3000, cityData);
         });
 
@@ -149,7 +168,7 @@ const d3 = require('d3');
 
         // kind of hacky
         // we have to do this last to get the position of the mapInfo sidebar
-        d3.select("#hoverDirections").style("width", function() {
+        d3.select("#hoverDirections").style("width", function () {
             var containerWidth = parseFloat(d3.select("#section2Container").style("width"));
             var mapWidth = parseFloat(d3.select("#usSvgContainer").select("svg").attr("width"));
             var result = containerWidth
@@ -158,7 +177,7 @@ const d3 = require('d3');
         });
     }
 
-    function appendSlider(parent) {
+    function appendSlider(parent, cityData) {
 
         var maxDate = 180;
         var svg = parent.append("svg")
@@ -177,63 +196,101 @@ const d3 = require('d3');
             .attr("class", "slider")
             .attr("transform", "translate(10, 10)");
 
+        var lowerHandle;
+        var upperHandle;
+        var lowerHandleIsDragging = false; // initially not dragging anything
+        var upperHandleIsDragging = false;
+
         slider.append("line")
             .attr("class", "track")
             .attr("x1", x.range()[0])
             .attr("x2", x.range()[1])
-            .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
+            .select(function () {
+                return this.parentNode.appendChild(this.cloneNode(true));
+            })
             .attr("class", "track-inset")
-            .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
-            .attr("class", "track-overlay")
-            .call(d3.drag()
-                .on("start.interrupt", function() { slider.interrupt(); })
-                .on("start drag", function() {
-                    console.log("start drag");
-                    dateFilterDrag(x.invert(d3.event.x));
-                }));
+            .select(function () {
+                return this.parentNode.appendChild(this.cloneNode(true));
+            })
+            .attr("class", "track-overlay");
 
-        slider.insert("g", ".track-overlay")
+        var ticks = slider.insert("g", ".track-overlay")
             .attr("class", "ticks")
-            .attr("transform", "translate(0," + 18 + ")")
-            .selectAll("text")
-            .data(x.ticks(10))
-            .enter().append("text")
-            .attr("x", x)
-            .attr("text-anchor", "middle")
-            .text(function(d) {
-                return d;
+            .attr("transform", "translate(0," + 25 + ")");
+
+        ticks.append("text")
+            .attr("x", x.range()[0])
+            .classed("victimDateFilterLabel", true)
+            .text("2015");
+
+        ticks.append("text")
+            .attr("x", x.range()[1])
+            .classed("victimDateFilterLabel", true)
+            .text("2017");
+
+
+        // make handle drag behavior
+        var lowerHandleDrag = d3.drag()
+            .on('drag', function () {
+                lowerHandleIsDragging = true;
+                if (d3.event.x >= x.range()[0]
+                    && d3.event.x < d3.select("#upperDateFilterHandle").attr("cx")) {
+                    lowerHandle.attr('cx', d3.event.x);
+                    cityData.filter(function (d) {
+                        for (var recordIndex = 0; recordIndex < d.records.length; recordIndex++) {
+                            var record = d.records[recordIndex];
+                            var date = new Date(record.date);
+                            if (date.getYear() > 2017) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    });
+                    d3.select(".symbol")
+                        .data(cityData)
+                        .exit()
+                        .remove();
+                }
             });
 
-        var lowerHandle = slider.insert("circle", ".track-overlay")
-            .attr("class", "dateFilterHandle")
-            .attr("r", 9);
+        var upperHandleDrag = d3.drag()
+            .on('drag', function () {
+                upperHandleIsDragging = true;
+                if (d3.event.x <= x.range()[1]
+                    && d3.event.x > d3.select("#lowerDateFilterHandle").attr("cx")) {
+                    upperHandle.attr('cx', d3.event.x);
+                }
+            });
 
-        var upperHandle = slider.insert("circle", ".track-overlay")
+        lowerHandle = slider.append("circle", ".track-overlay")
+            .attr("id", "lowerDateFilterHandle")
             .attr("class", "dateFilterHandle")
-            .attr("r", 9);
+            .attr("r", 9)
+            .call(lowerHandleDrag);
+
+        var upperHandle = slider.append("circle", ".track-overlay")
+            .attr("id", "upperDateFilterHandle")
+            .attr("class", "dateFilterHandle")
+            .attr("cx", x.range()[1])
+            .attr("r", 9)
+            .call(upperHandleDrag);
 
         slider.transition() // Gratuitous intro!
             .duration(750);
-
-        function dateFilterDragLower(h) {
-            lowerHandle.attr("cx", x(h));
-        }
-
-        function dateFilterDragUpper(h) {
-            upperHandle.attr("cx", x(h));
-        }
     }
 
 
     function randomSelection(cityData) {
         var randCity = cityData[Math.floor(Math.random() * cityData.length)];
         var svg = d3.select(".mapSVG");
-        var domNode = svg.selectAll(".symbol").filter(function(d) { return d.id === randCity.id; });
+        var domNode = svg.selectAll(".symbol").filter(function (d) {
+            return d.id === randCity.id;
+        });
         var circle = svg.selectAll("#highlightedCity").data([randCity]);
         circle.enter().append('circle')
             .attr("id", "highlightedCity")
             .attr("class", "symbol")
-          .merge(circle)
+            .merge(circle)
             .attr("cx", domNode.attr("cx"))
             .attr("cy", domNode.attr("cy"))
             .attr("r", domNode.attr("r"));
@@ -265,11 +322,11 @@ const d3 = require('d3');
         activeState.classed("active", false);
         var zoomLevel;
         if (activeState.node() === this) {
-    		// If it is a click on the same state, we want to zoom out
+            // If it is a click on the same state, we want to zoom out
             activeState = d3.select(null);
             zoomLevel = d3.zoomIdentity;
         } else {
-    		// We are clicking on a new state
+            // We are clicking on a new state
             activeState = d3.select(this).classed("active", true);
             var bounds = path.bounds(d),
                 dx = bounds[1][0] - bounds[0][0],
@@ -278,10 +335,10 @@ const d3 = require('d3');
                 y = (bounds[0][1] + bounds[1][1]) / 2,
                 scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / w, dy / h))),
                 translate = [w / 2 - scale * x, h / 2 - scale * y];
-            zoomLevel = d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale);
+            zoomLevel = d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale);
         }
 
-    	svg.transition()
+        svg.transition()
             .duration(750)
             .call(zoom.transform, zoomLevel);
     }
@@ -297,19 +354,21 @@ const d3 = require('d3');
             transform.y = 0;
         }
 
-        var scaleTransform = function(d, scale) {
+        var scaleTransform = function (d, scale) {
             scale = (typeof scale === "undefined") ? 4 : scale;
             return d * (scale - 1 + transform.k) / scale;
         }
 
         states.attr("transform", transform);
-        circles.attr("cx", function(d) {
+        circles.attr("cx", function (d) {
             var projectedX = projection([d.longitude, d.latitude])[0];
             return transform.applyX(projectedX);
-        }).attr("cy", function(d) {
+        }).attr("cy", function (d) {
             var projectedY = projection([d.longitude, d.latitude])[1];
             return transform.applyY(projectedY);
-        }).attr("r", function(d) { return scaleTransform(radius(d.num_records)); });
+        }).attr("r", function (d) {
+            return scaleTransform(radius(d.num_records));
+        });
 
         // resize the legend
         var newLegendWidth = scaleTransform(legendWidth, 11);
@@ -321,12 +380,14 @@ const d3 = require('d3');
             .attr("height", newLegendHeight);
 
         svg.selectAll(".legendCircle")
-            .attr("r", function(d) { return scaleTransform(radius(d)); })
-            .attr("cy", function(d) {
+            .attr("r", function (d) {
+                return scaleTransform(radius(d));
+            })
+            .attr("cy", function (d) {
                 return newLegendHeight / 2 - scaleTransform(radius(d)) + scaleTransform(radius(maxLegend));
             }).attr("cx", newLegendWidth / 2 - 4);
         svg.selectAll(".legendLabel")
-            .attr("y", function(d, i) {
+            .attr("y", function (d, i) {
                 return newLegendHeight / 2 + (newLegendHeight / 4) * (1 - i);
             }).attr("x", newLegendWidth / 2 + scaleTransform(radius(maxLegend)) + 5)
         svg.select("#legendTitle")
@@ -340,7 +401,9 @@ const d3 = require('d3');
     }
 
     function makeLegend(cityData) {
-        maxLegend = d3.max(cityData, function(d) { return d.num_records; });
+        maxLegend = d3.max(cityData, function (d) {
+            return d.num_records;
+        });
         var toShow = [1, maxLegend / 2, maxLegend];
 
         var legend = svg.append("g")
@@ -355,18 +418,26 @@ const d3 = require('d3');
             .data(toShow)
             .enter().append("circle")
             .attr("class", "legendCircle")
-            .attr("cy", function(d) { return legendHeight / 2 - radius(d) + radius(maxLegend); })
-            .attr("cx", function(d, i) { return legendWidth / 2 - 5; })
-            .attr("r", function(d) { return radius(d); });
+            .attr("cy", function (d) {
+                return legendHeight / 2 - radius(d) + radius(maxLegend);
+            })
+            .attr("cx", function (d, i) {
+                return legendWidth / 2 - 5;
+            })
+            .attr("r", function (d) {
+                return radius(d);
+            });
         legend.selectAll("text")
             .data(toShow)
             .enter().append("text")
             .attr("class", "legendLabel")
-            .attr("y", function(d, i) {
+            .attr("y", function (d, i) {
                 return legendHeight / 2 + (legendHeight / 4) * (1 - i);
             })
             .attr("x", legendWidth / 2 + radius(maxLegend) + 5)
-            .html(function(d) { return d; });
+            .html(function (d) {
+                return d;
+            });
         legend.append("text")
             .attr("id", "legendTitle")
             .attr("y", legendHeight - 5)
