@@ -13,6 +13,7 @@ const d3 = require('d3');
     var svg = null; // global for callbacks
     var activeState = d3.select(null);
     var tooltipActive = null;
+    var tooltipDiv;
 
     var projection = d3.geoAlbersUsa()
         .translate([w / 2, h / 2])
@@ -107,7 +108,7 @@ const d3 = require('d3');
 
         appendSlider(d3.select("#victimDateFilter"), cityData);
 
-        var div = d3.select("body").append("div")
+        tooltipDiv = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
 
@@ -147,9 +148,13 @@ const d3 = require('d3');
     }
 
     function appendCitySymbol(d) {
+
+        console.log("in append city symbol");
         d.append("circle")
             .attr("class", "symbol")
             .attr("cx", function (d) {
+                var long = d.longitude;
+                var radisu = d.num_records;
                 return projection([d.longitude, d.latitude])[0];
             })
             .attr("cy", function (d) {
@@ -164,17 +169,17 @@ const d3 = require('d3');
                 // set tooltip
                 if (d.records.length > 0) {
                     tooltipActive = true;
-                    div.style("opacity", .9);
-                    div.append("h2")
+                    tooltipDiv.style("opacity", .9);
+                    tooltipDiv.append("h2")
                         .html(d.city + ", " + d.state);
-                    div.style("left", (d3.event.pageX) + 15 + "px")
+                    tooltipDiv.style("left", (d3.event.pageX) + 15 + "px")
                         .style("top", (d3.event.pageY) - 28 + "px")
                 }
             })
             .on("mouseout", function (d) {
                 // tooltip
-                div.style("opacity", 0);
-                div.selectAll("h2").remove();
+                tooltipDiv.style("opacity", 0);
+                tooltipDiv.selectAll("h2").remove();
                 tooltipActive = false;
 
                 // apply invisibility
@@ -193,8 +198,14 @@ const d3 = require('d3');
             height = 50;
 
         var x = d3.scaleTime()
+            .domain([new Date("2015-01-01"),new Date("2017-04-30")])
             .range([0, width])
             .clamp(true);
+
+        //var xInverse = d3.scaleTime()
+        //    .domain([0, width])
+        //    .range(new Date("2015-01-01"),new Date("2017-04-30"))
+        //    .clamp(true);
 
         var slider = svg.append("g")
             .attr("class", "slider")
@@ -223,18 +234,23 @@ const d3 = require('d3');
         ticks.append("text")
             .attr("x", x.range()[0])
             .classed("victimDateFilterLabel", true)
-            .text("2015");
+            .attr("id", "dateFilterLabelLower")
+            .text("January 2015");
 
         ticks.append("text")
             .attr("x", x.range()[1])
             .classed("victimDateFilterLabel", true)
-            .text("2017");
+            .attr("id", "dateFilterLabelUpper")
+            .text("April 2017");
 
+        // stupid
+        var monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
 
         // make handle drag behavior
         var lowerHandleDrag = d3.drag()
             .on('drag', function () {
-                lowerHandleIsDragging = true;
 
                 // if handle is within expected area, move it to where it is being
                 // dragged to and update viz (this check prevents user from dragging
@@ -245,24 +261,26 @@ const d3 = require('d3');
                     // move handle to where user has dragged it to
                     lowerHandle.attr('cx', d3.event.x);
 
+                    // update handle tooltip
+                    d3.select("#dateFilterLabelLower")
+                        .attr("x", d3.event.x)
+                        .text(monthNames[x.invert(d3.event.x).getMonth()] + " "
+                            + x.invert(d3.event.x).getFullYear());
+
                     // filter out values from viz with dates lower than where handle is
                     // just do two buckets: all years, or years >= than 2016
                     var filtered = cityData.filter(function (d) {
-                        var dateLowerBoundary = x(d3.event.x);
-                        var mid = (x.range()[0] + x.range()[1]) / 2.0;
-                        //var yearBoundary = dateLowerBoundary <
-                        //console.log("current handle pos" + dateLowerBoundary);
+                        // get date assoc. with given x position
+                        var dateLowerBoundary = x.invert(d3.event.x);
                         var newRecords = [];
                         for (var recordIndex = 0; recordIndex < d.records.length; recordIndex++) {
                             var record = d.records[recordIndex];
-                            var year = record.date.split('-')[0]; // janky date parsing
-                            if (dateLowerBoundary < mid ||
-                                (dateLowerBoundary >= mid && year >= 2016)) {
+                            var date = new Date(record.date);
+                            if (dateLowerBoundary <= date) {
                                 newRecords[newRecords.length] = record;
                             }
                         }
-                        d.records = newRecords;
-                        if (d.records.length == 0) {
+                        if (newRecords == 0) {
                             return false;
                         } else {
                             return true;
@@ -271,7 +289,8 @@ const d3 = require('d3');
 
                     // re-bind city symbols to filtered data
 
-                    var citySymbols = d3.selectAll(".symbol").data(filtered);
+                    var citySymbols = d3.selectAll(".symbol")
+                        .data(filtered);
 
                     citySymbols.exit()
                         .remove();
@@ -280,18 +299,22 @@ const d3 = require('d3');
                         .call(function (d) {
                             appendCitySymbol(d);
                         });
-
-
-
                 }
             });
 
         var upperHandleDrag = d3.drag()
             .on('drag', function () {
-                upperHandleIsDragging = true;
                 if (d3.event.x <= x.range()[1]
                     && d3.event.x > d3.select("#lowerDateFilterHandle").attr("cx")) {
+
+                    // set position of handle
                     upperHandle.attr('cx', d3.event.x);
+
+                    // update tooltip
+                    d3.select("#dateFilterLabelUpper")
+                        .attr("x", d3.event.x)
+                        .text(monthNames[x.invert(d3.event.x).getMonth()] + " "
+                            + x.invert(d3.event.x).getFullYear());
                 }
             });
 
