@@ -74,11 +74,13 @@ html {
     fill: var(--secondary-color);
 }
 
-#ethnicityContainer .legendLabel {
-    margin: 0;
-}
+/*
+ " ----------------------------------------------------------------------------
+ " Styles for ethnicity section
+ " ----------------------------------------------------------------------------
+*/
 
-#ethnicitySectionContainer  canvas {
+#ethnicitySectionContainer canvas {
     display: inherit;
 }
 
@@ -86,21 +88,28 @@ html {
     border: 0.25pt solid var(--outline-color);
 }
 
-#ethnicityContainer .key-dot {
-    display: inline-block;
-    height: 10px;
-    margin-right: .5em;
-    width: 10px;
-}
-
 #ethnicityCanvasContainer, #ethnicitySectionText {
     display: table-cell;
+}
+
+#ethnicitySectionText {
+    padding-left: 10px;
+    vertical-align: top;
 }
 
 #ethnicityCanvasContainer {
     border-color: var(--secondary-color);
 }
 
+#textReveal {
+    display: none;
+}
+
+/*
+ " ----------------------------------------------------------------------------
+ " Styles for map section
+ " ----------------------------------------------------------------------------
+*/
 #cityName {
     margin-top: 1pt;
     margin-bottom: 10px;
@@ -302,6 +311,6 @@ button {
     left: 50px;
 }
 
-a { 
+a {
     color: steelblue;
 }

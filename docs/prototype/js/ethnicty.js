@@ -211,6 +211,7 @@ function tooltipLabel(tooltipItem, data, signed) {
         }
         chart.update();
         setTimeout(function() { $("#diffChart").fadeIn("slow"); }, 800);
+        setTimeout(function() { $("#textReveal").fadeIn("slow"); }, 800);
     }
 
     function compareStrings(s1, s2) {
