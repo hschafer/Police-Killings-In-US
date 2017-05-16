@@ -16,6 +16,7 @@ const d3 = require('d3');
         var tooltipDiv;
         var victimSymbols;
         var victims;
+        var currentVisible;
 
         var projection = d3.geoAlbersUsa()
             .translate([w / 2, h / 2])
@@ -62,11 +63,11 @@ const d3 = require('d3');
                 }
             }
 
-            //radius = d3.scaleSqrt()
-            //    .domain([0, d3.max(cityData, function (d) {
-            //        return d.num_records;
-            //    })])
-            //    .range([0, 15]);
+            radius = d3.scaleSqrt()
+                .domain([0, d3.max(cityData, function (d) {
+                    return d.num_records;
+                })])
+                .range([0, 15]);
 
             var section2Container = d3.select("#section2Container");
             var section2HeaderRow = d3.select("#section2HeaderRow");
@@ -187,14 +188,21 @@ const d3 = require('d3');
 
         function update() {
 
+            console.log("calling update", visible);
+
             // filter out values from viz with dates lower than where handle is
             var filtered = victims.filter(function (d) {
                 var date = new Date(d.date);
-                var pass = date >= visible.startDate && date <= visible.endDate;
+                var pass = date >= visible.startDate;
                 return pass;
             });
 
-            var symbols = svg.selectAll(".symbol").data(filtered);
+            currentVisible = filtered;
+
+            var symbols = svg.selectAll(".symbol")
+                .data(filtered, function(d) {
+                    return d.id;
+                });
 
             symbols.enter()
                 .append("circle")
@@ -354,7 +362,7 @@ const d3 = require('d3');
 
                         var upperHandleDate = new Date(x.invert(d3.event.x));
                         visible.endDate = upperHandleDate;
-                        update();
+                        //update();
                     }
                 });
 
