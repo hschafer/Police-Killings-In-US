@@ -15,6 +15,7 @@ const d3 = require('d3');
         var tooltipActive = null;
         var tooltipDiv;
         var victimSymbols;
+        var victims;
 
         var projection = d3.geoAlbersUsa()
             .translate([w / 2, h / 2])
@@ -30,6 +31,11 @@ const d3 = require('d3');
         var legendWidth = 100;
         var legendHeight = 70;
         var maxLegend = -1;
+
+        var visible = {
+            startDate: "",
+            endDate: ""
+        };
 
         $(document).ready(function () {
             // NOTE: d3.geo functions all have new syntax as of D3 4.0 release
@@ -48,14 +54,13 @@ const d3 = require('d3');
                 d3.descending(a.num_records, b.num_records);
             });
 
-            var victims = [];
+            victims = [];
             for (var city = 0; city < cityData.length; city++) {
                 var cityInfo = cityData[city];
                 for (var victim = 0; victim < cityInfo.records.length; victim++) {
                     victims[victims.length] = cityInfo.records[victim];
                 }
             }
-            debugger;
 
             //radius = d3.scaleSqrt()
             //    .domain([0, d3.max(cityData, function (d) {
@@ -123,8 +128,6 @@ const d3 = require('d3');
                     appendVictimSymbol(d);
                 });
 
-            victimSymbols.exit().remove();
-
             appendSlider(d3.select("#victimDateFilter"), cityData, victimSymbols);
 
             tooltipDiv = d3.select("body").append("div")
@@ -180,6 +183,34 @@ const d3 = require('d3');
                 .attr("r", function (d) {
                     return 5;
                 });
+        }
+
+        function update() {
+
+            // filter out values from viz with dates lower than where handle is
+            var filtered = victims.filter(function (d) {
+                var date = new Date(d.date);
+                var pass = date >= visible.startDate && date <= visible.endDate;
+                return pass;
+            });
+
+            var symbols = svg.selectAll(".symbol").data(filtered);
+
+            symbols.enter()
+                .append("circle")
+                .attr("class", "symbol")
+                .attr("cx", function (city) {
+                    return projection([city.computed_long, city.computed_lat])[0];
+                })
+                .attr("cy", function (city) {
+                    return projection([city.computed_long, city.computed_lat])[1];
+                })
+                .attr("r", function (city) {
+                    return 5;
+                });
+
+            symbols.exit()
+                .remove();
         }
 
         function appendCitySymbol(d) {
@@ -284,12 +315,12 @@ const d3 = require('d3');
             // make handle drag behavior
             var lowerHandleDrag = d3.drag()
                 .on('drag', function () {
-
-                    // if handle is within expected area, move it to where it is being
-                    // dragged to and update viz (this check prevents user from dragging
-                    // handle off of track or in front of upper handle)
                     if (d3.event.x >= x.range()[0]
                         && d3.event.x < d3.select("#upperDateFilterHandle").attr("cx")) {
+
+                        // if handle is within expected area, move it to where it is being
+                        // dragged to and update viz (this check prevents user from dragging
+                        // handle off of track or in front of upper handle)
 
                         // move handle to where user has dragged it to
                         lowerHandle.attr('cx', d3.event.x);
@@ -300,25 +331,10 @@ const d3 = require('d3');
                             .text(monthNames[x.invert(d3.event.x).getMonth()] + " "
                                 + x.invert(d3.event.x).getFullYear());
 
+                        // set global "visible" data
                         var lowerHandleDate = new Date(x.invert(d3.event.x));
-
-                        // filter out values from viz with dates lower than where handle is
-                        var filtered = d3.selectAll(".symbol").filter(function (d) {
-                            var date = new Date(d.date);
-                            var pass = date >= lowerHandleDate;
-                            return pass;
-                        });
-
-                        victimSymbols.data(filtered);
-
-                        victimSymbols.enter()
-                            .call(function (d) {
-                                appendVictimSymbol(d);
-                            });
-
-                        victimSymbols.exit()
-                            .remove();
-
+                        visible.startDate = lowerHandleDate;
+                        update();
                     }
                 });
 
@@ -335,6 +351,10 @@ const d3 = require('d3');
                             .attr("x", d3.event.x)
                             .text(monthNames[x.invert(d3.event.x).getMonth()] + " "
                                 + x.invert(d3.event.x).getFullYear());
+
+                        var upperHandleDate = new Date(x.invert(d3.event.x));
+                        visible.endDate = upperHandleDate;
+                        update();
                     }
                 });
 
