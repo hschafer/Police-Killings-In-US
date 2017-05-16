@@ -82,7 +82,7 @@ html {
     display: inherit;
 }
 
-#pieSvgContainer {
+#ethnicityCanvasContainer {
     border: 0.25pt solid var(--outline-color);
 }
 
@@ -93,11 +93,11 @@ html {
     width: 10px;
 }
 
-#pieSvgContainer, #ethnicitySectionText {
+#ethnicityCanvasContainer, #ethnicitySectionText {
     display: table-cell;
 }
 
-#pieSvgContainer {
+#ethnicityCanvasContainer {
     border-color: var(--secondary-color);
 }
 
