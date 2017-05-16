@@ -146,8 +146,7 @@ const d3 = require('d3');
             .append("circle")
             .attr("class", "symbol")
             .attr("id", function (d) {
-                return "#" + d.city.replace(/ |'|,/g, '') + ","
-                    + d.state.replace(/ |'|,/g, '') + "_symbol";
+                return getCityID(d.city, d.state);
             })
             .attr("cx", function (d) {
                 return projection([d.longitude, d.latitude])[0];
@@ -215,6 +214,11 @@ const d3 = require('d3');
         });
     }
 
+    function getCityID(city, state) {
+        return city.replace(/ |'|,/g, '')
+            + state.replace(/ |'|,/g, '') + "_symbol";
+    }
+
     function appendVictimSymbol(d) {
 
         d.append("circle")
@@ -231,36 +235,50 @@ const d3 = require('d3');
     }
 
     function update() {
-        var filtered = victims.filter(function (d) {
 
-            // filter on date
-            var date = new Date(d.date);
-            var pass = date >= visible.startDate && date <= visible.endDate;
-            return pass;
-        });
-
-        currentVisible = filtered;
-
-        var symbols = svg.selectAll(".symbol")
-            .data(filtered, function (d) {
-                return d.id;
+        for (var city = 0; city < cities.length; city++) {
+            var filtered = cities[city].records.filter(function (d) {
+                // filter on date
+                var date = new Date(d.date);
+                var pass = date >= visible.startDate && date <= visible.endDate;
+                return pass;
             });
 
-        symbols.enter()
-            .append("circle")
-            .attr("class", "symbol")
-            .attr("cx", function (city) {
-                return projection([city.computed_long, city.computed_lat])[0];
-            })
-            .attr("cy", function (city) {
-                return projection([city.computed_long, city.computed_lat])[1];
-            })
-            .attr("r", function (city) {
-                return 5;
-            });
+            // now we have filtered records for the current city
+            // set the records visible
+            cities[city].num_records_visible = filtered.length;
+            cities[city].records_visible = filtered;
 
-        symbols.exit()
-            .remove();
+            // set radius of city to num_records_visible
+            var citySelection = d3.select("#" + getCityID(cities[city].city, cities[city].state));
+            //var citySelection = svg.select("#LosAngeles,CA_symbol");
+            citySelection.attr("r", function (d) {
+                return d.num_records_visible;
+            });
+        }
+
+        //currentVisible = filtered;
+        //
+        //var symbols = svg.selectAll(".symbol")
+        //    .data(filtered, function (d) {
+        //        return d.id;
+        //    });
+        //
+        //symbols.enter()
+        //    .append("circle")
+        //    .attr("class", "symbol")
+        //    .attr("cx", function (city) {
+        //        return projection([city.computed_long, city.computed_lat])[0];
+        //    })
+        //    .attr("cy", function (city) {
+        //        return projection([city.computed_long, city.computed_lat])[1];
+        //    })
+        //    .attr("r", function (city) {
+        //        return 5;
+        //    });
+        //
+        //symbols.exit()
+        //    .remove();
     }
 
     function appendSlider(parent, cityData, victimSymbols) {
