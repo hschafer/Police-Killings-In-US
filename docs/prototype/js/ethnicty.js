@@ -22,19 +22,11 @@ function tooltipLabel(tooltipItem, data, signed) {
     var w = $(window).width() * 0.55;
     var h = $(window).height() * 0.5;
     var chartH = h / 2;
-    var legendHeight = h / 8;
-    var verticalTranslate = legendHeight + (h - legendHeight) / 2;
-
-    var radius = Math.min(w, h) / 3;
-    var svg = null;
 
     var color = d3.scaleOrdinal(d3Chromatic.schemeDark2);
-    var pie = d3.pie()
-        .sort(compareStrings)
-        .value(function(d) { return d.value; });
-    var path = d3.arc()
-        .outerRadius(radius - 10)
-        .innerRadius(0);
+
+    var pieCharts;
+    var diffChart;
 
     $(document).ready(function() {
         d3.queue()
@@ -62,13 +54,13 @@ function tooltipLabel(tooltipItem, data, signed) {
         censusData = censusData.sort(compareStrings);
         var colors = victimData.map(function(_, i) { return color(i); });
 
-        var pieCharts = makePieCharts(victimData, colors);
+        pieCharts = makePieCharts(victimData, colors);
 
         // set this up now but it will remain hidden
         var diffs = victimData.map(function(d, i) {
             return { "key": d.key, "value": d.value - censusData[i].value};
         });
-        var diffChart = makeDiffChart(diffs, colors);
+        diffChart = makeDiffChart(diffs, colors);
 
         var waypoint = new Waypoint({
             element: $("#ethnicityCanvasContainer"),

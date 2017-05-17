@@ -84,10 +84,6 @@ html {
     display: inherit;
 }
 
-#ethnicityCanvasContainer {
-    border: 0.25pt solid var(--outline-color);
-}
-
 #ethnicityCanvasContainer, #ethnicitySectionText {
     display: table-cell;
 }

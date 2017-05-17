@@ -33099,19 +33099,11 @@ function tooltipLabel(tooltipItem, data, signed) {
     var w = $(window).width() * 0.55;
     var h = $(window).height() * 0.5;
     var chartH = h / 2;
-    var legendHeight = h / 8;
-    var verticalTranslate = legendHeight + (h - legendHeight) / 2;
-
-    var radius = Math.min(w, h) / 3;
-    var svg = null;
 
     var color = d3.scaleOrdinal(d3Chromatic.schemeDark2);
-    var pie = d3.pie()
-        .sort(compareStrings)
-        .value(function(d) { return d.value; });
-    var path = d3.arc()
-        .outerRadius(radius - 10)
-        .innerRadius(0);
+
+    var pieCharts;
+    var diffChart;
 
     $(document).ready(function() {
         d3.queue()
@@ -33139,13 +33131,13 @@ function tooltipLabel(tooltipItem, data, signed) {
         censusData = censusData.sort(compareStrings);
         var colors = victimData.map(function(_, i) { return color(i); });
 
-        var pieCharts = makePieCharts(victimData, colors);
+        pieCharts = makePieCharts(victimData, colors);
 
         // set this up now but it will remain hidden
         var diffs = victimData.map(function(d, i) {
             return { "key": d.key, "value": d.value - censusData[i].value};
         });
-        var diffChart = makeDiffChart(diffs, colors);
+        diffChart = makeDiffChart(diffs, colors);
 
         var waypoint = new Waypoint({
             element: $("#ethnicityCanvasContainer"),
@@ -33215,10 +33207,9 @@ function tooltipLabel(tooltipItem, data, signed) {
         if (clicked.length > 0) {
             var clickedElem = clicked[0];
             var index = clickedElem._index;
-            var chart = clickedElem._chart;
 
-            var datasets = chart.config.data.datasets;
-            var rotationIndex = chart.config.options.rotationIndex;
+            var datasets = pieCharts.config.data.datasets;
+            var rotationIndex = pieCharts.config.options.rotationIndex;
             for (var i = 0; i < datasets.length; i++) {
                 var data = datasets[i].data;
                 var sum = 0;
@@ -33226,16 +33217,16 @@ function tooltipLabel(tooltipItem, data, signed) {
                     for (var j = index; j < rotationIndex; j++) {
                         sum += data[j];
                     }
-                    chart.config.options.rotations[i] += sum * 2 * Math.PI;
+                    pieCharts.config.options.rotations[i] += sum * 2 * Math.PI;
                 } else {
                     for (var j = rotationIndex; j < index; j++) {
                         sum += data[j];
                     }
-                    chart.config.options.rotations[i] -= sum * 2 * Math.PI;
+                    pieCharts.config.options.rotations[i] -= sum * 2 * Math.PI;
                 }
             }
-            chart.config.options.rotationIndex = index;
-            chart.controller.update();
+            pieCharts.config.options.rotationIndex = index;
+            pieCharts.update();
         }
     }
 
@@ -33272,7 +33263,8 @@ function tooltipLabel(tooltipItem, data, signed) {
                     callbacks: {
                         label: function(tooltipItem, data) { return tooltipLabel(tooltipItem, data, true); }
                     }
-                }
+                },
+                onClick: rotateChart
             }
         })
     }
@@ -48649,9 +48641,9 @@ Chart.controllers.nestedDoughnut = Chart.controllers.doughnut.extend({
             animationOpts = opts.animation,
             centerX = (chartArea.left + chartArea.right) / 2,
             centerY = (chartArea.top + chartArea.bottom) / 2,
-            // really annoing that this was basically the 2 lines of code I needed to change
-            startAngle = opts.rotations[index], // non reset case handled later
-            endAngle = opts.rotations[index], // non reset case handled later
+            // really annoying that this was basically the 2 lines of code I needed to change
+            startAngle = opts.rotations[ringIndex], // non reset case handled later
+            endAngle = opts.rotations[ringIndex], // non reset case handled later
             dataset = me.getDataset(),
             circumference = reset && animationOpts.animateRotate ? 0 : arc.hidden ? 0 : me.calculateCircumference(dataset.data[index]) * (opts.circumference / (2.0 * Math.PI)),
             innerRadius = reset && animationOpts.animateScale ? 0 : me.innerRadius,

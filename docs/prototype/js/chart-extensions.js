@@ -76,9 +76,9 @@ Chart.controllers.nestedDoughnut = Chart.controllers.doughnut.extend({
             animationOpts = opts.animation,
             centerX = (chartArea.left + chartArea.right) / 2,
             centerY = (chartArea.top + chartArea.bottom) / 2,
-            // really annoing that this was basically the 2 lines of code I needed to change
-            startAngle = opts.rotations[index], // non reset case handled later
-            endAngle = opts.rotations[index], // non reset case handled later
+            // really annoying that this was basically the 2 lines of code I needed to change
+            startAngle = opts.rotations[ringIndex], // non reset case handled later
+            endAngle = opts.rotations[ringIndex], // non reset case handled later
             dataset = me.getDataset(),
             circumference = reset && animationOpts.animateRotate ? 0 : arc.hidden ? 0 : me.calculateCircumference(dataset.data[index]) * (opts.circumference / (2.0 * Math.PI)),
             innerRadius = reset && animationOpts.animateScale ? 0 : me.innerRadius,
