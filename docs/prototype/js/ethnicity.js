@@ -130,10 +130,9 @@ function tooltipLabel(tooltipItem, data, signed) {
         if (clicked.length > 0) {
             var clickedElem = clicked[0];
             var index = clickedElem._index;
-            var chart = clickedElem._chart;
 
-            var datasets = chart.config.data.datasets;
-            var rotationIndex = chart.config.options.rotationIndex;
+            var datasets = pieCharts.config.data.datasets;
+            var rotationIndex = pieCharts.config.options.rotationIndex;
             for (var i = 0; i < datasets.length; i++) {
                 var data = datasets[i].data;
                 var sum = 0;
@@ -141,16 +140,16 @@ function tooltipLabel(tooltipItem, data, signed) {
                     for (var j = index; j < rotationIndex; j++) {
                         sum += data[j];
                     }
-                    chart.config.options.rotations[i] += sum * 2 * Math.PI;
+                    pieCharts.config.options.rotations[i] += sum * 2 * Math.PI;
                 } else {
                     for (var j = rotationIndex; j < index; j++) {
                         sum += data[j];
                     }
-                    chart.config.options.rotations[i] -= sum * 2 * Math.PI;
+                    pieCharts.config.options.rotations[i] -= sum * 2 * Math.PI;
                 }
             }
-            chart.config.options.rotationIndex = index;
-            chart.controller.update();
+            pieCharts.config.options.rotationIndex = index;
+            pieCharts.update();
         }
     }
 
@@ -187,7 +186,8 @@ function tooltipLabel(tooltipItem, data, signed) {
                     callbacks: {
                         label: function(tooltipItem, data) { return tooltipLabel(tooltipItem, data, true); }
                     }
-                }
+                },
+                onClick: rotateChart
             }
         })
     }

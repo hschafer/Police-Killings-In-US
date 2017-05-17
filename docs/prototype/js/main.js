@@ -1,5 +1,5 @@
 // Our modules are designed to execute when imported
-require('./ethnicty.js');
+require('./ethnicity.js');
 require('./the_victims.js');
 
 $(document).ready(function() {
