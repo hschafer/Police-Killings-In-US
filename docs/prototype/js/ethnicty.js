@@ -109,7 +109,8 @@ function tooltipLabel(tooltipItem, data, signed) {
                     }
                 },
                 legend: {
-                    onClick: rotateChart
+                    onClick: rotateChart,
+                    position: "left"
                 },
                 onClick: rotateChart
 			}

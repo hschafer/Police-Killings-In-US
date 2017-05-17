@@ -33186,7 +33186,8 @@ function tooltipLabel(tooltipItem, data, signed) {
                     }
                 },
                 legend: {
-                    onClick: rotateChart
+                    onClick: rotateChart,
+                    position: "left"
                 },
                 onClick: rotateChart
 			}
@@ -48638,20 +48639,25 @@ Chart.controllers.nestedDoughnut = Chart.controllers.doughnut.extend({
     updateElement: function(arc, index, reset, ringIndex) {
         var me = this;
         var chart = me.chart,
-            chartArea = chart.chartArea,
-            opts = chart.options,
+            chartArea = chart.chartArea;
+
+        if (chart.config.options.legend.position === "left") {
+            chartArea.left = 0; // this is a total hack and should be shamed
+        }
+
+        var opts = chart.options,
             animationOpts = opts.animation,
             centerX = (chartArea.left + chartArea.right) / 2,
             centerY = (chartArea.top + chartArea.bottom) / 2,
+            // really annoing that this was basically the 2 lines of code I needed to change
             startAngle = opts.rotations[index], // non reset case handled later
             endAngle = opts.rotations[index], // non reset case handled later
-            //startAngle = opts.rotation,
-            //endAngle = opts.rotation,
             dataset = me.getDataset(),
             circumference = reset && animationOpts.animateRotate ? 0 : arc.hidden ? 0 : me.calculateCircumference(dataset.data[index]) * (opts.circumference / (2.0 * Math.PI)),
             innerRadius = reset && animationOpts.animateScale ? 0 : me.innerRadius,
             outerRadius = reset && animationOpts.animateScale ? 0 : me.outerRadius,
             valueAtIndexOrDefault = Chart.helpers.getValueAtIndexOrDefault;
+
 
         Chart.helpers.extend(arc, {
             // Utility
