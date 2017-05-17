@@ -33084,6 +33084,127 @@ var OUTLINE_COLOR = "#b1b1b1";
 var BACKGROUND_COLOR = "#2f394d";
 
 Chart.defaults.global.defaultFontColor = OUTLINE_COLOR;
+
+var baseController = Chart.controllers.doughnut;
+Chart.defaults.nestedDoughnut = Chart.helpers.extend(Chart.defaults.doughnut, {
+    rotations: [Chart.defaults.doughnut.rotation, Chart.defaults.doughnut.rotation]
+});
+
+Chart.controllers.nestedDoughnut = Chart.controllers.doughnut.extend({
+    // The rest of this code is copied from https://github.com/chartjs/Chart.js/blob/master/src/controllers/controller.doughnut.js
+    // so that we can extend it to allow each nested chart to have different rotations
+    update: function(reset) {
+        var me = this;
+        var chart = me.chart,
+            chartArea = chart.chartArea,
+            opts = chart.options,
+            arcOpts = opts.elements.arc,
+            availableWidth = chartArea.right - chartArea.left - arcOpts.borderWidth,
+            availableHeight = chartArea.bottom - chartArea.top - arcOpts.borderWidth,
+            minSize = Math.min(availableWidth, availableHeight),
+            offset = {
+                x: 0,
+                y: 0
+            },
+            meta = me.getMeta(),
+            cutoutPercentage = opts.cutoutPercentage,
+            circumference = opts.circumference,
+            ringIndex = me.getRingIndex(me.index);
+
+        // If the chart's circumference isn't a full circle, calculate minSize as a ratio of the width/height of the arc
+        if (circumference < Math.PI * 2.0) {
+            var startAngle = opts.rotations[ringIndex] % (Math.PI * 2.0);
+            startAngle += Math.PI * 2.0 * (startAngle >= Math.PI ? -1 : startAngle < -Math.PI ? 1 : 0);
+            var endAngle = startAngle + circumference;
+            var start = {x: Math.cos(startAngle), y: Math.sin(startAngle)};
+            var end = {x: Math.cos(endAngle), y: Math.sin(endAngle)};
+            var contains0 = (startAngle <= 0 && 0 <= endAngle) || (startAngle <= Math.PI * 2.0 && Math.PI * 2.0 <= endAngle);
+            var contains90 = (startAngle <= Math.PI * 0.5 && Math.PI * 0.5 <= endAngle) || (startAngle <= Math.PI * 2.5 && Math.PI * 2.5 <= endAngle);
+            var contains180 = (startAngle <= -Math.PI && -Math.PI <= endAngle) || (startAngle <= Math.PI && Math.PI <= endAngle);
+            var contains270 = (startAngle <= -Math.PI * 0.5 && -Math.PI * 0.5 <= endAngle) || (startAngle <= Math.PI * 1.5 && Math.PI * 1.5 <= endAngle);
+            var cutout = cutoutPercentage / 100.0;
+            var min = {x: contains180 ? -1 : Math.min(start.x * (start.x < 0 ? 1 : cutout), end.x * (end.x < 0 ? 1 : cutout)), y: contains270 ? -1 : Math.min(start.y * (start.y < 0 ? 1 : cutout), end.y * (end.y < 0 ? 1 : cutout))};
+            var max = {x: contains0 ? 1 : Math.max(start.x * (start.x > 0 ? 1 : cutout), end.x * (end.x > 0 ? 1 : cutout)), y: contains90 ? 1 : Math.max(start.y * (start.y > 0 ? 1 : cutout), end.y * (end.y > 0 ? 1 : cutout))};
+            var size = {width: (max.x - min.x) * 0.5, height: (max.y - min.y) * 0.5};
+            minSize = Math.min(availableWidth / size.width, availableHeight / size.height);
+            offset = {x: (max.x + min.x) * -0.5, y: (max.y + min.y) * -0.5};
+        }
+
+        chart.borderWidth = me.getMaxBorderWidth(meta.data);
+        chart.outerRadius = Math.max((minSize - chart.borderWidth) / 2, 0);
+        chart.innerRadius = Math.max(cutoutPercentage ? (chart.outerRadius / 100) * (cutoutPercentage) : 0, 0);
+        chart.radiusLength = (chart.outerRadius - chart.innerRadius) / chart.getVisibleDatasetCount();
+        chart.offsetX = offset.x * chart.outerRadius;
+        chart.offsetY = offset.y * chart.outerRadius;
+
+        meta.total = me.calculateTotal();
+
+        me.outerRadius = chart.outerRadius - (chart.radiusLength * ringIndex);
+        me.innerRadius = Math.max(me.outerRadius - chart.radiusLength, 0);
+
+        Chart.helpers.each(meta.data, function(arc, index) {
+            me.updateElement(arc, index, reset, ringIndex);
+        });
+    },
+
+    updateElement: function(arc, index, reset, ringIndex) {
+        var me = this;
+        console.log("Updating element", me);
+        var chart = me.chart,
+            chartArea = chart.chartArea,
+            opts = chart.options,
+            animationOpts = opts.animation,
+            centerX = (chartArea.left + chartArea.right) / 2,
+            centerY = (chartArea.top + chartArea.bottom) / 2,
+            startAngle = opts.rotations[index], // non reset case handled later
+            endAngle = opts.rotations[index], // non reset case handled later
+            //startAngle = opts.rotation,
+            //endAngle = opts.rotation,
+            dataset = me.getDataset(),
+            circumference = reset && animationOpts.animateRotate ? 0 : arc.hidden ? 0 : me.calculateCircumference(dataset.data[index]) * (opts.circumference / (2.0 * Math.PI)),
+            innerRadius = reset && animationOpts.animateScale ? 0 : me.innerRadius,
+            outerRadius = reset && animationOpts.animateScale ? 0 : me.outerRadius,
+            valueAtIndexOrDefault = Chart.helpers.getValueAtIndexOrDefault;
+
+        Chart.helpers.extend(arc, {
+            // Utility
+            _datasetIndex: me.index,
+            _index: index,
+
+            // Desired view properties
+            _model: {
+                x: centerX + chart.offsetX,
+                y: centerY + chart.offsetY,
+                startAngle: startAngle,
+                endAngle: endAngle,
+                circumference: circumference,
+                outerRadius: outerRadius,
+                innerRadius: innerRadius,
+                label: valueAtIndexOrDefault(dataset.label, index, chart.data.labels[index])
+            }
+        });
+
+        var model = arc._model;
+        // Resets the visual styles
+        this.removeHoverStyle(arc);
+
+        // Set correct angles if not resetting
+        if (!reset || !animationOpts.animateRotate) {
+            if (index === 0) {
+                model.startAngle = opts.rotations[ringIndex];
+            } else {
+                model.startAngle = me.getMeta().data[index - 1]._model.endAngle;
+            }
+
+            model.endAngle = model.startAngle + model.circumference;
+        }
+
+        arc.pivot();
+    }
+});
+
+console.log(Chart.controllers.nestedDoughnut);
+
 Chart.pluginService.register({
     beforeDraw: function (chart) {
         if (chart.config.options.elements.center) {
@@ -33133,14 +33254,12 @@ Chart.pluginService.register({
 });
 
 function tooltipLabel(tooltipItem, data, signed) {
-    var indexRotation = this._chart.config.options.indexRotation || 0; // in case this chart doesn't have one
     var val = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
     var formattedVal = Math.round(10000 * val) / 100;
     if (signed) {
         formattedVal = (formattedVal < 0 ? "-" : "+") + Math.abs(formattedVal);
     }
-    return data.labels[(tooltipItem.index + indexRotation) % data.labels.length]
-        + ": " + formattedVal + "%";
+    return data.labels[tooltipItem.index] + ": " + formattedVal + "%";
 }
 
 
@@ -33189,13 +33308,13 @@ function tooltipLabel(tooltipItem, data, signed) {
 
         var colors = victimData.map(function(_, i) { return color(i); });
 
-        var pieCharts = makePieCharts(victimData, colors.slice()); // bug-fix: rotation same array twice
+        var pieCharts = makePieCharts(victimData, colors);
 
         // set this up now but it will remain hidden
         var diffs = victimData.map(function(d, i) {
             return { "key": d.key, "value": d.value - censusData[i].value};
         });
-        var diffChart = makeDiffChart(diffs, colors.slice());
+        var diffChart = makeDiffChart(diffs, colors);
 
         var waypoint = new Waypoint({
             element: $("#ethnicityCanvasContainer"),
@@ -33209,7 +33328,7 @@ function tooltipLabel(tooltipItem, data, signed) {
 
     function makePieCharts(victimData, colors) {
         return new Chart($("#pieCharts"), {
-            type: "doughnut",
+            type: "nestedDoughnut",
             data: {
                 labels: victimData.map(function(d) { return d.key; }),
                 datasets: [{
@@ -33221,8 +33340,8 @@ function tooltipLabel(tooltipItem, data, signed) {
                 }]
             },
             options: {
-                indexRotation: 0, // this is my own field that I want it to keep track of
-                originalColors: colors.slice(), // this is also my own field
+                rotationIndex: 0,
+                rotations: [-0.5 * Math.PI, -0.5 * Math.PI],
                 elements: {
 				    center: {
 					    text: "Race of Victims",
@@ -33237,16 +33356,8 @@ function tooltipLabel(tooltipItem, data, signed) {
                     }
                 },
                 legend: {
-                    onClick: rotateChart,
                     labels: {
-                        generateLabels: function(chart) {
-                            var label = Chart.defaults.doughnut.legend.labels.generateLabels(chart);
-                            var defaultColors = chart.config.options.originalColors;
-                            for (var i = 0; i < label.length; i++) {
-                                label[i].fillStyle = defaultColors[i];
-                            }
-                            return label;
-                        }
+                        onClick: rotateChart
                     }
                 },
                 onClick: rotateChart
@@ -33255,28 +33366,32 @@ function tooltipLabel(tooltipItem, data, signed) {
     }
 
     function rotateChart(event, clicked) {
-        var clickedElem = clicked[0];
-        var index = clickedElem._index;
-        var chart = clickedElem._chart;
+        if (clicked) {
+            var clickedElem = clicked[0];
+            var index = clickedElem._index;
+            var chart = clickedElem._chart;
 
-        var datasets = chart.config.data.datasets;
-
-        var rotate = function(rotation, arr) {
-            for (var i = 0; i < rotation; i++) {
-                arr.push(arr.shift());
+            var datasets = chart.config.data.datasets;
+            var rotationIndex = chart.config.options.rotationIndex;
+            for (var i = 0; i < datasets.length; i++) {
+                var data = datasets[i].data;
+                var sum = 0;
+                console.log(data);
+                if (index < rotationIndex) {
+                    for (var j = index; j < rotationIndex; j++) {
+                        sum += data[j];
+                    }
+                    chart.config.options.rotations[i] += sum * 2 * Math.PI;
+                } else {
+                    for (var j = rotationIndex; j < index; j++) {
+                        sum += data[j];
+                    }
+                    chart.config.options.rotations[i] -= sum * 2 * Math.PI;
+                }
             }
+            chart.config.options.rotationIndex = index;
+            chart.controller.update();
         }
-
-        console.log("Before", datasets);
-        for (var i = 0; i < datasets.length; i++) {
-            rotate(index, datasets[i].data);
-            rotate(index, datasets[i].backgroundColor);
-        }
-        console.log("After", datasets);
-
-        chart.config.options.indexRotation =
-                (chart.config.options.indexRotation + index) % datasets[0].data.length;
-        chart.controller.update();
     }
 
     function makeDiffChart(diffs, colors) {
@@ -33318,13 +33433,11 @@ function tooltipLabel(tooltipItem, data, signed) {
     }
 
     function animatePieChart(chart, censusData) {
-        console.log("chart animate", chart);
-
         var config = chart.config;
         config.data.datasets.unshift({
             label: 'Percentage of Population',
             data: censusData.map(function(d) { return d.value;}),
-            backgroundColor: config.data.datasets[0].backgroundColor.slice(), // bug-fix: ratate same array twice
+            backgroundColor: config.data.datasets[0].backgroundColor, // use the same color
             borderColor: BACKGROUND_COLOR,
             borderWidth: 2
         });
