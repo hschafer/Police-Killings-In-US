@@ -46,10 +46,10 @@ Chart.pluginService.register({
 
             // If we have a config for the right, use the same stuff as the center except for the text
             if (chart.config.options.elements.right) {
-                var rightTxt = chart.config.options.elements.right.txt;
+                var rightTxt = chart.config.options.elements.right.text;
                 var rightStringWidth = ctx.measureText(rightTxt).width;
-                var rightX = centerX + chart.outerRadius + rightStringWidth / 2 + sidePaddingCalculated;
-                ctx.fillText(txt, rightX, centerY);
+                var rightX = centerX + chart.outerRadius + rightStringWidth / 2 + sidePaddingCalculated / 4;
+                ctx.fillText(rightTxt, rightX, centerY);
             }
         }
     }
@@ -110,13 +110,13 @@ function tooltipLabel(tooltipItem, data, signed) {
 
         var colors = victimData.map(function(_, i) { return color(i); });
 
-        var pieCharts = makePieCharts(victimData, colors);
+        var pieCharts = makePieCharts(victimData, colors.slice()); // bug-fix: rotation same array twice
 
         // set this up now but it will remain hidden
         var diffs = victimData.map(function(d, i) {
             return { "key": d.key, "value": d.value - censusData[i].value};
         });
-        var diffChart = makeDiffChart(diffs, colors);
+        var diffChart = makeDiffChart(diffs, colors.slice());
 
         var waypoint = new Waypoint({
             element: $("#ethnicityCanvasContainer"),
@@ -142,6 +142,8 @@ function tooltipLabel(tooltipItem, data, signed) {
                 }]
             },
             options: {
+                indexRotation: 0, // this is my own field that I want it to keep track of
+                originalColors: colors.slice(), // this is also my own field
                 elements: {
 				    center: {
 					    text: "Race of Victims",
@@ -154,9 +156,48 @@ function tooltipLabel(tooltipItem, data, signed) {
                     callbacks: {
                         label: tooltipLabel
                     }
-                }
+                },
+                legend: {
+                    onClick: rotateChart,
+                    labels: {
+                        generateLabels: function(chart) {
+                            var label = Chart.defaults.doughnut.legend.labels.generateLabels(chart);
+                            var defaultColors = chart.config.options.originalColors;
+                            for (var i = 0; i < label.length; i++) {
+                                label[i].fillStyle = defaultColors[i];
+                            }
+                            return label;
+                        }
+                    }
+                },
+                onClick: rotateChart
 			}
         });
+    }
+
+    function rotateChart(event, clicked) {
+        var clickedElem = clicked[0];
+        var index = clickedElem._index;
+        var chart = clickedElem._chart;
+
+        var datasets = chart.config.data.datasets;
+
+        var rotate = function(rotation, arr) {
+            for (var i = 0; i < rotation; i++) {
+                arr.push(arr.shift());
+            }
+        }
+
+        console.log("Before", datasets);
+        for (var i = 0; i < datasets.length; i++) {
+            rotate(index, datasets[i].data);
+            rotate(index, datasets[i].backgroundColor);
+        }
+        console.log("After", datasets);
+
+        chart.config.options.indexRotation =
+                (chart.config.options.indexRotation + index) % datasets[0].length;
+        chart.controller.update();
     }
 
     function makeDiffChart(diffs, colors) {
@@ -198,16 +239,18 @@ function tooltipLabel(tooltipItem, data, signed) {
     }
 
     function animatePieChart(chart, censusData) {
+        console.log("chart animate", chart);
+
         var config = chart.config;
         config.data.datasets.unshift({
             label: 'Percentage of Population',
             data: censusData.map(function(d) { return d.value;}),
-            backgroundColor: config.data.datasets[0].backgroundColor, // use the same color
+            backgroundColor: config.data.datasets[0].backgroundColor.slice(), // bug-fix: ratate same array twice
             borderColor: BACKGROUND_COLOR,
             borderWidth: 2
         });
         config.options.elements.right = {
-            text: "Race of U.S. Population",
+            text: "Race of Population",
         }
         chart.update();
         setTimeout(function() { $("#diffChart").fadeIn("slow"); }, 800);
