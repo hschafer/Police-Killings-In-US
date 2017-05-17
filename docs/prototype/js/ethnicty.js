@@ -81,6 +81,7 @@ function tooltipLabel(tooltipItem, data, signed) {
                     label: 'Percent of Victims',
                     data: victimData.map(function(d) { return d.value;}),
                     backgroundColor: colors,
+                    pointHoverBackgroundColor: colors,
                     borderColor: BACKGROUND_COLOR,
                     borderWidth: 2
                 }]
@@ -98,11 +99,15 @@ function tooltipLabel(tooltipItem, data, signed) {
                 tooltips: {
                     callbacks: {
                         label: tooltipLabel
-                    }
+                    },
+                    position: "nearest"
                 },
                 legend: {
                     onClick: rotateChart,
                     position: "left"
+                },
+                hover: {
+                    onHover: highlight
                 },
                 onClick: rotateChart
 			}
@@ -126,14 +131,38 @@ function tooltipLabel(tooltipItem, data, signed) {
         setTimeout(function() { $("#textReveal").fadeIn("slow"); }, 800);
     }
 
+    function highlight(event, active) {
+        var index = -1;
+        var opacity = 1.0;
+        if (active.length > 0) {
+            var hovered = active[0];
+            index = hovered._index;
+            opacity = 0.6;
+        }
+        makeOpaque(diffChart.config.data.datasets[0].backgroundColor, index, opacity);
+        diffChart.update();
+        pieCharts.update();
+    }
+
+    function makeOpaque(colors, exclude, opacity) {
+        for (var i = 0; i < colors.length; i++) {
+            var currOpactiy = opacity;
+            if (i === exclude) {
+                currOpactiy = 1.0;
+            }
+            var color = d3.color(colors[i]);
+            color.opacity = currOpactiy;
+            colors[i] = d3.rgb(color);
+        }
+    }
+
     function rotateChart(event, clicked) {
         if (clicked.length > 0) {
             var clickedElem = clicked[0];
             var index = clickedElem._index;
-            var chart = clickedElem._chart;
 
-            var datasets = chart.config.data.datasets;
-            var rotationIndex = chart.config.options.rotationIndex;
+            var datasets = pieCharts.config.data.datasets;
+            var rotationIndex = pieCharts.config.options.rotationIndex;
             for (var i = 0; i < datasets.length; i++) {
                 var data = datasets[i].data;
                 var sum = 0;
@@ -141,16 +170,16 @@ function tooltipLabel(tooltipItem, data, signed) {
                     for (var j = index; j < rotationIndex; j++) {
                         sum += data[j];
                     }
-                    chart.config.options.rotations[i] += sum * 2 * Math.PI;
+                    pieCharts.config.options.rotations[i] += sum * 2 * Math.PI;
                 } else {
                     for (var j = rotationIndex; j < index; j++) {
                         sum += data[j];
                     }
-                    chart.config.options.rotations[i] -= sum * 2 * Math.PI;
+                    pieCharts.config.options.rotations[i] -= sum * 2 * Math.PI;
                 }
             }
-            chart.config.options.rotationIndex = index;
-            chart.controller.update();
+            pieCharts.config.options.rotationIndex = index;
+            pieCharts.update();
         }
     }
 
@@ -163,6 +192,7 @@ function tooltipLabel(tooltipItem, data, signed) {
                     label: 'Percentage Difference Between Victims and Population',
                     data: diffs.map(function(d) { return d.value; }),
                     backgroundColor: colors,
+                    pointHoverBackgroundColor: colors,
                     borderColor: colors,
                     borderWidth: 1
                 }]
@@ -187,7 +217,8 @@ function tooltipLabel(tooltipItem, data, signed) {
                     callbacks: {
                         label: function(tooltipItem, data) { return tooltipLabel(tooltipItem, data, true); }
                     }
-                }
+                },
+                onClick: rotateChart
             }
         })
     }
