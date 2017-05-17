@@ -22,8 +22,11 @@
     "topojson": "^3.0.0"
   },
   "dependencies": {
+    "chart.js": "^2.5.0",
     "d3": "^4.8.0",
     "d3-queue": "^3.0.5",
-    "jquery": "^3.2.1"
+    "d3-scale-chromatic": "^1.1.1",
+    "jquery": "^3.2.1",
+    "waypoints": "^4.0.1"
   }
 }

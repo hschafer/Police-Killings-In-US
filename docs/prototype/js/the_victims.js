@@ -72,7 +72,7 @@ const d3 = require('d3');
             .call(zoom);
 
     	svg.append("rect")
-            .attr("id", "background")
+            .attr("class", "backgroundRect")
             .attr("width", w)
             .attr("height", h)
             .style("fill", "none")
