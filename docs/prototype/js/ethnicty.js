@@ -56,12 +56,14 @@ Chart.pluginService.register({
 });
 
 function tooltipLabel(tooltipItem, data, signed) {
+    var indexRotation = this._chart.config.options.indexRotation || 0; // in case this chart doesn't have one
     var val = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
     var formattedVal = Math.round(10000 * val) / 100;
     if (signed) {
         formattedVal = (formattedVal < 0 ? "-" : "+") + Math.abs(formattedVal);
     }
-    return data.labels[tooltipItem.index] + ": " + formattedVal + "%";
+    return data.labels[(tooltipItem.index + indexRotation) % data.labels.length]
+        + ": " + formattedVal + "%";
 }
 
 
@@ -196,7 +198,7 @@ function tooltipLabel(tooltipItem, data, signed) {
         console.log("After", datasets);
 
         chart.config.options.indexRotation =
-                (chart.config.options.indexRotation + index) % datasets[0].length;
+                (chart.config.options.indexRotation + index) % datasets[0].data.length;
         chart.controller.update();
     }
 
