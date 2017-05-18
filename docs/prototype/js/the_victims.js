@@ -1,7 +1,7 @@
 const d3 = require('d3');
 (function () {
 
-    const START_DATE = new Date("2015-01-01");
+    const START_DATE = new Date("2015-01-01"); // TODO: why is this getting converted to Dec2014...time zone?
     const END_DATE = new Date("2017-04-20"); // TODO: when is the end date? today?
 
     // stupid
@@ -186,20 +186,20 @@ const d3 = require('d3');
             .attr("class", "tooltip")
             .style("opacity", 0);
 
-//randomSelection(cityData); // make it happen right away
-//var timer = setInterval(randomSelection, 3000, cityData);
+        randomSelection(cityData); // make it happen right away
+        var timer = setInterval(randomSelection, 3000, cityData);
 
-//svg.on("mouseenter", function () {
-//    if (timer) {
-//        d3.select("#highlightedCity").remove();
-//        clearInterval(timer);
-//        deselectCity();
-//        timer = null;
-//    }
-//});
-//svg.on("mouseleave", function () {
-//    timer = setInterval(randomSelection, 3000, cityData);
-//});
+        svg.on("mouseenter", function () {
+            if (timer) {
+                d3.select("#highlightedCity").remove();
+                clearInterval(timer);
+                deselectCity();
+                timer = null;
+            }
+        });
+        svg.on("mouseleave", function () {
+            timer = setInterval(randomSelection, 3000, cityData);
+        });
 
         makeLegend(cityData);
 
@@ -256,29 +256,6 @@ const d3 = require('d3');
                 return d.num_records_visible;
             });
         }
-
-        //currentVisible = filtered;
-        //
-        //var symbols = svg.selectAll(".symbol")
-        //    .data(filtered, function (d) {
-        //        return d.id;
-        //    });
-        //
-        //symbols.enter()
-        //    .append("circle")
-        //    .attr("class", "symbol")
-        //    .attr("cx", function (city) {
-        //        return projection([city.computed_long, city.computed_lat])[0];
-        //    })
-        //    .attr("cy", function (city) {
-        //        return projection([city.computed_long, city.computed_lat])[1];
-        //    })
-        //    .attr("r", function (city) {
-        //        return 5;
-        //    });
-        //
-        //symbols.exit()
-        //    .remove();
     }
 
     function appendSlider(parent, cityData, victimSymbols) {
@@ -298,7 +275,7 @@ const d3 = require('d3');
 
         var slider = svg.append("g")
             .attr("class", "slider")
-            .attr("transform", "translate(10, 10)");
+            .attr("transform", "translate(10, 30)");
 
         var lowerHandle;
         var upperHandle;
@@ -316,18 +293,22 @@ const d3 = require('d3');
             })
             .attr("class", "track-overlay");
 
-        var ticks = slider.insert("g", ".track-overlay")
+        var lowerticks = slider.insert("g", ".track-overlay")
             .attr("class", "ticks")
             .attr("transform", "translate(0," + 25 + ")");
 
-        ticks.append("text")
+        var upperticks = slider.insert("g", ".track-overlay")
+            .attr("class", "ticks")
+            .attr("transform", "translate(0," + -16 + ")");
+
+        lowerticks.append("text")
             .attr("x", x.range()[0])
             .classed("victimDateFilterLabel", true)
             .attr("id", "dateFilterLabelLower")
             .text(monthNames[START_DATE.getMonth()] +
                 " " + START_DATE.getFullYear());
 
-        ticks.append("text")
+        upperticks.append("text")
             .attr("x", x.range()[1])
             .classed("victimDateFilterLabel", true)
             .attr("id", "dateFilterLabelUpper")
@@ -337,47 +318,52 @@ const d3 = require('d3');
         // make handle drag behavior
         var lowerHandleDrag = d3.drag()
             .on('drag', function () {
-                if (d3.event.x >= x.range()[0]
-                    && d3.event.x < d3.select("#upperDateFilterHandle").attr("cx")) {
 
-                    // if handle is within expected area, move it to where it is being
-                    // dragged to and update viz (this check prevents user from dragging
-                    // handle off of track or in front of upper handle)
-
-                    // move handle to where user has dragged it to
+                // if handle is within expected area, move it to where it is being
+                // dragged to and update viz (this check prevents user from dragging
+                // handle off of track or in front of upper handle)
+                var upperHandleX = d3.select("#upperDateFilterHandle").attr("cx") - 15;// subtracting 5 for radius of handle
+                if (d3.event.x < x.range()[0]) {
+                    lowerHandle.attr('cx', x.range()[0]);
+                } else if (d3.event.x > upperHandleX) {
+                    lowerHandle.attr('cx', upperHandleX);
+                } else {
                     lowerHandle.attr('cx', d3.event.x);
-
-                    // update handle tooltip
-                    d3.select("#dateFilterLabelLower")
-                        .attr("x", d3.event.x)
-                        .text(monthNames[x.invert(d3.event.x).getMonth()] + " "
-                            + x.invert(d3.event.x).getFullYear());
-
-                    // set global "visible" data
-                    var lowerHandleDate = new Date(x.invert(d3.event.x));
-                    visible.startDate = lowerHandleDate;
-                    update();
                 }
+
+                // update handle tooltip
+                d3.select("#dateFilterLabelLower")
+                    .attr("x", lowerHandle.attr("cx"))
+                    .text(monthNames[x.invert(d3.event.x).getMonth()] + " "
+                        + x.invert(d3.event.x).getFullYear());
+
+                // set global "visible" data
+                var lowerHandleDate = new Date(x.invert(d3.event.x));
+                visible.startDate = lowerHandleDate;
+                update();
             });
 
         var upperHandleDrag = d3.drag()
             .on('drag', function () {
-                if (d3.event.x <= x.range()[1]
-                    && d3.event.x > d3.select("#lowerDateFilterHandle").attr("cx")) {
 
-                    // set position of handle
+                var lowerHandleX = d3.select("#lowerDateFilterHandle").attr("cx") + 15;// subtracting 5 for radius of handle
+                if (d3.event.x > x.range()[1]) {
+                    upperHandle.attr('cx', x.range()[1]);
+                } else if (d3.event.x < lowerHandleX) {
+                    upperHandle.attr('cx', lowerHandleX);
+                } else {
                     upperHandle.attr('cx', d3.event.x);
-
-                    // update tooltip
-                    d3.select("#dateFilterLabelUpper")
-                        .attr("x", d3.event.x)
-                        .text(monthNames[x.invert(d3.event.x).getMonth()] + " "
-                            + x.invert(d3.event.x).getFullYear());
-
-                    var upperHandleDate = new Date(x.invert(d3.event.x));
-                    visible.endDate = upperHandleDate;
-                    update();
                 }
+
+                // update tooltip
+                d3.select("#dateFilterLabelUpper")
+                    .attr("x", upperHandle.attr("cx"))
+                    .text(monthNames[x.invert(d3.event.x).getMonth()] + " "
+                        + x.invert(d3.event.x).getFullYear());
+
+                var upperHandleDate = new Date(x.invert(d3.event.x));
+                visible.endDate = upperHandleDate;
+                update();
             });
 
         lowerHandle = slider.append("circle", ".track-overlay")
