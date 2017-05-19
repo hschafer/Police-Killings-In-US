@@ -97,7 +97,7 @@ html {
     border-color: var(--secondary-color);
 }
 
-#textReveal {
+#textReveal, .hidden {
     display: none;
 }
 

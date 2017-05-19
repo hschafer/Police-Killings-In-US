@@ -30,7 +30,7 @@ function tooltipLabel(tooltipItem, data, signed) {
 
     $(document).ready(function() {
         d3.queue()
-            .defer(d3.json, "data/victims_percentage.json")
+            .defer(d3.json, "data/victims_armed.json")
             .defer(d3.json, "data/us-census.json")
             .await(ready);
 
@@ -50,14 +50,17 @@ function tooltipLabel(tooltipItem, data, signed) {
 
     function ready(error, victimData, censusData) {
         if (error) throw error;
-        victimData = victimData.sort(compareStrings);
         censusData = censusData.sort(compareStrings);
+        var selected = prepareForm(victimData, censusData);
+
+        var allVictimData = victimData[selected].values.sort(compareStrings);
+
         var colors = ["#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e", "#a6761d", "#e6ab02"];
 
-        pieCharts = makePieCharts(victimData, colors);
+        pieCharts = makePieCharts(allVictimData, colors);
 
         // set this up now but it will remain hidden
-        diffChart = makeDiffChart(victimData, censusData, colors);
+        diffChart = makeDiffChart(allVictimData, censusData, colors);
 
         var waypoint = new Waypoint({
             element: $("#ethnicityCanvasContainer"),
@@ -67,6 +70,46 @@ function tooltipLabel(tooltipItem, data, signed) {
             },
             offset: 200
         });
+    }
+
+    function prepareForm(victimData, censusData) {
+        var toSelect = 0;
+        var form = $("#selectArmed");
+        for (var i = 0; i < victimData.length; i++) {
+            var armedType = victimData[i].armed;
+
+            var checked = "";
+            if (i === toSelect) {
+                checked = "checked='checked'";
+            }
+            var radio = $("<input type='radio' name='armed' id='" + armedType
+                + "' value='" + i + "' " + checked + ">");
+            var label = $("<label for='" + armedType + "' value='" + i + "'>" + armedType + "</label>");
+            form.append(radio);
+            form.append(label);
+        }
+        $("#selectArmed input:radio").click(function() {
+            var index = parseInt($(this).val());
+            selectArmedType(index, victimData, censusData);
+        });
+        return toSelect;
+    }
+
+    function selectArmedType(index, victimData, censusData) {
+        var selectedData = victimData[index].values.sort(compareStrings);
+        var diffs = selectedData
+            .map(function(d, i) { return d.value - censusData[i].value; })
+            .filter(function(d, i) { return selectedData[i].key !== "Unknown"; })
+
+        // the last one is the victim data
+        var datasets = pieCharts.config.data.datasets;
+        datasets[datasets.length - 1].data =
+                selectedData.map(function(d) { return d.value; });
+        console.log(diffChart);
+        diffChart.config.data.datasets[0].data = diffs;
+        pieCharts.update(750);
+        diffChart.update(750);
+
     }
 
     function makePieCharts(victimData, colors) {
@@ -120,6 +163,7 @@ function tooltipLabel(tooltipItem, data, signed) {
         }
         setTimeout(function() { $("#diffChart").fadeIn("slow"); }, 1500);
         setTimeout(function() { $("#textReveal").fadeIn("slow"); }, 1500);
+        setTimeout(function() { $("#selectArmed").fadeIn("slow"); }, 1500);
         chart.update(1500, true);
     }
 
