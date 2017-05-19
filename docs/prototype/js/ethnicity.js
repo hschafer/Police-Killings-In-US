@@ -97,14 +97,25 @@ function tooltipLabel(tooltipItem, data, signed) {
         var datasets = pieCharts.config.data.datasets;
         datasets[datasets.length - 1].data =
                 selectedData.map(function(d) { return d.value; });
-        console.log(diffChart);
-        diffChart.config.data.datasets[0].data = diffs;
-        pieCharts.update(750);
-        diffChart.update(750);
 
+        // reset rotation levels
+        var oldIndex = pieCharts.config.options.rotationIndex;
+        pieCharts.reset();
+        rotateChart(oldIndex); // updates chart as well
+
+        diffChart.config.data.datasets[0].data = diffs;
+        diffChart.update(750);
     }
 
     function makePieCharts(victimData, colors) {
+        var rotation = function(event, clicked) {
+            // this will be an array of one element if clicked on a arc and an object if clicked on a label
+            if (clicked.length > 0 || (typeof(clicked) === "object") && !Array.isArray(clicked)) {
+                var index = Array.isArray(clicked) ? clicked[0]._index : clicked.index;
+                rotateChart(index);
+            }
+        }
+
         return new Chart($("#pieCharts"), {
             type: "nestedDoughnut",
             data: {
@@ -133,10 +144,10 @@ function tooltipLabel(tooltipItem, data, signed) {
                     }
                 },
                 legend: {
-                    onClick: rotateChart,
+                    onClick: rotation,
                     position: "left"
                 },
-                onClick: rotateChart
+                onClick: rotation
 			}
         });
     }
@@ -153,39 +164,33 @@ function tooltipLabel(tooltipItem, data, signed) {
         config.options.elements.right = {
             text: "Race of Population",
         }
-        setTimeout(function() { $("#diffChart").fadeIn("slow"); }, 1500);
-        setTimeout(function() { $("#textReveal").fadeIn("slow"); }, 1500);
-        setTimeout(function() { $("#selectArmed").fadeIn("slow"); }, 1500);
-        chart.update(1500, true);
+        setTimeout(function() { $("#diffChart").fadeIn("slow"); }, 750);
+        setTimeout(function() { $("#textReveal").fadeIn("slow"); }, 750);
+        setTimeout(function() { $("#selectArmed").fadeIn("slow"); }, 750);
+        chart.update(750, true);
         $("#pieProceed").fadeOut("fast");
     }
 
-    function rotateChart(event, clicked) {
-        // this will be an array of one element if clicked on a arc and an object if
-        // clicked on a label
-        if (clicked.length > 0 || (typeof(clicked) === "object") && !Array.isArray(clicked)) {
-            var index = Array.isArray(clicked) ? clicked[0]._index : clicked.index;
-
-            var datasets = pieCharts.config.data.datasets;
-            var rotationIndex = pieCharts.config.options.rotationIndex;
-            for (var i = 0; i < datasets.length; i++) {
-                var data = datasets[i].data;
-                var sum = 0;
-                if (index < rotationIndex) {
-                    for (var j = index; j < rotationIndex; j++) {
-                        sum += data[j];
-                    }
-                    pieCharts.config.options.rotations[i] += sum * 2 * Math.PI;
-                } else {
-                    for (var j = rotationIndex; j < index; j++) {
-                        sum += data[j];
-                    }
-                    pieCharts.config.options.rotations[i] -= sum * 2 * Math.PI;
+    function rotateChart(index) {
+        var datasets = pieCharts.config.data.datasets;
+        var rotationIndex = pieCharts.config.options.rotationIndex;
+        for (var i = 0; i < datasets.length; i++) {
+            var data = datasets[i].data;
+            var sum = 0;
+            if (index < rotationIndex) {
+                for (var j = index; j < rotationIndex; j++) {
+                    sum += data[j];
                 }
+                pieCharts.config.options.rotations[i] += sum * 2 * Math.PI;
+            } else {
+                for (var j = rotationIndex; j < index; j++) {
+                    sum += data[j];
+                }
+                pieCharts.config.options.rotations[i] -= sum * 2 * Math.PI;
             }
-            pieCharts.config.options.rotationIndex = index;
-            pieCharts.update();
         }
+        pieCharts.config.options.rotationIndex = index;
+        pieCharts.update();
     }
 
     function makeDiffChart(victimData, censusData, colors) {
@@ -238,20 +243,17 @@ function tooltipLabel(tooltipItem, data, signed) {
                         label: function(tooltipItem, data) { return tooltipLabel(tooltipItem, data, true); }
                     }
                 },
-                onClick: function(event, clicked) { rotateChartFromBar(event, clicked, unknownIndex); }
+                onClick: function(event, clicked) {
+                    if (clicked.length > 0) {
+                        var index = clicked[0]._index;
+                        if (index >= unknownIndex) {
+                            index++;
+                        }
+                        rotateChart(index);
+                    }
+                }
             }
         })
-    }
-
-    function rotateChartFromBar(event, clicked, unknownIndex) {
-        if (clicked.length > 0) {
-            var clickedElem = clicked[0];
-            var index = clickedElem._index;
-            if (index >= unknownIndex) {
-                index++;
-            }
-            rotateChart(event, {index: index});
-        }
     }
 
     function compareStrings(s1, s2) {

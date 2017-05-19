@@ -1,12 +1,18 @@
 const Chart = require('chart.js');
 
+var DEFAULT_ROTATIONS = [Chart.defaults.doughnut.rotation, Chart.defaults.doughnut.rotation];
 
 var baseController = Chart.controllers.doughnut;
 Chart.defaults.nestedDoughnut = Chart.helpers.extend(Chart.defaults.doughnut, {
-    rotations: [Chart.defaults.doughnut.rotation, Chart.defaults.doughnut.rotation]
+    rotations: DEFAULT_ROTATIONS.slice()
 });
 
 Chart.controllers.nestedDoughnut = Chart.controllers.doughnut.extend({
+    reset: function() {
+        this.chart.options.rotationIndex = 0;
+        this.chart.options.rotations = DEFAULT_ROTATIONS.slice();
+        Chart.controllers.doughnut.prototype.reset.apply(this, arguments);
+    },
     // The rest of this code is copied from https://github.com/chartjs/Chart.js/blob/master/src/controllers/controller.doughnut.js
     // so that we can extend it to allow each nested chart to have different rotations
     update: function(reset) {
