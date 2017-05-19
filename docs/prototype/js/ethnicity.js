@@ -61,15 +61,7 @@ function tooltipLabel(tooltipItem, data, signed) {
 
         // set this up now but it will remain hidden
         diffChart = makeDiffChart(allVictimData, censusData, colors);
-
-        var waypoint = new Waypoint({
-            element: $("#ethnicityCanvasContainer"),
-            handler: function() {
-                animatePieChart(pieCharts, censusData);
-                waypoint.disable();
-            },
-            offset: 200
-        });
+        $("#pieProceed").click(function() { animatePieChart(pieCharts, censusData); });
     }
 
     function prepareForm(victimData, censusData) {
@@ -165,6 +157,7 @@ function tooltipLabel(tooltipItem, data, signed) {
         setTimeout(function() { $("#textReveal").fadeIn("slow"); }, 1500);
         setTimeout(function() { $("#selectArmed").fadeIn("slow"); }, 1500);
         chart.update(1500, true);
+        $("#pieProceed").fadeOut("fast");
     }
 
     function rotateChart(event, clicked) {
@@ -228,8 +221,13 @@ function tooltipLabel(tooltipItem, data, signed) {
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero:true,
+                            // not great, but hardcoding min/max values rounded to nearest 5
+                            min: -0.15,
+                            max: 0.20,
+                            beginAtZero: true,
+                            fixedStepSize: 0.05,
                             callback: function(val) {
+                                val = val.toFixed(2);
                                 return parseInt(100 * val) + "%"; // floating point is hard
                             }
                         }

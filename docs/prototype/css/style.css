@@ -101,6 +101,37 @@ html {
     display: none;
 }
 
+#ethnicitySectionContainer button {
+  display: block;
+  margin: 0 auto;
+  padding: 15px 45px;
+  font-size: 20px;
+  font-family: "Bitter",serif;
+  line-height: 1.8;
+  appearance: none;
+  box-shadow: none;
+  border-radius: 0;
+  color: #fff;
+  background-color: #6496c8;
+  text-shadow: -1px 1px #417cb8;
+  border: none;
+}
+
+button:focus {
+  outline: none
+}
+
+#ethnicitySectionContainer button:hover {
+  background-color: #346392;
+  text-shadow: -1px 1px #27496d;
+  cursor: pointer;
+}
+
+#ethnicitySectionContainer button:active,
+#ethnicitySectionContainer button.active {
+  background-color: #27496d;
+  text-shadow: -1px 1px #193047;
+}
 /*
  " ----------------------------------------------------------------------------
  " Styles for map section
@@ -295,7 +326,7 @@ div.tooltip h2 {
     position: relative;
 }
 
-button {
+#section2 button {
     position: absolute;
     width: 40px;
     height: 25px;
