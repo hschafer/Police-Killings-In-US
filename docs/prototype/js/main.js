@@ -6,7 +6,7 @@ $(document).ready(function() {
     $('#fullpage').fullpage({
         autoScrolling: false,
         fitToSection: false,
-        navigation: true,
+        navigation: false,
         navigationPosition: 'left',
         menu: '#menu'
     });
