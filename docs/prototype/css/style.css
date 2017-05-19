@@ -57,7 +57,7 @@ html {
 }
 
 .sectionText {
-    font-size: 13pt;
+    font-size: 3vmin;
     text-align: left;
 }
 
@@ -101,15 +101,11 @@ html {
     display: none;
 }
 
-#ethnicitySectionContainer input {
-    vertical-align: middle;
-}
-
 #ethnicitySectionContainer button {
   display: block;
   margin: 0 auto;
-  padding: 15px 45px;
-  font-size: 20px;
+  padding: 1vmin 3vmin;
+  font-size: 3vmin;
   font-family: "Bitter",serif;
   line-height: 1.8;
   appearance: none;
@@ -121,7 +117,7 @@ html {
   border: none;
 }
 
-button:focus {
+#ethnicitySectionContainer button:focus {
   outline: none
 }
 
@@ -137,9 +133,17 @@ button:focus {
 }
 
 #ethnicitySectionContainer label {
-    font-size: 17pt;
+    font-size: 3vmin;
     padding-right: 10px;
+    white-space:nowrap;
 }
+
+#ethnicitySectionContainer input, #ethnicitySectionContainer label {
+    vertical-align: top;
+    display: inline;
+    float: left;
+}
+
 /*
  " ----------------------------------------------------------------------------
  " Styles for map section
@@ -170,7 +174,7 @@ button:focus {
     list-style-type: none;
     margin: 0pt;
     padding: 0pt;
-    font-size: 10.5pt;
+    font-size: 2vmin;
     -webkit-column-count: 2;
     -moz-column-count: 2;
     column-count: 2;
@@ -342,7 +346,7 @@ div.tooltip h2 {
     top: 2px;
 }
 
-#zoomOut {
+#section2 #zoomOut {
     left: 50px;
 }
 

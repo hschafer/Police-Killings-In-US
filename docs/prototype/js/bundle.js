@@ -33156,7 +33156,7 @@ function tooltipLabel(tooltipItem, data, signed) {
 (function() {
     var w = $(window).width() * 0.55;
     var h = $(window).height() * 0.5;
-    var chartH = h / 2;
+    var chartH = 2 * h / 3;
 
     var color = d3.scaleOrdinal(d3Chromatic.schemeDark2);
 
@@ -33211,9 +33211,13 @@ function tooltipLabel(tooltipItem, data, signed) {
             }
             var radio = $("<input type='radio' name='armed' id='" + armedType
                 + "' value='" + i + "' " + checked + ">");
-            var label = $("<label for='" + armedType + "' value='" + i + "'>" + armedType + "</label>");
-            form.append(radio);
+            var label = $("<label for='" + armedType + "' value='" + i + "'></label>");
+            var text = $("<span class='wrappable'>" + armedType + "</span>");
+            label.append(radio);
+            label.append(text);
+
             form.append(label);
+            form.append($("<br />"));
         }
         $("#selectArmed input:radio").click(function() {
             var index = parseInt($(this).val());
