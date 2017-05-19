@@ -172,3 +172,27 @@ Chart.pluginService.register({
     }
 });
 
+Chart.defaults.bubbleReference = Chart.helpers.clone(Chart.defaults.bubble);
+
+Chart.controllers.bubbleReference = Chart.controllers.bubble.extend({
+    draw: function () {
+        Chart.controllers.bubble.prototype.draw.apply(this, arguments);
+
+        var chart = this.chart;
+        const xScale = chart.scales['x-axis-0'];
+        const yScale = chart.scales['y-axis-0'];
+
+        // draw line
+        chart.chart.ctx.beginPath();
+        chart.chart.ctx.moveTo(xScale.left, yScale.bottom);
+        chart.chart.ctx.strokeStyle = '#ffffff';
+        chart.chart.ctx.lineTo(xScale.right, yScale.top);
+        chart.chart.ctx.stroke();
+
+        //// write TODAY
+        //this.chart.ctx.textAlign = 'center';
+        //this.chart.ctx.fillText("TODAY", point.x, scale.startPoint + 12);
+    }
+
+});
+

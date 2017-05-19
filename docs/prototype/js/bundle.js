@@ -33192,19 +33192,21 @@ function tooltipLabel(tooltipItem, data, signed) {
 
         var colors = ["#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e", "#a6761d", "#e6ab02"];
 
-        pieCharts = makePieCharts(allVictimData, colors);
+        makeScatterPlot(allVictimData, censusData, colors);
+
+        //pieCharts = makePieCharts(allVictimData, colors);
 
         // set this up now but it will remain hidden
-        diffChart = makeDiffChart(allVictimData, censusData, colors);
+        //diffChart = makeDiffChart(allVictimData, censusData, colors);
 
-        var waypoint = new Waypoint({
-            element: $("#ethnicityCanvasContainer"),
-            handler: function() {
-                animatePieChart(pieCharts, censusData);
-                waypoint.disable();
-            },
-            offset: 200
-        });
+        //var waypoint = new Waypoint({
+        //    element: $("#ethnicityCanvasContainer"),
+        //    handler: function() {
+        //        animatePieChart(pieCharts, censusData);
+        //        waypoint.disable();
+        //    },
+        //    offset: 200
+        //});
     }
 
     function prepareForm(victimData, censusData) {
@@ -33245,6 +33247,37 @@ function tooltipLabel(tooltipItem, data, signed) {
         pieCharts.update(750);
         diffChart.update(750);
 
+    }
+
+    function makeScatterPlot(victimData, censusData, colors) {
+        var data = victimData.map(function(d, i) {
+            return {
+                data: [{x: censusData[i].value, y: d.value, r: 7}],
+                label: d.key,
+                backgroundColor: colors[i],
+                hoverBackgroundColor: colors[i]
+            };
+        });
+        return new Chart($("#pieCharts"), {
+            type: "bubbleReference",
+            data: {
+                datasets: data
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'linear', // bubble should probably use a linear scale by default
+                        position: 'bottom',
+                        id: 'x-axis-0' // need an ID so datasets can reference the scale
+                    }],
+                    yAxes: [{
+                        type: 'linear',
+                        position: 'left',
+                        id: 'y-axis-0'
+                    }]
+                }
+            }
+        });
     }
 
     function makePieCharts(victimData, colors) {
@@ -33885,6 +33918,30 @@ Chart.pluginService.register({
             }
         }
     }
+});
+
+Chart.defaults.bubbleReference = Chart.helpers.clone(Chart.defaults.bubble);
+
+Chart.controllers.bubbleReference = Chart.controllers.bubble.extend({
+    draw: function () {
+        Chart.controllers.bubble.prototype.draw.apply(this, arguments);
+
+        var chart = this.chart;
+        const xScale = chart.scales['x-axis-0'];
+        const yScale = chart.scales['y-axis-0'];
+
+        // draw line
+        chart.chart.ctx.beginPath();
+        chart.chart.ctx.moveTo(xScale.left, yScale.bottom);
+        chart.chart.ctx.strokeStyle = '#ffffff';
+        chart.chart.ctx.lineTo(xScale.right, yScale.top);
+        chart.chart.ctx.stroke();
+
+        //// write TODAY
+        //this.chart.ctx.textAlign = 'center';
+        //this.chart.ctx.fillText("TODAY", point.x, scale.startPoint + 12);
+    }
+
 });
 
 

@@ -57,19 +57,21 @@ function tooltipLabel(tooltipItem, data, signed) {
 
         var colors = ["#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e", "#a6761d", "#e6ab02"];
 
-        pieCharts = makePieCharts(allVictimData, colors);
+        makeScatterPlot(allVictimData, censusData, colors);
+
+        //pieCharts = makePieCharts(allVictimData, colors);
 
         // set this up now but it will remain hidden
-        diffChart = makeDiffChart(allVictimData, censusData, colors);
+        //diffChart = makeDiffChart(allVictimData, censusData, colors);
 
-        var waypoint = new Waypoint({
-            element: $("#ethnicityCanvasContainer"),
-            handler: function() {
-                animatePieChart(pieCharts, censusData);
-                waypoint.disable();
-            },
-            offset: 200
-        });
+        //var waypoint = new Waypoint({
+        //    element: $("#ethnicityCanvasContainer"),
+        //    handler: function() {
+        //        animatePieChart(pieCharts, censusData);
+        //        waypoint.disable();
+        //    },
+        //    offset: 200
+        //});
     }
 
     function prepareForm(victimData, censusData) {
@@ -110,6 +112,37 @@ function tooltipLabel(tooltipItem, data, signed) {
         pieCharts.update(750);
         diffChart.update(750);
 
+    }
+
+    function makeScatterPlot(victimData, censusData, colors) {
+        var data = victimData.map(function(d, i) {
+            return {
+                data: [{x: censusData[i].value, y: d.value, r: 7}],
+                label: d.key,
+                backgroundColor: colors[i],
+                hoverBackgroundColor: colors[i]
+            };
+        });
+        return new Chart($("#pieCharts"), {
+            type: "bubbleReference",
+            data: {
+                datasets: data
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'linear', // bubble should probably use a linear scale by default
+                        position: 'bottom',
+                        id: 'x-axis-0' // need an ID so datasets can reference the scale
+                    }],
+                    yAxes: [{
+                        type: 'linear',
+                        position: 'left',
+                        id: 'y-axis-0'
+                    }]
+                }
+            }
+        });
     }
 
     function makePieCharts(victimData, colors) {
