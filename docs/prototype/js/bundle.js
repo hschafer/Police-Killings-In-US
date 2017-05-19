@@ -33906,9 +33906,6 @@ $(document).ready(function() {
     $('#fullpage').fullpage({
         autoScrolling: false,
         fitToSection: false,
-        navigation: false,
-        navigationPosition: 'left',
-        menu: '#menu'
     });
 });
 
