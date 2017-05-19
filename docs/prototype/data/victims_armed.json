@@ -33,7 +33,7 @@
         ]
     },
     {
-        "armed": "Yes",
+        "armed": "Armed",
         "values": [
             {
                 "key": "White",
@@ -67,7 +67,7 @@
     },
 
     {
-        "armed": "No",
+        "armed": "Unarmed",
         "values": [
             {
                 "key": "White",

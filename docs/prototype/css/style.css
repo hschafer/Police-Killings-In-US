@@ -97,8 +97,12 @@ html {
     border-color: var(--secondary-color);
 }
 
-#textReveal, .hidden {
+#reveal {
     display: none;
+}
+
+#ethnicitySectionContainer input {
+    vertical-align: middle;
 }
 
 #ethnicitySectionContainer button {
@@ -127,10 +131,14 @@ button:focus {
   cursor: pointer;
 }
 
-#ethnicitySectionContainer button:active,
-#ethnicitySectionContainer button.active {
+#ethnicitySectionContainer button:active {
   background-color: #27496d;
   text-shadow: -1px 1px #193047;
+}
+
+#ethnicitySectionContainer label {
+    font-size: 17pt;
+    padding-right: 10px;
 }
 /*
  " ----------------------------------------------------------------------------

@@ -165,8 +165,7 @@ function tooltipLabel(tooltipItem, data, signed) {
             text: "Race of Population",
         }
         setTimeout(function() { $("#diffChart").fadeIn("slow"); }, 750);
-        setTimeout(function() { $("#textReveal").fadeIn("slow"); }, 750);
-        setTimeout(function() { $("#selectArmed").fadeIn("slow"); }, 750);
+        setTimeout(function() { $("#reveal").fadeIn("slow"); }, 750);
         chart.update(750, true);
         $("#pieProceed").fadeOut("fast");
     }
