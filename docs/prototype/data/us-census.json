@@ -22,5 +22,9 @@
     {
         "key": "Other",
         "value": 0.007
+    },
+    {
+        "key": "Unknown",
+        "value": 0
     }
 ]

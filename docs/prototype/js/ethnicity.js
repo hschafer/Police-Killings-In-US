@@ -57,10 +57,7 @@ function tooltipLabel(tooltipItem, data, signed) {
         pieCharts = makePieCharts(victimData, colors);
 
         // set this up now but it will remain hidden
-        var diffs = victimData.map(function(d, i) {
-            return { "key": d.key, "value": d.value - censusData[i].value};
-        });
-        diffChart = makeDiffChart(diffs, colors);
+        diffChart = makeDiffChart(victimData, censusData, colors);
 
         var waypoint = new Waypoint({
             element: $("#ethnicityCanvasContainer"),
@@ -121,15 +118,16 @@ function tooltipLabel(tooltipItem, data, signed) {
         config.options.elements.right = {
             text: "Race of Population",
         }
-        chart.update();
-        setTimeout(function() { $("#diffChart").fadeIn("slow"); }, 800);
-        setTimeout(function() { $("#textReveal").fadeIn("slow"); }, 800);
+        setTimeout(function() { $("#diffChart").fadeIn("slow"); }, 1500);
+        setTimeout(function() { $("#textReveal").fadeIn("slow"); }, 1500);
+        chart.update(1500, true);
     }
 
     function rotateChart(event, clicked) {
-        if (clicked.length > 0) {
-            var clickedElem = clicked[0];
-            var index = clickedElem._index;
+        // this will be an array of one element if clicked on a arc and an object if
+        // clicked on a label
+        if (clicked.length > 0 || (typeof(clicked) === "object") && !Array.isArray(clicked)) {
+            var index = Array.isArray(clicked) ? clicked[0]._index : clicked.index;
 
             var datasets = pieCharts.config.data.datasets;
             var rotationIndex = pieCharts.config.options.rotationIndex;
@@ -153,7 +151,18 @@ function tooltipLabel(tooltipItem, data, signed) {
         }
     }
 
-    function makeDiffChart(diffs, colors) {
+    function makeDiffChart(victimData, censusData, colors) {
+        var unknownIndex = 0;
+        var diffs = victimData.map(function(d, i) {
+            if (d.key === "Unknown") {
+                unknownIndex = i;
+            }
+            return { "key": d.key, "value": d.value - censusData[i].value};
+        }).filter(function(_, i) { return i !== unknownIndex; });
+
+        var chartColors = colors.slice()
+            .filter(function(_, i) { return i !== unknownIndex; });
+
         return new Chart($("#diffChart"), {
             type: 'bar',
             data: {
@@ -161,8 +170,8 @@ function tooltipLabel(tooltipItem, data, signed) {
                 datasets: [{
                     label: 'Percentage Difference Between Victims and Population',
                     data: diffs.map(function(d) { return d.value; }),
-                    backgroundColor: colors,
-                    borderColor: colors,
+                    backgroundColor: chartColors,
+                    borderColor: chartColors,
                     borderWidth: 1
                 }]
             },
@@ -187,9 +196,20 @@ function tooltipLabel(tooltipItem, data, signed) {
                         label: function(tooltipItem, data) { return tooltipLabel(tooltipItem, data, true); }
                     }
                 },
-                onClick: rotateChart
+                onClick: function(event, clicked) { rotateChartFromBar(event, clicked, unknownIndex); }
             }
         })
+    }
+
+    function rotateChartFromBar(event, clicked, unknownIndex) {
+        if (clicked.length > 0) {
+            var clickedElem = clicked[0];
+            var index = clickedElem._index;
+            if (index >= unknownIndex) {
+                index++;
+            }
+            rotateChart(event, {index: index});
+        }
     }
 
     function compareStrings(s1, s2) {
