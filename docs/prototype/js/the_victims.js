@@ -1,25 +1,43 @@
 const d3 = require('d3');
-(function() {
+(function () {
+
+    const START_DATE = new Date(getDateString("2015-01-01"));
+    const END_DATE = new Date(getDateString("2017-04-15")); // max date in dataset
+
+    // stupid
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    function getDateString(intended_date) {
+        return intended_date + " 00:00:00"; // by default assume all happened at midnight
+    }
+
     // size rectangle that holds map
     // proportional to window
     // not using CSS (i.e. width: 80%) for these
     // so that we can use the actual numerical values
     // to scale map
     var w = $(window).width() * (2.0 / 3);
-    var h = $(window).height() * (3.0 / 4);
+    var h = $(window).height() * (2.0 / 3);
     var scale = w; // used to scale US map
     var radius = null; // global to recalculate radius
 
     var svg = null; // global for callbacks
     var activeState = d3.select(null);
     var tooltipActive = null;
+    var tooltipDiv;
+    var victimSymbols;
+    var victims;
+    var cities;
+    var currentVisible;
 
     var projection = d3.geoAlbersUsa()
         .translate([w / 2, h / 2])
         .scale([scale]);
 
     var path = d3.geoPath()
-            .projection(projection);
+        .projection(projection);
 
     var zoom = d3.zoom()
         .scaleExtent([1, 20])
@@ -28,6 +46,12 @@ const d3 = require('d3');
     var legendWidth = 100;
     var legendHeight = 70;
     var maxLegend = -1;
+
+    var visible = {
+        startDate: START_DATE,
+        endDate: END_DATE
+    };
+
 
     $(document).ready(function () {
         // NOTE: d3.geo functions all have new syntax as of D3 4.0 release
@@ -42,29 +66,57 @@ const d3 = require('d3');
     function ready(error, us, cityData) {
         if (error) throw error;
 
-        cityData.sort(function(a, b) { d3.descending(a.num_records, b.num_records); });
+        cities = cityData;
+        cityData.sort(function (a, b) {
+            d3.descending(a.num_records, b.num_records);
+        });
+
+        victims = [];
+        for (var city = 0; city < cityData.length; city++) {
+            var cityInfo = cityData[city];
+
+            // use these for map
+            cityInfo.num_records_visible = cityInfo.num_records;
+            cityInfo.records_visible = cityInfo.records.slice();
+
+            for (var victim = 0; victim < cityInfo.records.length; victim++) {
+                victims[victims.length] = cityInfo.records[victim];
+            }
+        }
 
         radius = d3.scaleSqrt()
-            .domain([0, d3.max(cityData, function(d) { return d.num_records; })])
+            .domain([0, d3.max(cityData, function (d) {
+                return d.num_records;
+            })])
             .range([0, 15]);
 
-        var section2Container =  d3.select("#section2Container");
+        var section2Container = d3.select("#section2Container");
         var section2HeaderRow = d3.select("#section2HeaderRow");
         var section2Row = d3.select(".sectionRow");
         var svgContainer = d3.select("#usSvgContainer");
 
         // attach event listeners for zooming
         svgContainer.select("#zoomIn")
-            .on("click", function() { zoomButtonClick(3/2); });
+            .on("click", function () {
+                zoomButtonClick(3 / 2);
+            });
+
         svgContainer.select("#zoomOut")
-            .on("click", function() { zoomButtonClick(2/3); });
+            .on("click", function () {
+                zoomButtonClick(2 / 3);
+            });
 
         // disable body scrolling while inside SVG container
         svgContainer.on("mouseover",
-                function () { document.body.style.overflow = 'hidden'; })
+            function () {
+                document.body.style.overflow = 'hidden';
+            })
             .on("mouseout",
-                function() { document.body.style.overflow = 'auto'; });
+                function () {
+                    document.body.style.overflow = 'auto';
+                });
 
+        // append map SVG
         svg = svgContainer.append("svg")
             .attr("width", w)
             .attr("height", h)
@@ -76,8 +128,9 @@ const d3 = require('d3');
             .attr("width", w)
             .attr("height", h)
             .style("fill", "none")
-            .style("pointer-events", "all")
+            .style("pointer-events", "all");
 
+        // append state paths
         svg.selectAll("path")
             .data(us.features)
             .enter()
@@ -86,45 +139,61 @@ const d3 = require('d3');
             .attr("d", path)
             .on("click", clicked);
 
-        var div = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0);
+        // style map filters
+        d3.select("#victimMapFilters")
+            .attr("height", h * (1.0 / 3) + "px");
 
-        svg.selectAll(".symbol")
-            .data(cityData)
+
+        var citySymbols = svg.selectAll(".symbol")
+            .data(cities)
             .enter()
             .append("circle")
             .attr("class", "symbol")
-            .attr("cx", function (d) { return projection([d.longitude, d.latitude])[0]; })
-            .attr("cy", function (d) { return projection([d.longitude, d.latitude])[1]; })
-            .attr("r",  function (d) { return radius(d.num_records); })
-            .on("mouseover", function(d) {
+            .attr("id", function (d) {
+                return getCityID(d.city, d.state);
+            })
+            .attr("cx", function (d) {
+                return projection([d.longitude, d.latitude])[0];
+            })
+            .attr("cy", function (d) {
+                return projection([d.longitude, d.latitude])[1];
+            })
+            .attr("r", function (d) {
+                return d.num_records_visible;
+            })
+            .on("mouseover", function (d) {
                 selectCity(d);
 
                 // set tooltip
                 if (d.records.length > 0) {
                     tooltipActive = true;
-                    div.style("opacity", .9);
-                    div.append("h2")
+                    tooltipDiv.style("opacity", .9);
+                    tooltipDiv.append("h2")
                         .html(d.city + ", " + d.state);
-                    div.style("left", (d3.event.pageX) + 15 + "px")
+                    tooltipDiv.style("left", (d3.event.pageX) + 15 + "px")
                         .style("top", (d3.event.pageY) - 28 + "px")
                 }
             })
-            .on("mouseout", function(d) {
+            .on("mouseout", function (d) {
                 // tooltip
-                div.style("opacity", 0);
-                div.selectAll("h2").remove();
+                tooltipDiv.style("opacity", 0);
+                tooltipDiv.selectAll("h2").remove();
                 tooltipActive = false;
 
                 // apply invisibility
                 deselectCity();
             });
 
+        appendSlider(d3.select("#victimDateFilter"), cityData, victimSymbols);
+
+        tooltipDiv = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
         randomSelection(cityData); // make it happen right away
         var timer = setInterval(randomSelection, 3000, cityData);
 
-        svg.on("mouseenter", function() {
+        svg.on("mouseenter", function () {
             if (timer) {
                 d3.select("#highlightedCity").remove();
                 clearInterval(timer);
@@ -132,15 +201,15 @@ const d3 = require('d3');
                 timer = null;
             }
         });
-        svg.on("mouseleave", function() {
+        svg.on("mouseleave", function () {
             timer = setInterval(randomSelection, 3000, cityData);
         });
 
         makeLegend(cityData);
 
-        // kind of hacky
-        // we have to do this last to get the position of the mapInfo sidebar
-        d3.select("#hoverDirections").style("width", function() {
+// kind of hacky
+// we have to do this last to get the position of the mapInfo sidebar
+        d3.select("#hoverDirections").style("width", function () {
             var containerWidth = parseFloat(d3.select("#section2Container").style("width"));
             var mapWidth = parseFloat(d3.select("#usSvgContainer").select("svg").attr("width"));
             var result = containerWidth
@@ -149,15 +218,220 @@ const d3 = require('d3');
         });
     }
 
+    function getCityID(city, state) {
+        return city.replace(/ |'|,/g, '')
+            + state.replace(/ |'|,/g, '') + "_symbol";
+    }
+
+    function appendVictimSymbol(d) {
+
+        d.append("circle")
+            .attr("class", "symbol")
+            .attr("cx", function (d) {
+                return projection([d.computed_long, d.computed_lat])[0];
+            })
+            .attr("cy", function (d) {
+                return projection([d.computed_long, d.computed_lat])[1];
+            })
+            .attr("r", function (d) {
+                return 5;
+            });
+    }
+
+    function update() {
+
+        // use if we need to check date bounds of dataset
+        //var maxDate = new Date("2015-01-01");
+        //var minDate = new Date("2016-01-01");
+
+        for (var city = 0; city < cities.length; city++) {
+            var filtered = cities[city].records.filter(function (d) {
+                // filter on date
+                var date = new Date(d.date);
+
+               // DEBUG
+               // if (date > maxDate) {
+               //     maxDate = date;
+               // }
+               // if (date < minDate) {
+               //     minDate = date;
+               // }
+
+                var pass = date >= visible.startDate && date <= visible.endDate;
+                return pass;
+            });
+
+            // now we have filtered records for the current city
+            // set the records visible
+            cities[city].num_records_visible = filtered.length;
+            cities[city].records_visible = filtered;
+
+            // set radius of city to num_records_visible
+            var citySelection = d3.select("#" + getCityID(cities[city].city, cities[city].state));
+            //var citySelection = svg.select("#LosAngeles,CA_symbol");
+            citySelection.attr("r", function (d) {
+                return d.num_records_visible;
+            });
+        }
+        //console.log("max date: "  + maxDate);
+        //console.log("min date: " + minDate);
+    }
+
+    function appendSlider(parent, cityData, victimSymbols) {
+
+        var svg = parent.append("svg")
+            .attr("width", parent.style("width"));
+
+        var margin = {right: 50, left: 50},
+            width = 500,
+            height = 50;
+
+        var x = d3.scaleTime()
+            .domain([START_DATE, END_DATE])
+            .range([0, width])
+            .clamp(true);
+
+        var slider = svg.append("g")
+            .attr("class", "slider")
+            .attr("transform", "translate(10, 30)");
+
+        var lowerHandle;
+        var upperHandle;
+
+        slider.append("line")
+            .attr("class", "track")
+            .attr("x1", x.range()[0])
+            .attr("x2", x.range()[1])
+            .select(function () {
+                return this.parentNode.appendChild(this.cloneNode(true));
+            })
+            .attr("class", "track-inset")
+            .select(function () {
+                return this.parentNode.appendChild(this.cloneNode(true));
+            })
+            .attr("class", "track-overlay");
+
+        var lowerRangeConstant = x.range()[0];
+
+        slider.append("line")
+            .attr("class", "track")
+            .attr("x1", function(d) {
+                return lowerRangeConstant;
+            })
+            .attr("x2", function(d) {
+                return x.range()[1];
+            })
+            .attr("id", "track-inset-selected-region");
+
+        var lowerticks = slider.insert("g", ".track-overlay")
+            .attr("class", "ticks")
+            .attr("transform", "translate(0," + 25 + ")");
+
+        var upperticks = slider.insert("g", ".track-overlay")
+            .attr("class", "ticks")
+            .attr("transform", "translate(0," + -16 + ")");
+
+        lowerticks.append("text")
+            .attr("x", x.range()[0])
+            .classed("victimDateFilterLabel", true)
+            .attr("id", "dateFilterLabelLower")
+            .text(monthNames[START_DATE.getMonth()] +
+                " " + START_DATE.getFullYear());
+
+        upperticks.append("text")
+            .attr("x", x.range()[1])
+            .classed("victimDateFilterLabel", true)
+            .attr("id", "dateFilterLabelUpper")
+            .text(monthNames[END_DATE.getMonth()] +
+                " " + END_DATE.getFullYear());
+
+        // make handle drag behavior
+        var lowerHandleDrag = d3.drag()
+            .on('drag', function () {
+
+                // if handle is within expected area, move it to where it is being
+                // dragged to and update viz (this check prevents user from dragging
+                // handle off of track or in front of upper handle)
+                var upperHandleX = d3.select("#upperDateFilterHandle").attr("cx") - 15;// subtracting 5 for radius of handle
+                var selectedRegion = d3.select("#track-inset-selected-region");
+                var leftXBound;
+                if (d3.event.x < x.range()[0]) {
+                    leftXBound = x.range()[0];
+                } else if (d3.event.x > upperHandleX) {
+                    leftXBound = upperHandleX
+                } else {
+                    leftXBound = d3.event.x;
+                }
+                lowerHandle.attr('cx', leftXBound);
+
+                // move selected region in slider
+                selectedRegion.attr("x1", leftXBound);
+
+                // update handle tooltip
+                d3.select("#dateFilterLabelLower")
+                    .attr("x", leftXBound)
+                    .text(monthNames[x.invert(leftXBound).getMonth()] + " "
+                        + x.invert(leftXBound).getFullYear());
+
+                // set global "visible" data
+                var lowerHandleDate = new Date(x.invert(leftXBound));
+                visible.startDate = lowerHandleDate;
+                update();
+            });
+
+        var upperHandleDrag = d3.drag()
+            .on('drag', function () {
+
+                var lowerHandleX = d3.select("#lowerDateFilterHandle").attr("cx") + 15;// subtracting 5 for radius of handle
+                var selectedRegion = d3.select("#track-inset-selected-region");
+                var upperXBound;
+                if (d3.event.x > x.range()[1]) {
+                    upperXBound = x.range()[1];
+                } else if (d3.event.x < lowerHandleX) {
+                    upperXBound = lowerHandleX;
+                } else {
+                    upperXBound = d3.event.x;
+                }
+                upperHandle.attr('cx', upperXBound);
+
+                // update tooltip
+                d3.select("#dateFilterLabelUpper")
+                    .attr("x", upperXBound)
+                    .text(monthNames[x.invert(upperXBound).getMonth()] + " "
+                        + x.invert(upperXBound).getFullYear());
+
+                selectedRegion.attr("x2", upperXBound);
+
+                var upperHandleDate = new Date(x.invert(upperXBound));
+                visible.endDate = upperHandleDate;
+                update();
+            });
+
+        lowerHandle = slider.append("circle", ".track-overlay")
+            .attr("id", "lowerDateFilterHandle")
+            .attr("class", "dateFilterHandle")
+            .attr("r", 9)
+            .call(lowerHandleDrag);
+
+        var upperHandle = slider.append("circle", ".track-overlay")
+            .attr("id", "upperDateFilterHandle")
+            .attr("class", "dateFilterHandle")
+            .attr("cx", x.range()[1])
+            .attr("r", 9)
+            .call(upperHandleDrag);
+    }
+
     function randomSelection(cityData) {
         var randCity = cityData[Math.floor(Math.random() * cityData.length)];
         var svg = d3.select(".mapSVG");
-        var domNode = svg.selectAll(".symbol").filter(function(d) { return d.id === randCity.id; });
+        var domNode = svg.selectAll(".symbol").filter(function (d) {
+            return d.id === randCity.id;
+        });
         var circle = svg.selectAll("#highlightedCity").data([randCity]);
         circle.enter().append('circle')
             .attr("id", "highlightedCity")
             .attr("class", "symbol")
-          .merge(circle)
+            .merge(circle)
             .attr("cx", domNode.attr("cx"))
             .attr("cy", domNode.attr("cy"))
             .attr("r", domNode.attr("r"));
@@ -189,11 +463,11 @@ const d3 = require('d3');
         activeState.classed("active", false);
         var zoomLevel;
         if (activeState.node() === this) {
-    		// If it is a click on the same state, we want to zoom out
+            // If it is a click on the same state, we want to zoom out
             activeState = d3.select(null);
             zoomLevel = d3.zoomIdentity;
         } else {
-    		// We are clicking on a new state
+            // We are clicking on a new state
             activeState = d3.select(this).classed("active", true);
             var bounds = path.bounds(d),
                 dx = bounds[1][0] - bounds[0][0],
@@ -202,10 +476,10 @@ const d3 = require('d3');
                 y = (bounds[0][1] + bounds[1][1]) / 2,
                 scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / w, dy / h))),
                 translate = [w / 2 - scale * x, h / 2 - scale * y];
-            zoomLevel = d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale);
+            zoomLevel = d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale);
         }
 
-    	svg.transition()
+        svg.transition()
             .duration(750)
             .call(zoom.transform, zoomLevel);
     }
@@ -221,19 +495,22 @@ const d3 = require('d3');
             transform.y = 0;
         }
 
-        var scaleTransform = function(d, scale) {
+        var scaleTransform = function (d, scale) {
             scale = (typeof scale === "undefined") ? 4 : scale;
             return d * (scale - 1 + transform.k) / scale;
         }
 
         states.attr("transform", transform);
-        circles.attr("cx", function(d) {
+        circles.attr("cx", function (d) {
             var projectedX = projection([d.longitude, d.latitude])[0];
             return transform.applyX(projectedX);
-        }).attr("cy", function(d) {
+        }).attr("cy", function (d) {
             var projectedY = projection([d.longitude, d.latitude])[1];
             return transform.applyY(projectedY);
-        }).attr("r", function(d) { return scaleTransform(radius(d.num_records)); });
+        });
+        //}).attr("r", function (d) {
+        //return scaleTransform(radius(d.num_records));
+        //});
 
         // resize the legend
         var newLegendWidth = scaleTransform(legendWidth, 11);
@@ -245,12 +522,14 @@ const d3 = require('d3');
             .attr("height", newLegendHeight);
 
         svg.selectAll(".legendCircle")
-            .attr("r", function(d) { return scaleTransform(radius(d)); })
-            .attr("cy", function(d) {
+            .attr("r", function (d) {
+                return scaleTransform(radius(d));
+            })
+            .attr("cy", function (d) {
                 return newLegendHeight / 2 - scaleTransform(radius(d)) + scaleTransform(radius(maxLegend));
             }).attr("cx", newLegendWidth / 2 - 4);
         svg.selectAll(".legendLabel")
-            .attr("y", function(d, i) {
+            .attr("y", function (d, i) {
                 return newLegendHeight / 2 + (newLegendHeight / 4) * (1 - i);
             }).attr("x", newLegendWidth / 2 + scaleTransform(radius(maxLegend)) + 5)
         svg.select("#legendTitle")
@@ -264,7 +543,9 @@ const d3 = require('d3');
     }
 
     function makeLegend(cityData) {
-        maxLegend = d3.max(cityData, function(d) { return d.num_records; });
+        maxLegend = d3.max(cityData, function (d) {
+            return d.num_records;
+        });
         var toShow = [1, maxLegend / 2, maxLegend];
 
         var legend = svg.append("g")
@@ -279,18 +560,26 @@ const d3 = require('d3');
             .data(toShow)
             .enter().append("circle")
             .attr("class", "legendCircle")
-            .attr("cy", function(d) { return legendHeight / 2 - radius(d) + radius(maxLegend); })
-            .attr("cx", function(d, i) { return legendWidth / 2 - 5; })
-            .attr("r", function(d) { return radius(d); });
+            .attr("cy", function (d) {
+                return legendHeight / 2 - radius(d) + radius(maxLegend);
+            })
+            .attr("cx", function (d, i) {
+                return legendWidth / 2 - 5;
+            })
+            .attr("r", function (d) {
+                return radius(d);
+            });
         legend.selectAll("text")
             .data(toShow)
             .enter().append("text")
             .attr("class", "legendLabel")
-            .attr("y", function(d, i) {
+            .attr("y", function (d, i) {
                 return legendHeight / 2 + (legendHeight / 4) * (1 - i);
             })
             .attr("x", legendWidth / 2 + radius(maxLegend) + 5)
-            .html(function(d) { return d; });
+            .html(function (d) {
+                return d;
+            });
         legend.append("text")
             .attr("id", "legendTitle")
             .attr("y", legendHeight - 5)

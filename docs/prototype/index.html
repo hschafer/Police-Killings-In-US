@@ -1,150 +1,221 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="icon" href="resources/favicon.png" />
-        <title>Killings by Police Officers</title>
-        <!-- Include dependencies -->
-        <link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css" />
-        <link href="https://fonts.googleapis.com/css?family=Ropa+Sans" rel="stylesheet">
-        <script type="text/javascript" src="js/lib/jquery.min.js"></script>
-        <script type="text/javascript" src="js/lib/jquery.easings.min.js"></script>
-        <script type="text/javascript" src="js/lib/jquery.fullPage.min.js"></script>
+<head>
+  <link rel="icon" href="resources/favicon.png"/>
+  <title>Killings by Police Officers</title>
+  <!-- Include dependencies -->
+  <link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css"/>
+  <link href="https://fonts.googleapis.com/css?family=Ropa+Sans" rel="stylesheet">
+  <script type="text/javascript" src="js/lib/jquery.min.js"></script>
+  <script type="text/javascript" src="js/lib/jquery.easings.min.js"></script>
+  <script type="text/javascript" src="js/lib/jquery.fullPage.min.js"></script>
+  <script type="text/javascript" src="js/lib/Flat-UI/dist/js/flat-ui.js"></script>
 
-        <!-- Include our files -->
-        <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <script type="text/javascript" src="js/bundle.js"></script>
-    </head>
+  <!-- Include our files -->
+  <link rel="stylesheet" type="text/css" href="css/style.css"/>
+  <script type="text/javascript" src="js/bundle.js"></script>
+</head>
 
-    <body>
-        <div id="fullpage">
-            <div id="section1" class="section">Killings by Police Officers <br />in the United States
-                <p class="section1Subtitle">Meredith Lampe, Nick Mooney, Hunter Schafer, and Erika Wolfe</p>
-            </div>
-            <div id="ethnicitySection" class="section">
-                <div id="ethnicitySectionContainer" class="sectionContainer">
-                    <div class="sectionRow">
-                        <div class="sectionTitle">
-                            Does Ethnicity Make a Difference?
-                        </div>
-                    </div>
-                    <div class="sectionRow">
-                        <div id="ethnicityCanvasContainer"></div>
-                        <div id="ethnicitySectionText">
-                            <p class="sectionText">
-                                Some argue that there isn't a systematic bias in the police force because nearly 50% of the
-                                victims shot by police officers are white.
-                            </p>
-
-                            <button id="pieProceed">Click to compare with general population</button>
-                            <div id="reveal">
-                                <p class="sectionText">
-                                    While this is true looking purely at the vicitim data, if you add the context of the
-                                    the ethnicity distribution in the U.S. you see a much more striking .
-                                <p>
-
-                                <p class="sectionText">
-                                    For many minorities listed here, the disparity increases when only considering victims that were unarmed or where there is a dispute over the fact that they were armed:
-                                </p>
-                                <form id="selectArmed"></form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="section2" class="section">
-                <div id="section2Container" class="sectionContainer">
-                    <div id="section2HeaderRow" class="sectionRow">
-                        <div class="sectionTitle">
-                            Who are the Victims?
-                            <p class="sectionSubtitle">Every fatal shooting in the United States by a police officer in the line of duty since Jan. 1, 2015</p>
-                        </div>
-                        <div id="hoverDirections">
-                            <p class="directionsParagraph" id="zoomDirection">Click anywhere on the map to zoom.</p>
-                              <p class="directionsParagraph">Zoom in/out further by scrolling on the map.</p>
-                            <p class="directionsParagraph">Hover over any city to see details.</p>
-                        </div>
-                    </div>
-                    <div class="sectionRow">
-                        <div id="usSvgContainer">
-                            <button id="zoomIn"><img src="resources/zoom_in.svg" /></button>
-                            <button id="zoomOut"><img src="resources/zoom_out.svg" /></button>
-                        </div>
-                        <div class="mapInfo">
-                            <div class="cityTip">
-                                <h5 id="cityLabel">City</h5>
-                                <h4 id="cityName" class="invisibleText">...</h4>
-                            </div>
-                            <div id="cityVictims">
-                                <h5 id="victimsLabel">Victims</h5>
-                                <div id="victimListDiv">
-                                    <ul id="victimList">
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="section3" class="section">
-                <div id = "section3Container" class="sectionContainer">
-                    <div id = "section3HeaderRow" class="sectionRow">
-                        <div class="sectionTitle">
-                            Design Rationale
-                            <p class="section3Subtitle">Motivation</p>
-                            <p class="sectionText">
-                                Our overall project goal is to visualize aggregate information about police killings and to tell the stories of the victims.  For our prototype we aim to allow users to see that this trend of police killings is apparent throughout the country, while also displaying information about individual victims.  To do this, we chose to create a map visualization showing of the number of police killings in each city, and the name each victim.  We display victim information on a city level because the amount of data countrywide would be overwhelming to look at simultaneously.  To show the possible interactions with the visualization, it randomly highlights specific cities when the user is not actively engaged with the map.
-                            </p>
-                            <p class="section3Subtitle">Tooltips</p>
-                            <p class="sectionText">
-                                Once we chose to use a map, we decided to include tooltips for each city to  allow for deeper exploration of the dataset.  Initially, the tooltips included both the city name and the list of victim names.  This required the user to scroll through the list of names for cities with more police killings.  This UI was difficult to use and obscured many of the names behind scrolling, defeating our primary purpose of highlighting each victim.  Because of this, we moved the list of names to the side of the map.  We display the city name both on the side of the map and on the tooltip to ensure the connection between the map and the names would be apparent.
-                            </p>
-                            <p class="section3Subtitle">Zoom</p>
-                            <p class="sectionText">
-                                Zooming is a very important feature for map visualizations in general.  It is effective at allowing users to drill down to see more specific information, and users have come to expect the ability to zoom in.  We initially just implemented scroll zoom and click-to-zoom.  We decided to have both of these features because they serve slighty different purposes.  Click-to-zoom allows users who are interested in a specific state to easily get an optimized state view.  Scroll zoom is best for users who want to freely explore the data or want to zoom in on a very specific area.  We later added the zoom buttons to assist users who may not be comfortable with scroll zoom.
-                            </p>
-                            <p class="section3Subtitle">Bubbles</p>
-                            <p class="sectionText">
-                                We use the area of bubbles to represent the number of people killed by police in each city.  It is important that users can see every city that has an incident and can generally compare the number of incidents per city, and an area encoding fulfills this purpose.  We briefly considered using color rather than size to encode the number of victims, but we wanted to avoid the complex connotations that come with different color schemes.  We included a key for the different sizes of bubbles to make it easier to discern specific values.
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div id="section4" class="section">
-                <div id = "section4Container" class="sectionContainer">
-                    <div id = "section4HeaderRow" class="sectionRow">
-                        <div class="sectionTitle">
-                            Development Process
-                            <p class="section4Subtitle">Overall</p>
-                            <p class="sectionText">In general, we discussed the motivation and design of our visualization.  We collaborated to decide which interactions to support, and to prioritize certain aspects of our data.  Implementation was split up between us, though we ended up doing some things collaboratively.  </p>
-                            <p class="section4Subtitle">Specifics</p>
-                            <ul class="sectionText">
-                                <li>Meredith Lampe: Initial map setup, grid layout within each section, changing the tooltips to only include the city name, moving the list of victims/city name to the right side of the page, adding descriptive text to the map, general styling</li>
-                                <li>Nick Mooney: Setup the project framework and tools, making github page, sizing bubbles correctly when zooming, stop the page from scrolling down when zoomed out completely</li>
-                                <li>Hunter Schafer: Overall page layout, initial scroll zoom, click to zoom,  processing data to extract desired features, mapping data to bubbles on the map, center the map when zoomed out completely, title page, random selection of cities, legend</li>
-                                <li>Erika Wolfe: Preliminary zooming, initial tooltips including the ability to scroll through the list of victim names, saving condensed data to remove javascript processing, writing and styling the write-up</li>
-                            </ul>
-                            <p class="sectionText">
-                                In total, this application took us about 35 - 40 hours of work.  The aspects that took the most time are getting the map to show up correctly initially, getting the bubbles to show on the city locations initially, and finalizing the details for zooming.  The early work on the map took a long time because we were still getting comfortable with D3, and we had some trouble with the relationship between the map and the bubbles.
-                            </p>
-                             <p class="section4Subtitle">Future Work</p>
-                             <p class="sectionText">
-                                In our final project we hope to address the issue that our prototype has with very dense areas of the map.  Most of the map is easy to read, but areas of many nearby cities with police killings are difficult to discern.  One example of this is the area around LA.  To address this, we adjusted the size of the bubbles and subtly outlined them to make them more distinct.  We also ordered the bubbles by size so the smaller ones can still be hovered over.  Still, this does not fully address the problem.  This prototype is an overview of who the victims are, and will be just one page in our final visualization.  Our final data story will add a narrative  to this dataset by highlighting specific victims' stories and including information about recent legislation.
-                             </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer">
-                    <a href="https://cse442-17s.github.io/">CSE 442 Data Visualization</a> -
-                    <a href="http://www.washington.edu">University of Washington</a> -
-                    <a href="https://github.com/CSE442-17S/Police-Killings-In-US">View Source Code 
-                        <svg height="16" width="16">
-                            <path class="github-logo" fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
+<body>
+<div id="fullpage">
+  <div id="section1" class="section">Killings by Police Officers <br/>in the United States
+    <p class="section1Subtitle">Meredith Lampe, Nick Mooney, Hunter Schafer, and Erika Wolfe</p>
+  </div>
+  <div id="ethnicitySection" class="section">
+    <div id="ethnicitySectionContainer" class="sectionContainer">
+      <div class="sectionRow">
+        <div class="sectionTitle">
+          Does Ethnicity Make a Difference?
         </div>
-    </body>
+      </div>
+      <div class="sectionRow">
+        <div id="ethnicityCanvasContainer"></div>
+        <div id="ethnicitySectionText">
+          <p class="sectionText">
+            Some argue that there isn't a systematic bias in the police force because nearly 50% of the
+            victims shot by police officers are white.
+          </p>
+
+          <button id="pieProceed">Click to compare with general population</button>
+          <div id="reveal">
+            <p class="sectionText">
+              While this is true looking purely at the vicitim data, if you add the context of the
+              the ethnicity distribution in the U.S. you see a much more striking .
+            <p>
+
+            <p class="sectionText">
+              For many minorities listed here, the disparity increases when only considering victims that were unarmed
+              or where there is a dispute over the fact that they were armed:
+            </p>
+            <form id="selectArmed"></form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="section2" class="section">
+    <div id="section2Container" class="sectionContainer">
+      <div id="section2HeaderRow" class="sectionRow">
+        <div class="sectionTitle">
+          Who are the Victims?
+          <p class="sectionSubtitle">Every fatal shooting in the United States by a police officer in the line of duty
+            since Jan. 1, 2015</p>
+        </div>
+        <div id="hoverDirections">
+          <p class="directionsParagraph" id="zoomDirection">Click anywhere on the map to zoom.</p>
+          <p class="directionsParagraph">Zoom in/out further by scrolling on the map.</p>
+          <p class="directionsParagraph">Hover over any city to see details.</p>
+        </div>
+      </div>
+      <div class="sectionRow">
+        <div id="usSvgContainer">
+          <button id="zoomIn"><img src="resources/zoom_in.svg"/></button>
+          <button id="zoomOut"><img src="resources/zoom_out.svg"/></button>
+        </div>
+        <div class="mapInfo">
+          <div class="cityTip">
+            <h5 id="cityLabel">City</h5>
+            <h6 id="cityName" class="invisibleText">...</h6>
+          </div>
+          <div id="cityVictims">
+            <h5 id="victimsLabel">Victims</h5>
+            <div id="victimListDiv">
+              <ul id="victimList">
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Date (range slider)
+          Age (range slider)
+          Gender (checkbox)
+          Ethnicity (checkbox)
+          Armed/Unarmed (checkbox)
+          Mental Illness (checkbox)-->
+      <div class="sectionRow" id="victimMapFilters">
+        <div class="victimFilterContainer" id="victimDateFilter">
+          <h5>Date of Incident</h5>
+        </div>
+        <!--<div class="victimFilterContainer" id="victimAgeFilter">-->
+        <!--<h5>Age</h5>-->
+        <!--</div>-->
+        <!--<div class="victimFilterContainer" id="victimGenderFilter">-->
+        <!--<h5>Gender</h5>-->
+        <!--</div>-->
+        <!--<div class="victimFilterContainer" id="victimEthnicityFilter">-->
+        <!--<h5>Ethnicity</h5>-->
+        <!--</div>-->
+        <!--<div class="victimFilterContainer" id="victimMentalFilter">-->
+        <!--<h5>Mental Illness</h5>-->
+        <!--</div>-->
+      </div>
+    </div>
+  </div>
+  <div id="section3" class="section">
+    <div id="section3Container" class="sectionContainer">
+      <div id="section3HeaderRow" class="sectionRow">
+        <div class="sectionTitle">
+          Design Rationale
+          <p class="section3Subtitle">Motivation</p>
+          <p class="sectionText">
+            Our overall project goal is to visualize aggregate information about police killings and to tell the stories
+            of the victims. For our prototype we aim to allow users to see that this trend of police killings is
+            apparent throughout the country, while also displaying information about individual victims. To do this, we
+            chose to create a map visualization showing of the number of police killings in each city, and the name each
+            victim. We display victim information on a city level because the amount of data countrywide would be
+            overwhelming to look at simultaneously. To show the possible interactions with the visualization, it
+            randomly highlights specific cities when the user is not actively engaged with the map.
+          </p>
+          <p class="section3Subtitle">Tooltips</p>
+          <p class="sectionText">
+            Once we chose to use a map, we decided to include tooltips for each city to allow for deeper exploration of
+            the dataset. Initially, the tooltips included both the city name and the list of victim names. This required
+            the user to scroll through the list of names for cities with more police killings. This UI was difficult to
+            use and obscured many of the names behind scrolling, defeating our primary purpose of highlighting each
+            victim. Because of this, we moved the list of names to the side of the map. We display the city name both on
+            the side of the map and on the tooltip to ensure the connection between the map and the names would be
+            apparent.
+          </p>
+          <p class="section3Subtitle">Zoom</p>
+          <p class="sectionText">
+            Zooming is a very important feature for map visualizations in general. It is effective at allowing users to
+            drill down to see more specific information, and users have come to expect the ability to zoom in. We
+            initially just implemented scroll zoom and click-to-zoom. We decided to have both of these features because
+            they serve slighty different purposes. Click-to-zoom allows users who are interested in a specific state to
+            easily get an optimized state view. Scroll zoom is best for users who want to freely explore the data or
+            want to zoom in on a very specific area. We later added the zoom buttons to assist users who may not be
+            comfortable with scroll zoom.
+          </p>
+          <p class="section3Subtitle">Bubbles</p>
+          <p class="sectionText">
+            We use the area of bubbles to represent the number of people killed by police in each city. It is important
+            that users can see every city that has an incident and can generally compare the number of incidents per
+            city, and an area encoding fulfills this purpose. We briefly considered using color rather than size to
+            encode the number of victims, but we wanted to avoid the complex connotations that come with different color
+            schemes. We included a key for the different sizes of bubbles to make it easier to discern specific values.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div id="section4" class="section">
+    <div id="section4Container" class="sectionContainer">
+      <div id="section4HeaderRow" class="sectionRow">
+        <div class="sectionTitle">
+          Development Process
+          <p class="section4Subtitle">Overall</p>
+          <p class="sectionText">In general, we discussed the motivation and design of our visualization. We
+            collaborated to decide which interactions to support, and to prioritize certain aspects of our data.
+            Implementation was split up between us, though we ended up doing some things collaboratively. </p>
+          <p class="section4Subtitle">Specifics</p>
+          <ul class="sectionText">
+            <li>Meredith Lampe: Initial map setup, grid layout within each section, changing the tooltips to only
+              include the city name, moving the list of victims/city name to the right side of the page, adding
+              descriptive text to the map, general styling
+            </li>
+            <li>Nick Mooney: Setup the project framework and tools, making github page, sizing bubbles correctly when
+              zooming, stop the page from scrolling down when zoomed out completely
+            </li>
+            <li>Hunter Schafer: Overall page layout, initial scroll zoom, click to zoom, processing data to extract
+              desired features, mapping data to bubbles on the map, center the map when zoomed out completely, title
+              page, random selection of cities, legend
+            </li>
+            <li>Erika Wolfe: Preliminary zooming, initial tooltips including the ability to scroll through the list of
+              victim names, saving condensed data to remove javascript processing, writing and styling the write-up
+            </li>
+          </ul>
+          <p class="sectionText">
+            In total, this application took us about 35 - 40 hours of work. The aspects that took the most time are
+            getting the map to show up correctly initially, getting the bubbles to show on the city locations initially,
+            and finalizing the details for zooming. The early work on the map took a long time because we were still
+            getting comfortable with D3, and we had some trouble with the relationship between the map and the bubbles.
+          </p>
+          <p class="section4Subtitle">Future Work</p>
+          <p class="sectionText">
+            In our final project we hope to address the issue that our prototype has with very dense areas of the map.
+            Most of the map is easy to read, but areas of many nearby cities with police killings are difficult to
+            discern. One example of this is the area around LA. To address this, we adjusted the size of the bubbles and
+            subtly outlined them to make them more distinct. We also ordered the bubbles by size so the smaller ones can
+            still be hovered over. Still, this does not fully address the problem. This prototype is an overview of who
+            the victims are, and will be just one page in our final visualization. Our final data story will add a
+            narrative to this dataset by highlighting specific victims' stories and including information about recent
+            legislation.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <a href="https://cse442-17s.github.io/">CSE 442 Data Visualization</a> -
+      <a href="http://www.washington.edu">University of Washington</a> -
+      <a href="https://github.com/CSE442-17S/Police-Killings-In-US">View Source Code
+        <svg height="16" width="16">
+          <path class="github-logo" fill-rule="evenodd"
+                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+</body>
 </html>

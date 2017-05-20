@@ -349,3 +349,59 @@ div.tooltip h2 {
 a {
     color: steelblue;
 }
+
+.victimFilterContainer {
+    display: table-cell;
+}
+
+.victimFilterContainer h5 {
+    margin-top: 10pt;
+    margin-bottom: 10pt;
+}
+
+#victimMapFilters {
+    width: 600px;
+}
+
+.ticks {
+    /*stroke: var(--outline-color);*/
+    fill: var(--outline-color);
+    font-size: medium;
+}
+
+.track,
+.track-inset,
+.track-overlay {
+    stroke-linecap: round;
+}
+
+.track {
+    /*stroke: var(--outline-color);*/
+    stroke-opacity: 0.3;
+    stroke-width: 10px;
+}
+
+.track-inset {
+    stroke: var(--secondary-color);
+    stroke-width: 8px;
+}
+
+#track-inset-selected-region {
+    stroke-opacity: 1.0;
+    stroke: white;
+    stroke-width: 8px;
+}
+
+.track-overlay {
+    pointer-events: stroke;
+    stroke-width: 50px;
+    stroke: transparent;
+    cursor: crosshair;
+}
+
+.dateFilterHandle {
+    fill: #fff;
+    stroke: #000;
+    stroke-opacity: 0.5;
+    stroke-width: 1.25px;
+}
