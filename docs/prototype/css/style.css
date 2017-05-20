@@ -304,13 +304,19 @@ a {
 }
 
 .track {
-    stroke: #000;
+    /*stroke: var(--outline-color);*/
     stroke-opacity: 0.3;
     stroke-width: 10px;
 }
 
 .track-inset {
-    stroke: #ddd;
+    stroke: var(--secondary-color);
+    stroke-width: 8px;
+}
+
+#track-inset-selected-region {
+    stroke-opacity: 1.0;
+    stroke: white;
     stroke-width: 8px;
 }
 

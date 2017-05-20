@@ -1,13 +1,17 @@
 const d3 = require('d3');
 (function () {
 
-    const START_DATE = new Date("2015-01-01"); // TODO: why is this getting converted to Dec2014...time zone?
-    const END_DATE = new Date("2017-04-20"); // TODO: when is the end date? today?
+    const START_DATE = new Date(getDateString("2015-01-01"));
+    const END_DATE = new Date(getDateString("2017-04-15")); // max date in dataset
 
     // stupid
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
+
+    function getDateString(intended_date) {
+        return intended_date + " 00:00:00"; // by default assume all happened at midnight
+    }
 
     // size rectangle that holds map
     // proportional to window
@@ -140,6 +144,7 @@ const d3 = require('d3');
         d3.select("#victimMapFilters")
             .attr("height", h * (1.0 / 3) + "px");
 
+
         var citySymbols = svg.selectAll(".symbol")
             .data(cities)
             .enter()
@@ -236,10 +241,23 @@ const d3 = require('d3');
 
     function update() {
 
+        // use if we need to check date bounds of dataset
+        //var maxDate = new Date("2015-01-01");
+        //var minDate = new Date("2016-01-01");
+
         for (var city = 0; city < cities.length; city++) {
             var filtered = cities[city].records.filter(function (d) {
                 // filter on date
                 var date = new Date(d.date);
+
+               // DEBUG
+               // if (date > maxDate) {
+               //     maxDate = date;
+               // }
+               // if (date < minDate) {
+               //     minDate = date;
+               // }
+
                 var pass = date >= visible.startDate && date <= visible.endDate;
                 return pass;
             });
@@ -256,11 +274,12 @@ const d3 = require('d3');
                 return d.num_records_visible;
             });
         }
+        //console.log("max date: "  + maxDate);
+        //console.log("min date: " + minDate);
     }
 
     function appendSlider(parent, cityData, victimSymbols) {
 
-        var maxDate = 180;
         var svg = parent.append("svg")
             .attr("width", parent.style("width"));
 
@@ -293,6 +312,18 @@ const d3 = require('d3');
             })
             .attr("class", "track-overlay");
 
+        var lowerRangeConstant = x.range()[0];
+
+        slider.append("line")
+            .attr("class", "track")
+            .attr("x1", function(d) {
+                return lowerRangeConstant;
+            })
+            .attr("x2", function(d) {
+                return x.range()[1];
+            })
+            .attr("id", "track-inset-selected-region");
+
         var lowerticks = slider.insert("g", ".track-overlay")
             .attr("class", "ticks")
             .attr("transform", "translate(0," + 25 + ")");
@@ -323,22 +354,28 @@ const d3 = require('d3');
                 // dragged to and update viz (this check prevents user from dragging
                 // handle off of track or in front of upper handle)
                 var upperHandleX = d3.select("#upperDateFilterHandle").attr("cx") - 15;// subtracting 5 for radius of handle
+                var selectedRegion = d3.select("#track-inset-selected-region");
+                var leftXBound;
                 if (d3.event.x < x.range()[0]) {
-                    lowerHandle.attr('cx', x.range()[0]);
+                    leftXBound = x.range()[0];
                 } else if (d3.event.x > upperHandleX) {
-                    lowerHandle.attr('cx', upperHandleX);
+                    leftXBound = upperHandleX
                 } else {
-                    lowerHandle.attr('cx', d3.event.x);
+                    leftXBound = d3.event.x;
                 }
+                lowerHandle.attr('cx', leftXBound);
+
+                // move selected region in slider
+                selectedRegion.attr("x1", leftXBound);
 
                 // update handle tooltip
                 d3.select("#dateFilterLabelLower")
-                    .attr("x", lowerHandle.attr("cx"))
-                    .text(monthNames[x.invert(d3.event.x).getMonth()] + " "
-                        + x.invert(d3.event.x).getFullYear());
+                    .attr("x", leftXBound)
+                    .text(monthNames[x.invert(leftXBound).getMonth()] + " "
+                        + x.invert(leftXBound).getFullYear());
 
                 // set global "visible" data
-                var lowerHandleDate = new Date(x.invert(d3.event.x));
+                var lowerHandleDate = new Date(x.invert(leftXBound));
                 visible.startDate = lowerHandleDate;
                 update();
             });
@@ -347,21 +384,26 @@ const d3 = require('d3');
             .on('drag', function () {
 
                 var lowerHandleX = d3.select("#lowerDateFilterHandle").attr("cx") + 15;// subtracting 5 for radius of handle
+                var selectedRegion = d3.select("#track-inset-selected-region");
+                var upperXBound;
                 if (d3.event.x > x.range()[1]) {
-                    upperHandle.attr('cx', x.range()[1]);
+                    upperXBound = x.range()[1];
                 } else if (d3.event.x < lowerHandleX) {
-                    upperHandle.attr('cx', lowerHandleX);
+                    upperXBound = lowerHandleX;
                 } else {
-                    upperHandle.attr('cx', d3.event.x);
+                    upperXBound = d3.event.x;
                 }
+                upperHandle.attr('cx', upperXBound);
 
                 // update tooltip
                 d3.select("#dateFilterLabelUpper")
-                    .attr("x", upperHandle.attr("cx"))
-                    .text(monthNames[x.invert(d3.event.x).getMonth()] + " "
-                        + x.invert(d3.event.x).getFullYear());
+                    .attr("x", upperXBound)
+                    .text(monthNames[x.invert(upperXBound).getMonth()] + " "
+                        + x.invert(upperXBound).getFullYear());
 
-                var upperHandleDate = new Date(x.invert(d3.event.x));
+                selectedRegion.attr("x2", upperXBound);
+
+                var upperHandleDate = new Date(x.invert(upperXBound));
                 visible.endDate = upperHandleDate;
                 update();
             });
