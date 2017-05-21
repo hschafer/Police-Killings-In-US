@@ -10,12 +10,13 @@ const d3 = require('d3');
     ];
 
     const RACE = {
-       "W" : "White",
+        "W": "White",
         "B": "African American",
         "H": "Hispanic",
         "N": "Native American",
         "A": "Asian",
-        "O": "Other"
+        "O": "Other",
+        "U": "Unknown"
     };
 
     function getDateString(intended_date) {
@@ -61,7 +62,7 @@ const d3 = require('d3');
         endDate: END_DATE,
         ethnicity: {
             "African American": true,
-            "Asian" : true,
+            "Asian": true,
             "Hispanic": true,
             "Native American": true,
             "Other": true,
@@ -134,13 +135,17 @@ const d3 = require('d3');
 
         // disable body scrolling while inside SVG container
         svgContainer.on("mouseenter",
-                function () { document.body.style.overflow = 'hidden';
-                              svg.call(zoom); })
+            function () {
+                document.body.style.overflow = 'hidden';
+                svg.call(zoom);
+            })
             .on("mouseleave",
-                function() { document.body.style.overflow = 'auto';
-                             svg.on("wheel.zoom", null); });
+                function () {
+                    document.body.style.overflow = 'auto';
+                    svg.on("wheel.zoom", null);
+                });
 
-    	svg.append("rect")
+        svg.append("rect")
             .attr("class", "backgroundRect")
             .attr("width", w)
             .attr("height", h)
@@ -285,20 +290,15 @@ const d3 = require('d3');
                 // filter on date
                 var date = new Date(d.date);
 
-               // DEBUG
-               // if (date > maxDate) {
-               //     maxDate = date;
-               // }
-               // if (date < minDate) {
-               //     minDate = date;
-               // }
+                // DEBUG
+                // if (date > maxDate) {
+                //     maxDate = date;
+                // }
+                // if (date < minDate) {
+                //     minDate = date;
+                // }
 
                 var pass = date >= visible.startDate && date <= visible.endDate;
-                if (d.race != "O" && d.race != "A" && d.race != "N" &&
-                    d.race != "" && d.race != "B" &&
-                    d.race != "H" && d.race != "W") {
-                    console.log(d);
-                }
                 if (d.race != "") {
                     pass &= visible.ethnicity[RACE[d.race]];
                 } else {
@@ -361,10 +361,10 @@ const d3 = require('d3');
 
         slider.append("line")
             .attr("class", "track")
-            .attr("x1", function(d) {
+            .attr("x1", function (d) {
                 return lowerRangeConstant;
             })
-            .attr("x2", function(d) {
+            .attr("x2", function (d) {
                 return x.range()[1];
             })
             .attr("id", "track-inset-selected-region");
@@ -467,7 +467,7 @@ const d3 = require('d3');
     }
 
     function handleFilterClicks() {
-        d3.selectAll(".EthnicityCheckboxItem input").on("click", function() {
+        d3.selectAll(".EthnicityCheckboxItem input").on("click", function () {
             if (visible.ethnicity[this.name]) {
                 visible.ethnicity[this.name] = false;
             } else {
