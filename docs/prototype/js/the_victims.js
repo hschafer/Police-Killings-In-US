@@ -478,19 +478,25 @@ const d3 = require('d3');
     }
 
     function randomSelection(cityData) {
-        var randCity = cityData[Math.floor(Math.random() * cityData.length)];
         var svg = d3.select(".mapSVG");
-        var domNode = svg.selectAll(".symbol").filter(function (d) {
-            return d.id === randCity.id;
-        });
+        var svgContainer = $(".mapSVG")[0];
+
+        var visibleCitySymbols = $(".symbol").filter(function (d) {
+          return (this.cx.animVal.value < svgContainer.width.animVal.value) &&
+                 (this.cx.animVal.value > 0) &&
+                 (this.cy.animVal.value < svgContainer.height.animVal.value) &&
+                 (this.cy.animVal.value > 0); });
+        var randSymbol = visibleCitySymbols[Math.floor(Math.random() * visibleCitySymbols.length)];
+        var randCity = randSymbol.__data__;
+
         var circle = svg.selectAll("#highlightedCity").data([randCity]);
         circle.enter().append('circle')
             .attr("id", "highlightedCity")
             .attr("class", "symbol")
             .merge(circle)
-            .attr("cx", domNode.attr("cx"))
-            .attr("cy", domNode.attr("cy"))
-            .attr("r", domNode.attr("r"));
+            .attr("cx", randSymbol.cx.animVal.value)
+            .attr("cy", randSymbol.cy.animVal.value)
+            .attr("r", randSymbol.r.animVal.value);
         circle.exit().remove();
         deselectCity();
         selectCity(randCity);
