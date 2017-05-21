@@ -124,22 +124,21 @@ const d3 = require('d3');
                 zoomButtonClick(2 / 3);
             });
 
-        // disable body scrolling while inside SVG container
-        svgContainer.on("mouseover",
-            function () {
-                document.body.style.overflow = 'hidden';
-            })
-            .on("mouseout",
-                function () {
-                    document.body.style.overflow = 'auto';
-                });
-
         // append map SVG
         svg = svgContainer.append("svg")
             .attr("width", w)
             .attr("height", h)
             .attr("class", "mapSVG")
-            .call(zoom);
+            .call(zoom)
+            .on("wheel.zoom", null); // disable wheel zooming by default
+
+        // disable body scrolling while inside SVG container
+        svgContainer.on("mouseenter",
+                function () { document.body.style.overflow = 'hidden';
+                              svg.call(zoom); })
+            .on("mouseleave",
+                function() { document.body.style.overflow = 'auto';
+                             svg.on("wheel.zoom", null); });
 
     	svg.append("rect")
             .attr("class", "backgroundRect")
