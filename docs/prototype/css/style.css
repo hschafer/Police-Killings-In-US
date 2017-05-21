@@ -186,7 +186,6 @@ button:focus {
 }
 
 .sectionRow div {
-    font-size: 24pt;
 }
 
 #section2HeaderRow {
@@ -355,12 +354,70 @@ a {
 }
 
 .victimFilterContainer h5 {
+    font-size: 20pt;
+}
+
+#victimDateFilter {
+    width: 30%;
+}
+
+#victimDemographics {
+    display: table;
+    width: 100%;
+}
+
+#victimDemographicsContainer {
+    width: 70%;
+}
+
+#victimParamsCol1, #victimParamsCol2, #victimParamsCol3 {
+   display:table-cell;
+}
+
+#victimParamsCol1 {
+    width: 50%;
+}
+
+#victimParamsCol2, #victimParamsCol3 {
+    width: 25%;
+}
+
+.victimDemographicList {
+   font-size: 15pt;
+    list-style-type: none;
+}
+
+.victimDemographicItem {
+    margin-top: 10pt;
+    margin-bottom: 10pt;
+}
+
+.victimDemographicList h6 {
+    margin: 0pt;
+    color: var(--outline-color);
+}
+
+.victimFilterContainer h5 {
     margin-top: 10pt;
     margin-bottom: 10pt;
 }
 
 #victimMapFilters {
-    width: 600px;
+    width: 100%;
+}
+
+.EthnicityCheckboxColumn {
+    display: table-cell;
+    width: 33%;
+}
+
+#EthnicityCheckboxContainer {
+    display: table;
+    width: 100%;
+}
+
+.EthnicityCheckboxItem {
+    font-size: 10pt;
 }
 
 .ticks {

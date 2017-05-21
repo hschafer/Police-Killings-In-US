@@ -9,6 +9,15 @@ const d3 = require('d3');
         "July", "August", "September", "October", "November", "December"
     ];
 
+    const RACE = {
+       "W" : "White",
+        "B": "African American",
+        "H": "Hispanic",
+        "N": "Native American",
+        "A": "Asian",
+        "O": "Other"
+    };
+
     function getDateString(intended_date) {
         return intended_date + " 00:00:00"; // by default assume all happened at midnight
     }
@@ -49,7 +58,16 @@ const d3 = require('d3');
 
     var visible = {
         startDate: START_DATE,
-        endDate: END_DATE
+        endDate: END_DATE,
+        ethnicity: {
+            "African American": true,
+            "Asian" : true,
+            "Hispanic": true,
+            "Native American": true,
+            "Other": true,
+            "Unknown": true,
+            "White": true
+        }
     };
 
 
@@ -143,7 +161,6 @@ const d3 = require('d3');
         d3.select("#victimMapFilters")
             .attr("height", h * (1.0 / 3) + "px");
 
-
         var citySymbols = svg.selectAll(".symbol")
             .data(cities)
             .enter()
@@ -184,7 +201,9 @@ const d3 = require('d3');
                 deselectCity();
             });
 
+        //set up filters
         appendSlider(d3.select("#victimDateFilter"), cityData, victimSymbols);
+        handleFilterClicks();
 
         tooltipDiv = d3.select("body").append("div")
             .attr("class", "tooltip")
@@ -207,15 +226,16 @@ const d3 = require('d3');
 
         makeLegend(cityData);
 
-// kind of hacky
-// we have to do this last to get the position of the mapInfo sidebar
+        // kind of hacky
+        // we have to do this last to get the position of the mapInfo sidebar
+        var containerWidth = parseFloat(d3.select("#section2Container").style("width"));
+        var mapWidth = parseFloat(d3.select("#usSvgContainer").select("svg").attr("width"));
         d3.select("#hoverDirections").style("width", function () {
-            var containerWidth = parseFloat(d3.select("#section2Container").style("width"));
-            var mapWidth = parseFloat(d3.select("#usSvgContainer").select("svg").attr("width"));
             var result = containerWidth
                 - mapWidth - parseFloat(d3.select(".mapInfo").style("padding-left"));
             return result + "px";
         });
+
     }
 
     function getCityID(city, state) {
@@ -246,6 +266,23 @@ const d3 = require('d3');
 
         for (var city = 0; city < cities.length; city++) {
             var filtered = cities[city].records.filter(function (d) {
+                // example response
+                //age: "35.0"
+                //armed:"vehicle"
+                //body_camera:"False"
+                //city:"Vincennes"
+                //computed_lat:"38.677269"
+                //computed_long:"-87.5286325"
+                //date:"2017-02-14"
+                //flee:"Other"
+                //gender:"M"
+                //id:"2339.0"
+                //manner_of_death:"shot"
+                //name:"David Zimmerman"
+                //race:"W"
+                //signs_of_mental_illness:"False"
+                //state:"IN"
+                //threat_level:"other"
                 // filter on date
                 var date = new Date(d.date);
 
@@ -258,6 +295,16 @@ const d3 = require('d3');
                // }
 
                 var pass = date >= visible.startDate && date <= visible.endDate;
+                if (d.race != "O" && d.race != "A" && d.race != "N" &&
+                    d.race != "" && d.race != "B" &&
+                    d.race != "H" && d.race != "W") {
+                    console.log(d);
+                }
+                if (d.race != "") {
+                    pass &= visible.ethnicity[RACE[d.race]];
+                } else {
+                    pass &= visible.ethnicity["Unknown"];
+                }
                 return pass;
             });
 
@@ -283,7 +330,7 @@ const d3 = require('d3');
             .attr("width", parent.style("width"));
 
         var margin = {right: 50, left: 50},
-            width = 500,
+            width = (parseInt(d3.select("#victimDateFilter").style("width"), 10) * 3.0 / 4),
             height = 50;
 
         var x = d3.scaleTime()
@@ -352,7 +399,7 @@ const d3 = require('d3');
                 // if handle is within expected area, move it to where it is being
                 // dragged to and update viz (this check prevents user from dragging
                 // handle off of track or in front of upper handle)
-                var upperHandleX = d3.select("#upperDateFilterHandle").attr("cx") - 15;// subtracting 5 for radius of handle
+                var upperHandleX = parseInt(d3.select("#upperDateFilterHandle").attr("cx")) - 15;
                 var selectedRegion = d3.select("#track-inset-selected-region");
                 var leftXBound;
                 if (d3.event.x < x.range()[0]) {
@@ -381,8 +428,7 @@ const d3 = require('d3');
 
         var upperHandleDrag = d3.drag()
             .on('drag', function () {
-
-                var lowerHandleX = d3.select("#lowerDateFilterHandle").attr("cx") + 15;// subtracting 5 for radius of handle
+                var lowerHandleX = parseInt(d3.select("#lowerDateFilterHandle").attr("cx"), 10) + 15;
                 var selectedRegion = d3.select("#track-inset-selected-region");
                 var upperXBound;
                 if (d3.event.x > x.range()[1]) {
@@ -419,6 +465,17 @@ const d3 = require('d3');
             .attr("cx", x.range()[1])
             .attr("r", 9)
             .call(upperHandleDrag);
+    }
+
+    function handleFilterClicks() {
+        d3.selectAll(".EthnicityCheckboxItem input").on("click", function() {
+            if (visible.ethnicity[this.name]) {
+                visible.ethnicity[this.name] = false;
+            } else {
+                visible.ethnicity[this.name] = true;
+            }
+            update();
+        });
     }
 
     function randomSelection(cityData) {
