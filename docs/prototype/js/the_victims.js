@@ -315,7 +315,7 @@ const d3 = require('d3');
             // set radius of city to num_records_visible
             var citySelection = d3.select("#" + getCityID(cities[city].city, cities[city].state));
             //var citySelection = svg.select("#LosAngeles,CA_symbol");
-            citySelection.attr("r", function (d) {
+            citySelection.transition().attr("r", function (d) {
                 return d.num_records_visible;
             });
         }
