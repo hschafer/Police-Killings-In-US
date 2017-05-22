@@ -33464,6 +33464,7 @@ const d3 = __webpack_require__(134);
     var victims;
     var cities;
     var currentVisible;
+    var stateVictimCount;
 
     var projection = d3.geoAlbersUsa()
         .translate([w / 2, h / 2])
@@ -33508,20 +33509,28 @@ const d3 = __webpack_require__(134);
     function ready(error, us, cityData) {
         if (error) throw error;
 
+        stateVictimCount = new Map();
         cities = cityData;
         cityData.sort(function (a, b) {
             d3.descending(a.num_records, b.num_records);
         });
 
         victims = [];
+
         for (var city = 0; city < cityData.length; city++) {
             var cityInfo = cityData[city];
+            var state = cityInfo.state.trim()
+            var numVictims = cityInfo.records.length;
 
+            if (!stateVictimCount.has(state)) {
+                stateVictimCount.set(state, 0);
+            }
+            stateVictimCount.set(state, stateVictimCount.get(state) + numVictims);
             // use these for map
             cityInfo.num_records_visible = cityInfo.num_records;
             cityInfo.records_visible = cityInfo.records.slice();
 
-            for (var victim = 0; victim < cityInfo.records.length; victim++) {
+            for (var victim = 0; victim < numVictims; victim++) {
                 victims[victims.length] = cityInfo.records[victim];
             }
         }
@@ -33582,7 +33591,13 @@ const d3 = __webpack_require__(134);
             .append("path")
             .attr("class", "states")
             .attr("d", path)
-            .on("click", clicked);
+            .on("click", clicked) //;
+            .on("mouseover", function (d) {
+                selectState(d);
+            })
+            .on("mouseout", function (d) {
+                deselectCity();
+            });
 
         // style map filters
         d3.select("#victimMapFilters")
@@ -33923,6 +33938,17 @@ const d3 = __webpack_require__(134);
         circle.exit().remove();
         deselectCity();
         selectCity(randCity);
+    }
+
+    function selectState(d) {
+        // remove invisibility
+        d3.select("#cityName").classed("invisibleText", false);
+        d3.select("#cityName").html(d.properties.name);
+        var victimList = d3.select("#victimList");
+        victimList.append("li").html("Hover over a city to get specific victim names");
+        d3.select("#cityCount").classed("invisibleText", false);
+        // Uses abbreviation because the city file uses abbreviations
+        d3.select("#cityCount").html(stateVictimCount.get(d.properties.abbreviation));
     }
 
     function selectCity(d) {
