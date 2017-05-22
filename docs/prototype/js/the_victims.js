@@ -512,11 +512,16 @@ const d3 = require('d3');
         for (var person = 0; person < d.records.length; person++) {
             victimsList.append("li").html(d.records[person].name);
         }
+
+        d3.select("#cityCount").classed("invisibleText", false);
+        d3.select("#cityCount").html(d.records.length);
     }
 
     function deselectCity() {
         d3.select("#cityName").classed("invisibleText", true);
         d3.select("#cityName").html("...");
+        d3.select("#cityCount").classed("invisibleText", true);
+        d3.select("#cityCount").html("...");
         var listNodes = d3.select("#victimList").selectAll("*");
         listNodes.remove();
     }

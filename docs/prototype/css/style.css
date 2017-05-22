@@ -145,20 +145,20 @@ button:focus {
  " Styles for map section
  " ----------------------------------------------------------------------------
 */
-#cityName {
+#cityName, #cityCount {
     margin-top: 1pt;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     color: var(--outline-color);
 }
 
-#cityLabel {
-    margin-top: 1pt;
+#cityLabel, #countLabel {
+    margin-top: 10px;
     margin-bottom: 1pt;
     color: var(--secondary-color);
 }
 
 #victimsLabel {
-    margin-top: 5px;
+    margin-top: 10px;
     margin-bottom: 5pt;
     color: var(--secondary-color);
 }
