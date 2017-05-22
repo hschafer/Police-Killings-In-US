@@ -105,7 +105,7 @@ html {
     vertical-align: middle;
 }
 
-#ethnicitySectionContainer button {
+.bigButton {
   display: block;
   margin: 0 auto;
   padding: 15px 45px;
@@ -121,17 +121,17 @@ html {
   border: none;
 }
 
-button:focus {
+.bigButton:focus {
   outline: none
 }
 
-#ethnicitySectionContainer button:hover {
+.bigButton:hover {
   background-color: #346392;
   text-shadow: -1px 1px #27496d;
   cursor: pointer;
 }
 
-#ethnicitySectionContainer button:active {
+.bigButton:active {
   background-color: #27496d;
   text-shadow: -1px 1px #193047;
 }
@@ -341,7 +341,7 @@ div.tooltip h2 {
     top: 2px;
 }
 
-#zoomOut {
+#section2 #zoomOut {
     left: 50px;
 }
 
@@ -461,4 +461,63 @@ a {
     stroke: #000;
     stroke-opacity: 0.5;
     stroke-width: 1.25px;
+}
+
+/*
+ " ----------------------------------------------------------------------------
+ " Styles for next steps
+ " ----------------------------------------------------------------------------
+*/
+
+
+
+#nextStepsContainer {
+    position: relative;
+}
+
+#tableContainer {
+    width: 100%;
+    height: 90%;
+}
+
+#tableContainer .row {
+    height: 33%;
+    width: 100%;
+    display: table-row;
+}
+
+#tableContainer .row:last-child .rowHeader,
+#tableContainer .row:last-child .rowContent {
+    border-bottom: 1px solid white;
+}
+
+.rowHeader, .contentDescription {
+    border-left: 1px solid white;
+}
+
+.rowHeader, .extraComponent {
+    border-right: 1px solid white;
+}
+
+.rowHeader, .rowContent {
+    display: table-cell;
+    border-top: 1px solid white;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.rowHeader {
+    width: 15%;
+    font-size: 20pt;
+}
+
+.contentDescription {
+    width: 40%;
+    padding: 5px
+    text-align: left;
+}
+
+a.bigButton {
+    text-decoration: none;
+    display: inline;
 }
