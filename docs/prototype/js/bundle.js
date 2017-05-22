@@ -33273,6 +33273,9 @@ function tooltipLabel(tooltipItem, data, signed) {
                         sidePadding: 20 // Defualt is 20 (as a percentage)
 				    }
                 },
+                hover: {
+                    onHover: changePointer("#pieCharts")
+                },
                 tooltips: {
                     callbacks: {
                         label: tooltipLabel
@@ -33280,6 +33283,7 @@ function tooltipLabel(tooltipItem, data, signed) {
                 },
                 legend: {
                     onClick: rotation,
+                    onHover: changePointer("#pieCharts"),
                     position: "left"
                 },
                 onClick: rotation
@@ -33327,6 +33331,12 @@ function tooltipLabel(tooltipItem, data, signed) {
         pieCharts.update();
     }
 
+    function changePointer(id) {
+        return function(event, hovered) {
+            $(id).css("cursor", hovered[0] ? "pointer" : "default");
+        }
+    }
+
     function makeDiffChart(victimData, censusData, colors) {
         var unknownIndex = 0;
         var diffs = victimData.map(function(d, i) {
@@ -33354,8 +33364,13 @@ function tooltipLabel(tooltipItem, data, signed) {
             options: {
                 legend: {
                     labels: {
-                        boxWidth: 0 // make the annoying legend box dissapear
-                    }
+                        boxWidth: 0, // make the annoying legend box dissapear
+                        fontSize: 20
+                    },
+                    onClick: null
+                },
+                hover: {
+                    onHover: changePointer("#diffChart")
                 },
                 scales: {
                     yAxes: [{
@@ -34241,8 +34256,9 @@ Chart.pluginService.register({
             if (chart.config.options.elements.right) {
                 var rightTxt = chart.config.options.elements.right.text;
                 var rightStringWidth = ctx.measureText(rightTxt).width;
-                var rightX = centerX + chart.outerRadius + rightStringWidth / 2 + sidePaddingCalculated / 4;
-                ctx.fillText(rightTxt, rightX, centerY);
+                var rightX = centerX + chart.outerRadius / 2 + rightStringWidth / 2;
+                var rightY = chart.chartArea.top + sidePaddingCalculated / 4;
+                ctx.fillText(rightTxt, rightX, rightY);
             }
         }
     }
