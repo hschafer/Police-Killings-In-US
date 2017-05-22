@@ -202,12 +202,34 @@ const d3 = require('d3');
 
                 // set tooltip
                 if (d.records.length > 0) {
+                    var xPadding = 20;
+                    var yPadding = 30;
+
+                    var x = d3.event.pageX;
+                    var y = d3.event.pageY;
+
                     tooltipActive = true;
                     tooltipDiv.style("opacity", .9);
+
+                    // set the text first so we can figure out the width
                     tooltipDiv.append("h2")
                         .html(d.city + ", " + d.state);
-                    tooltipDiv.style("left", (d3.event.pageX) + 15 + "px")
-                        .style("top", (d3.event.pageY) - 28 + "px")
+
+                    // adjust the x if the tooltip would go over the edge
+                    var width = $(".tooltip").width();
+                    var deltaX;
+                    if (x + xPadding + width > w) {
+                        deltaX = -(xPadding + width);
+                    } else {
+                        deltaX = xPadding;
+                    }
+                    tooltipDiv.style("left", x + deltaX +  "px")
+                        .style("top", y - yPadding + "px")
+
+                    // TODO: Should we do this for y as well? It seems much more
+                    // difficult because y is in terms of the *whole* page so it
+                    // would be much harder to compute. Not having the adjustment
+                    // isn't a huge deal because it doesn't occlude the bar on the right
                 }
             })
             .on("mouseout", function (d) {
