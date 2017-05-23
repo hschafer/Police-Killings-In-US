@@ -248,7 +248,7 @@ html {
     cursor: pointer;
 }
 
-.symbol#highlightedCity, .symbol#highlightedCityDuplicate {
+.symbol.highlightedCity, .symbol#highlightedCityDuplicate {
     fill: #c51d1d;
     stroke: #b11a1a;
 }

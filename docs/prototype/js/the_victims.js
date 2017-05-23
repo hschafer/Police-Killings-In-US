@@ -38,7 +38,6 @@ const d3 = require('d3');
     var tooltipDiv;
     var clickedCity = null;
     var victimSymbols;
-    var victims;
     var cities;
     var currentVisible;
     var stateVictimCount;
@@ -92,8 +91,6 @@ const d3 = require('d3');
             return d3.descending(a.num_records, b.num_records);
         });
 
-        victims = [];
-
         for (var city = 0; city < cityData.length; city++) {
             var cityInfo = cityData[city];
             var state = cityInfo.state.trim()
@@ -106,15 +103,11 @@ const d3 = require('d3');
             // use these for map
             cityInfo.num_records_visible = cityInfo.num_records;
             cityInfo.records_visible = cityInfo.records.slice();
-
-            for (var victim = 0; victim < numVictims; victim++) {
-                victims[victims.length] = cityInfo.records[victim];
-            }
         }
 
         radius = d3.scaleSqrt()
             .domain([0, d3.max(cityData, function (d) {
-                return d.num_records;
+                return d.num_records_visible;
             })])
             .range([0, 15]);
 
@@ -185,7 +178,7 @@ const d3 = require('d3');
             .attr("height", h * (1.0 / 3) + "px");
 
         var citySymbols = svg.selectAll(".symbol")
-            .data(cities)
+            .data(cities, function(d) { return d.id; })
             .enter()
             .append("circle")
             .attr("class", "symbol")
@@ -198,9 +191,7 @@ const d3 = require('d3');
             .attr("cy", function (d) {
                 return projection([d.longitude, d.latitude])[1];
             })
-            .attr("r", function (d) {
-                return d.num_records_visible;
-            })
+            .attr("r", mapSymbolRadius)
             .on("click", function(d) {
                 var clicked = clickedCity;
                 deselectCity();
@@ -216,7 +207,7 @@ const d3 = require('d3');
                 }
 
                 // even if we have a city clicked, set tooltip
-                if (d.records.length > 0) {
+                if (d.records_visible.length > 0) {
                     var xPadding = 20;
                     var yPadding = 30;
 
@@ -302,19 +293,8 @@ const d3 = require('d3');
             + state.replace(/ |'|,/g, '') + "_symbol";
     }
 
-    function appendVictimSymbol(d) {
-
-        d.append("circle")
-            .attr("class", "symbol")
-            .attr("cx", function (d) {
-                return projection([d.computed_long, d.computed_lat])[0];
-            })
-            .attr("cy", function (d) {
-                return projection([d.computed_long, d.computed_lat])[1];
-            })
-            .attr("r", function (d) {
-                return 5;
-            });
+    function mapSymbolRadius(d) {
+        return d.num_records_visible;
     }
 
     function update() {
@@ -352,6 +332,7 @@ const d3 = require('d3');
                 // if (date < minDate) {
                 //     minDate = date;
                 // }
+                //
 
                 var pass = date >= visible.startDate && date <= visible.endDate;
                 if (d.race != "") {
@@ -366,13 +347,19 @@ const d3 = require('d3');
             // set the records visible
             cities[city].num_records_visible = filtered.length;
             cities[city].records_visible = filtered;
+        }
 
-            // set radius of city to num_records_visible
-            var citySelection = d3.select("#" + getCityID(cities[city].city, cities[city].state));
-            //var citySelection = svg.select("#LosAngeles,CA_symbol");
-            citySelection.transition().attr("r", function (d) {
-                return d.num_records_visible;
-            });
+        svg.selectAll(".symbol")
+            .transition()
+            .attr("r", mapSymbolRadius);
+
+        // Making the assumption that we can't hover over city and update at the same time
+        // we only need to update the list of victims on the right if something is clicked
+        if (clickedCity) {
+            var clicked = clickedCity;
+            deselectCity();
+            clickedCity = clicked;
+            selectCity(clicked);
         }
     }
 
@@ -534,28 +521,33 @@ const d3 = require('d3');
         var svg = d3.select(".mapSVG");
         var svgContainer = $(".mapSVG")[0];
 
-        var visibleCitySymbols = $(".symbol").filter(function (d) {
+        var visibleCitySymbols = $(".symbol").filter(function (index) {
           return (this.cx.animVal.value < svgContainer.width.animVal.value) &&
                  (this.cx.animVal.value > 0) &&
                  (this.cy.animVal.value < svgContainer.height.animVal.value) &&
-                 (this.cy.animVal.value > 0); });
-        var randSymbol = visibleCitySymbols[Math.floor(Math.random() * visibleCitySymbols.length)];
-        var randCity = randSymbol.__data__;
+                 (this.cy.animVal.value > 0) &&
+                 (this.__data__.num_records_visible > 0);
+        });
 
-        deselectCity();
-        selectCity(randCity);
+        if (visibleCitySymbols.length > 0) {
+            var randSymbol = visibleCitySymbols[Math.floor(Math.random() * visibleCitySymbols.length)];
+            var randCity = randSymbol.__data__;
 
-        // Note: This is a different highlighting strategy than clicking.
-        // We want this bubble to be on the top so it's easier to just make a duplicate
-        var circle = svg.selectAll("#highlightedCityDuplicate").data([randCity], function(d) { return d.id; });
-        circle.enter().append('circle')
-            .attr("id", "highlightedCityDuplicate")
-            .attr("class", "symbol")
-            .merge(circle)
-            .attr("cx", randSymbol.cx.animVal.value)
-            .attr("cy", randSymbol.cy.animVal.value)
-            .attr("r", randSymbol.r.animVal.value);
-        circle.exit().remove();
+            deselectCity();
+            selectCity(randCity);
+
+            // Note: This is a different highlighting strategy than clicking.
+            // We want this bubble to be on the top so it's easier to just make a duplicate
+            var circle = svg.selectAll("#highlightedCityDuplicate").data([randCity], function(d) { return d.id; });
+            circle.enter().append('circle')
+                .attr("id", "highlightedCityDuplicate")
+                .attr("class", "symbol")
+                .merge(circle)
+                .attr("cx", randSymbol.cx.animVal.value)
+                .attr("cy", randSymbol.cy.animVal.value)
+                .attr("r", randSymbol.r.animVal.value);
+            circle.exit().remove();
+        }
     }
 
     function selectState(d) {
@@ -576,17 +568,17 @@ const d3 = require('d3');
 
         // add victims
         var victimsList = d3.select("#victimList");
-        for (var person = 0; person < city.records.length; person++) {
-            victimsList.append("li").html(city.records[person].name);
+        for (var person = 0; person < city.records_visible.length; person++) {
+            victimsList.append("li").html(city.records_visible[person].name);
         }
 
         d3.select("#cityCount").classed("invisibleText", false);
-        d3.select("#cityCount").html(city.records.length);
+        d3.select("#cityCount").html(city.records_visible.length);
 
         // highlight the city
         d3.selectAll(".symbol")
             .filter(function(d) { return d === city; })
-            .attr("id", "highlightedCity");
+            .classed("highlightedCity", true);
     }
 
     function deselectCity() {
@@ -598,8 +590,8 @@ const d3 = require('d3');
         listNodes.remove();
 
         // unhighlight city, don't delete the node, just remove id
-        d3.selectAll("#highlightedCity")
-            .attr("id", "");
+        d3.selectAll(".highlightedCity")
+            .classed("highlightedCity", false);
         clickedCity = null;
     }
 
