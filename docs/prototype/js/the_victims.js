@@ -202,11 +202,9 @@ const d3 = require('d3');
                 return d.num_records_visible;
             })
             .on("click", function(d) {
-                // deselect if same, change if different
+                var clicked = clickedCity;
                 deselectCity();
-                if (clickedCity === d) {
-                    clickedCity = null;
-                } else {
+                if (d !== clicked) {
                     selectCity(d);
                     clickedCity = d;
                 }
@@ -602,6 +600,7 @@ const d3 = require('d3');
         // unhighlight city, don't delete the node, just remove id
         d3.selectAll("#highlightedCity")
             .attr("id", "");
+        clickedCity = null;
     }
 
     function clicked(d) {
