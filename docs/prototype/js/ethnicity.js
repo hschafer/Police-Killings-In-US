@@ -21,7 +21,7 @@ function tooltipLabel(tooltipItem, data, signed) {
 (function() {
     var w = $(window).width() * 0.55;
     var h = $(window).height() * 0.5;
-    var chartH = h / 2;
+    var chartH = 3 * h / 4;
 
     var color = d3.scaleOrdinal(d3Chromatic.schemeDark2);
 

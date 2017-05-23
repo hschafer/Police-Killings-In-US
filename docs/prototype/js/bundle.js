@@ -33156,7 +33156,7 @@ function tooltipLabel(tooltipItem, data, signed) {
 (function() {
     var w = $(window).width() * 0.55;
     var h = $(window).height() * 0.5;
-    var chartH = h / 2;
+    var chartH = 3 * h / 4;
 
     var color = d3.scaleOrdinal(d3Chromatic.schemeDark2);
 
@@ -34325,8 +34325,8 @@ Chart.pluginService.register({
             if (chart.config.options.elements.right) {
                 var rightTxt = chart.config.options.elements.right.text;
                 var rightStringWidth = ctx.measureText(rightTxt).width;
-                var rightX = centerX + chart.outerRadius / 2 + rightStringWidth / 2;
-                var rightY = chart.chartArea.top + sidePaddingCalculated / 4;
+                var rightX = centerX - chart.outerRadius / 2 - rightStringWidth;
+                var rightY = 3 * centerY / 2;
                 ctx.fillText(rightTxt, rightX, rightY);
             }
         }
