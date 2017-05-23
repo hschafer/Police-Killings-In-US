@@ -35,8 +35,8 @@ const d3 = require('d3');
 
     var svg = null; // global for callbacks
     var activeState = d3.select(null);
-    var tooltipActive = null;
     var tooltipDiv;
+    var clickedCity = null;
     var victimSymbols;
     var victims;
     var cities;
@@ -88,8 +88,8 @@ const d3 = require('d3');
 
         stateVictimCount = new Map();
         cities = cityData;
-        cityData.sort(function (a, b) {
-            d3.descending(a.num_records, b.num_records);
+        cityData = cityData.sort(function (a, b) {
+            return d3.descending(a.num_records, b.num_records);
         });
 
         victims = [];
@@ -170,10 +170,14 @@ const d3 = require('d3');
             .attr("d", path)
             .on("click", clicked) //;
             .on("mouseover", function (d) {
-                selectState(d);
+                if (!clickedCity) {
+                    selectState(d);
+                }
             })
             .on("mouseout", function (d) {
-                deselectCity();
+                if (!clickedCity) {
+                    deselectCity();
+                }
             });
 
         // style map filters
@@ -197,10 +201,23 @@ const d3 = require('d3');
             .attr("r", function (d) {
                 return d.num_records_visible;
             })
+            .on("click", function(d) {
+                // deselect if same, change if different
+                deselectCity();
+                if (clickedCity === d) {
+                    clickedCity = null;
+                } else {
+                    selectCity(d);
+                    clickedCity = d;
+                }
+            })
             .on("mouseover", function (d) {
-                selectCity(d);
+                // If we are currently clicked on a city, don't show on sidebar
+                if (!clickedCity) {
+                    selectCity(d);
+                }
 
-                // set tooltip
+                // even if we have a city clicked, set tooltip
                 if (d.records.length > 0) {
                     var xPadding = 20;
                     var yPadding = 30;
@@ -208,7 +225,6 @@ const d3 = require('d3');
                     var x = d3.event.pageX;
                     var y = d3.event.pageY;
 
-                    tooltipActive = true;
                     tooltipDiv.style("opacity", .9);
 
                     // set the text first so we can figure out the width
@@ -236,10 +252,11 @@ const d3 = require('d3');
                 // tooltip
                 tooltipDiv.style("opacity", 0);
                 tooltipDiv.selectAll("h2").remove();
-                tooltipActive = false;
 
-                // apply invisibility
-                deselectCity();
+                // Only remove sidebar info if we are not clicked
+                if (!clickedCity) {
+                    deselectCity();
+                }
             });
 
         //set up filters
@@ -255,14 +272,17 @@ const d3 = require('d3');
 
         svg.on("mouseenter", function () {
             if (timer) {
-                d3.select("#highlightedCity").remove();
+                d3.select("#highlightedCityDuplicate").remove();
                 clearInterval(timer);
                 deselectCity();
                 timer = null;
             }
         });
         svg.on("mouseleave", function () {
-            timer = setInterval(randomSelection, 3000, cityData);
+            // only random walk if we didn't click on a city
+            if (!clickedCity) {
+                timer = setInterval(randomSelection, 3000, cityData);
+            }
         });
 
         makeLegend(cityData);
@@ -356,8 +376,6 @@ const d3 = require('d3');
                 return d.num_records_visible;
             });
         }
-        //console.log("max date: "  + maxDate);
-        //console.log("min date: " + minDate);
     }
 
     function appendSlider(parent, cityData, victimSymbols) {
@@ -526,17 +544,20 @@ const d3 = require('d3');
         var randSymbol = visibleCitySymbols[Math.floor(Math.random() * visibleCitySymbols.length)];
         var randCity = randSymbol.__data__;
 
-        var circle = svg.selectAll("#highlightedCity").data([randCity]);
+        deselectCity();
+        selectCity(randCity);
+
+        // Note: This is a different highlighting strategy than clicking.
+        // We want this bubble to be on the top so it's easier to just make a duplicate
+        var circle = svg.selectAll("#highlightedCityDuplicate").data([randCity], function(d) { return d.id; });
         circle.enter().append('circle')
-            .attr("id", "highlightedCity")
+            .attr("id", "highlightedCityDuplicate")
             .attr("class", "symbol")
             .merge(circle)
             .attr("cx", randSymbol.cx.animVal.value)
             .attr("cy", randSymbol.cy.animVal.value)
             .attr("r", randSymbol.r.animVal.value);
         circle.exit().remove();
-        deselectCity();
-        selectCity(randCity);
     }
 
     function selectState(d) {
@@ -550,19 +571,24 @@ const d3 = require('d3');
         d3.select("#cityCount").html(stateVictimCount.get(d.properties.abbreviation));
     }
 
-    function selectCity(d) {
+    function selectCity(city) {
         // remove invisibility
         d3.select("#cityName").classed("invisibleText", false);
-        d3.select("#cityName").html(d.city + ", " + d.state);
+        d3.select("#cityName").html(city.city + ", " + city.state);
 
         // add victims
         var victimsList = d3.select("#victimList");
-        for (var person = 0; person < d.records.length; person++) {
-            victimsList.append("li").html(d.records[person].name);
+        for (var person = 0; person < city.records.length; person++) {
+            victimsList.append("li").html(city.records[person].name);
         }
 
         d3.select("#cityCount").classed("invisibleText", false);
-        d3.select("#cityCount").html(d.records.length);
+        d3.select("#cityCount").html(city.records.length);
+
+        // highlight the city
+        d3.selectAll(".symbol")
+            .filter(function(d) { return d === city; })
+            .attr("id", "highlightedCity");
     }
 
     function deselectCity() {
@@ -572,6 +598,10 @@ const d3 = require('d3');
         d3.select("#cityCount").html("...");
         var listNodes = d3.select("#victimList").selectAll("*");
         listNodes.remove();
+
+        // unhighlight city, don't delete the node, just remove id
+        d3.selectAll("#highlightedCity")
+            .attr("id", "");
     }
 
     function clicked(d) {

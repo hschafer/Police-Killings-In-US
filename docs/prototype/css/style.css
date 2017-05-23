@@ -225,10 +225,6 @@ html {
     cursor: pointer;
 }
 
-.states:hover {
-    fill: var(--outline-color);
-}
-
 .states.active {
     fill: orange;
 }
@@ -249,9 +245,10 @@ html {
     fill: steelblue;
     fill-opacity: .7;
     stroke: #3f75a2;
+    cursor: pointer;
 }
 
-.symbol#highlightedCity {
+.symbol#highlightedCity, .symbol#highlightedCityDuplicate {
     fill: #c51d1d;
     stroke: #b11a1a;
 }
