@@ -465,9 +465,6 @@ a {
  " Styles for next steps
  " ----------------------------------------------------------------------------
 */
-
-
-
 #nextStepsContainer {
     position: relative;
 }
@@ -510,11 +507,15 @@ a {
 
 .contentDescription {
     width: 40%;
-    padding: 5px
+    padding: 10px;
     text-align: left;
 }
 
 a.bigButton {
     text-decoration: none;
     display: inline;
+}
+
+#campaign-zero-widget {
+    margin: 10px!important;
 }
