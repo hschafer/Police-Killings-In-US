@@ -131,7 +131,7 @@ html {
   box-shadow: none;
   border-radius: 0;
   color: #fff;
-  background-color: #6496c8;
+  background-color: #456990;
   text-shadow: -1px 1px #417cb8;
   border: none;
 }
@@ -571,8 +571,8 @@ blockquote cite:before {
     content: "\2014 \2009";
 }
 
-#nextSteps a {
-    color: #FFFFFF;
+a {
+    color: var(--outline-color);
 }
 
 a.bigButton {
