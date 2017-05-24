@@ -41,19 +41,27 @@
         <div id="ethnicitySectionText">
           <p class="sectionText">
             Some argue that there isn't a systematic bias in the police force because nearly 50% of the
-            victims shot by police officers are white.
+            victims shot by police officers are white. While this is true from the Guardian's data, we see
+            a different trend when comparing to the overall population.
           </p>
+
 
           <button id="pieProceed" class="bigButton">Click to compare with general population</button>
           <div id="reveal">
             <p class="sectionText">
-              While this is true looking purely at the vicitim data, if you add the context of the
-              the ethnicity distribution in the U.S. you see a much more striking .
-            <p>
+              For most of the minorities listed by the U.S. census, they are overepresented in the victims
+              killed in altercations with the police while <span style="color: #e6ab02">White</span> people
+              are actually a much smaller percentage of the victims when comapred to the whole population;
+              the highest delta is for <span style="color: #1b9e77">African American</span>s who make up nearly
+              twice the percentage of the victims as they do the overall population.
 
+            </p>
             <p class="sectionText">
-              For many minorities listed here, the disparity increases when only considering victims that were unarmed
-              or where there is a dispute over the fact that they were armed:
+            For many minorities listed here, particularly <span style="color:#1b9e77">African American</span>s and <span style="color: #7570b3">Hispanic</span>s, the delta increases when you limit the victims to those who were unarmed or it was disputed if they were armed.
+            </p>
+
+            <p id="selectInstructions" class="sectionText">
+              Click to see how the demographics of the victims change whether they were armed or not.
             </p>
             <form id="selectArmed"></form>
           </div>

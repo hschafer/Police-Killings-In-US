@@ -111,8 +111,13 @@ html {
     display: none;
 }
 
-#ethnicitySectionContainer input {
-    vertical-align: middle;
+#ethnicitySectionContainer label, #ethnicitySectionContainer input {
+    vertical-align: top;
+}
+
+#ethnicitySectionContainer #selectInstructions {
+    padding-top: 20px;
+    border-top: 5px dotted white;
 }
 
 .bigButton {
