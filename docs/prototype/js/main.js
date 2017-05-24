@@ -7,5 +7,16 @@ $(document).ready(function() {
         autoScrolling: false,
         fitToSection: false,
     });
+
+    $("ul.tabs li").click(function() {
+        var me = $(this);
+        var tabbed = me.attr("data-tab");
+
+        $('ul.tabs li').removeClass('current');
+		$('.tab-content').removeClass('current');
+
+		me.addClass('current');
+		$('#' + tabbed).addClass('current');
+    });
 });
 
