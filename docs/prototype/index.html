@@ -119,35 +119,35 @@
                   <h6>Ethnicity</h6>
                   <div id="EthnicityCheckboxContainer">
                     <div class="EthnicityCheckboxColumn">
-                      <div class="EthnicityCheckboxItem">
+                      <div class="EthnicityCheckboxItem checkboxItem">
                         <input name="African American" checked="true" type="checkbox" id="ChckAfricanAmerican">
                         African American
                       </div>
-                      <div class="EthnicityCheckboxItem">
+                      <div class="EthnicityCheckboxItem checkboxItem">
                       <input checked = "true" name="Asian" type="checkbox" id="ChckAsian">
                         Asian
                       </div>
                     </div>
                     <div class="EthnicityCheckboxColumn">
-                      <div class="EthnicityCheckboxItem">
+                      <div class="EthnicityCheckboxItem checkboxItem">
                       <input name="Hispanic" checked="true" type="checkbox" id="ChckHispanic">
                         Hispanic
                       </div>
-                        <div class="EthnicityCheckboxItem">
+                        <div class="EthnicityCheckboxItem checkboxItem">
                       <input name="Native American" checked="true" type="checkbox" id="ChckNativeAmerican">
                           Native American
                         </div>
-                          <div class="EthnicityCheckboxItem">
+                          <div class="EthnicityCheckboxItem checkboxItem">
                       <input name="Other" checked="true" type="checkbox" id="ChckOther">
                             Other
                           </div>
                     </div>
                     <div class="EthnicityCheckboxColumn">
-                      <div class="EthnicityCheckboxItem">
+                      <div class="EthnicityCheckboxItem checkboxItem">
                       <input name="Unknown" checked="true" type="checkbox" id="ChckUnknown">
                         Unknown
                       </div>
-                        <div class="EthnicityCheckboxItem">
+                        <div class="EthnicityCheckboxItem checkboxItem">
                       <input name="White" checked="true" type="checkbox" id="ChckWhite">
                           White
                         </div>
@@ -165,17 +165,13 @@
                 </div>
                 <div class="victimDemographicItem">
                   <h6>Gender</h6>
-                  <div class="genderCheckboxItem">
+                  <div class="genderCheckboxItem checkboxItem">
                     <input name="Female" checked="true" type="checkbox" id="ChckFemale">
                     Female
                   </div>
-                  <div class="genderCheckboxItem">
+                  <div class="genderCheckboxItem checkboxItem">
                     <input name="Male" checked="true" type="checkbox" id="ChckMale">
                     Male
-                  </div>
-                  <div class="genderCheckboxItem">
-                    <input name="Other" checked="true" type="checkbox" id="ChckGenderOther">
-                    Other
                   </div>
                 </div>
               </div>
@@ -184,9 +180,37 @@
               <div class="victimDemographicList">
                 <div class="victimDemographicItem">
                   <h6>Armed/Unarmed</h6>
+                  <div class="armedRadioItem checkboxItem">
+                    <input name="Armed" checked="false" type="radio" value="Armed" id="ChckArmed">
+                    Armed
+                  </div>
+                  <div class="armedRadioItem checkboxItem">
+                    <input name="Armed" checked="false" type="radio" value="Unarmed" id="ChckUnarmed">
+                    Unarmed
+                  </div>
+                  <div class="armedRadioItem checkboxItem">
+                    <input name="Armed" checked="true" type="radio" value="Both" id="ChckArmedBoth">
+                    Both
+                  </div>
                 </div>
+              </div>
+            </div>
+            <div id="victimParamsCol4">
+              <div class="victimDemographicList">
                 <div class="victimDemographicItem">
-                  <h6>Mentally Unstable</h6>
+                  <h6>Signs of Mental Illness</h6>
+                  <div class="mentalRadioItem checkboxItem">
+                    <input name="Mental" checked="false" type="radio" value="True" id="ChckMentalTrue">
+                    True
+                  </div>
+                  <div class="mentalRadioItem checkboxItem">
+                    <input name="Mental" checked="false" type="radio" value="False" id="ChckMentalFalse">
+                    False
+                  </div>
+                  <div class="mentalRadioItem checkboxItem">
+                    <input name="Mental" checked="true" type="radio" value="Both" id="ChckMentalBoth">
+                    Both
+                  </div>
                 </div>
               </div>
             </div>

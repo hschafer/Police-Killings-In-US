@@ -5,7 +5,7 @@ const d3 = require('d3');
     const END_DATE = new Date(getDateString("2017-04-15")); // max date in dataset
 
     // stupid
-    const monthNames = ["January", "February", "March", "April", "May", "June",
+    const MONTH = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
 
@@ -17,6 +17,12 @@ const d3 = require('d3');
         "A": "Asian",
         "O": "Other",
         "U": "Unknown"
+    };
+
+    const GENDER = {
+        "M": "Male",
+        "F": "Female"
+        // no 'other' in guardian dataset :/
     };
 
     function getDateString(intended_date) {
@@ -68,6 +74,14 @@ const d3 = require('d3');
             "Other": true,
             "Unknown": true,
             "White": true
+        },
+        gender: {
+            "Male": true,
+            "Female": true,
+            "Other": true
+        },
+        armed: {
+            // ask the radio buttons
         }
     };
 
@@ -322,9 +336,10 @@ const d3 = require('d3');
                 //signs_of_mental_illness:"False"
                 //state:"IN"
                 //threat_level:"other"
+
+
                 // filter on date
                 var date = new Date(d.date);
-
                 // DEBUG
                 // if (date > maxDate) {
                 //     maxDate = date;
@@ -333,13 +348,28 @@ const d3 = require('d3');
                 //     minDate = date;
                 // }
                 //
-
                 var pass = date >= visible.startDate && date <= visible.endDate;
+
+                // filter on ethnicity
                 if (d.race != "") {
                     pass &= visible.ethnicity[RACE[d.race]];
                 } else {
                     pass &= visible.ethnicity["Unknown"];
                 }
+
+                // filter on gender
+                pass &= visible.gender[GENDER[d.gender]];
+
+                // filter on armed status
+                pass &= ((d3.select("#ChckArmedBoth").node().checked) ||
+                    ((d3.select("#ChckArmed").node().checked) && (d.armed != "unarmed")) ||
+                    ((d3.select("#ChckUnarmed").node().checked) && (d.armed == "unarmed")));
+
+               // filter on signs of mental illness
+                pass &= ((d3.select("#ChckMentalBoth").node().checked) ||
+                    ((d3.select("#ChckMentalTrue").node().checked) && (d.signs_of_mental_illness == "True")) ||
+                    ((d3.select("#ChckMentalFalse").node().checked) && (d.signs_of_mental_illness == "False")));
+
                 return pass;
             });
 
@@ -421,14 +451,14 @@ const d3 = require('d3');
             .attr("x", x.range()[0])
             .classed("victimDateFilterLabel", true)
             .attr("id", "dateFilterLabelLower")
-            .text(monthNames[START_DATE.getMonth()] +
+            .text(MONTH[START_DATE.getMonth()] +
                 " " + START_DATE.getFullYear());
 
         upperticks.append("text")
             .attr("x", x.range()[1])
             .classed("victimDateFilterLabel", true)
             .attr("id", "dateFilterLabelUpper")
-            .text(monthNames[END_DATE.getMonth()] +
+            .text(MONTH[END_DATE.getMonth()] +
                 " " + END_DATE.getFullYear());
 
         // make handle drag behavior
@@ -456,7 +486,7 @@ const d3 = require('d3');
                 // update handle tooltip
                 d3.select("#dateFilterLabelLower")
                     .attr("x", leftXBound)
-                    .text(monthNames[x.invert(leftXBound).getMonth()] + " "
+                    .text(MONTH[x.invert(leftXBound).getMonth()] + " "
                         + x.invert(leftXBound).getFullYear());
 
                 // set global "visible" data
@@ -482,7 +512,7 @@ const d3 = require('d3');
                 // update tooltip
                 d3.select("#dateFilterLabelUpper")
                     .attr("x", upperXBound)
-                    .text(monthNames[x.invert(upperXBound).getMonth()] + " "
+                    .text(MONTH[x.invert(upperXBound).getMonth()] + " "
                         + x.invert(upperXBound).getFullYear());
 
                 selectedRegion.attr("x2", upperXBound);
@@ -515,6 +545,25 @@ const d3 = require('d3');
             }
             update();
         });
+
+        d3.selectAll(".genderCheckboxItem input").on("click", function() {
+            if (visible.gender[this.name]) {
+                visible.gender[this.name] = false;
+            } else {
+                visible.gender[this.name] = true;
+            }
+            update();
+        });
+
+        d3.selectAll(".armedRadioItem").on("click", function() {
+            // update checks status of radio buttons
+            update();
+        });
+
+        d3.selectAll(".mentalRadioItem").on("click", function() {
+            // update checks status of radio buttons
+            update();
+        })
     }
 
     function randomSelection(cityData) {

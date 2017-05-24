@@ -367,16 +367,17 @@ a {
     width: 70%;
 }
 
-#victimParamsCol1, #victimParamsCol2, #victimParamsCol3 {
+#victimParamsCol1, #victimParamsCol2,
+#victimParamsCol3, #victimParamsCol4 {
    display:table-cell;
 }
 
 #victimParamsCol1 {
-    width: 50%;
+    width: 40%;
 }
 
-#victimParamsCol2, #victimParamsCol3 {
-    width: 25%;
+#victimParamsCol2, #victimParamsCol3, #victimParamsCol4 {
+    width: 20%;
 }
 
 .victimDemographicList {
@@ -413,7 +414,7 @@ a {
     width: 100%;
 }
 
-.EthnicityCheckboxItem {
+.checkboxItem {
     font-size: 10pt;
 }
 
