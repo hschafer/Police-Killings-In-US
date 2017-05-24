@@ -674,20 +674,28 @@ const d3 = require('d3');
             var randSymbol = visibleCitySymbols[Math.floor(Math.random() * visibleCitySymbols.length)];
             var randCity = randSymbol.__data__;
 
-            deselectCity();
-            selectCity(randCity);
-
             // Note: This is a different highlighting strategy than clicking.
             // We want this bubble to be on the top so it's easier to just make a duplicate
-            var circle = svg.selectAll("#highlightedCityDuplicate").data([randCity], function(d) { return d.id; });
+            var circle = svg.selectAll("#highlightedCityDuplicate").data([randCity]);
             circle.enter().append('circle')
                 .attr("id", "highlightedCityDuplicate")
                 .attr("class", "symbol")
                 .merge(circle)
+                .transition().duration(1500)
                 .attr("cx", randSymbol.cx.animVal.value)
                 .attr("cy", randSymbol.cy.animVal.value)
                 .attr("r", randSymbol.r.animVal.value);
             circle.exit().remove();
+
+            // Important, don't highlight it now on the map because then there will be
+            // two dots, but do change the content on the right.
+            deselectCity();
+            selectCity(randCity, false);
+            setTimeout(function() {
+                d3.selectAll(".symbol")
+                    .filter(function(d) { return d === city; })
+                    .classed("highlightedCity", true);
+            }, 1500);
         }
     }
 
@@ -701,7 +709,8 @@ const d3 = require('d3');
         setVictimCount(stateVictimCount.get(d.properties.abbreviation));
     }
 
-    function selectCity(city) {
+    function selectCity(city, highlightOnMap) {
+        highlightOnMap = typeof(highlightOnMap) === "undefined" ? true : highlightOnMap; // default true
         // remove invisibility
         d3.select("#cityName").classed("invisibleText", false);
         d3.select("#cityName").html(city.city + ", " + city.state);
@@ -715,9 +724,11 @@ const d3 = require('d3');
         setVictimCount(city.records_visible.length);
 
         // highlight the city
-        d3.selectAll(".symbol")
-            .filter(function(d) { return d === city; })
-            .classed("highlightedCity", true);
+        if (highlightOnMap) {
+            d3.selectAll(".symbol")
+                .filter(function(d) { return d === city; })
+                .classed("highlightedCity", true);
+        }
     }
 
     function deselectCity() {
