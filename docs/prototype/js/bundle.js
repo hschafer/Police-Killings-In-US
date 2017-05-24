@@ -33426,6 +33426,8 @@ const d3 = __webpack_require__(19);
 
     const START_DATE = new Date(getDateString("2015-01-01"));
     const END_DATE = new Date(getDateString("2017-04-15")); // max date in dataset
+    const MAX_AGE = 91;
+    const MIN_AGE = 6;
 
     // stupid
     const MONTH = ["January", "February", "March", "April", "May", "June",
@@ -33505,7 +33507,9 @@ const d3 = __webpack_require__(19);
         },
         armed: {
             // ask the radio buttons
-        }
+        },
+        startAge: MIN_AGE,
+        endAge: MAX_AGE
     };
 
 
@@ -33686,7 +33690,8 @@ const d3 = __webpack_require__(19);
             });
 
         //set up filters
-        appendSlider(d3.select("#victimDateFilter"), cityData, victimSymbols);
+        formatDateSlider(d3.select("#victimDateFilter"), cityData, victimSymbols);
+        formatAgeSlider();
         handleFilterClicks();
 
         tooltipDiv = d3.select("body").append("div")
@@ -33740,6 +33745,9 @@ const d3 = __webpack_require__(19);
         //var maxDate = new Date("2015-01-01");
         //var minDate = new Date("2016-01-01");
 
+        var maxAge = 0;
+        var minAge = 100000;
+
         for (var city = 0; city < cities.length; city++) {
             var filtered = cities[city].records.filter(function (d) {
                 // example response
@@ -33763,7 +33771,7 @@ const d3 = __webpack_require__(19);
 
                 // filter on date
                 var date = new Date(d.date);
-                // DEBUG
+
                 // if (date > maxDate) {
                 //     maxDate = date;
                 // }
@@ -33793,6 +33801,9 @@ const d3 = __webpack_require__(19);
                     ((d3.select("#ChckMentalTrue").node().checked) && (d.signs_of_mental_illness == "True")) ||
                     ((d3.select("#ChckMentalFalse").node().checked) && (d.signs_of_mental_illness == "False")));
 
+                // filter on age
+                pass &= (d.age <= visible.endAge) && (d.age >= visible.startAge);
+
                 return pass;
             });
 
@@ -33816,10 +33827,7 @@ const d3 = __webpack_require__(19);
         }
     }
 
-    function appendSlider(parent, cityData, victimSymbols) {
-
-        var svg = parent.append("svg")
-            .attr("width", parent.style("width"));
+    function formatDateSlider(parent, cityData, victimSymbols) {
 
         var margin = {right: 50, left: 50},
             width = (parseInt(d3.select("#victimDateFilter").style("width"), 10) * 3.0 / 4),
@@ -33830,57 +33838,33 @@ const d3 = __webpack_require__(19);
             .range([0, width])
             .clamp(true);
 
-        var slider = svg.append("g")
-            .attr("class", "slider")
-            .attr("transform", "translate(10, 30)");
+        var slider = d3.select("#dateSliderGroup");
 
-        var lowerHandle;
-        var upperHandle;
-
-        slider.append("line")
-            .attr("class", "track")
+        d3.select("#dateSliderLine")
             .attr("x1", x.range()[0])
-            .attr("x2", x.range()[1])
-            .select(function () {
-                return this.parentNode.appendChild(this.cloneNode(true));
-            })
-            .attr("class", "track-inset")
-            .select(function () {
-                return this.parentNode.appendChild(this.cloneNode(true));
-            })
-            .attr("class", "track-overlay");
+            .attr("x2", x.range()[1]);
+
+        d3.select("#date_track_inset")
+            .attr("x1", x.range()[0])
+            .attr("x2", x.range()[1]);
 
         var lowerRangeConstant = x.range()[0];
 
-        slider.append("line")
-            .attr("class", "track")
+        d3.select("#date-track-inset-selected-region")
             .attr("x1", function (d) {
                 return lowerRangeConstant;
             })
             .attr("x2", function (d) {
                 return x.range()[1];
-            })
-            .attr("id", "track-inset-selected-region");
+            });
 
-        var lowerticks = slider.insert("g", ".track-overlay")
-            .attr("class", "ticks")
-            .attr("transform", "translate(0," + 25 + ")");
-
-        var upperticks = slider.insert("g", ".track-overlay")
-            .attr("class", "ticks")
-            .attr("transform", "translate(0," + -16 + ")");
-
-        lowerticks.append("text")
+        d3.select("#dateFilterLabelLower")
             .attr("x", x.range()[0])
-            .classed("victimDateFilterLabel", true)
-            .attr("id", "dateFilterLabelLower")
             .text(MONTH[START_DATE.getMonth()] +
                 " " + START_DATE.getFullYear());
 
-        upperticks.append("text")
+        d3.select("#dateFilterLabelUpper")
             .attr("x", x.range()[1])
-            .classed("victimDateFilterLabel", true)
-            .attr("id", "dateFilterLabelUpper")
             .text(MONTH[END_DATE.getMonth()] +
                 " " + END_DATE.getFullYear());
 
@@ -33892,7 +33876,7 @@ const d3 = __webpack_require__(19);
                 // dragged to and update viz (this check prevents user from dragging
                 // handle off of track or in front of upper handle)
                 var upperHandleX = parseInt(d3.select("#upperDateFilterHandle").attr("cx")) - 15;
-                var selectedRegion = d3.select("#track-inset-selected-region");
+                var selectedRegion = d3.select("#date-track-inset-selected-region");
                 var leftXBound;
                 if (d3.event.x < x.range()[0]) {
                     leftXBound = x.range()[0];
@@ -33921,7 +33905,7 @@ const d3 = __webpack_require__(19);
         var upperHandleDrag = d3.drag()
             .on('drag', function () {
                 var lowerHandleX = parseInt(d3.select("#lowerDateFilterHandle").attr("cx"), 10) + 15;
-                var selectedRegion = d3.select("#track-inset-selected-region");
+                var selectedRegion = d3.select("#date-track-inset-selected-region");
                 var upperXBound;
                 if (d3.event.x > x.range()[1]) {
                     upperXBound = x.range()[1];
@@ -33945,15 +33929,123 @@ const d3 = __webpack_require__(19);
                 update();
             });
 
-        lowerHandle = slider.append("circle", ".track-overlay")
+        var lowerHandle = slider.append("circle", "#date-track-overlay")
             .attr("id", "lowerDateFilterHandle")
             .attr("class", "dateFilterHandle")
             .attr("r", 9)
             .call(lowerHandleDrag);
 
-        var upperHandle = slider.append("circle", ".track-overlay")
+        var upperHandle = slider.append("circle", "#date-track-overlay")
             .attr("id", "upperDateFilterHandle")
             .attr("class", "dateFilterHandle")
+            .attr("cx", x.range()[1])
+            .attr("r", 9)
+            .call(upperHandleDrag);
+    }
+
+    function formatAgeSlider() {
+
+        var width = (parseInt(d3.select("#victimAgeFilter").style("width"), 10) * 3.0 / 4);
+
+        var x = d3.scaleLinear()
+            .domain([MIN_AGE, MAX_AGE])
+            .range([0, width])
+            .clamp(true);
+
+        var slider = d3.select("#ageSliderGroup");
+
+        d3.select("#ageSliderLine")
+            .attr("x1", x.range()[0])
+            .attr("x2", x.range()[1]);
+
+        d3.select("#age-track-inset")
+            .attr("x1", x.range()[0])
+            .attr("x2", x.range()[1]);
+
+        var lowerRangeConstant = x.range()[0];
+
+        d3.select("#age-track-inset-selected-region")
+            .attr("x1", function (d) {
+                return lowerRangeConstant;
+            })
+            .attr("x2", function (d) {
+                return x.range()[1];
+            });
+
+        d3.select("#ageFilterLabelLower")
+            .attr("x", x.range()[0])
+            .text(MIN_AGE + "");
+
+        d3.select("#ageFilterLabelUpper")
+            .attr("x", x.range()[1])
+            .text(MAX_AGE + "");
+
+        // make handle drag behavior
+        var lowerHandleDrag = d3.drag()
+            .on('drag', function () {
+
+                // if handle is within expected area, move it to where it is being
+                // dragged to and update viz (this check prevents user from dragging
+                // handle off of track or in front of upper handle)
+                var upperHandleX = parseInt(d3.select("#upperAgeFilterHandle").attr("cx")) - 15;
+                var selectedRegion = d3.select("#age-track-inset-selected-region");
+                var leftXBound;
+                if (d3.event.x < x.range()[0]) {
+                    leftXBound = x.range()[0];
+                } else if (d3.event.x > upperHandleX) {
+                    leftXBound = upperHandleX
+                } else {
+                    leftXBound = d3.event.x;
+                }
+                lowerHandle.attr('cx', leftXBound);
+
+                // move selected region in slider
+                selectedRegion.attr("x1", leftXBound);
+
+                // update handle tooltip
+                d3.select("#ageFilterLabelLower")
+                    .attr("x", leftXBound)
+                    .text(Math.round(x.invert(leftXBound)));
+
+                // set global "visible" data
+                visible.startAge = Math.round(x.invert(leftXBound));
+                update();
+            });
+
+        var upperHandleDrag = d3.drag()
+            .on('drag', function () {
+                var lowerHandleX = parseInt(d3.select("#lowerAgeFilterHandle").attr("cx"), 10) + 15;
+                var selectedRegion = d3.select("#age-track-inset-selected-region");
+                var upperXBound;
+                if (d3.event.x > x.range()[1]) {
+                    upperXBound = x.range()[1];
+                } else if (d3.event.x < lowerHandleX) {
+                    upperXBound = lowerHandleX;
+                } else {
+                    upperXBound = d3.event.x;
+                }
+                upperHandle.attr('cx', upperXBound);
+
+                // update tooltip
+                d3.select("#ageFilterLabelUpper")
+                    .attr("x", upperXBound)
+                    .text(Math.round(x.invert(upperXBound)));
+
+                selectedRegion.attr("x2", upperXBound);
+
+                visible.endAge = Math.round(x.invert(upperXBound));
+                update();
+            });
+
+        var lowerHandle = slider.append("circle", "#age-track-overlay")
+            .attr("id", "lowerAgeFilterHandle")
+            .attr("class", "ageFilterHandle")
+            .attr("r", 9)
+            .call(lowerHandleDrag);
+
+        var upperHandle = slider.append("circle", "#age-track-overlay")
+            .attr("id", "upperAgeFilterHandle")
+            .attr("class", "ageFilterHandle")
             .attr("cx", x.range()[1])
             .attr("r", 9)
             .call(upperHandleDrag);
