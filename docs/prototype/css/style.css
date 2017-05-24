@@ -2,6 +2,7 @@ html {
     --outline-color: #E4E3D3;
     --background-color: #2F394D;
     --secondary-color: #b1b1b1;
+    --red: #DB3A34;
 }
 
 
@@ -31,7 +32,7 @@ html {
 }
 
 #section1 #highlightedText {
-    color: #ba4444;
+    color: var(--red);
 }
 
 .sectionTitle {
@@ -258,7 +259,7 @@ html {
 }
 
 .symbol.highlightedCity, .symbol#highlightedCityDuplicate {
-    fill: #c51d1d;
+    fill: var(--red);
     stroke: #b11a1a;
 }
 
