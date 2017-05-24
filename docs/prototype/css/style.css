@@ -4,6 +4,7 @@ html {
     --secondary-color: #b1b1b1;
 }
 
+
 .section {
     color: var(--secondary-color);
     font-size: 6em;
@@ -23,6 +24,14 @@ html {
 #section1 .fp-tableCell {
     /* This is the same as --background-color :( */
     background: rgba(47, 57, 77, 0.7);
+}
+
+#section1 blockquote {
+    width: 60%;
+}
+
+#section1 #highlightedText {
+    color: #ba4444;
 }
 
 .sectionTitle {
