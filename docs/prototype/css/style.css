@@ -28,7 +28,7 @@ html {
 }
 
 #section1 blockquote {
-    width: 60%;
+    width: 775px;
 }
 
 #section1 #highlightedText {
@@ -185,7 +185,7 @@ html {
     list-style-type: none;
     margin: 0pt;
     padding: 0pt;
-    font-size: 10.5pt;
+    font-size: 1.7vh;
     -webkit-column-count: 2;
     -moz-column-count: 2;
     column-count: 2;
@@ -430,6 +430,7 @@ a {
 }
 
 #victimMapFilters {
+    margin-top: 10px;
     width: 100%;
 }
 
