@@ -556,9 +556,8 @@ const d3 = require('d3');
         d3.select("#cityName").html(d.properties.name);
         var victimList = d3.select("#victimList");
         victimList.append("li").html("Hover over a city to get specific victim names");
-        d3.select("#cityCount").classed("invisibleText", false);
         // Uses abbreviation because the city file uses abbreviations
-        d3.select("#cityCount").html(stateVictimCount.get(d.properties.abbreviation));
+        setVictimCount(stateVictimCount.get(d.properties.abbreviation));
     }
 
     function selectCity(city) {
@@ -572,8 +571,7 @@ const d3 = require('d3');
             victimsList.append("li").html(city.records_visible[person].name);
         }
 
-        d3.select("#cityCount").classed("invisibleText", false);
-        d3.select("#cityCount").html(city.records_visible.length);
+        setVictimCount(city.records_visible.length);
 
         // highlight the city
         d3.selectAll(".symbol")
@@ -584,8 +582,8 @@ const d3 = require('d3');
     function deselectCity() {
         d3.select("#cityName").classed("invisibleText", true);
         d3.select("#cityName").html("...");
-        d3.select("#cityCount").classed("invisibleText", true);
-        d3.select("#cityCount").html("...");
+        setVictimCount(0);
+
         var listNodes = d3.select("#victimList").selectAll("*");
         listNodes.remove();
 
@@ -593,6 +591,14 @@ const d3 = require('d3');
         d3.selectAll(".highlightedCity")
             .classed("highlightedCity", false);
         clickedCity = null;
+    }
+
+    function setVictimCount(count) {
+        var label = "Victims"
+        if (count) {
+            label += " ( " + count + " )";
+        }
+        d3.selectAll("#victimsLabel").html(label);
     }
 
     function clicked(d) {
