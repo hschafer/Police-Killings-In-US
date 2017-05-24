@@ -533,8 +533,19 @@ blockquote cite:before {
     content: "\2014 \2009";
 }
 
+#nextSteps a {
+    color: #FFFFFF;
+}
+
 a.bigButton {
-    width: 150px;
+    width: 200px;
     text-align: center;
     text-decoration: none;
+}
+
+.halfPage {
+    vertical-align: top;
+    display: inline-block;
+    margin: 0;
+    width: 50%;
 }
