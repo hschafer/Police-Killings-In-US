@@ -83,7 +83,12 @@ const d3 = require('d3');
             "Other": true
         },
         armed: {
-            // ask the radio buttons
+            "Armed": true,
+            "Unarmed": true
+        },
+        mental: {
+            "Showed signs": true,
+            "Did not show signs": true
         },
         startAge: MIN_AGE,
         endAge: MAX_AGE
@@ -369,14 +374,12 @@ const d3 = require('d3');
                 pass &= visible.gender[GENDER[d.gender]];
 
                 // filter on armed status
-                pass &= ((d3.select("#ChckArmedBoth").node().checked) ||
-                    ((d3.select("#ChckArmed").node().checked) && (d.armed != "unarmed")) ||
-                    ((d3.select("#ChckUnarmed").node().checked) && (d.armed == "unarmed")));
+                pass &= (visible.armed["Armed"] && (d.armed != "unarmed")) ||
+                    (visible.armed["Unarmed"] && (d.armed == "unarmed"));
 
                // filter on signs of mental illness
-                pass &= ((d3.select("#ChckMentalBoth").node().checked) ||
-                    ((d3.select("#ChckMentalTrue").node().checked) && (d.signs_of_mental_illness == "True")) ||
-                    ((d3.select("#ChckMentalFalse").node().checked) && (d.signs_of_mental_illness == "False")));
+                pass &= (visible.mental["Showed signs"] && (d.signs_of_mental_illness == "True")) ||
+                    (visible.mental["Did not show signs"] && (d.signs_of_mental_illness == "False"));
 
                 // filter on age
                 pass &= (d.age <= visible.endAge) && (d.age >= visible.startAge);
@@ -617,6 +620,7 @@ const d3 = require('d3');
         var lowerHandle = slider.append("circle", "#age-track-overlay")
             .attr("id", "lowerAgeFilterHandle")
             .attr("class", "ageFilterHandle")
+            .attr("cx", x.range()[0])
             .attr("r", 9)
             .call(lowerHandleDrag);
 
@@ -647,13 +651,21 @@ const d3 = require('d3');
             update();
         });
 
-        d3.selectAll(".armedRadioItem").on("click", function() {
-            // update checks status of radio buttons
+        d3.selectAll(".armedCheckedItem input").on("click", function() {
+            if (visible.armed[this.name]) {
+                visible.armed[this.name] = false;
+            } else {
+                visible.armed[this.name] = true;
+            }
             update();
         });
 
-        d3.selectAll(".mentalRadioItem").on("click", function() {
-            // update checks status of radio buttons
+        d3.selectAll(".mentalCheckedItem input").on("click", function() {
+            if (visible.mental[this.name]) {
+                visible.mental[this.name] = false;
+            } else {
+                visible.mental[this.name] = true;
+            }
             update();
         })
     }
