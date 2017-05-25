@@ -769,8 +769,8 @@ const d3 = require('d3');
         });
 
         // resize the legend
-        var newLegendWidth = scaleTransform(legendWidth, 11);
-        var newLegendHeight = scaleTransform(legendHeight, 11);
+        var newLegendWidth = scaleTransform(legendWidth, 8);
+        var newLegendHeight = scaleTransform(legendHeight, 8);
         svg.selectAll(".legend")
             .attr("transform", "translate(" + (w - newLegendWidth) + "," + (h - newLegendHeight) + ")");
         svg.selectAll(".legend rect")
@@ -779,18 +779,17 @@ const d3 = require('d3');
 
         svg.selectAll(".legendCircle")
             .attr("r", function (d) {
-                return scaleTransform(radius(d));
+                return scaleTransform(d);
             })
             .attr("cy", function (d) {
-                return newLegendHeight / 2 - scaleTransform(radius(d)) + scaleTransform(radius(maxLegend));
+                return newLegendHeight / 2 - scaleTransform(d) + scaleTransform(maxLegend);
             }).attr("cx", newLegendWidth / 2 - 4);
         svg.selectAll(".legendLabel")
             .attr("y", function (d, i) {
-                return newLegendHeight / 2 + (newLegendHeight / 4) * (1 - i);
-            }).attr("x", newLegendWidth / 2 + scaleTransform(radius(maxLegend)) + 5)
+                return newLegendHeight / 2 + scaleTransform(maxLegend) - 2 * scaleTransform(d);
+            }).attr("x", newLegendWidth / 2 + scaleTransform(maxLegend) + 5)
         svg.select("#legendTitle")
-            .attr("y", newLegendHeight - 5)
-            .attr("x", 5);
+            .attr("y", newLegendHeight - 5);
 
     }
 
