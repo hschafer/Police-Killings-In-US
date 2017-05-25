@@ -151,6 +151,7 @@ const fuse = require('fuse.js');
             selectCity(foundCity);
           } else {
             deselectCity();
+            enableRandomWalk();
           }
         });
         
@@ -309,6 +310,13 @@ const fuse = require('fuse.js');
         randomSelection(cityData); // make it happen right away
         var timer = setInterval(randomSelection, 3000, cityData);
 
+        function enableRandomWalk() {
+            // only random walk if we didn't click on a city
+            if (!clickedCity) {
+                timer = setInterval(randomSelection, 3000, cityData);
+            }
+        }
+
         function disableRandomWalk() {
             if (timer) {
                 d3.select("#highlightedCityDuplicate").remove();
@@ -317,15 +325,9 @@ const fuse = require('fuse.js');
                 timer = null;
             }
         }
-          
 
         svg.on("mouseenter", disableRandomWalk);
-        svg.on("mouseleave", function () {
-            // only random walk if we didn't click on a city
-            if (!clickedCity) {
-                timer = setInterval(randomSelection, 3000, cityData);
-            }
-        });
+        svg.on("mouseleave", enableRandomWalk);
 
         makeLegend(cityData);
 

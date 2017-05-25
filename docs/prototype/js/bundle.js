@@ -33574,6 +33574,7 @@ const fuse = __webpack_require__(237);
             selectCity(foundCity);
           } else {
             deselectCity();
+            enableRandomWalk();
           }
         });
         
@@ -33732,6 +33733,13 @@ const fuse = __webpack_require__(237);
         randomSelection(cityData); // make it happen right away
         var timer = setInterval(randomSelection, 3000, cityData);
 
+        function enableRandomWalk() {
+            // only random walk if we didn't click on a city
+            if (!clickedCity) {
+                timer = setInterval(randomSelection, 3000, cityData);
+            }
+        }
+
         function disableRandomWalk() {
             if (timer) {
                 d3.select("#highlightedCityDuplicate").remove();
@@ -33740,15 +33748,9 @@ const fuse = __webpack_require__(237);
                 timer = null;
             }
         }
-          
 
         svg.on("mouseenter", disableRandomWalk);
-        svg.on("mouseleave", function () {
-            // only random walk if we didn't click on a city
-            if (!clickedCity) {
-                timer = setInterval(randomSelection, 3000, cityData);
-            }
-        });
+        svg.on("mouseleave", enableRandomWalk);
 
         makeLegend(cityData);
 
