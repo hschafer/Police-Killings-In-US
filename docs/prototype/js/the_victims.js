@@ -57,12 +57,13 @@ const d3 = require('d3');
     var path = d3.geoPath()
         .projection(projection);
 
+    var MAX_ZOOM = 20;
     var zoom = d3.zoom()
-        .scaleExtent([1, 20])
+        .scaleExtent([1, MAX_ZOOM])
         .on("zoom", zoomed);
 
-    var legendWidth = 100;
-    var legendHeight = 70;
+    var legendWidth = 120;
+    var legendHeight = 120;
     var maxLegend = -1;
 
     var visible = {
@@ -321,41 +322,14 @@ const d3 = require('d3');
         // use if we need to check date bounds of dataset
         //var maxDate = new Date("2015-01-01");
         //var minDate = new Date("2016-01-01");
-
         var maxAge = 0;
         var minAge = 100000;
 
         for (var city = 0; city < cities.length; city++) {
             var filtered = cities[city].records.filter(function (d) {
-                // example response
-                //age: "35.0"
-                //armed:"vehicle"
-                //body_camera:"False"
-                //city:"Vincennes"
-                //computed_lat:"38.677269"
-                //computed_long:"-87.5286325"
-                //date:"2017-02-14"
-                //flee:"Other"
-                //gender:"M"
-                //id:"2339.0"
-                //manner_of_death:"shot"
-                //name:"David Zimmerman"
-                //race:"W"
-                //signs_of_mental_illness:"False"
-                //state:"IN"
-                //threat_level:"other"
-
-
                 // filter on date
                 var date = new Date(d.date);
 
-                // if (date > maxDate) {
-                //     maxDate = date;
-                // }
-                // if (date < minDate) {
-                //     minDate = date;
-                // }
-                //
                 var pass = date >= visible.startDate && date <= visible.endDate;
 
                 // filter on ethnicity
@@ -790,10 +764,9 @@ const d3 = require('d3');
         }).attr("cy", function (d) {
             var projectedY = projection([d.longitude, d.latitude])[1];
             return transform.applyY(projectedY);
+        }).attr("r", function (d) {
+            return scaleTransform(d.num_records_visible);
         });
-        //}).attr("r", function (d) {
-        //return scaleTransform(radius(d.num_records));
-        //});
 
         // resize the legend
         var newLegendWidth = scaleTransform(legendWidth, 11);
@@ -826,11 +799,10 @@ const d3 = require('d3');
     }
 
     function makeLegend(cityData) {
-        maxLegend = d3.max(cityData, function (d) {
-            return d.num_records;
-        });
-        var toShow = [1, maxLegend / 2, maxLegend];
+        var toShow = [1, 10, 20, 30];
+        maxLegend = toShow[toShow.length - 1];
 
+        // set up the outer elements
         var legend = svg.append("g")
             .attr("class", "legend")
             .attr("transform", "translate(" + (w - legendWidth) + "," + (h - legendHeight) + ")");
@@ -839,34 +811,39 @@ const d3 = require('d3');
             .attr("height", legendHeight)
             .text("Hello!");
 
+        // place circles in middle of legend so the are concentric
         legend.selectAll("circle")
             .data(toShow)
             .enter().append("circle")
             .attr("class", "legendCircle")
             .attr("cy", function (d) {
-                return legendHeight / 2 - radius(d) + radius(maxLegend);
+                // bottom of outermost circle - this circles radius
+                return legendHeight / 2 + maxLegend - d;
             })
             .attr("cx", function (d, i) {
+                // middle of legend with offset
                 return legendWidth / 2 - 5;
             })
-            .attr("r", function (d) {
-                return radius(d);
-            });
+            .attr("r", function (d) { return d; });
+
+        // put text next to circles
         legend.selectAll("text")
             .data(toShow)
             .enter().append("text")
             .attr("class", "legendLabel")
             .attr("y", function (d, i) {
-                return legendHeight / 2 + (legendHeight / 4) * (1 - i);
+                // make it at the same level as the top of the circle
+                return legendHeight / 2 + maxLegend - 2 * d;
             })
-            .attr("x", legendWidth / 2 + radius(maxLegend) + 5)
-            .html(function (d) {
-                return d;
-            });
+            .attr("x", legendWidth / 2 + maxLegend + 5)
+            .html(function (d) { return d; });
+
+        // put label on bottom
         legend.append("text")
             .attr("id", "legendTitle")
+            .attr("text-anchor", "middle")
             .attr("y", legendHeight - 5)
-            .attr("x", 5)
+            .attr("x", legendWidth / 2)
             .html("Number of Victims");
     }
 }());
