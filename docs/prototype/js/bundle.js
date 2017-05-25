@@ -1899,7 +1899,7 @@ function loadLocale(name) {
             module && module.exports) {
         try {
             oldLocale = globalLocale._abbr;
-            __webpack_require__(234)("./" + name);
+            __webpack_require__(235)("./" + name);
             // because defineLocale currently also sets the global locale, we
             // want to undo that for lazy loaded locales
             getSetGlobalLocale(oldLocale);
@@ -4534,7 +4534,7 @@ return hooks;
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(236)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(237)(module)))
 
 /***/ }),
 /* 1 */
@@ -33136,7 +33136,7 @@ return zhTw;
 const d3 = __webpack_require__(19);
 const d3Chromatic = __webpack_require__(198);
 const Chart = __webpack_require__(10);
-__webpack_require__(235);
+__webpack_require__(236);
 __webpack_require__(137)
 
 var OUTLINE_COLOR = "#b1b1b1";
@@ -33498,8 +33498,8 @@ const d3 = __webpack_require__(19);
     var MAX_RADIUS = 20;
     var radius;
 
-    var legendWidth = 120;
-    var legendHeight = 120;
+    var legendWidth = 100;
+    var legendHeight = 100;
     var maxLegend = -1;
 
     var visible = {
@@ -34200,8 +34200,8 @@ const d3 = __webpack_require__(19);
         });
 
         // resize the legend
-        var newLegendWidth = radiusTransform(legendWidth, 30);
-        var newLegendHeight = radiusTransform(legendHeight, 30);
+        var newLegendWidth = radiusTransform(legendWidth, 20);
+        var newLegendHeight = radiusTransform(legendHeight, 20);
         drawLegend(newLegendWidth, newLegendHeight);
     }
 
@@ -48449,7 +48449,8 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 234 */
+/* 234 */,
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -48698,10 +48699,10 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 234;
+webpackContext.id = 235;
 
 /***/ }),
-/* 235 */
+/* 236 */
 /***/ (function(module, exports) {
 
 /*!
@@ -49368,7 +49369,7 @@ https://github.com/imakewebthings/waypoints/blob/master/licenses.txt
 ;
 
 /***/ }),
-/* 236 */
+/* 237 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {

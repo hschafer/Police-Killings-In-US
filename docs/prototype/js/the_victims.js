@@ -75,8 +75,8 @@ const d3 = require('d3');
     var MAX_RADIUS = 20;
     var radius;
 
-    var legendWidth = 120;
-    var legendHeight = 120;
+    var legendWidth = 100;
+    var legendHeight = 100;
     var maxLegend = -1;
 
     var visible = {
@@ -777,8 +777,8 @@ const d3 = require('d3');
         });
 
         // resize the legend
-        var newLegendWidth = radiusTransform(legendWidth, 30);
-        var newLegendHeight = radiusTransform(legendHeight, 30);
+        var newLegendWidth = radiusTransform(legendWidth, 20);
+        var newLegendHeight = radiusTransform(legendHeight, 20);
         drawLegend(newLegendWidth, newLegendHeight);
     }
 
