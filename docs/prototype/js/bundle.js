@@ -33563,6 +33563,19 @@ const fuse = __webpack_require__(237);
         ]
         };
         fuzzy = new fuse(cityData, fuse_options);
+
+        // Bind fuzzy searching to the search box, select first result
+        $('#citySearch').on('input', function () {
+          disableRandomWalk();
+          var foundCities = fuzzy.search($('#citySearch').val());
+          if (foundCities.length > 0) {
+            var foundCity = foundCities[0];
+            deselectCity();
+            selectCity(foundCity);
+          } else {
+            deselectCity();
+          }
+        });
         
         radius = d3.scaleSqrt()
             .domain([0, d3.max(cityData, function (d) {
@@ -33719,14 +33732,17 @@ const fuse = __webpack_require__(237);
         randomSelection(cityData); // make it happen right away
         var timer = setInterval(randomSelection, 3000, cityData);
 
-        svg.on("mouseenter", function () {
+        function disableRandomWalk() {
             if (timer) {
                 d3.select("#highlightedCityDuplicate").remove();
                 clearInterval(timer);
                 deselectCity();
                 timer = null;
             }
-        });
+        }
+          
+
+        svg.on("mouseenter", disableRandomWalk);
         svg.on("mouseleave", function () {
             // only random walk if we didn't click on a city
             if (!clickedCity) {
