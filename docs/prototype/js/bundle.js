@@ -33480,7 +33480,7 @@ const d3 = __webpack_require__(19);
     var path = d3.geoPath()
         .projection(projection);
 
-    var MAX_ZOOM = 20;
+    var MAX_ZOOM = 30;
     var zoom = d3.zoom()
         .scaleExtent([1, MAX_ZOOM])
         .on("zoom", zoomed);
@@ -33491,9 +33491,12 @@ const d3 = __webpack_require__(19);
     // radius=1xd to zoomLevel=Zx to radius=Zxd/scale
     function radiusTransform(d, zoomLevel, scale) {
         zoomLevel = (typeof zoomLevel === "undefined") ? 1 : zoomLevel;
-        scale = (typeof scale === "undefined") ? 4 : scale;
+        scale = (typeof scale === "undefined") ? 8 : scale;
         return d * (scale - 1 + zoomLevel) / scale;
     }
+
+    var MAX_RADIUS = 20;
+    var radius;
 
     var legendWidth = 120;
     var legendHeight = 120;
@@ -33558,10 +33561,8 @@ const d3 = __webpack_require__(19);
         }
 
         radius = d3.scaleSqrt()
-            .domain([0, d3.max(cityData, function (d) {
-                return d.num_records_visible;
-            })])
-            .range([0, 15]);
+            .domain([0, d3.max(cityData, function (d) { return d.num_records_visible; })])
+            .range([0, MAX_RADIUS]);
 
         var section2Container = d3.select("#section2Container");
         var section2HeaderRow = d3.select("#section2HeaderRow");
@@ -33747,7 +33748,7 @@ const d3 = __webpack_require__(19);
     }
 
     function mapSymbolRadius(d) {
-        return d.num_records_visible;
+        return radius(d.num_records_visible);
     }
 
     function update() {
@@ -34193,12 +34194,12 @@ const d3 = __webpack_require__(19);
             var projectedY = projection([d.longitude, d.latitude])[1];
             return transform.applyY(projectedY);
         }).attr("r", function (d) {
-            return radiusTransform(d.num_records_visible, transform.k);
+            return radiusTransform(mapSymbolRadius(d), transform.k);
         });
 
         // resize the legend
-        var newLegendWidth = radiusTransform(legendWidth, transform.k, 8);
-        var newLegendHeight = radiusTransform(legendHeight, transform.k, 8);
+        var newLegendWidth = radiusTransform(legendWidth, transform.k, 30);
+        var newLegendHeight = radiusTransform(legendHeight, transform.k, 30);
         drawLegend(newLegendWidth, newLegendHeight, transform.k);
     }
 
@@ -34247,18 +34248,19 @@ const d3 = __webpack_require__(19);
         // place circles in middle of legend so the are concentric
         svg.selectAll(".legendCircle")
             .attr("r", function (d) {
-                return radiusTransform(d, zoomLevel);
+                return radiusTransform(radius(d), zoomLevel);
             })
             .attr("cy", function (d) {
                 // bottom of outermost circle - this circles radius
-                return legendHeight / 2 + radiusTransform(maxLegend, zoomLevel) - radiusTransform(d, zoomLevel);
+                return legendHeight / 2 + radiusTransform(radius(maxLegend), zoomLevel) - radiusTransform(radius(d), zoomLevel);
             }).attr("cx", legendWidth / 2 - 5); // middle of legend with offset
 
         // put text next to circles
         svg.selectAll(".legendLabel")
             .attr("y", function (d, i) {
-                return legendHeight / 2 + radiusTransform(maxLegend, zoomLevel) - 2 * radiusTransform(d, zoomLevel);
-            }).attr("x", legendWidth / 2 + radiusTransform(maxLegend, zoomLevel) + 5);
+                return legendHeight / 2 + radiusTransform(radius(maxLegend), zoomLevel)
+                    - 2 * radiusTransform(radius(d), zoomLevel) - 5 * (i + 1) + 10;
+            }).attr("x", legendWidth / 2 + radiusTransform(radius(maxLegend), zoomLevel) + 5);
 
         // put label on bottom
         svg.select("#legendTitle")
