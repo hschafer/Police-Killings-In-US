@@ -1,4 +1,6 @@
 const d3 = require('d3');
+const fuse = require('fuse.js');
+
 (function () {
 
     const START_DATE = new Date(getDateString("2015-01-01"));
@@ -49,6 +51,7 @@ const d3 = require('d3');
     var cities;
     var currentVisible;
     var stateVictimCount;
+    var fuzzy; // fuse instance for fuzzy search
 
     var projection = d3.geoAlbersUsa()
         .translate([w / 2, h / 2])
@@ -128,6 +131,35 @@ const d3 = require('d3');
             cityInfo.records_visible = cityInfo.records.slice();
         }
 
+        // Set up fuzzy searching
+        var fuse_options = {
+          shouldSort: true,
+          threshold: 0.3,
+          location: 0,
+          distance: 100,
+          maxPatternLength: 32,
+          minMatchCharLength: 1,
+          keys: [
+            "city",
+            "state"
+        ]
+        };
+        fuzzy = new fuse(cityData, fuse_options);
+
+        // Bind fuzzy searching to the search box, select first result
+        $('#citySearch').on('input', function () {
+          disableRandomWalk();
+          var foundCities = fuzzy.search($('#citySearch').val());
+          if (foundCities.length > 0) {
+            var foundCity = foundCities[0];
+            deselectCity();
+            selectCity(foundCity);
+          } else {
+            deselectCity();
+            enableRandomWalk();
+          }
+        });
+        
         radius = d3.scaleSqrt()
             .domain([0, d3.max(cityData, function (d) {
                 return d.num_records_visible;
@@ -283,20 +315,24 @@ const d3 = require('d3');
         randomSelection(cityData); // make it happen right away
         var timer = setInterval(randomSelection, 3000, cityData);
 
-        svg.on("mouseenter", function () {
+        function enableRandomWalk() {
+            // only random walk if we didn't click on a city
+            if (!clickedCity) {
+                timer = setInterval(randomSelection, 3000, cityData);
+            }
+        }
+
+        function disableRandomWalk() {
             if (timer) {
                 d3.select("#highlightedCityDuplicate").remove();
                 clearInterval(timer);
                 deselectCity();
                 timer = null;
             }
-        });
-        svg.on("mouseleave", function () {
-            // only random walk if we didn't click on a city
-            if (!clickedCity) {
-                timer = setInterval(randomSelection, 3000, cityData);
-            }
-        });
+        }
+
+        svg.on("mouseenter", disableRandomWalk);
+        svg.on("mouseleave", enableRandomWalk);
 
         makeLegend(cityData);
 
@@ -671,6 +707,9 @@ const d3 = require('d3');
     }
 
     function randomSelection(cityData) {
+        // Clear out search bar
+        $('#citySearch').val("");
+
         var svg = d3.select(".mapSVG");
         var svgContainer = $(".mapSVG")[0];
 
