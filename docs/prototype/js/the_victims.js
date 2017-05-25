@@ -763,7 +763,6 @@ const d3 = require('d3');
             transform.y = 0;
         }
         zoomLevel = transform.k;
-        console.log("Zoom", zoomLevel);
 
         states.attr("transform", transform);
         circles.attr("cx", function (d) {
@@ -841,7 +840,7 @@ const d3 = require('d3');
                 var padding = (10 - 5 * (i + 1)) * (MAX_ZOOM - zoomLevel) / MAX_ZOOM;
                 return legendHeight / 2 + radiusTransform(radius(maxLegend))
                     - 2 * radiusTransform(radius(d)) + padding;
-            }).attr("x", legendWidth / 2 + radiusTransform(radius(maxLegend)) + 5);
+            }).attr("x", legendWidth - 15);
 
         // put label on bottom
         svg.select("#legendTitle")
