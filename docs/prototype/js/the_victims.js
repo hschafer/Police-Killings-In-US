@@ -58,6 +58,7 @@ const d3 = require('d3');
         .projection(projection);
 
     var MAX_ZOOM = 30;
+    var zoomLevel = 1;
     var zoom = d3.zoom()
         .scaleExtent([1, MAX_ZOOM])
         .on("zoom", zoomed);
@@ -66,8 +67,7 @@ const d3 = require('d3');
     // to be reduced by scale. The reduction is tricky
     // because it transforms the scale from zoomLevel=1x to
     // radius=1xd to zoomLevel=Zx to radius=Zxd/scale
-    function radiusTransform(d, zoomLevel, scale) {
-        zoomLevel = (typeof zoomLevel === "undefined") ? 1 : zoomLevel;
+    function radiusTransform(d, scale) {
         scale = (typeof scale === "undefined") ? 8 : scale;
         return d * (scale - 1 + zoomLevel) / scale;
     }
@@ -325,7 +325,7 @@ const d3 = require('d3');
     }
 
     function mapSymbolRadius(d) {
-        return radius(d.num_records_visible);
+        return radiusTransform(radius(d.num_records_visible));
     }
 
     function update() {
@@ -762,6 +762,8 @@ const d3 = require('d3');
             transform.x = 0;
             transform.y = 0;
         }
+        zoomLevel = transform.k;
+        console.log("Zoom", zoomLevel);
 
         states.attr("transform", transform);
         circles.attr("cx", function (d) {
@@ -771,13 +773,13 @@ const d3 = require('d3');
             var projectedY = projection([d.longitude, d.latitude])[1];
             return transform.applyY(projectedY);
         }).attr("r", function (d) {
-            return radiusTransform(mapSymbolRadius(d), transform.k);
+            return mapSymbolRadius(d);
         });
 
         // resize the legend
-        var newLegendWidth = radiusTransform(legendWidth, transform.k, 30);
-        var newLegendHeight = radiusTransform(legendHeight, transform.k, 30);
-        drawLegend(newLegendWidth, newLegendHeight, transform.k);
+        var newLegendWidth = radiusTransform(legendWidth, 30);
+        var newLegendHeight = radiusTransform(legendHeight, 30);
+        drawLegend(newLegendWidth, newLegendHeight);
     }
 
     function zoomButtonClick(zoomLevel) {
@@ -815,7 +817,7 @@ const d3 = require('d3');
         drawLegend(legendWidth, legendHeight, 1);
     }
 
-    function drawLegend(legendWidth, legendHeight, zoomLevel) {
+    function drawLegend(legendWidth, legendHeight) {
         svg.selectAll(".legend")
             .attr("transform", "translate(" + (w - legendWidth) + "," + (h - legendHeight) + ")");
         svg.selectAll(".legend rect")
@@ -825,24 +827,24 @@ const d3 = require('d3');
         // place circles in middle of legend so the are concentric
         svg.selectAll(".legendCircle")
             .attr("r", function (d) {
-                return radiusTransform(radius(d), zoomLevel);
+                return radiusTransform(radius(d));
             })
             .attr("cy", function (d) {
                 // bottom of outermost circle - this circles radius
-                return legendHeight / 2 + radiusTransform(radius(maxLegend), zoomLevel) - radiusTransform(radius(d), zoomLevel);
+                return legendHeight / 2 + radiusTransform(radius(maxLegend)) - radiusTransform(radius(d));
             }).attr("cx", legendWidth / 2 - 5); // middle of legend with offset
 
         // put text next to circles
         svg.selectAll(".legendLabel")
             .attr("y", function (d, i) {
-                return legendHeight / 2 + radiusTransform(radius(maxLegend), zoomLevel)
-                    - 2 * radiusTransform(radius(d), zoomLevel) - 5 * (i + 1) + 10;
-            }).attr("x", legendWidth / 2 + radiusTransform(radius(maxLegend), zoomLevel) + 5);
+                // this makes the numbers look nicely spaced
+                var padding = (10 - 5 * (i + 1)) * (MAX_ZOOM - zoomLevel) / MAX_ZOOM;
+                return legendHeight / 2 + radiusTransform(radius(maxLegend))
+                    - 2 * radiusTransform(radius(d)) + padding;
+            }).attr("x", legendWidth / 2 + radiusTransform(radius(maxLegend)) + 5);
 
         // put label on bottom
         svg.select("#legendTitle")
             .attr("y", legendHeight - 5);
-
-
     }
 }());
