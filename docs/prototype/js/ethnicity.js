@@ -5,7 +5,7 @@ require('waypoints/lib/jquery.waypoints.js');
 require('./chart-extensions.js')
 
 var OUTLINE_COLOR = "#b1b1b1";
-var BACKGROUND_COLOR = "#2f394d";
+var BACKGROUND_COLOR = "#fbfff3";
 
 Chart.defaults.global.defaultFontColor = OUTLINE_COLOR;
 
@@ -55,7 +55,10 @@ function tooltipLabel(tooltipItem, data, signed) {
 
         var allVictimData = victimData[selected].values.sort(compareStrings);
 
-        var colors = ["#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e", "#a6761d", "#e6ab02"];
+        //var colors = ["#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e", "#a6761d", "#e6ab02"];
+
+        // --outline-color, --secondary-color, --dark-blue, --red, --red-faded, --red-faded, --gray
+        var colors = ["#819fb1", "#2F394D","#08101F", "#a03e33 ", "#2e1513",  "#B57A71", "#a6a9a1"];
 
         pieCharts = makePieCharts(allVictimData, colors);
 

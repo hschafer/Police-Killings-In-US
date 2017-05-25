@@ -1,8 +1,16 @@
 html {
-    --outline-color: #E4E3D3;
-    --background-color: #2F394D;
-    --secondary-color: #b1b1b1;
-    --red: #DB3A34;
+    --background-color: #fbfff3;
+    --outline-color: #819fb1;
+
+    --secondary-color: #2F394D;
+    --red: #a03e33;
+    --red-faded: #B57A71;
+    --red-dark: #6a2f27;
+    --red-super-dark: #2e1513;
+    --dark-blue: #08101F;
+    --gray: #a6a9a1;
+    --darker-gray: #80857b;
+    --light-gray: #dcdfd7;
 }
 
 
@@ -24,7 +32,9 @@ html {
 
 #section1 .fp-tableCell {
     /* This is the same as --background-color :( */
-    background: rgba(47, 57, 77, 0.7);
+    /*background: rgba(47, 57, 77, 0.7);*/
+    background: var(--background-color);
+
 }
 
 #section1 blockquote {
@@ -45,7 +55,7 @@ html {
 .sectionSubtitle {
     margin-top: 2pt;
     font-size: 15pt;
-    color: var(--outline-color);
+    color: var(--darker-gray);
     margin-bottom: 4pt;
 }
 
@@ -160,10 +170,11 @@ html {
  " Styles for map section
  " ----------------------------------------------------------------------------
 */
+
 #cityName, #cityCount {
     margin-top: 1pt;
     margin-bottom: 5px;
-    color: var(--outline-color);
+    color: var(--darker-gray);
 }
 
 #cityLabel, #countLabel {
@@ -189,7 +200,7 @@ html {
     -webkit-column-count: 2;
     -moz-column-count: 2;
     column-count: 2;
-    color: var(--outline-color);
+    color: var(--darker-gray);
 }
 
 #victimList li {
@@ -235,7 +246,7 @@ html {
 }
 
 .states {
-    fill: var(--secondary-color);
+    fill: var(--gray);
     stroke: #fff;
     cursor: pointer;
 }
@@ -249,7 +260,7 @@ html {
 }
 
 .states.unclickable:hover {
-    fill: var(--secondary-color);
+    fill: var(--outline-color);
 }
 
 .states.unclickable.active {
@@ -257,9 +268,9 @@ html {
 }
 
 .symbol {
-    fill: steelblue;
+    fill: var(--secondary-color);
     fill-opacity: .7;
-    stroke: #3f75a2;
+    stroke: var(--secondary-color);
     cursor: pointer;
 }
 
