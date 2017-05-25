@@ -1,4 +1,6 @@
 const d3 = require('d3');
+const fuse = require('fuse.js');
+
 (function () {
 
     const START_DATE = new Date(getDateString("2015-01-01"));
@@ -49,6 +51,7 @@ const d3 = require('d3');
     var cities;
     var currentVisible;
     var stateVictimCount;
+    var fuzzy; // fuse instance for fuzzy search
 
     var projection = d3.geoAlbersUsa()
         .translate([w / 2, h / 2])
@@ -123,6 +126,21 @@ const d3 = require('d3');
             cityInfo.records_visible = cityInfo.records.slice();
         }
 
+        // Set up fuzzy searching
+        var fuse_options = {
+          shouldSort: true,
+          threshold: 0.3,
+          location: 0,
+          distance: 100,
+          maxPatternLength: 32,
+          minMatchCharLength: 1,
+          keys: [
+            "city",
+            "state"
+        ]
+        };
+        fuzzy = new fuse(cityData, fuse_options);
+        
         radius = d3.scaleSqrt()
             .domain([0, d3.max(cityData, function (d) {
                 return d.num_records_visible;
