@@ -62,6 +62,16 @@ const d3 = require('d3');
         .scaleExtent([1, MAX_ZOOM])
         .on("zoom", zoomed);
 
+    // Transforms the given radius at the given zoom level
+    // to be reduced by scale. The reduction is tricky
+    // because it transforms the scale from zoomLevel=1x to
+    // radius=1xd to zoomLevel=Zx to radius=Zxd/scale
+    function radiusTransform(d, zoomLevel, scale) {
+        zoomLevel = (typeof zoomLevel === "undefined") ? 1 : zoomLevel;
+        scale = (typeof scale === "undefined") ? 4 : scale;
+        return d * (scale - 1 + zoomLevel) / scale;
+    }
+
     var legendWidth = 120;
     var legendHeight = 120;
     var maxLegend = -1;
@@ -752,11 +762,6 @@ const d3 = require('d3');
             transform.y = 0;
         }
 
-        var scaleTransform = function (d, scale) {
-            scale = (typeof scale === "undefined") ? 4 : scale;
-            return d * (scale - 1 + transform.k) / scale;
-        }
-
         states.attr("transform", transform);
         circles.attr("cx", function (d) {
             var projectedX = projection([d.longitude, d.latitude])[0];
@@ -765,32 +770,13 @@ const d3 = require('d3');
             var projectedY = projection([d.longitude, d.latitude])[1];
             return transform.applyY(projectedY);
         }).attr("r", function (d) {
-            return scaleTransform(d.num_records_visible);
+            return radiusTransform(d.num_records_visible, transform.k);
         });
 
         // resize the legend
-        var newLegendWidth = scaleTransform(legendWidth, 8);
-        var newLegendHeight = scaleTransform(legendHeight, 8);
-        svg.selectAll(".legend")
-            .attr("transform", "translate(" + (w - newLegendWidth) + "," + (h - newLegendHeight) + ")");
-        svg.selectAll(".legend rect")
-            .attr("width", newLegendWidth)
-            .attr("height", newLegendHeight);
-
-        svg.selectAll(".legendCircle")
-            .attr("r", function (d) {
-                return scaleTransform(d);
-            })
-            .attr("cy", function (d) {
-                return newLegendHeight / 2 - scaleTransform(d) + scaleTransform(maxLegend);
-            }).attr("cx", newLegendWidth / 2 - 4);
-        svg.selectAll(".legendLabel")
-            .attr("y", function (d, i) {
-                return newLegendHeight / 2 + scaleTransform(maxLegend) - 2 * scaleTransform(d);
-            }).attr("x", newLegendWidth / 2 + scaleTransform(maxLegend) + 5)
-        svg.select("#legendTitle")
-            .attr("y", newLegendHeight - 5);
-
+        var newLegendWidth = radiusTransform(legendWidth, transform.k, 8);
+        var newLegendHeight = radiusTransform(legendHeight, transform.k, 8);
+        drawLegend(newLegendWidth, newLegendHeight, transform.k);
     }
 
     function zoomButtonClick(zoomLevel) {
@@ -801,48 +787,60 @@ const d3 = require('d3');
         var toShow = [1, 10, 20, 30];
         maxLegend = toShow[toShow.length - 1];
 
+        // First: Set up static parts of the legend
+
         // set up the outer elements
         var legend = svg.append("g")
             .attr("class", "legend")
-            .attr("transform", "translate(" + (w - legendWidth) + "," + (h - legendHeight) + ")");
-        legend.append("rect")
-            .attr("width", legendWidth)
-            .attr("height", legendHeight)
-            .text("Hello!");
+        legend.append("rect");
 
-        // place circles in middle of legend so the are concentric
         legend.selectAll("circle")
             .data(toShow)
             .enter().append("circle")
-            .attr("class", "legendCircle")
-            .attr("cy", function (d) {
-                // bottom of outermost circle - this circles radius
-                return legendHeight / 2 + maxLegend - d;
-            })
-            .attr("cx", function (d, i) {
-                // middle of legend with offset
-                return legendWidth / 2 - 5;
-            })
-            .attr("r", function (d) { return d; });
+            .attr("class", "legendCircle");
 
-        // put text next to circles
         legend.selectAll("text")
             .data(toShow)
             .enter().append("text")
             .attr("class", "legendLabel")
-            .attr("y", function (d, i) {
-                // make it at the same level as the top of the circle
-                return legendHeight / 2 + maxLegend - 2 * d;
-            })
-            .attr("x", legendWidth / 2 + maxLegend + 5)
             .html(function (d) { return d; });
 
-        // put label on bottom
         legend.append("text")
             .attr("id", "legendTitle")
             .attr("text-anchor", "middle")
-            .attr("y", legendHeight - 5)
             .attr("x", legendWidth / 2)
             .html("Number of Victims");
+
+        drawLegend(legendWidth, legendHeight, 1);
+    }
+
+    function drawLegend(legendWidth, legendHeight, zoomLevel) {
+        svg.selectAll(".legend")
+            .attr("transform", "translate(" + (w - legendWidth) + "," + (h - legendHeight) + ")");
+        svg.selectAll(".legend rect")
+            .attr("width", legendWidth)
+            .attr("height", legendHeight);
+
+        // place circles in middle of legend so the are concentric
+        svg.selectAll(".legendCircle")
+            .attr("r", function (d) {
+                return radiusTransform(d, zoomLevel);
+            })
+            .attr("cy", function (d) {
+                // bottom of outermost circle - this circles radius
+                return legendHeight / 2 + radiusTransform(maxLegend, zoomLevel) - radiusTransform(d, zoomLevel);
+            }).attr("cx", legendWidth / 2 - 5); // middle of legend with offset
+
+        // put text next to circles
+        svg.selectAll(".legendLabel")
+            .attr("y", function (d, i) {
+                return legendHeight / 2 + radiusTransform(maxLegend, zoomLevel) - 2 * radiusTransform(d, zoomLevel);
+            }).attr("x", legendWidth / 2 + radiusTransform(maxLegend, zoomLevel) + 5);
+
+        // put label on bottom
+        svg.select("#legendTitle")
+            .attr("y", legendHeight - 5);
+
+
     }
 }());
