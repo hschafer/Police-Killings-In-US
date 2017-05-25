@@ -693,6 +693,9 @@ const fuse = require('fuse.js');
     }
 
     function randomSelection(cityData) {
+        // Clear out search bar
+        $('#citySearch').val("");
+
         var svg = d3.select(".mapSVG");
         var svgContainer = $(".mapSVG")[0];
 

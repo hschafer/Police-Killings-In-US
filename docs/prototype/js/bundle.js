@@ -34116,6 +34116,9 @@ const fuse = __webpack_require__(237);
     }
 
     function randomSelection(cityData) {
+        // Clear out search bar
+        $('#citySearch').val("");
+
         var svg = d3.select(".mapSVG");
         var svgContainer = $(".mapSVG")[0];
 
