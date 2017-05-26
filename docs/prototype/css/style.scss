@@ -1,14 +1,13 @@
-html {
-    --outline-color: #E4E3D3;
-    --background-color: #2F394D;
-    --secondary-color: #b1b1b1;
-    --red: #DB3A34;
-}
+$outline-color: #E4E3D3;
+$background-color: #2F394D;
+$secondary-color: #b1b1b1;
+$red: #DB3A34;
 
 .section {
-    color: var(--secondary-color);
+    color: $secondary-color;
     font-size: 6em;
-    background-color: var(--background-color);
+    text-align: center;
+    background-color: $background-color;
     font-family: 'Ropa Sans', sans-serif;
 }
 
@@ -31,27 +30,27 @@ html {
 }
 
 #section1 #highlightedText {
-    color: var(--red);
+    color: $red;
 }
 
 .sectionTitle {
     font-size: 30pt;
     margin-bottom: 20pt;
     display: table-cell;
-    color: --secondary-color;
+    color: $secondary-color;
 }
 
 .sectionSubtitle {
     margin-top: 2pt;
     font-size: 15pt;
-    color: var(--outline-color);
+    color: $outline-color;
     margin-bottom: 4pt;
 }
 
 .section1Subtitle {
     margin-top: 15pt;
     font-size: 15pt;
-    color: var(--outline-color);
+    color: $outline-color;
     text-align: center;
     margin: auto;
     margin-top: 20pt;
@@ -60,7 +59,7 @@ html {
 .section3Subtitle, .section4Subtitle {
     margin-top: 15pt;
     font-size: 20pt;
-    color: var(--outline-color);
+    color: $outline-color;
     text-align: left;
     margin: auto;
 }
@@ -76,7 +75,7 @@ html {
 }
 
 .github-logo {
-    fill: var(--secondary-color);
+    fill: $secondary-color;
 }
 
 /*
@@ -131,7 +130,7 @@ html {
 }
 
 #ethnicityCanvasContainer {
-    border-color: var(--secondary-color);
+    border-color: $secondary-color;
 }
 
 #reveal {
@@ -190,7 +189,7 @@ html {
 .autoCompleteResult, #cityName, #cityCount {
     margin-top: 1pt;
     margin-bottom: 5px;
-    color: var(--outline-color);
+    color: $outline-color;
 }
 
 #cityNameAndSearch {
@@ -210,13 +209,13 @@ html {
 #cityLabel, #countLabel {
     margin-top: 10px;
     margin-bottom: 1pt;
-    color: var(--secondary-color);
+    color: $secondary-color;
 }
 
 #victimsLabel {
     margin-top: 10px;
     margin-bottom: 5pt;
-    color: var(--secondary-color);
+    color: $secondary-color;
 }
 
 #cityVictims {
@@ -230,7 +229,7 @@ html {
     -webkit-column-count: 2;
     -moz-column-count: 2;
     column-count: 2;
-    color: var(--outline-color);
+    color: $outline-color;
 }
 
 #victimList li {
@@ -272,11 +271,11 @@ html {
 }
 
 #fp-nav.left ul li a span {
-    background: var(--outline-color);
+    background: $outline-color;
 }
 
 .states {
-    fill: var(--secondary-color);
+    fill: $secondary-color;
     stroke: #fff;
     cursor: pointer;
 }
@@ -290,7 +289,7 @@ html {
 }
 
 .states.unclickable:hover {
-    fill: var(--secondary-color);
+    fill: $secondary-color;
 }
 
 .states.unclickable.active {
@@ -305,13 +304,13 @@ html {
 }
 
 .symbol.highlightedCity, .symbol#highlightedCityDuplicate {
-    fill: var(--red);
+    fill: $red;
     stroke: #b11a1a;
 }
 
 .state-borders {
     fill: none;
-    stroke: var(--background-color);
+    stroke: $background-color;
     stroke-width: 0.5px;
     stroke-linejoin: round;
     stroke-linecap: round;
@@ -319,30 +318,30 @@ html {
 }
 
 .us-outline {
-    stroke: var(--outline-color);
+    stroke: $outline-color;
     stroke-width: 1px;
     fill: none;
 }
 
 #section2 .legend rect {
-    stroke: var(--outline-color);
-    fill: var(--background-color);
+    stroke: $outline-color;
+    fill: $background-color;
     opacity: 0.7;
 }
 
 #section2 .legend .legendCircle {
-    stroke: var(--outline-color);
+    stroke: $outline-color;
     fill: none;
 }
 
 #section2 .legend .legendLabel, #section2 .legend #legendTitle {
     font-size: small;
-    fill: var(--outline-color);
+    fill: $outline-color;
 }
 
 .backgroundRect {
     fill: none;
-    stroke: var(--outline-color);
+    stroke: $outline-color;
     stroke-width: 1px;
     pointer-events: all;
 }
@@ -357,10 +356,10 @@ html {
 div.tooltip {
     position: absolute;
     max-height: 100px;
-    background: var(--background-color);
+    background: $background-color;
     border: 0px;
     font-family: 'Ropa Sans', sans-serif;
-    color: var(--outline-color);
+    color: $outline-color;
     padding: 4pt;
 }
 
@@ -396,6 +395,21 @@ div.tooltip h2 {
 
 #section2 #zoomOut {
     left: 50px;
+}
+
+#section2 #citySearch {
+    float: right;
+    position: absolute;
+    width: 100;
+    height: 25px;
+    right: 2px;
+    top: 2px;
+    opacity: 0.5;
+    color: $secondary-color;
+    font-size: small;
+    text-align: center;
+    /*background-color: var(--background-color);*/
+    font-family: 'Ropa Sans', sans-serif;
 }
 
 a {
@@ -461,7 +475,7 @@ a {
 
 .victimDemographicList h6 {
     margin: 0pt;
-    color: var(--outline-color);
+    color: $outline-color;
 }
 
 .victimFilterContainer h5 {
@@ -490,7 +504,7 @@ a {
 
 .ticks {
     /*stroke: var(--outline-color);*/
-    fill: var(--outline-color);
+    fill: $outline-color;
     font-size: medium;
 }
 
@@ -515,7 +529,7 @@ a {
 }
 
 .track-inset {
-    stroke: var(--secondary-color);
+    stroke: $secondary-color;
     stroke-width: 8px;
 }
 
@@ -565,7 +579,7 @@ ul.tabs li.current{
 }
 
 ul.tabs li{
-    background: var(--secondary-color);
+    background: $secondary-color;
 }
 
 .tab-content{
