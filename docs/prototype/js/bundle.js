@@ -34009,6 +34009,8 @@ const fuse = __webpack_require__(239);
         }
 
         svg.on("mouseenter", disableRandomWalk);
+        $("#victimMapFilters, #cityNameAndSearch").click(disableRandomWalk);
+
 
         makeLegend(cityData);
 

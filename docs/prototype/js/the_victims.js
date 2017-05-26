@@ -368,6 +368,8 @@ const fuse = require('fuse.js');
         }
 
         svg.on("mouseenter", disableRandomWalk);
+        $("#victimMapFilters, #cityNameAndSearch").click(disableRandomWalk);
+
 
         makeLegend(cityData);
 
