@@ -200,7 +200,7 @@ const fuse = require('fuse.js');
             $('#cityTipDiv').append(result).show();
           }
         }
-        
+
         radius = d3.scaleSqrt()
             .domain([0, d3.max(cityData, function (d) { return d.num_records_visible; })])
             .range([0, MAX_RADIUS]);
