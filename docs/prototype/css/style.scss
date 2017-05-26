@@ -3,6 +3,8 @@ $background-color: #2F394D;
 $secondary-color: #b1b1b1;
 $red: #DB3A34;
 
+@import 'ethnicity.scss';
+
 .section {
     color: $secondary-color;
     font-size: 6em;
@@ -17,20 +19,20 @@ $red: #DB3A34;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-}
 
-#section1 .fp-tableCell {
-    /* This is the same as --background-color :( */
-    background: rgba(47, 57, 77, 0.7);
-    text-align: center;
-}
+    .fp-tableCell {
+        /* This is the same as --background-color :( */
+        background: rgba(47, 57, 77, 0.7);
+        text-align: center;
+    }
 
-#section1 blockquote {
-    width: 775px;
-}
+    blockquote {
+        width: 775px;
+    }
 
-#section1 #highlightedText {
-    color: $red;
+    #highlightedText {
+        color: $red;
+    }
 }
 
 .sectionTitle {
@@ -78,88 +80,20 @@ $red: #DB3A34;
     fill: $secondary-color;
 }
 
-/*
- " ----------------------------------------------------------------------------
- " Styles for fbi comparison section
- " ----------------------------------------------------------------------------
-*/
-.row {
-    font-size:30pt;
-    padding-bottom: 5pt;
-}
-
-.col1 {
-    display:table-cell;
-    width:40%;
-    vertical-align: middle;
-    text-align: left;
-} 
-
-.col2 {
-    display:table-cell;
-    vertical-align: middle;
-    text-align: right;
-}
-
-.col1 p {
-    font-size:15pt;
-    margin: 30px 50px 30px 10px
-}
-
-#fbiSection .fa.fa-male {
-    margin-left:5pt;
-}
-
-/*
- " ----------------------------------------------------------------------------
- " Styles for ethnicity section
- " ----------------------------------------------------------------------------
-*/
-
-#ethnicitySectionContainer canvas {
-    display: inherit;
-}
-
-#ethnicityCanvasContainer, #ethnicitySectionText {
-    display: table-cell;
-}
-
-#ethnicitySectionText {
-    padding-left: 10px;
-    vertical-align: top;
-}
-
-#ethnicityCanvasContainer {
-    border-color: $secondary-color;
-}
-
-#reveal {
-    display: none;
-}
-
-#ethnicitySectionContainer label, #ethnicitySectionContainer input {
-    vertical-align: top;
-}
-
-#ethnicitySectionContainer #selectInstructions {
-    padding-top: 20px;
-    border-top: 5px dotted white;
-}
-
 .bigButton {
-  display: block;
-  margin: 0 auto;
-  padding: 15px 45px;
-  font-size: 20px;
-  font-family: "Bitter",serif;
-  line-height: 1.8;
-  appearance: none;
-  box-shadow: none;
-  border-radius: 0;
-  color: #fff;
-  background-color: #6496c8;
-  text-shadow: -1px 1px #417cb8;
-  border: none;
+    display: block;
+    margin: 0 auto;
+    padding: 15px 45px;
+    font-size: 20px;
+    font-family: "Bitter",serif;
+    line-height: 1.8;
+    appearance: none;
+    box-shadow: none;
+    border-radius: 0;
+    color: #fff;
+    background-color: #6496c8;
+    text-shadow: -1px 1px #417cb8;
+    border: none;
 }
 
 .bigButton:focus {
@@ -177,10 +111,6 @@ $red: #DB3A34;
   text-shadow: -1px 1px #193047;
 }
 
-#ethnicitySectionContainer label {
-    font-size: 17pt;
-    padding-right: 10px;
-}
 /*
  " ----------------------------------------------------------------------------
  " Styles for map section
