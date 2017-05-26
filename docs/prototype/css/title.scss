@@ -1,0 +1,20 @@
+#section1 {
+    //background: url(maxresdefault_dark.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+    .fp-tableCell {
+        background: $background-color;
+        text-align: center;
+    }
+
+    blockquote {
+        width: 775px;
+    }
+
+    #highlightedText {
+        color: $red;
+    }
+}

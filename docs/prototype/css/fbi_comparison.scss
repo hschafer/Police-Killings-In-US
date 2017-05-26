@@ -1,0 +1,33 @@
+#fbiSection {
+    .row {
+        font-size:30pt;
+        padding-bottom: 5pt;
+    }
+
+    .col1 {
+        display:table-cell;
+        width:40%;
+        vertical-align: middle;
+        text-align: left;
+
+        p {
+            font-size:15pt;
+            margin: 30px 50px 30px 10px
+        }
+    }
+
+    .col2 {
+        display:table-cell;
+        vertical-align: middle;
+        text-align: right;
+        color: $outline-color;
+    }
+
+    .fa.fa-male {
+        margin-left:5pt;
+    }
+
+    .fa.fa-male.highlighted {
+        color: $red;
+    }
+}

@@ -1,0 +1,174 @@
+$background-color: #fbfff3;
+$outline-color: #819fb1;
+$secondary-color: #2F394D;
+$red: #a03e33;
+$red-faded: #B57A71;
+$red-dark: #6a2f27;
+$red-super-dark: #2e1513;
+$dark-blue: #08101F;
+$gray: #a6a9a1;
+$darker-gray: #80857b;
+$light-gray: #dcdfd7;
+
+@import 'title.scss';
+@import 'fbi_comparison.scss';
+@import 'ethnicity.scss';
+@import 'map.scss';
+@import 'next_steps.scss';
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Note: We will assume all styles                 *
+ * listed in above imports are appropriately       *
+ * scoped and will not interfere with each other.  *
+ * Anything that should be applying to             *
+ * multiple sections should go in this file below  *
+ * * * * * * * * * *  * * * *  * * * * *  * *  * * */
+
+::-webkit-scrollbar {
+    width: 0px;
+    background:: transparent;
+    height: 0px;
+}
+
+/**
+ * General section styles
+ */
+.section {
+    color: $secondary-color;
+    font-size: 6em;
+    text-align: center;
+    background-color: $background-color;
+    font-family: 'Ropa Sans', sans-serif;
+}
+
+.sectionTitle {
+    font-size: 30pt;
+    margin-bottom: 20pt;
+    display: table-cell;
+    color: $secondary-color;
+}
+
+.sectionSubtitle {
+    margin-top: 2pt;
+    font-size: 15pt;
+    color: $darker-gray;
+    margin-bottom: 4pt;
+}
+
+.sectionRow {
+    display: table;
+}
+
+.sectionContainer {
+    width: 90%;
+    height: 90%;
+    margin: auto;
+    display: table;
+}
+
+.backgroundRect {
+    fill: none;
+    stroke: $outline-color;
+    stroke-width: 1px;
+    pointer-events: all;
+}
+
+.section3Subtitle, .section4Subtitle {
+    margin-top: 15pt;
+    font-size: 20pt;
+    color: $outline-color;
+    text-align: left;
+    margin: auto;
+}
+
+.sectionText {
+    font-size: 13pt;
+    text-align: left;
+}
+
+
+/* Styles for instruction text */
+.instructions {
+    font-size: 12pt;
+    opacity: .7;
+    text-align: left;
+}
+
+.footer {
+    font-size: 15pt;
+    color: white;
+}
+
+.github-logo {
+    fill: $secondary-color;
+}
+
+a {
+    color: #FFFFFF;
+}
+
+/* Styles for our big button look */
+.bigButton {
+    display: block;
+    margin: 0 auto;
+    padding: 15px 45px;
+    font-size: 20px;
+    font-family: "Bitter",serif;
+    line-height: 1.8;
+    appearance: none;
+    box-shadow: none;
+    border-radius: 0;
+    color: #fff;
+    background-color: #6496c8;
+    text-shadow: -1px 1px #417cb8;
+    border: none;
+}
+
+.bigButton:focus {
+    outline: none
+}
+
+.bigButton:hover {
+    background-color: #346392;
+    text-shadow: -1px 1px #27496d;
+    cursor: pointer;
+}
+
+.bigButton:active {
+    background-color: #27496d;
+    text-shadow: -1px 1px #193047;
+}
+
+blockquote {
+    display: block;
+    font-family: Georgia, serif;
+    font-size: 18px;
+    font-style: italic;
+    width: 500px;
+    margin: 0 auto;
+    padding: 0.25em 40px;
+    line-height: 1.45;
+    position: relative;
+
+    cite {
+        color: #999999;
+        font-size: 14px;
+        display: block;
+        margin-top: 5px;
+    }
+
+    cite:before {
+        content: "\2014 \2009";
+    }
+}
+
+blockquote:before {
+    display: block;
+    content: "\201C";
+    font-size: 80px;
+    position: absolute;
+    left: -20px;
+    top: -20px;
+    color: #7a7a7a;
+}
+

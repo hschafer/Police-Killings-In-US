@@ -1,0 +1,44 @@
+#nextSteps {
+    ul.tabs {
+        margin: 0px 10px 0px 10px;
+        padding: 0px;
+        list-style:none;
+
+        li {
+            background: $secondary-color;
+            color: #222;
+            display: inline-block;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px 5px 0px 0px;
+        }
+
+        li.current{
+            background: #ededed;
+            color: #222;
+        }
+    }
+
+    .tab-content{
+        border-top: 1px solid #ededed;
+        display: none;
+        padding: 15px;
+    }
+
+    .tab-content.current{
+        display: inherit;
+    }
+
+    a.bigButton {
+        width: 200px;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .halfPage {
+        vertical-align: top;
+        display: inline-block;
+        margin: 0;
+        width: 50%;
+    }
+}

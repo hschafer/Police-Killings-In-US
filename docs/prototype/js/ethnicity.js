@@ -2,7 +2,7 @@ const d3 = require('d3');
 const d3Chromatic = require('d3-scale-chromatic');
 const Chart = require('chart.js');
 require('waypoints/lib/jquery.waypoints.js');
-require('./chart-extensions.js')
+require('./chart-extensions.js');
 
 var OUTLINE_COLOR = "#b1b1b1";
 var BACKGROUND_COLOR = "#fbfff3";

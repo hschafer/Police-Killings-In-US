@@ -48,6 +48,7 @@ const fuse = require('fuse.js');
     var tooltipDiv;
     var clickedCity = null;
     var victimSymbols;
+    var randomWalkTimer;
     var cities;
     var currentVisible;
     var stateVictimCount;
@@ -60,12 +61,26 @@ const fuse = require('fuse.js');
     var path = d3.geoPath()
         .projection(projection);
 
+    var MAX_ZOOM = 30;
+    var zoomLevel = 1;
     var zoom = d3.zoom()
-        .scaleExtent([1, 20])
+        .scaleExtent([1, MAX_ZOOM])
         .on("zoom", zoomed);
 
+    // Transforms the given radius at the given zoom level
+    // to be reduced by scale. The reduction is tricky
+    // because it transforms the scale from zoomLevel=1x to
+    // radius=1xd to zoomLevel=Zx to radius=Zxd/scale
+    function radiusTransform(d, scale) {
+        scale = (typeof scale === "undefined") ? 8 : scale;
+        return d * (scale - 1 + zoomLevel) / scale;
+    }
+
+    var MAX_RADIUS = 10;
+    var radius;
+
     var legendWidth = 100;
-    var legendHeight = 70;
+    var legendHeight = 100;
     var maxLegend = -1;
 
     var visible = {
@@ -129,42 +144,64 @@ const fuse = require('fuse.js');
             // use these for map
             cityInfo.num_records_visible = cityInfo.num_records;
             cityInfo.records_visible = cityInfo.records.slice();
+            cityInfo.index = city;
         }
 
         // Set up fuzzy searching
         var fuse_options = {
-          shouldSort: true,
-          threshold: 0.3,
-          location: 0,
-          distance: 100,
-          maxPatternLength: 32,
-          minMatchCharLength: 1,
-          keys: [
-            "city",
-            "state"
-        ]
+            shouldSort: true,
+            threshold: 0.3,
+            location: 0,
+            distance: 100,
+            maxPatternLength: 32,
+            minMatchCharLength: 1,
+            keys: [
+                "city",
+                "state"
+            ]
         };
         fuzzy = new fuse(cityData, fuse_options);
 
         // Bind fuzzy searching to the search box, select first result
-        $('#citySearch').on('input', function () {
-          disableRandomWalk();
-          var foundCities = fuzzy.search($('#citySearch').val());
-          if (foundCities.length > 0) {
-            var foundCity = foundCities[0];
-            deselectCity();
-            selectCity(foundCity);
-          } else {
-            deselectCity();
-            enableRandomWalk();
-          }
+        $('#cityNameAndSearch').on('focus', function () {
+            disableRandomWalk();
+            $('#cityNameAndSearch').val("");
         });
-        
+        $('#cityNameAndSearch').on('input', function () {
+            disableRandomWalk();
+            var foundCities = fuzzy.search($('#cityNameAndSearch').val());
+            if (foundCities.length > 0) {
+                // Populate results list, "enter" should select
+                // first result
+                displayAutoComplete(foundCities);
+            }
+        });
+
+        // Display autocomplete results as h6's which select their respective
+        // city when clicked
+        function displayAutoComplete(foundCities) {
+            clearAutoComplete();
+            for (var i = 0; i < Math.floor(Math.min(foundCities.length, 5)); i++) {
+                var cityName = foundCities[i].city + ", " + foundCities[i].state;
+                var result = $('<h6></h6>').addClass('autoCompleteResult').html(cityName);
+                result.attr('cityIndex', foundCities[i].index);
+                result.on('click', function (d) {
+                    clearAutoComplete();
+                    var cityIndex = d.target.getAttribute('cityIndex');
+                    deselectCity();
+                    selectCity(cityData[cityIndex]);
+                    clickedCity = cityData[cityIndex];
+                    cityZoom(cityData[cityIndex]);
+                });
+                $('#cityTipDiv').append(result).show();
+            }
+        }
+
         radius = d3.scaleSqrt()
             .domain([0, d3.max(cityData, function (d) {
                 return d.num_records_visible;
             })])
-            .range([0, 15]);
+            .range([0, MAX_RADIUS]);
 
         var section2Container = d3.select("#section2Container");
         var section2HeaderRow = d3.select("#section2HeaderRow");
@@ -219,6 +256,7 @@ const fuse = require('fuse.js');
             .on("click", clicked) //;
             .on("mouseover", function (d) {
                 if (!clickedCity) {
+                    clearAutoComplete();
                     selectState(d);
                 }
             })
@@ -233,7 +271,9 @@ const fuse = require('fuse.js');
             .attr("height", h * (1.0 / 3) + "px");
 
         var citySymbols = svg.selectAll(".symbol")
-            .data(cities, function(d) { return d.id; })
+            .data(cities, function (d) {
+                return d.id;
+            })
             .enter()
             .append("circle")
             .attr("class", "symbol")
@@ -247,7 +287,7 @@ const fuse = require('fuse.js');
                 return projection([d.longitude, d.latitude])[1];
             })
             .attr("r", mapSymbolRadius)
-            .on("click", function(d) {
+            .on("click", function (d) {
                 var clicked = clickedCity;
                 deselectCity();
                 if (d !== clicked) {
@@ -283,7 +323,7 @@ const fuse = require('fuse.js');
                     } else {
                         deltaX = xPadding;
                     }
-                    tooltipDiv.style("left", x + deltaX +  "px")
+                    tooltipDiv.style("left", x + deltaX + "px")
                         .style("top", y - yPadding + "px")
 
                     // TODO: Should we do this for y as well? It seems much more
@@ -313,26 +353,27 @@ const fuse = require('fuse.js');
             .style("opacity", 0);
 
         randomSelection(cityData); // make it happen right away
-        var timer = setInterval(randomSelection, 3000, cityData);
+        randomWalkTimer = setInterval(randomSelection, 3000, cityData);
 
         function enableRandomWalk() {
             // only random walk if we didn't click on a city
             if (!clickedCity) {
-                timer = setInterval(randomSelection, 3000, cityData);
+                randomWalkTimer = setInterval(randomSelection, 3000, cityData);
             }
         }
 
         function disableRandomWalk() {
-            if (timer) {
+            if (randomWalkTimer) {
                 d3.select("#highlightedCityDuplicate").remove();
-                clearInterval(timer);
+                clearInterval(randomWalkTimer);
                 deselectCity();
-                timer = null;
+                randomWalkTimer = null;
             }
         }
 
         svg.on("mouseenter", disableRandomWalk);
-        svg.on("mouseleave", enableRandomWalk);
+        $("#victimMapFilters, #cityNameAndSearch").click(disableRandomWalk);
+
 
         makeLegend(cityData);
 
@@ -348,13 +389,18 @@ const fuse = require('fuse.js');
 
     }
 
+    // Get rid of all autocomplete results
+    function clearAutoComplete() {
+        $('.autoCompleteResult').remove();
+    }
+
     function getCityID(city, state) {
         return city.replace(/ |'|,/g, '')
             + state.replace(/ |'|,/g, '') + "_symbol";
     }
 
     function mapSymbolRadius(d) {
-        return d.num_records_visible;
+        return radiusTransform(radius(d.num_records_visible));
     }
 
     function update() {
@@ -362,41 +408,14 @@ const fuse = require('fuse.js');
         // use if we need to check date bounds of dataset
         //var maxDate = new Date("2015-01-01");
         //var minDate = new Date("2016-01-01");
-
         var maxAge = 0;
         var minAge = 100000;
 
         for (var city = 0; city < cities.length; city++) {
             var filtered = cities[city].records.filter(function (d) {
-                // example response
-                //age: "35.0"
-                //armed:"vehicle"
-                //body_camera:"False"
-                //city:"Vincennes"
-                //computed_lat:"38.677269"
-                //computed_long:"-87.5286325"
-                //date:"2017-02-14"
-                //flee:"Other"
-                //gender:"M"
-                //id:"2339.0"
-                //manner_of_death:"shot"
-                //name:"David Zimmerman"
-                //race:"W"
-                //signs_of_mental_illness:"False"
-                //state:"IN"
-                //threat_level:"other"
-
-
                 // filter on date
                 var date = new Date(d.date);
 
-                // if (date > maxDate) {
-                //     maxDate = date;
-                // }
-                // if (date < minDate) {
-                //     minDate = date;
-                // }
-                //
                 var pass = date >= visible.startDate && date <= visible.endDate;
 
                 // filter on ethnicity
@@ -413,7 +432,7 @@ const fuse = require('fuse.js');
                 pass &= (visible.armed["Armed"] && (d.armed != "unarmed")) ||
                     (visible.armed["Unarmed"] && (d.armed == "unarmed"));
 
-               // filter on signs of mental illness
+                // filter on signs of mental illness
                 pass &= (visible.mental["Showed signs"] && (d.signs_of_mental_illness == "True")) ||
                     (visible.mental["Did not show signs"] && (d.signs_of_mental_illness == "False"));
 
@@ -670,15 +689,39 @@ const fuse = require('fuse.js');
 
     function handleFilterClicks() {
         d3.selectAll(".EthnicityCheckboxItem input").on("click", function () {
-            if (visible.ethnicity[this.name]) {
-                visible.ethnicity[this.name] = false;
+            if (this.name == "All") {
+                var all_checked = document.getElementById("ChckEthnicityAll").checked;
+
+                // set visible object to all true or all false
+                for (var race_initial in RACE) {
+                    if (RACE.hasOwnProperty(race_initial)) {
+                        visible.ethnicity[RACE[race_initial]] = all_checked;
+                    }
+                }
+
+                // check/uncheck all boxes
+                var ethnicity_checkboxes =
+                    document.getElementsByClassName("EthnicityCheckboxItem");
+                for (var i = 0; i < ethnicity_checkboxes.length; i++)  {
+                    var checkbox =
+                        ethnicity_checkboxes[i].getElementsByTagName("input")[0];
+                    checkbox.checked = all_checked;
+                }
+
             } else {
-                visible.ethnicity[this.name] = true;
+                if (visible.ethnicity[this.name]) {
+                    visible.ethnicity[this.name] = false;
+                    var box = document.getElementById(this.id);
+                    box.checked = false;
+                } else {
+                    visible.ethnicity[this.name] = true;
+                    document.getElementById(this.id).checked = true;
+                }
             }
             update();
         });
 
-        d3.selectAll(".genderCheckboxItem input").on("click", function() {
+        d3.selectAll(".genderCheckboxItem input").on("click", function () {
             if (visible.gender[this.name]) {
                 visible.gender[this.name] = false;
             } else {
@@ -687,7 +730,7 @@ const fuse = require('fuse.js');
             update();
         });
 
-        d3.selectAll(".armedCheckedItem input").on("click", function() {
+        d3.selectAll(".armedCheckedItem input").on("click", function () {
             if (visible.armed[this.name]) {
                 visible.armed[this.name] = false;
             } else {
@@ -696,14 +739,15 @@ const fuse = require('fuse.js');
             update();
         });
 
-        d3.selectAll(".mentalCheckedItem input").on("click", function() {
+        d3.selectAll(".mentalCheckedItem input").on("click", function () {
             if (visible.mental[this.name]) {
                 visible.mental[this.name] = false;
             } else {
                 visible.mental[this.name] = true;
             }
             update();
-        })
+        });
+
     }
 
     function randomSelection(cityData) {
@@ -714,48 +758,54 @@ const fuse = require('fuse.js');
         var svgContainer = $(".mapSVG")[0];
 
         var visibleCitySymbols = $(".symbol").filter(function (index) {
-          return (this.cx.animVal.value < svgContainer.width.animVal.value) &&
-                 (this.cx.animVal.value > 0) &&
-                 (this.cy.animVal.value < svgContainer.height.animVal.value) &&
-                 (this.cy.animVal.value > 0) &&
-                 (this.__data__.num_records_visible > 0);
+            return (this.cx.animVal.value < svgContainer.width.animVal.value) &&
+                (this.cx.animVal.value > 0) &&
+                (this.cy.animVal.value < svgContainer.height.animVal.value) &&
+                (this.cy.animVal.value > 0) &&
+                (this.__data__.num_records_visible > 0);
         });
 
         if (visibleCitySymbols.length > 0) {
             var randSymbol = visibleCitySymbols[Math.floor(Math.random() * visibleCitySymbols.length)];
             var randCity = randSymbol.__data__;
 
-            deselectCity();
-            selectCity(randCity);
-
             // Note: This is a different highlighting strategy than clicking.
             // We want this bubble to be on the top so it's easier to just make a duplicate
-            var circle = svg.selectAll("#highlightedCityDuplicate").data([randCity], function(d) { return d.id; });
+            var circle = svg.selectAll("#highlightedCityDuplicate").data([randCity]);
             circle.enter().append('circle')
                 .attr("id", "highlightedCityDuplicate")
                 .attr("class", "symbol")
                 .merge(circle)
+                .transition().duration(1500)
                 .attr("cx", randSymbol.cx.animVal.value)
                 .attr("cy", randSymbol.cy.animVal.value)
                 .attr("r", randSymbol.r.animVal.value);
             circle.exit().remove();
+
+            // Important, don't highlight it now on the map because then there will be
+            // two dots, but do change the content on the right.
+            deselectCity();
+            selectCity(randCity, false);
+            setTimeout(function () {
+                d3.selectAll(".symbol")
+                    .filter(function(d) { return d === randCity; })
+                    .classed("highlightedCity", true);
+            }, 1500);
         }
     }
 
     function selectState(d) {
-        // remove invisibility
-        d3.select("#cityName").classed("invisibleText", false);
-        d3.select("#cityName").html(d.properties.name);
+        $("#cityNameAndSearch").val(d.properties.name);
         var victimList = d3.select("#victimList");
         victimList.append("li").html("Hover over a city to get specific victim names");
         // Uses abbreviation because the city file uses abbreviations
         setVictimCount(stateVictimCount.get(d.properties.abbreviation));
     }
 
-    function selectCity(city) {
-        // remove invisibility
-        d3.select("#cityName").classed("invisibleText", false);
-        d3.select("#cityName").html(city.city + ", " + city.state);
+    function selectCity(city, highlightOnMap) {
+        highlightOnMap = typeof(highlightOnMap) === "undefined" ? true : highlightOnMap; // default true
+
+        $("#cityNameAndSearch").val(city.city + ", " + city.state);
 
         // add victims
         var victimsList = d3.select("#victimList");
@@ -766,14 +816,16 @@ const fuse = require('fuse.js');
         setVictimCount(city.records_visible.length);
 
         // highlight the city
-        d3.selectAll(".symbol")
-            .filter(function(d) { return d === city; })
-            .classed("highlightedCity", true);
+        if (highlightOnMap) {
+            d3.selectAll(".symbol")
+                .filter(function (d) {
+                    return d === city;
+                })
+                .classed("highlightedCity", true);
+        }
     }
 
     function deselectCity() {
-        d3.select("#cityName").classed("invisibleText", true);
-        d3.select("#cityName").html("...");
         setVictimCount(0);
 
         var listNodes = d3.select("#victimList").selectAll("*");
@@ -783,6 +835,7 @@ const fuse = require('fuse.js');
         d3.selectAll(".highlightedCity")
             .classed("highlightedCity", false);
         clickedCity = null;
+        $("#cityNameAndSearch").val("");
     }
 
     function setVictimCount(count) {
@@ -828,11 +881,7 @@ const fuse = require('fuse.js');
             transform.x = 0;
             transform.y = 0;
         }
-
-        var scaleTransform = function (d, scale) {
-            scale = (typeof scale === "undefined") ? 4 : scale;
-            return d * (scale - 1 + transform.k) / scale;
-        }
+        zoomLevel = transform.k;
 
         states.attr("transform", transform);
         circles.attr("cx", function (d) {
@@ -841,35 +890,14 @@ const fuse = require('fuse.js');
         }).attr("cy", function (d) {
             var projectedY = projection([d.longitude, d.latitude])[1];
             return transform.applyY(projectedY);
+        }).attr("r", function (d) {
+            return mapSymbolRadius(d);
         });
-        //}).attr("r", function (d) {
-        //return scaleTransform(radius(d.num_records));
-        //});
 
         // resize the legend
-        var newLegendWidth = scaleTransform(legendWidth, 11);
-        var newLegendHeight = scaleTransform(legendHeight, 11);
-        svg.selectAll(".legend")
-            .attr("transform", "translate(" + (w - newLegendWidth) + "," + (h - newLegendHeight) + ")");
-        svg.selectAll(".legend rect")
-            .attr("width", newLegendWidth)
-            .attr("height", newLegendHeight);
-
-        svg.selectAll(".legendCircle")
-            .attr("r", function (d) {
-                return scaleTransform(radius(d));
-            })
-            .attr("cy", function (d) {
-                return newLegendHeight / 2 - scaleTransform(radius(d)) + scaleTransform(radius(maxLegend));
-            }).attr("cx", newLegendWidth / 2 - 4);
-        svg.selectAll(".legendLabel")
-            .attr("y", function (d, i) {
-                return newLegendHeight / 2 + (newLegendHeight / 4) * (1 - i);
-            }).attr("x", newLegendWidth / 2 + scaleTransform(radius(maxLegend)) + 5)
-        svg.select("#legendTitle")
-            .attr("y", newLegendHeight - 5)
-            .attr("x", 5);
-
+        var newLegendWidth = radiusTransform(legendWidth, 40);
+        var newLegendHeight = radiusTransform(legendHeight, 40);
+        drawLegend(newLegendWidth, newLegendHeight);
     }
 
     function zoomButtonClick(zoomLevel) {
@@ -877,47 +905,66 @@ const fuse = require('fuse.js');
     }
 
     function makeLegend(cityData) {
-        maxLegend = d3.max(cityData, function (d) {
-            return d.num_records;
-        });
-        var toShow = [1, maxLegend / 2, maxLegend];
+        var toShow = [1, 15, 30];
+        maxLegend = toShow[toShow.length - 1];
 
+        // First: Set up static parts of the legend
+
+        // set up the outer elements
         var legend = svg.append("g")
             .attr("class", "legend")
-            .attr("transform", "translate(" + (w - legendWidth) + "," + (h - legendHeight) + ")");
-        legend.append("rect")
-            .attr("width", legendWidth)
-            .attr("height", legendHeight)
-            .text("Hello!");
+        legend.append("rect");
 
         legend.selectAll("circle")
             .data(toShow)
             .enter().append("circle")
-            .attr("class", "legendCircle")
-            .attr("cy", function (d) {
-                return legendHeight / 2 - radius(d) + radius(maxLegend);
-            })
-            .attr("cx", function (d, i) {
-                return legendWidth / 2 - 5;
-            })
-            .attr("r", function (d) {
-                return radius(d);
-            });
+            .attr("class", "legendCircle");
+
         legend.selectAll("text")
             .data(toShow)
             .enter().append("text")
             .attr("class", "legendLabel")
-            .attr("y", function (d, i) {
-                return legendHeight / 2 + (legendHeight / 4) * (1 - i);
-            })
-            .attr("x", legendWidth / 2 + radius(maxLegend) + 5)
             .html(function (d) {
                 return d;
             });
+
         legend.append("text")
             .attr("id", "legendTitle")
-            .attr("y", legendHeight - 5)
-            .attr("x", 5)
+            .attr("text-anchor", "middle")
+            .attr("x", legendWidth / 2)
             .html("Number of Victims");
+
+        drawLegend(legendWidth, legendHeight, 1);
+    }
+
+    function drawLegend(legendWidth, legendHeight) {
+        svg.selectAll(".legend")
+            .attr("transform", "translate(" + (w - legendWidth) + "," + (h - legendHeight) + ")");
+        svg.selectAll(".legend rect")
+            .attr("width", legendWidth)
+            .attr("height", legendHeight);
+
+        // place circles in middle of legend so the are concentric
+        svg.selectAll(".legendCircle")
+            .attr("r", function (d) {
+                return radiusTransform(radius(d));
+            })
+            .attr("cy", function (d) {
+                // bottom of outermost circle - this circles radius
+                return legendHeight / 2 + radiusTransform(radius(maxLegend)) - radiusTransform(radius(d));
+            }).attr("cx", legendWidth / 2 - 5); // middle of legend with offset
+
+        // put text next to circles
+        svg.selectAll(".legendLabel")
+            .attr("y", function (d, i) {
+                // this makes the numbers look nicely spaced
+                var padding = (10 - 5 * (i + 1)) * (MAX_ZOOM - zoomLevel) / MAX_ZOOM;
+                return legendHeight / 2 + radiusTransform(radius(maxLegend))
+                    - 2 * radiusTransform(radius(d)) + padding;
+            }).attr("x", legendWidth - 20);
+
+        // put label on bottom
+        svg.select("#legendTitle")
+            .attr("y", legendHeight - 5);
     }
 }());
