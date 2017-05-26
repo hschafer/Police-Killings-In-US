@@ -8,12 +8,38 @@ $red: #DB3A34;
 @import 'map.scss';
 @import 'next_steps.scss';
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Note: We will assume all styles                 *
+ * listed in above imports are appropriately       *
+ * scoped and will not interfere with each other.  *
+ * Anything that should be applying to             *
+ * multiple sections should go in this file below  *
+ * * * * * * * * * *  * * * *  * * * * *  * *  * * */
+
+
+/**
+ * General section styles
+ */
 .section {
     color: $secondary-color;
     font-size: 6em;
     text-align: center;
     background-color: $background-color;
     font-family: 'Ropa Sans', sans-serif;
+}
+
+.sectionTitle {
+    font-size: 30pt;
+    margin-bottom: 20pt;
+    display: table-cell;
+    color: $secondary-color;
+}
+
+.sectionSubtitle {
+    margin-top: 2pt;
+    font-size: 15pt;
+    color: $outline-color;
+    margin-bottom: 4pt;
 }
 
 .section3Subtitle, .section4Subtitle {
@@ -38,6 +64,7 @@ $red: #DB3A34;
     fill: $secondary-color;
 }
 
+/* Styles for our big button look */
 .bigButton {
     display: block;
     margin: 0 auto;
