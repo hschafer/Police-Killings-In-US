@@ -60,12 +60,26 @@ const fuse = require('fuse.js');
     var path = d3.geoPath()
         .projection(projection);
 
+    var MAX_ZOOM = 30;
+    var zoomLevel = 1;
     var zoom = d3.zoom()
-        .scaleExtent([1, 20])
+        .scaleExtent([1, MAX_ZOOM])
         .on("zoom", zoomed);
 
+    // Transforms the given radius at the given zoom level
+    // to be reduced by scale. The reduction is tricky
+    // because it transforms the scale from zoomLevel=1x to
+    // radius=1xd to zoomLevel=Zx to radius=Zxd/scale
+    function radiusTransform(d, scale) {
+        scale = (typeof scale === "undefined") ? 8 : scale;
+        return d * (scale - 1 + zoomLevel) / scale;
+    }
+
+    var MAX_RADIUS = 20;
+    var radius;
+
     var legendWidth = 100;
-    var legendHeight = 70;
+    var legendHeight = 100;
     var maxLegend = -1;
 
     var visible = {
@@ -161,10 +175,8 @@ const fuse = require('fuse.js');
         });
         
         radius = d3.scaleSqrt()
-            .domain([0, d3.max(cityData, function (d) {
-                return d.num_records_visible;
-            })])
-            .range([0, 15]);
+            .domain([0, d3.max(cityData, function (d) { return d.num_records_visible; })])
+            .range([0, MAX_RADIUS]);
 
         var section2Container = d3.select("#section2Container");
         var section2HeaderRow = d3.select("#section2HeaderRow");
@@ -354,7 +366,7 @@ const fuse = require('fuse.js');
     }
 
     function mapSymbolRadius(d) {
-        return d.num_records_visible;
+        return radiusTransform(radius(d.num_records_visible));
     }
 
     function update() {
@@ -362,41 +374,14 @@ const fuse = require('fuse.js');
         // use if we need to check date bounds of dataset
         //var maxDate = new Date("2015-01-01");
         //var minDate = new Date("2016-01-01");
-
         var maxAge = 0;
         var minAge = 100000;
 
         for (var city = 0; city < cities.length; city++) {
             var filtered = cities[city].records.filter(function (d) {
-                // example response
-                //age: "35.0"
-                //armed:"vehicle"
-                //body_camera:"False"
-                //city:"Vincennes"
-                //computed_lat:"38.677269"
-                //computed_long:"-87.5286325"
-                //date:"2017-02-14"
-                //flee:"Other"
-                //gender:"M"
-                //id:"2339.0"
-                //manner_of_death:"shot"
-                //name:"David Zimmerman"
-                //race:"W"
-                //signs_of_mental_illness:"False"
-                //state:"IN"
-                //threat_level:"other"
-
-
                 // filter on date
                 var date = new Date(d.date);
 
-                // if (date > maxDate) {
-                //     maxDate = date;
-                // }
-                // if (date < minDate) {
-                //     minDate = date;
-                // }
-                //
                 var pass = date >= visible.startDate && date <= visible.endDate;
 
                 // filter on ethnicity
@@ -828,11 +813,7 @@ const fuse = require('fuse.js');
             transform.x = 0;
             transform.y = 0;
         }
-
-        var scaleTransform = function (d, scale) {
-            scale = (typeof scale === "undefined") ? 4 : scale;
-            return d * (scale - 1 + transform.k) / scale;
-        }
+        zoomLevel = transform.k;
 
         states.attr("transform", transform);
         circles.attr("cx", function (d) {
@@ -841,35 +822,14 @@ const fuse = require('fuse.js');
         }).attr("cy", function (d) {
             var projectedY = projection([d.longitude, d.latitude])[1];
             return transform.applyY(projectedY);
+        }).attr("r", function (d) {
+            return mapSymbolRadius(d);
         });
-        //}).attr("r", function (d) {
-        //return scaleTransform(radius(d.num_records));
-        //});
 
         // resize the legend
-        var newLegendWidth = scaleTransform(legendWidth, 11);
-        var newLegendHeight = scaleTransform(legendHeight, 11);
-        svg.selectAll(".legend")
-            .attr("transform", "translate(" + (w - newLegendWidth) + "," + (h - newLegendHeight) + ")");
-        svg.selectAll(".legend rect")
-            .attr("width", newLegendWidth)
-            .attr("height", newLegendHeight);
-
-        svg.selectAll(".legendCircle")
-            .attr("r", function (d) {
-                return scaleTransform(radius(d));
-            })
-            .attr("cy", function (d) {
-                return newLegendHeight / 2 - scaleTransform(radius(d)) + scaleTransform(radius(maxLegend));
-            }).attr("cx", newLegendWidth / 2 - 4);
-        svg.selectAll(".legendLabel")
-            .attr("y", function (d, i) {
-                return newLegendHeight / 2 + (newLegendHeight / 4) * (1 - i);
-            }).attr("x", newLegendWidth / 2 + scaleTransform(radius(maxLegend)) + 5)
-        svg.select("#legendTitle")
-            .attr("y", newLegendHeight - 5)
-            .attr("x", 5);
-
+        var newLegendWidth = radiusTransform(legendWidth, 20);
+        var newLegendHeight = radiusTransform(legendHeight, 20);
+        drawLegend(newLegendWidth, newLegendHeight);
     }
 
     function zoomButtonClick(zoomLevel) {
@@ -877,47 +837,64 @@ const fuse = require('fuse.js');
     }
 
     function makeLegend(cityData) {
-        maxLegend = d3.max(cityData, function (d) {
-            return d.num_records;
-        });
-        var toShow = [1, maxLegend / 2, maxLegend];
+        var toShow = [1, 10, 20, 30];
+        maxLegend = toShow[toShow.length - 1];
 
+        // First: Set up static parts of the legend
+
+        // set up the outer elements
         var legend = svg.append("g")
             .attr("class", "legend")
-            .attr("transform", "translate(" + (w - legendWidth) + "," + (h - legendHeight) + ")");
-        legend.append("rect")
-            .attr("width", legendWidth)
-            .attr("height", legendHeight)
-            .text("Hello!");
+        legend.append("rect");
 
         legend.selectAll("circle")
             .data(toShow)
             .enter().append("circle")
-            .attr("class", "legendCircle")
-            .attr("cy", function (d) {
-                return legendHeight / 2 - radius(d) + radius(maxLegend);
-            })
-            .attr("cx", function (d, i) {
-                return legendWidth / 2 - 5;
-            })
-            .attr("r", function (d) {
-                return radius(d);
-            });
+            .attr("class", "legendCircle");
+
         legend.selectAll("text")
             .data(toShow)
             .enter().append("text")
             .attr("class", "legendLabel")
-            .attr("y", function (d, i) {
-                return legendHeight / 2 + (legendHeight / 4) * (1 - i);
-            })
-            .attr("x", legendWidth / 2 + radius(maxLegend) + 5)
-            .html(function (d) {
-                return d;
-            });
+            .html(function (d) { return d; });
+
         legend.append("text")
             .attr("id", "legendTitle")
-            .attr("y", legendHeight - 5)
-            .attr("x", 5)
+            .attr("text-anchor", "middle")
+            .attr("x", legendWidth / 2)
             .html("Number of Victims");
+
+        drawLegend(legendWidth, legendHeight, 1);
+    }
+
+    function drawLegend(legendWidth, legendHeight) {
+        svg.selectAll(".legend")
+            .attr("transform", "translate(" + (w - legendWidth) + "," + (h - legendHeight) + ")");
+        svg.selectAll(".legend rect")
+            .attr("width", legendWidth)
+            .attr("height", legendHeight);
+
+        // place circles in middle of legend so the are concentric
+        svg.selectAll(".legendCircle")
+            .attr("r", function (d) {
+                return radiusTransform(radius(d));
+            })
+            .attr("cy", function (d) {
+                // bottom of outermost circle - this circles radius
+                return legendHeight / 2 + radiusTransform(radius(maxLegend)) - radiusTransform(radius(d));
+            }).attr("cx", legendWidth / 2 - 5); // middle of legend with offset
+
+        // put text next to circles
+        svg.selectAll(".legendLabel")
+            .attr("y", function (d, i) {
+                // this makes the numbers look nicely spaced
+                var padding = (10 - 5 * (i + 1)) * (MAX_ZOOM - zoomLevel) / MAX_ZOOM;
+                return legendHeight / 2 + radiusTransform(radius(maxLegend))
+                    - 2 * radiusTransform(radius(d)) + padding;
+            }).attr("x", legendWidth - 15);
+
+        // put label on bottom
+        svg.select("#legendTitle")
+            .attr("y", legendHeight - 5);
     }
 }());
