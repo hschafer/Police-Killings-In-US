@@ -34567,7 +34567,7 @@ const fuse = __webpack_require__(240);
                 var padding = (10 - 5 * (i + 1)) * (MAX_ZOOM - zoomLevel) / MAX_ZOOM;
                 return legendHeight / 2 + radiusTransform(radius(maxLegend))
                     - 2 * radiusTransform(radius(d)) + padding;
-            }).attr("x", legendWidth - 15);
+            }).attr("x", legendWidth - 20);
 
         // put label on bottom
         svg.select("#legendTitle")
