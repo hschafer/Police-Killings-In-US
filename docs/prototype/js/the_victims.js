@@ -75,7 +75,7 @@ const fuse = require('fuse.js');
         return d * (scale - 1 + zoomLevel) / scale;
     }
 
-    var MAX_RADIUS = 20;
+    var MAX_RADIUS = 10;
     var radius;
 
     var legendWidth = 100;
@@ -829,7 +829,6 @@ const fuse = require('fuse.js');
                 y = (bounds[0][1] + bounds[1][1]) / 2,
                 scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / w, dy / h))),
                 translate = [w / 2 - scale * x, h / 2 - scale * y];
-                console.log("clicked ", scale, translate)
             zoomLevel = d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale);
         }
 
