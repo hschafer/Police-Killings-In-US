@@ -757,7 +757,7 @@ const fuse = require('fuse.js');
             selectCity(randCity, false);
             setTimeout(function() {
                 d3.selectAll(".symbol")
-                    .filter(function(d) { return d === city; })
+                    .filter(function(d) { return d === randCity; })
                     .classed("highlightedCity", true);
             }, 1500);
         }

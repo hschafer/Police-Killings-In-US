@@ -34401,7 +34401,7 @@ const fuse = __webpack_require__(239);
             selectCity(randCity, false);
             setTimeout(function() {
                 d3.selectAll(".symbol")
-                    .filter(function(d) { return d === city; })
+                    .filter(function(d) { return d === randCity; })
                     .classed("highlightedCity", true);
             }, 1500);
         }
