@@ -13,9 +13,9 @@ function drawPeople() {
 function highlightPeople() {
   d3.selectAll(".personToHighlight")
     .transition()
-    .duration( function(d, i) { 
-      console.log(i); 
-      return i * TIME_PER_PERSON; 
+    .duration( function(d, i) {
+      console.log(i);
+      return i * TIME_PER_PERSON;
     })
     .delay( function(d, i) { return i * TIME_PER_PERSON; })
     .attr("style", "color: var(--red);");
@@ -25,9 +25,9 @@ function highlightPeople() {
 function showPeople() {
   d3.selectAll(".fa-male")
     .transition()
-    .duration( function(d, i) { 
-      console.log(i); 
-      return i * TIME_PER_PERSON; 
+    .duration( function(d, i) {
+      console.log(i);
+      return i * TIME_PER_PERSON;
     })
     .delay( function(d, i) { return i * TIME_PER_PERSON; })
     .attr("style", "visibility:visible")
@@ -44,14 +44,14 @@ function showPeople() {
   });
 
   // create people but make them invisible
-  function genPeople(w, h) { 
-    var e = document.getElementById("people"); 
+  function genPeople(w, h) {
+    var e = document.getElementById("people");
     var totalCount = 0;
-    for(var i = 0; i < h; i++){ 
-      var row = document.createElement("div"); 
+    for(var i = 0; i < h; i++){
+      var row = document.createElement("div");
       row.className = "row";
-      row.id = "row" + i; 
-      for(var j = 0; j < w; j++){ 
+      row.id = "row" + i;
+      for(var j = 0; j < w; j++){
         var person = document.createElement("i");
         person.className = "fa fa-male";
         person.id = "person" + totalCount;
@@ -60,12 +60,12 @@ function showPeople() {
         // Select 45 of the people
         if (j < 9) {
           person.className = "fa fa-male personToHighlight";
-        } 
+        }
         totalCount += 1;
-        row.appendChild(person); 
-      } 
-      e.appendChild(row); 
-    } 
+        row.appendChild(person);
+      }
+      e.appendChild(row);
+    }
   }
 }());
 

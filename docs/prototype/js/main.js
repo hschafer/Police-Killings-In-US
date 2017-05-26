@@ -1,10 +1,12 @@
 // Our modules are designed to execute when imported
 require('./ethnicity.js');
 require('./the_victims.js');
-require('./fbi_comparison.js');
+const fbiComparison = ('./fbi_comparison.js');
+
+require('../css/style.scss');
 
 $(document).ready(function() {
-    var drawPeople = require('./fbi_comparison').drawPeople;
+    var drawPeople = fbiComparison.drawPeople;
     var peopleLoaded = false;
 
     $('#fullpage').fullpage({
@@ -19,7 +21,7 @@ $(document).ready(function() {
                 drawPeople();
                 peopleLoaded = true;
             }
-        } 
+        }
     });
 
     setTimeout(highlightIntro, 1500);
