@@ -1,168 +1,312 @@
-.autoCompleteResult, #cityName, #cityCount {
-    margin-top: 1pt;
-    margin-bottom: 5px;
-    color: $outline-color;
-}
-
-#cityNameAndSearch {
-    margin-top: 1pt;
-    margin-bottom: 5px;
-    color: var(--outline-color);
-    background: transparent;
-    border: 1px solid var(--secondary-color);
-    font-family: 'Ropa Sans', sans-serif;
-
-    /* copy default h6 characteristics */
-    display: block;
-    font-size: 0.67em;
-    font-weight: bold;
-}
-
-#cityLabel, #countLabel {
-    margin-top: 10px;
-    margin-bottom: 1pt;
-    color: $secondary-color;
-}
-
-#victimsLabel {
-    margin-top: 10px;
-    margin-bottom: 5pt;
-    color: $secondary-color;
-}
-
-#cityVictims {
-}
-
-#victimList {
-    list-style-type: none;
-    margin: 0pt;
-    padding: 0pt;
-    font-size: 1.7vh;
-    -webkit-column-count: 2;
-    -moz-column-count: 2;
-    column-count: 2;
-    color: $outline-color;
-}
-
-#victimList li {
-    margin-bottom: 5pt;
-}
-
-.sectionRow {
-    display: table;
-}
-
-.sectionRow div {
-}
-
-#section2HeaderRow {
-    width: 100%;
-}
-
-.directionsParagraph {
-    margin-top: 0pt;
-    margin-bottom: 1pt;
-}
-
-#zoomDirection {
-}
-
-.mapInfo {
-    display: table-cell;
-    font-size: 20pt;
-    vertical-align: top;
-    padding-left: 10px;
-}
-
 #section2 {
     text-align: left;
-}
 
-.mapSVG {
-    display: table-cell;
-}
+    .autoCompleteResult, #cityName, #cityCount {
+        margin-top: 1pt;
+        margin-bottom: 5px;
+        color: $outline-color;
+    }
 
-#fp-nav.left ul li a span {
-    background: $outline-color;
-}
+    #cityNameAndSearch {
+        margin-top: 1pt;
+        margin-bottom: 5px;
+        color: var(--outline-color);
+        background: transparent;
+        border: 1px solid var(--secondary-color);
+        font-family: 'Ropa Sans', sans-serif;
 
-.states {
-    fill: $secondary-color;
-    stroke: #fff;
-    cursor: pointer;
-}
+        /* copy default h6 characteristics */
+        display: block;
+        font-size: 0.67em;
+        font-weight: bold;
+    }
 
-.states.active {
-    fill: orange;
-}
+    #cityLabel, #countLabel {
+        margin-top: 10px;
+        margin-bottom: 1pt;
+        color: $secondary-color;
+    }
 
-.states.unclickable {
-    cursor: default;
-}
+    #victimsLabel {
+        margin-top: 10px;
+        margin-bottom: 5pt;
+        color: $secondary-color;
+    }
 
-.states.unclickable:hover {
-    fill: $secondary-color;
-}
+    #victimList {
+        list-style-type: none;
+        margin: 0pt;
+        padding: 0pt;
+        font-size: 1.7vh;
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+        color: $outline-color;
 
-.states.unclickable.active {
-    fill: orange;
-}
+        li {
+            margin-bottom: 5pt;
+        }
+    }
 
-.symbol {
-    fill: steelblue;
-    fill-opacity: .7;
-    stroke: #3f75a2;
-    cursor: pointer;
-}
+    #section2HeaderRow {
+        width: 100%;
+    }
 
-.symbol.highlightedCity, .symbol#highlightedCityDuplicate {
-    fill: $red;
-    stroke: #b11a1a;
-}
+    .directionsParagraph {
+        margin-top: 0pt;
+        margin-bottom: 1pt;
+    }
 
-.state-borders {
-    fill: none;
-    stroke: $background-color;
-    stroke-width: 0.5px;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-    pointer-events: none;
-}
+    .mapInfo {
+        display: table-cell;
+        font-size: 20pt;
+        vertical-align: top;
+        padding-left: 10px;
+    }
 
-.us-outline {
-    stroke: $outline-color;
-    stroke-width: 1px;
-    fill: none;
-}
+    .mapSVG {
+        display: table-cell;
+    }
 
-#section2 .legend rect {
-    stroke: $outline-color;
-    fill: $background-color;
-    opacity: 0.7;
-}
+    .states {
+        fill: $secondary-color;
+        stroke: #fff;
+        cursor: pointer;
+    }
 
-#section2 .legend .legendCircle {
-    stroke: $outline-color;
-    fill: none;
-}
+    .states.active {
+        fill: orange;
+    }
 
-#section2 .legend .legendLabel, #section2 .legend #legendTitle {
-    font-size: small;
-    fill: $outline-color;
-}
+    .states.unclickable {
+        cursor: default;
+    }
 
-.backgroundRect {
-    fill: none;
-    stroke: $outline-color;
-    stroke-width: 1px;
-    pointer-events: all;
-}
+    .states.unclickable:hover {
+        fill: $secondary-color;
+    }
 
-.sectionContainer {
-    width: 90%;
-    height: 90%;
-    margin: auto;
-    display: table;
+    .states.unclickable.active {
+        fill: orange;
+    }
+
+    .symbol {
+        fill: steelblue;
+        fill-opacity: .7;
+        stroke: #3f75a2;
+        cursor: pointer;
+    }
+
+    .symbol.highlightedCity, .symbol#highlightedCityDuplicate {
+        fill: $red;
+        stroke: #b11a1a;
+    }
+
+    .state-borders {
+        fill: none;
+        stroke: $background-color;
+        stroke-width: 0.5px;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        pointer-events: none;
+    }
+
+    .us-outline {
+        stroke: $outline-color;
+        stroke-width: 1px;
+        fill: none;
+    }
+
+    .legend {
+        rect {
+            stroke: $outline-color;
+            fill: $background-color;
+            opacity: 0.7;
+        }
+
+        .legendCircle {
+            stroke: $outline-color;
+            fill: none;
+        }
+
+        .legendLabel, #legendTitle {
+            font-size: small;
+            fill: $outline-color;
+        }
+    }
+
+    #hoverDirections {
+        display: table-cell;
+        font-size: 12pt;
+        opacity: .7;
+        text-align: left;
+        padding-bottom: 7pt;
+    }
+
+    #usSvgContainer {
+        position: relative;
+    }
+
+    button {
+        position: absolute;
+        width: 40px;
+        height: 25px;
+        left: 2px;
+        top: 2px;
+    }
+
+    #zoomOut {
+        left: 50px;
+    }
+
+    #citySearch {
+        float: right;
+        position: absolute;
+        width: 100;
+        height: 25px;
+        right: 2px;
+        top: 2px;
+        opacity: 0.5;
+        color: $secondary-color;
+        font-size: small;
+        text-align: center;
+        /*background-color: var(--background-color);*/
+        font-family: 'Ropa Sans', sans-serif;
+    }
+
+    .victimFilterContainer {
+        display: table-cell;
+    }
+
+    .victimFilterContainer h5 {
+        font-size: 20pt;
+    }
+
+    #victimDateFilter {
+        width: 30%;
+    }
+
+    #dateSlider {
+        width: 100%;
+    }
+
+    #ageSlider {
+        width: 100%;
+    }
+
+    #dateSliderGroup, #ageSliderGroup {
+        transform: translate(10px,30px);
+    }
+
+    #victimDemographics {
+        display: table;
+        width: 100%;
+    }
+
+    #victimDemographicsContainer {
+        width: 70%;
+    }
+
+    #victimParamsCol1, #victimParamsCol2,
+    #victimParamsCol3, #victimParamsCol4,
+    #victimParamsCol5 {
+        display:table-cell;
+    }
+
+    #victimParamsCol1 {
+        width: 40%;
+    }
+
+    #victimParamsCol2, #victimParamsCol3, #victimParamsCol4 {
+        width: 16%;
+    }
+
+    #victimParamsCol5 {
+        width: 12%;
+    }
+
+    .victimDemographicList {
+        font-size: 15pt;
+        list-style-type: none;
+    }
+
+    .victimDemographicList h6 {
+        margin: 0pt;
+        color: $outline-color;
+    }
+
+    .victimFilterContainer h5 {
+        margin-top: 10pt;
+        margin-bottom: 10pt;
+    }
+
+    #victimMapFilters {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .EthnicityCheckboxColumn {
+        display: table-cell;
+        width: 33%;
+    }
+
+    #EthnicityCheckboxContainer {
+        display: table;
+        width: 100%;
+    }
+
+    .checkboxItem {
+        font-size: 10pt;
+    }
+
+    .ticks {
+        /*stroke: var(--outline-color);*/
+        fill: $outline-color;
+        font-size: medium;
+    }
+
+    .track, .track-inset, .track-overlay {
+        stroke-linecap: round;
+    }
+
+    .track {
+        /*stroke: var(--outline-color);*/
+        stroke-opacity: 0.3;
+        stroke-width: 10px;
+    }
+
+    #lowerTicks {
+        transform: translate(0px,25px);
+    }
+
+    #upperTicks {
+        transform: translate(0px,-16px);
+    }
+
+    .track-inset {
+        stroke: $secondary-color;
+        stroke-width: 8px;
+    }
+
+    #date-track-inset-selected-region, #age-track-inset-selected-region {
+        stroke-opacity: 1.0;
+        stroke: white;
+        stroke-width: 8px;
+    }
+
+    .track-overlay {
+        pointer-events: stroke;
+        stroke-width: 50px;
+        stroke: transparent;
+        cursor: crosshair;
+    }
+
+    .dateFilterHandle, .ageFilterHandle {
+        fill: #fff;
+        stroke: #000;
+        stroke-opacity: 0.5;
+        stroke-width: 1.25px;
+    }
 }
 
 div.tooltip {
@@ -178,191 +322,3 @@ div.tooltip {
 div.tooltip h2 {
     margin: 0;
 }
-
-::-webkit-scrollbar {
-    width: 0px;
-    background:: transparent;
-    height: 0px;
-}
-
-#hoverDirections {
-    display: table-cell;
-    font-size: 12pt;
-    opacity: .7;
-    text-align: left;
-    padding-bottom: 7pt;
-}
-
-#usSvgContainer {
-    position: relative;
-}
-
-#section2 button {
-    position: absolute;
-    width: 40px;
-    height: 25px;
-    left: 2px;
-    top: 2px;
-}
-
-#section2 #zoomOut {
-    left: 50px;
-}
-
-#section2 #citySearch {
-    float: right;
-    position: absolute;
-    width: 100;
-    height: 25px;
-    right: 2px;
-    top: 2px;
-    opacity: 0.5;
-    color: $secondary-color;
-    font-size: small;
-    text-align: center;
-    /*background-color: var(--background-color);*/
-    font-family: 'Ropa Sans', sans-serif;
-}
-
-a {
-    color: steelblue;
-}
-
-.victimFilterContainer {
-    display: table-cell;
-}
-
-.victimFilterContainer h5 {
-    font-size: 20pt;
-}
-
-#victimDateFilter {
-    width: 30%;
-}
-
-#dateSlider {
-    width: 100%;
-}
-
-#ageSlider {
-    width: 100%;
-}
-
-#dateSliderGroup, #ageSliderGroup {
-    transform: translate(10px,30px);
-}
-
-
-#victimDemographics {
-    display: table;
-    width: 100%;
-}
-
-#victimDemographicsContainer {
-    width: 70%;
-}
-
-#victimParamsCol1, #victimParamsCol2,
-#victimParamsCol3, #victimParamsCol4,
-    #victimParamsCol5 {
-   display:table-cell;
-}
-
-#victimParamsCol1 {
-    width: 40%;
-}
-
-#victimParamsCol2, #victimParamsCol3, #victimParamsCol4 {
-    width: 16%;
-}
-
-#victimParamsCol5 {
-    width: 12%;
-}
-
-.victimDemographicList {
-   font-size: 15pt;
-    list-style-type: none;
-}
-
-.victimDemographicList h6 {
-    margin: 0pt;
-    color: $outline-color;
-}
-
-.victimFilterContainer h5 {
-    margin-top: 10pt;
-    margin-bottom: 10pt;
-}
-
-#victimMapFilters {
-    margin-top: 10px;
-    width: 100%;
-}
-
-.EthnicityCheckboxColumn {
-    display: table-cell;
-    width: 33%;
-}
-
-#EthnicityCheckboxContainer {
-    display: table;
-    width: 100%;
-}
-
-.checkboxItem {
-    font-size: 10pt;
-}
-
-.ticks {
-    /*stroke: var(--outline-color);*/
-    fill: $outline-color;
-    font-size: medium;
-}
-
-.track,
-.track-inset,
-.track-overlay {
-    stroke-linecap: round;
-}
-
-.track {
-    /*stroke: var(--outline-color);*/
-    stroke-opacity: 0.3;
-    stroke-width: 10px;
-}
-
-#lowerTicks {
-    transform: translate(0px,25px);
-}
-
-#upperTicks {
-    transform: translate(0px,-16px);
-}
-
-.track-inset {
-    stroke: $secondary-color;
-    stroke-width: 8px;
-}
-
-#date-track-inset-selected-region, #age-track-inset-selected-region {
-    stroke-opacity: 1.0;
-    stroke: white;
-    stroke-width: 8px;
-}
-
-.track-overlay {
-    pointer-events: stroke;
-    stroke-width: 50px;
-    stroke: transparent;
-    cursor: crosshair;
-}
-
-.dateFilterHandle, .ageFilterHandle {
-    fill: #fff;
-    stroke: #000;
-    stroke-opacity: 0.5;
-    stroke-width: 1.25px;
-}
-
-

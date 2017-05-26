@@ -16,6 +16,11 @@ $red: #DB3A34;
  * multiple sections should go in this file below  *
  * * * * * * * * * *  * * * *  * * * * *  * *  * * */
 
+::-webkit-scrollbar {
+    width: 0px;
+    background:: transparent;
+    height: 0px;
+}
 
 /**
  * General section styles
@@ -40,6 +45,24 @@ $red: #DB3A34;
     font-size: 15pt;
     color: $outline-color;
     margin-bottom: 4pt;
+}
+
+.sectionRow {
+    display: table;
+}
+
+.sectionContainer {
+    width: 90%;
+    height: 90%;
+    margin: auto;
+    display: table;
+}
+
+.backgroundRect {
+    fill: none;
+    stroke: $outline-color;
+    stroke-width: 1px;
+    pointer-events: all;
 }
 
 .section3Subtitle, .section4Subtitle {
