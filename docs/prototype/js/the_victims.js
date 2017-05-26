@@ -149,56 +149,58 @@ const fuse = require('fuse.js');
 
         // Set up fuzzy searching
         var fuse_options = {
-          shouldSort: true,
-          threshold: 0.3,
-          location: 0,
-          distance: 100,
-          maxPatternLength: 32,
-          minMatchCharLength: 1,
-          keys: [
-            "city",
-            "state"
-        ]
+            shouldSort: true,
+            threshold: 0.3,
+            location: 0,
+            distance: 100,
+            maxPatternLength: 32,
+            minMatchCharLength: 1,
+            keys: [
+                "city",
+                "state"
+            ]
         };
         fuzzy = new fuse(cityData, fuse_options);
 
         // Bind fuzzy searching to the search box, select first result
         $('#cityNameAndSearch').on('focus', function () {
-          disableRandomWalk();
-          $('#cityNameAndSearch').val("");
+            disableRandomWalk();
+            $('#cityNameAndSearch').val("");
         });
         $('#cityNameAndSearch').on('input', function () {
-          disableRandomWalk();
-          var foundCities = fuzzy.search($('#cityNameAndSearch').val());
-          if (foundCities.length > 0) {
-            // Populate results list, "enter" should select
-            // first result
-            displayAutoComplete(foundCities);
-          }
+            disableRandomWalk();
+            var foundCities = fuzzy.search($('#cityNameAndSearch').val());
+            if (foundCities.length > 0) {
+                // Populate results list, "enter" should select
+                // first result
+                displayAutoComplete(foundCities);
+            }
         });
 
         // Display autocomplete results as h6's which select their respective
         // city when clicked
         function displayAutoComplete(foundCities) {
-          clearAutoComplete();
-          for (var i = 0; i < Math.floor(Math.min(foundCities.length, 5)); i++) {
-            var cityName = foundCities[i].city + ", " + foundCities[i].state;
-            var result = $('<h6></h6>').addClass('autoCompleteResult').html(cityName);
-            result.attr('cityIndex', foundCities[i].index);
-            result.on('click', function (d) {
-              clearAutoComplete();
-              var cityIndex = d.target.getAttribute('cityIndex');
-              deselectCity();
-              selectCity(cityData[cityIndex]);
-              clickedCity = cityData[cityIndex];
-              cityZoom(cityData[cityIndex]);
-            });
-            $('#cityTipDiv').append(result).show();
-          }
+            clearAutoComplete();
+            for (var i = 0; i < Math.floor(Math.min(foundCities.length, 5)); i++) {
+                var cityName = foundCities[i].city + ", " + foundCities[i].state;
+                var result = $('<h6></h6>').addClass('autoCompleteResult').html(cityName);
+                result.attr('cityIndex', foundCities[i].index);
+                result.on('click', function (d) {
+                    clearAutoComplete();
+                    var cityIndex = d.target.getAttribute('cityIndex');
+                    deselectCity();
+                    selectCity(cityData[cityIndex]);
+                    clickedCity = cityData[cityIndex];
+                    cityZoom(cityData[cityIndex]);
+                });
+                $('#cityTipDiv').append(result).show();
+            }
         }
 
         radius = d3.scaleSqrt()
-            .domain([0, d3.max(cityData, function (d) { return d.num_records_visible; })])
+            .domain([0, d3.max(cityData, function (d) {
+                return d.num_records_visible;
+            })])
             .range([0, MAX_RADIUS]);
 
         var section2Container = d3.select("#section2Container");
@@ -269,7 +271,9 @@ const fuse = require('fuse.js');
             .attr("height", h * (1.0 / 3) + "px");
 
         var citySymbols = svg.selectAll(".symbol")
-            .data(cities, function(d) { return d.id; })
+            .data(cities, function (d) {
+                return d.id;
+            })
             .enter()
             .append("circle")
             .attr("class", "symbol")
@@ -283,7 +287,7 @@ const fuse = require('fuse.js');
                 return projection([d.longitude, d.latitude])[1];
             })
             .attr("r", mapSymbolRadius)
-            .on("click", function(d) {
+            .on("click", function (d) {
                 var clicked = clickedCity;
                 deselectCity();
                 if (d !== clicked) {
@@ -319,7 +323,7 @@ const fuse = require('fuse.js');
                     } else {
                         deltaX = xPadding;
                     }
-                    tooltipDiv.style("left", x + deltaX +  "px")
+                    tooltipDiv.style("left", x + deltaX + "px")
                         .style("top", y - yPadding + "px")
 
                     // TODO: Should we do this for y as well? It seems much more
@@ -428,7 +432,7 @@ const fuse = require('fuse.js');
                 pass &= (visible.armed["Armed"] && (d.armed != "unarmed")) ||
                     (visible.armed["Unarmed"] && (d.armed == "unarmed"));
 
-               // filter on signs of mental illness
+                // filter on signs of mental illness
                 pass &= (visible.mental["Showed signs"] && (d.signs_of_mental_illness == "True")) ||
                     (visible.mental["Did not show signs"] && (d.signs_of_mental_illness == "False"));
 
@@ -685,15 +689,39 @@ const fuse = require('fuse.js');
 
     function handleFilterClicks() {
         d3.selectAll(".EthnicityCheckboxItem input").on("click", function () {
-            if (visible.ethnicity[this.name]) {
-                visible.ethnicity[this.name] = false;
+            if (this.name == "All") {
+                var all_checked = document.getElementById("ChckEthnicityAll").checked;
+
+                // set visible object to all true or all false
+                for (var race_initial in RACE) {
+                    if (RACE.hasOwnProperty(race_initial)) {
+                        visible.ethnicity[RACE[race_initial]] = all_checked;
+                    }
+                }
+
+                // check/uncheck all boxes
+                var ethnicity_checkboxes =
+                    document.getElementsByClassName("EthnicityCheckboxItem");
+                for (var i = 0; i < ethnicity_checkboxes.length; i++)  {
+                    var checkbox =
+                        ethnicity_checkboxes[i].getElementsByTagName("input")[0];
+                    checkbox.checked = all_checked;
+                }
+
             } else {
-                visible.ethnicity[this.name] = true;
+                if (visible.ethnicity[this.name]) {
+                    visible.ethnicity[this.name] = false;
+                    var box = document.getElementById(this.id);
+                    box.checked = false;
+                } else {
+                    visible.ethnicity[this.name] = true;
+                    document.getElementById(this.id).checked = true;
+                }
             }
             update();
         });
 
-        d3.selectAll(".genderCheckboxItem input").on("click", function() {
+        d3.selectAll(".genderCheckboxItem input").on("click", function () {
             if (visible.gender[this.name]) {
                 visible.gender[this.name] = false;
             } else {
@@ -702,7 +730,7 @@ const fuse = require('fuse.js');
             update();
         });
 
-        d3.selectAll(".armedCheckedItem input").on("click", function() {
+        d3.selectAll(".armedCheckedItem input").on("click", function () {
             if (visible.armed[this.name]) {
                 visible.armed[this.name] = false;
             } else {
@@ -711,14 +739,15 @@ const fuse = require('fuse.js');
             update();
         });
 
-        d3.selectAll(".mentalCheckedItem input").on("click", function() {
+        d3.selectAll(".mentalCheckedItem input").on("click", function () {
             if (visible.mental[this.name]) {
                 visible.mental[this.name] = false;
             } else {
                 visible.mental[this.name] = true;
             }
             update();
-        })
+        });
+
     }
 
     function randomSelection(cityData) {
@@ -729,11 +758,11 @@ const fuse = require('fuse.js');
         var svgContainer = $(".mapSVG")[0];
 
         var visibleCitySymbols = $(".symbol").filter(function (index) {
-          return (this.cx.animVal.value < svgContainer.width.animVal.value) &&
-                 (this.cx.animVal.value > 0) &&
-                 (this.cy.animVal.value < svgContainer.height.animVal.value) &&
-                 (this.cy.animVal.value > 0) &&
-                 (this.__data__.num_records_visible > 0);
+            return (this.cx.animVal.value < svgContainer.width.animVal.value) &&
+                (this.cx.animVal.value > 0) &&
+                (this.cy.animVal.value < svgContainer.height.animVal.value) &&
+                (this.cy.animVal.value > 0) &&
+                (this.__data__.num_records_visible > 0);
         });
 
         if (visibleCitySymbols.length > 0) {
@@ -757,7 +786,7 @@ const fuse = require('fuse.js');
             // two dots, but do change the content on the right.
             deselectCity();
             selectCity(randCity, false);
-            setTimeout(function() {
+            setTimeout(function () {
                 d3.selectAll(".symbol")
                     .filter(function(d) { return d === randCity; })
                     .classed("highlightedCity", true);
@@ -789,7 +818,9 @@ const fuse = require('fuse.js');
         // highlight the city
         if (highlightOnMap) {
             d3.selectAll(".symbol")
-                .filter(function(d) { return d === city; })
+                .filter(function (d) {
+                    return d === city;
+                })
                 .classed("highlightedCity", true);
         }
     }
@@ -893,7 +924,9 @@ const fuse = require('fuse.js');
             .data(toShow)
             .enter().append("text")
             .attr("class", "legendLabel")
-            .html(function (d) { return d; });
+            .html(function (d) {
+                return d;
+            });
 
         legend.append("text")
             .attr("id", "legendTitle")
