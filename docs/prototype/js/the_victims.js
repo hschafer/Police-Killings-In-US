@@ -48,6 +48,7 @@ const fuse = require('fuse.js');
     var tooltipDiv;
     var clickedCity = null;
     var victimSymbols;
+    var randomWalkTimer;
     var cities;
     var currentVisible;
     var stateVictimCount;
@@ -175,11 +176,6 @@ const fuse = require('fuse.js');
             displayAutoComplete(foundCities);
           }
         });
-
-        // Get rid of all autocomplete results
-        function clearAutoComplete() {
-          $('.autoCompleteResult').remove();
-        }
 
         // Display autocomplete results as h6's which select their respective
         // city when clicked
@@ -353,26 +349,25 @@ const fuse = require('fuse.js');
             .style("opacity", 0);
 
         randomSelection(cityData); // make it happen right away
-        var timer = setInterval(randomSelection, 3000, cityData);
+        randomWalkTimer = setInterval(randomSelection, 3000, cityData);
 
         function enableRandomWalk() {
             // only random walk if we didn't click on a city
             if (!clickedCity) {
-                timer = setInterval(randomSelection, 3000, cityData);
+                randomWalkTimer = setInterval(randomSelection, 3000, cityData);
             }
         }
 
         function disableRandomWalk() {
-            if (timer) {
+            if (randomWalkTimer) {
                 d3.select("#highlightedCityDuplicate").remove();
-                clearInterval(timer);
+                clearInterval(randomWalkTimer);
                 deselectCity();
-                timer = null;
+                randomWalkTimer = null;
             }
         }
 
         svg.on("mouseenter", disableRandomWalk);
-        svg.on("mouseleave", enableRandomWalk);
 
         makeLegend(cityData);
 
@@ -386,6 +381,11 @@ const fuse = require('fuse.js');
             return result + "px";
         });
 
+    }
+
+    // Get rid of all autocomplete results
+    function clearAutoComplete() {
+        $('.autoCompleteResult').remove();
     }
 
     function getCityID(city, state) {
@@ -802,6 +802,7 @@ const fuse = require('fuse.js');
         d3.selectAll(".highlightedCity")
             .classed("highlightedCity", false);
         clickedCity = null;
+        $("#cityNameAndSearch").val("");
     }
 
     function setVictimCount(count) {

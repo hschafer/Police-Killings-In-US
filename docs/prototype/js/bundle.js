@@ -33689,6 +33689,7 @@ const fuse = __webpack_require__(239);
     var tooltipDiv;
     var clickedCity = null;
     var victimSymbols;
+    var randomWalkTimer;
     var cities;
     var currentVisible;
     var stateVictimCount;
@@ -33816,11 +33817,6 @@ const fuse = __webpack_require__(239);
             displayAutoComplete(foundCities);
           }
         });
-
-        // Get rid of all autocomplete results
-        function clearAutoComplete() {
-          $('.autoCompleteResult').remove();
-        }
 
         // Display autocomplete results as h6's which select their respective
         // city when clicked
@@ -33994,26 +33990,25 @@ const fuse = __webpack_require__(239);
             .style("opacity", 0);
 
         randomSelection(cityData); // make it happen right away
-        var timer = setInterval(randomSelection, 3000, cityData);
+        randomWalkTimer = setInterval(randomSelection, 3000, cityData);
 
         function enableRandomWalk() {
             // only random walk if we didn't click on a city
             if (!clickedCity) {
-                timer = setInterval(randomSelection, 3000, cityData);
+                randomWalkTimer = setInterval(randomSelection, 3000, cityData);
             }
         }
 
         function disableRandomWalk() {
-            if (timer) {
+            if (randomWalkTimer) {
                 d3.select("#highlightedCityDuplicate").remove();
-                clearInterval(timer);
+                clearInterval(randomWalkTimer);
                 deselectCity();
-                timer = null;
+                randomWalkTimer = null;
             }
         }
 
         svg.on("mouseenter", disableRandomWalk);
-        svg.on("mouseleave", enableRandomWalk);
 
         makeLegend(cityData);
 
@@ -34027,6 +34022,11 @@ const fuse = __webpack_require__(239);
             return result + "px";
         });
 
+    }
+
+    // Get rid of all autocomplete results
+    function clearAutoComplete() {
+        $('.autoCompleteResult').remove();
     }
 
     function getCityID(city, state) {
@@ -34443,6 +34443,7 @@ const fuse = __webpack_require__(239);
         d3.selectAll(".highlightedCity")
             .classed("highlightedCity", false);
         clickedCity = null;
+        $("#cityNameAndSearch").val("");
     }
 
     function setVictimCount(count) {
