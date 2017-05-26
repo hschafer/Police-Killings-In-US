@@ -1,35 +1,7 @@
 const d3 = require('d3');
+require('waypoints/lib/jquery.waypoints.js');
 
 var TIME_PER_PERSON = 20;
-var RED = "#DB3A34";
-
-// make people visible and highlight them w/ correct delays
-function drawPeople() {
-  setTimeout(showPeople, 750);
-  setTimeout(highlightPeople, 750 + 100 * TIME_PER_PERSON + 100);
-}
-
-function highlightPeople() {
-  console.log("highlight");
-  d3.selectAll(".personToHighlight")
-    .transition()
-    .duration( function(d, i) {
-      return i * TIME_PER_PERSON;
-    })
-    .delay( function(d, i) { return i * TIME_PER_PERSON; })
-    .attr("style", "color: RED");
-}
-
-// make people visible
-function showPeople() {
-  d3.selectAll(".fa-male")
-    .transition()
-    .duration( function(d, i) {
-      return i * TIME_PER_PERSON;
-    })
-    .delay( function(d, i) { return i * TIME_PER_PERSON; })
-    .attr("style", "visibility:visible");
-}
 
 // to reduce scopes of variables and functions that are unnecessary
 (function() {
@@ -37,7 +9,18 @@ function showPeople() {
   var height = 5;
 
   $(document).ready(function() {
-      genPeople(width, height);
+    genPeople(width, height);
+    // timeout because of the way fullpage loads sections
+    setTimeout(function() {
+      var waypoint = new Waypoint({
+        element: $("#fbiSectionContainer"),
+        handler: function() {
+          drawPeople();
+          waypoint.disable();
+        },
+        offset: 300
+      });}, 1000
+    );
   });
 
   // create people but make them invisible
@@ -64,9 +47,32 @@ function showPeople() {
       e.appendChild(row);
     }
   }
-}());
 
-// to use in main
-module.exports = {
-    drawPeople: drawPeople
-};
+  // make people visible and highlight them w/ correct delays
+  function drawPeople() {
+    setTimeout(showPeople, 750);
+    setTimeout(highlightPeople, 750 + 100 * TIME_PER_PERSON + 100);
+  }
+
+  function highlightPeople() {
+    console.log("highlight");
+    d3.selectAll(".personToHighlight")
+      .transition()
+      .duration( function(d, i) {
+        return i * TIME_PER_PERSON;
+      })
+      .delay( function(d, i) { return i * TIME_PER_PERSON; })
+      .attr("class", "fa fa-male highlighted");
+  }
+
+  // make people visible
+  function showPeople() {
+    d3.selectAll(".fa-male")
+      .transition()
+      .duration( function(d, i) {
+        return i * TIME_PER_PERSON;
+      })
+      .delay( function(d, i) { return i * TIME_PER_PERSON; })
+      .attr("style", "visibility:visible");
+  }
+}());

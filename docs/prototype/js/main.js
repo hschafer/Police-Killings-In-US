@@ -12,15 +12,6 @@ $(document).ready(function() {
     $('#fullpage').fullpage({
         autoScrolling: false,
         fitToSection: false,
-        onLeave: function(index, nextIndex, direction){
-            var leavingSection = $(this);
-            // one-based indexing
-            // after leaving section 3, show the people if not shown
-            if(!peopleLoaded && index == 3 && direction =='down'){
-                drawPeople();
-                peopleLoaded = true;
-            }
-        }
     });
 
     setTimeout(highlightIntro, 1500);
