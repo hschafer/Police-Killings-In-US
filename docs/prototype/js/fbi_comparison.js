@@ -1,24 +1,23 @@
 const d3 = require('d3');
-const d3Chromatic = require('d3-scale-chromatic');
 
 var TIME_PER_PERSON = 20;
+var RED = "#DB3A34";
 
 // make people visible and highlight them w/ correct delays
 function drawPeople() {
-  console.log("hi");
   setTimeout(showPeople, 750);
   setTimeout(highlightPeople, 750 + 100 * TIME_PER_PERSON + 100);
 }
 
 function highlightPeople() {
+  console.log("highlight");
   d3.selectAll(".personToHighlight")
     .transition()
     .duration( function(d, i) {
-      console.log(i);
       return i * TIME_PER_PERSON;
     })
     .delay( function(d, i) { return i * TIME_PER_PERSON; })
-    .attr("style", "color: var(--red);");
+    .attr("style", "color: RED");
 }
 
 // make people visible
@@ -26,12 +25,10 @@ function showPeople() {
   d3.selectAll(".fa-male")
     .transition()
     .duration( function(d, i) {
-      console.log(i);
       return i * TIME_PER_PERSON;
     })
     .delay( function(d, i) { return i * TIME_PER_PERSON; })
-    .attr("style", "visibility:visible")
-    .attr("style", "color:var(--outline-color");
+    .attr("style", "visibility:visible");
 }
 
 // to reduce scopes of variables and functions that are unnecessary

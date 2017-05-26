@@ -15,9 +15,8 @@ $(document).ready(function() {
         onLeave: function(index, nextIndex, direction){
             var leavingSection = $(this);
             // one-based indexing
-            // after leaving section 1, show the people if not shown
+            // after leaving section 3, show the people if not shown
             if(!peopleLoaded && index == 3 && direction =='down'){
-                console.log("hello");
                 drawPeople();
                 peopleLoaded = true;
             }
