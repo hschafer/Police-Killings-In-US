@@ -18,8 +18,13 @@
   },
   "homepage": "https://github.com/hschafer/dataviz-hw3-temp#readme",
   "devDependencies": {
-    "webpack": "^2.4.1",
-    "topojson": "^3.0.0"
+    "css-loader": "^0.28.3",
+    "file-loader": "^0.11.1",
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.5",
+    "style-loader": "^0.18.1",
+    "topojson": "^3.0.0",
+    "webpack": "^2.6.1"
   },
   "dependencies": {
     "chart.js": "^2.5.0",
