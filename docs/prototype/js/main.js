@@ -1,7 +1,7 @@
 // Our modules are designed to execute when imported
 require('./ethnicity.js');
 require('./the_victims.js');
-const fbiComparison = ('./fbi_comparison.js');
+const fbiComparison = require('./fbi_comparison.js');
 
 require('../css/style.scss');
 
