@@ -1,83 +1,77 @@
-ul.tabs {
-    margin: 0px 10px 0px 10px;
-    padding: 0px;
-    list-style:none;
-}
+#nextSteps {
+    ul.tabs {
+        margin: 0px 10px 0px 10px;
+        padding: 0px;
+        list-style:none;
 
-ul.tabs li {
-    background: none;
-    color: #222;
-    display: inline-block;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px 5px 0px 0px;
-}
+        li {
+            background: $secondary-color;
+            color: #222;
+            display: inline-block;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px 5px 0px 0px;
+        }
 
-ul.tabs li.current{
-	background: #ededed;
-	color: #222;
-}
+        li.current{
+            background: #ededed;
+            color: #222;
+        }
+    }
 
-ul.tabs li{
-    background: $secondary-color;
-}
+    .tab-content{
+        border-top: 1px solid #ededed;
+        display: none;
+        padding: 15px;
+    }
 
-.tab-content{
-	border-top: 1px solid #ededed;
-    display: none;
-    padding: 15px;
-}
+    .tab-content.current{
+        display: inherit;
+    }
 
-.tab-content.current{
-    display: inherit;
-}
+    blockquote {
+        display: block;
+        font-family: Georgia, serif;
+        font-size: 18px;
+        font-style: italic;
+        width: 500px;
+        margin: 0 auto;
+        padding: 0.25em 40px;
+        line-height: 1.45;
+        position: relative;
 
-blockquote {
-    display: block;
-    font-family: Georgia, serif;
-    font-size: 18px;
-    font-style: italic;
-    width: 500px;
-    margin: 0 auto;
-    padding: 0.25em 40px;
-    line-height: 1.45;
-    position: relative;
-}
+        cite {
+            color: #999999;
+            font-size: 14px;
+            display: block;
+            margin-top: 5px;
+        }
 
-blockquote:before {
-    display: block;
-    content: "\201C";
-    font-size: 80px;
-    position: absolute;
-    left: -20px;
-    top: -20px;
-    color: #7a7a7a;
-}
+        cite:before {
+            content: "\2014 \2009";
+        }
+    }
 
-blockquote cite {
-    color: #999999;
-    font-size: 14px;
-    display: block;
-    margin-top: 5px;
-}
+    blockquote:before {
+        display: block;
+        content: "\201C";
+        font-size: 80px;
+        position: absolute;
+        left: -20px;
+        top: -20px;
+        color: #7a7a7a;
+    }
 
-blockquote cite:before {
-    content: "\2014 \2009";
-}
+    a.bigButton {
+        width: 200px;
+        text-align: center;
+        text-decoration: none;
+    }
 
-#nextSteps a {
-    color: #FFFFFF;
-}
-
-a.bigButton {
-    width: 200px;
-    text-align: center;
-    text-decoration: none;
-}
-
-.halfPage {
-    vertical-align: top;
-    display: inline-block;
-    margin: 0;
-    width: 50%;
+    .halfPage {
+        vertical-align: top;
+        display: inline-block;
+        margin: 0;
+        width: 50%;
+    }
 }
