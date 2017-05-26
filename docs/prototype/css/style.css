@@ -71,10 +71,6 @@ html {
     text-align: left;
 }
 
-.invisibleText {
-    visibility: hidden;
-}
-
 .footer {
     font-size: 15pt;
     color: white;
@@ -160,10 +156,24 @@ html {
  " Styles for map section
  " ----------------------------------------------------------------------------
 */
-#cityName, #cityCount {
+.autoCompleteResult, #cityName, #cityCount {
     margin-top: 1pt;
     margin-bottom: 5px;
     color: var(--outline-color);
+}
+
+#cityNameAndSearch {
+    margin-top: 1pt;
+    margin-bottom: 5px;
+    color: var(--outline-color);
+    background: transparent;
+    border: 1px solid var(--secondary-color);
+    font-family: 'Ropa Sans', sans-serif;
+
+    /* copy default h6 characteristics */
+    display: block;
+    font-size: 0.67em;
+    font-weight: bold;
 }
 
 #cityLabel, #countLabel {
@@ -355,21 +365,6 @@ div.tooltip h2 {
 
 #section2 #zoomOut {
     left: 50px;
-}
-
-#section2 #citySearch {
-    float: right;
-    position: absolute;
-    width: 100;
-    height: 25px;
-    right: 2px;
-    top: 2px;
-    opacity: 0.5;
-    color: var(--secondary-color);
-    font-size: small;
-    text-align: center;
-    /*background-color: var(--background-color);*/
-    font-family: 'Ropa Sans', sans-serif;
 }
 
 a {

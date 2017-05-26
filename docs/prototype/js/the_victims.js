@@ -143,6 +143,7 @@ const fuse = require('fuse.js');
             // use these for map
             cityInfo.num_records_visible = cityInfo.num_records;
             cityInfo.records_visible = cityInfo.records.slice();
+            cityInfo.index = city;
         }
 
         // Set up fuzzy searching
@@ -161,18 +162,44 @@ const fuse = require('fuse.js');
         fuzzy = new fuse(cityData, fuse_options);
 
         // Bind fuzzy searching to the search box, select first result
-        $('#citySearch').on('input', function () {
+        $('#cityNameAndSearch').on('focus', function () {
           disableRandomWalk();
-          var foundCities = fuzzy.search($('#citySearch').val());
+          $('#cityNameAndSearch').val("");
+        });
+        $('#cityNameAndSearch').on('input', function () {
+          disableRandomWalk();
+          var foundCities = fuzzy.search($('#cityNameAndSearch').val());
           if (foundCities.length > 0) {
-            var foundCity = foundCities[0];
-            deselectCity();
-            selectCity(foundCity);
-          } else {
-            deselectCity();
-            enableRandomWalk();
+            // Populate results list, "enter" should select
+            // first result
+            displayAutoComplete(foundCities);
           }
         });
+
+        // Get rid of all autocomplete results
+        function clearAutoComplete() {
+          $('.autoCompleteResult').remove();
+        }
+
+        // Display autocomplete results as h6's which select their respective
+        // city when clicked
+        function displayAutoComplete(foundCities) {
+          clearAutoComplete();
+          for (var i = 0; i < Math.floor(Math.min(foundCities.length, 5)); i++) {
+            var cityName = foundCities[i].city + ", " + foundCities[i].state;
+            var result = $('<h6></h6>').addClass('autoCompleteResult').html(cityName);
+            result.attr('cityIndex', foundCities[i].index);
+            result.on('click', function (d) {
+              clearAutoComplete();
+              var cityIndex = d.target.getAttribute('cityIndex');
+              deselectCity();
+              selectCity(cityData[cityIndex]);
+              clickedCity = cityData[cityIndex];
+              cityZoom(cityData[cityIndex]);
+            });
+            $('#cityTipDiv').append(result).show();
+          }
+        }
         
         radius = d3.scaleSqrt()
             .domain([0, d3.max(cityData, function (d) { return d.num_records_visible; })])
@@ -231,6 +258,7 @@ const fuse = require('fuse.js');
             .on("click", clicked) //;
             .on("mouseover", function (d) {
                 if (!clickedCity) {
+                    clearAutoComplete();
                     selectState(d);
                 }
             })
@@ -728,9 +756,7 @@ const fuse = require('fuse.js');
     }
 
     function selectState(d) {
-        // remove invisibility
-        d3.select("#cityName").classed("invisibleText", false);
-        d3.select("#cityName").html(d.properties.name);
+        $("#cityNameAndSearch").val(d.properties.name);
         var victimList = d3.select("#victimList");
         victimList.append("li").html("Hover over a city to get specific victim names");
         // Uses abbreviation because the city file uses abbreviations
@@ -738,9 +764,7 @@ const fuse = require('fuse.js');
     }
 
     function selectCity(city) {
-        // remove invisibility
-        d3.select("#cityName").classed("invisibleText", false);
-        d3.select("#cityName").html(city.city + ", " + city.state);
+        $("#cityNameAndSearch").val(city.city + ", " + city.state);
 
         // add victims
         var victimsList = d3.select("#victimList");
@@ -757,8 +781,6 @@ const fuse = require('fuse.js');
     }
 
     function deselectCity() {
-        d3.select("#cityName").classed("invisibleText", true);
-        d3.select("#cityName").html("...");
         setVictimCount(0);
 
         var listNodes = d3.select("#victimList").selectAll("*");
@@ -795,6 +817,7 @@ const fuse = require('fuse.js');
                 y = (bounds[0][1] + bounds[1][1]) / 2,
                 scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / w, dy / h))),
                 translate = [w / 2 - scale * x, h / 2 - scale * y];
+                console.log("clicked ", scale, translate)
             zoomLevel = d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale);
         }
 
