@@ -34189,28 +34189,24 @@ const fuse = __webpack_require__(239);
     function handleFilterClicks() {
         d3.selectAll(".EthnicityCheckboxItem input").on("click", function () {
             if (this.name == "All") {
-                debugger;
-                // we just unchecked the all box
-                if (document.getElementById("ChckEthnicityAll").checked == false) {
-                   console.log("here") ;
-                }
-                // turn all ethnicities on
+                var all_checked = document.getElementById("ChckEthnicityAll").checked;
 
-                // set visible object
+                // set visible object to all true or all false
                 for (var race_initial in RACE) {
                     if (RACE.hasOwnProperty(race_initial)) {
-                        visible.ethnicity[RACE[race_initial]] = true;
+                        visible.ethnicity[RACE[race_initial]] = all_checked;
                     }
                 }
 
-                // check all boxes
+                // check/uncheck all boxes
                 var ethnicity_checkboxes =
                     document.getElementsByClassName("EthnicityCheckboxItem");
                 for (var i = 0; i < ethnicity_checkboxes.length; i++)  {
                     var checkbox =
                         ethnicity_checkboxes[i].getElementsByTagName("input")[0];
-                    checkbox.checked = true;
+                    checkbox.checked = all_checked;
                 }
+
             } else {
                 if (visible.ethnicity[this.name]) {
                     visible.ethnicity[this.name] = false;
