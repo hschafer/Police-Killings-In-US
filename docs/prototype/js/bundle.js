@@ -34505,8 +34505,8 @@ const fuse = __webpack_require__(239);
         });
 
         // resize the legend
-        var newLegendWidth = radiusTransform(legendWidth, 20);
-        var newLegendHeight = radiusTransform(legendHeight, 20);
+        var newLegendWidth = radiusTransform(legendWidth, 40);
+        var newLegendHeight = radiusTransform(legendHeight, 40);
         drawLegend(newLegendWidth, newLegendHeight);
     }
 
@@ -34515,7 +34515,7 @@ const fuse = __webpack_require__(239);
     }
 
     function makeLegend(cityData) {
-        var toShow = [1, 10, 20, 30];
+        var toShow = [1, 15, 30];
         maxLegend = toShow[toShow.length - 1];
 
         // First: Set up static parts of the legend
