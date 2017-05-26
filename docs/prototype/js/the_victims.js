@@ -166,14 +166,18 @@ const fuse = require('fuse.js');
         $('#cityNameAndSearch').on('focus', function () {
             disableRandomWalk();
             $('#cityNameAndSearch').val("");
-        });
-        $('#cityNameAndSearch').on('input', function () {
+        }).on('input', function () {
             disableRandomWalk();
             var foundCities = fuzzy.search($('#cityNameAndSearch').val());
             if (foundCities.length > 0) {
                 // Populate results list, "enter" should select
                 // first result
                 displayAutoComplete(foundCities);
+            }
+        }).on('keypress', function(e) {
+            if (e.which == 13) {
+                // choose the first visible autocomplete result
+                var acr = $('.autoCompleteResult').first().click();
             }
         });
 
@@ -191,7 +195,7 @@ const fuse = require('fuse.js');
                     deselectCity();
                     selectCity(cityData[cityIndex]);
                     clickedCity = cityData[cityIndex];
-                    cityZoom(cityData[cityIndex]);
+                    //cityZoom(cityData[cityIndex]);
                 });
                 $('#cityTipDiv').append(result).show();
             }
