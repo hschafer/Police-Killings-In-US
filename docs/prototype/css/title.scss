@@ -1,0 +1,43 @@
+#section1 {
+    background: url(maxresdefault_dark.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+    .fp-tableCell {
+        /* This is the same as --background-color :( */
+        background: rgba(47, 57, 77, 0.7);
+    }
+
+    blockquote {
+        width: 775px;
+    }
+
+    #highlightedText {
+        color: $red;
+    }
+}
+
+.sectionTitle {
+    font-size: 30pt;
+    margin-bottom: 20pt;
+    display: table-cell;
+    color: $secondary-color;
+}
+
+.sectionSubtitle {
+    margin-top: 2pt;
+    font-size: 15pt;
+    color: $outline-color;
+    margin-bottom: 4pt;
+}
+
+.section1Subtitle {
+    margin-top: 15pt;
+    font-size: 15pt;
+    color: $outline-color;
+    text-align: center;
+    margin: auto;
+    margin-top: 20pt;
+}
