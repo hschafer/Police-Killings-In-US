@@ -79,6 +79,14 @@ $red: #DB3A34;
     text-align: left;
 }
 
+
+/* Styles for instruction text */
+.instructions {
+    font-size: 12pt;
+    opacity: .7;
+    text-align: left;
+}
+
 .footer {
     font-size: 15pt;
     color: white;
@@ -156,3 +164,4 @@ blockquote:before {
     top: -20px;
     color: #7a7a7a;
 }
+

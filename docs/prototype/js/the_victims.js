@@ -48,6 +48,7 @@ const fuse = require('fuse.js');
     var tooltipDiv;
     var clickedCity = null;
     var victimSymbols;
+    var randomWalkTimer;
     var cities;
     var currentVisible;
     var stateVictimCount;
@@ -75,7 +76,7 @@ const fuse = require('fuse.js');
         return d * (scale - 1 + zoomLevel) / scale;
     }
 
-    var MAX_RADIUS = 20;
+    var MAX_RADIUS = 10;
     var radius;
 
     var legendWidth = 100;
@@ -175,11 +176,6 @@ const fuse = require('fuse.js');
                 displayAutoComplete(foundCities);
             }
         });
-
-        // Get rid of all autocomplete results
-        function clearAutoComplete() {
-            $('.autoCompleteResult').remove();
-        }
 
         // Display autocomplete results as h6's which select their respective
         // city when clicked
@@ -357,26 +353,27 @@ const fuse = require('fuse.js');
             .style("opacity", 0);
 
         randomSelection(cityData); // make it happen right away
-        var timer = setInterval(randomSelection, 3000, cityData);
+        randomWalkTimer = setInterval(randomSelection, 3000, cityData);
 
         function enableRandomWalk() {
             // only random walk if we didn't click on a city
             if (!clickedCity) {
-                timer = setInterval(randomSelection, 3000, cityData);
+                randomWalkTimer = setInterval(randomSelection, 3000, cityData);
             }
         }
 
         function disableRandomWalk() {
-            if (timer) {
+            if (randomWalkTimer) {
                 d3.select("#highlightedCityDuplicate").remove();
-                clearInterval(timer);
+                clearInterval(randomWalkTimer);
                 deselectCity();
-                timer = null;
+                randomWalkTimer = null;
             }
         }
 
         svg.on("mouseenter", disableRandomWalk);
-        svg.on("mouseleave", enableRandomWalk);
+        $("#victimMapFilters, #cityNameAndSearch").click(disableRandomWalk);
+
 
         makeLegend(cityData);
 
@@ -390,6 +387,11 @@ const fuse = require('fuse.js');
             return result + "px";
         });
 
+    }
+
+    // Get rid of all autocomplete results
+    function clearAutoComplete() {
+        $('.autoCompleteResult').remove();
     }
 
     function getCityID(city, state) {
@@ -786,9 +788,7 @@ const fuse = require('fuse.js');
             selectCity(randCity, false);
             setTimeout(function () {
                 d3.selectAll(".symbol")
-                    .filter(function (d) {
-                        return d === city;
-                    })
+                    .filter(function(d) { return d === randCity; })
                     .classed("highlightedCity", true);
             }, 1500);
         }
@@ -835,6 +835,7 @@ const fuse = require('fuse.js');
         d3.selectAll(".highlightedCity")
             .classed("highlightedCity", false);
         clickedCity = null;
+        $("#cityNameAndSearch").val("");
     }
 
     function setVictimCount(count) {
@@ -862,7 +863,6 @@ const fuse = require('fuse.js');
                 y = (bounds[0][1] + bounds[1][1]) / 2,
                 scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / w, dy / h))),
                 translate = [w / 2 - scale * x, h / 2 - scale * y];
-            console.log("clicked ", scale, translate)
             zoomLevel = d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale);
         }
 
@@ -895,8 +895,8 @@ const fuse = require('fuse.js');
         });
 
         // resize the legend
-        var newLegendWidth = radiusTransform(legendWidth, 20);
-        var newLegendHeight = radiusTransform(legendHeight, 20);
+        var newLegendWidth = radiusTransform(legendWidth, 40);
+        var newLegendHeight = radiusTransform(legendHeight, 40);
         drawLegend(newLegendWidth, newLegendHeight);
     }
 
@@ -905,7 +905,7 @@ const fuse = require('fuse.js');
     }
 
     function makeLegend(cityData) {
-        var toShow = [1, 10, 20, 30];
+        var toShow = [1, 15, 30];
         maxLegend = toShow[toShow.length - 1];
 
         // First: Set up static parts of the legend

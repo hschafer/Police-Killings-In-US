@@ -33422,37 +33422,9 @@ function tooltipLabel(tooltipItem, data, signed) {
 /***/ (function(module, exports, __webpack_require__) {
 
 const d3 = __webpack_require__(10);
+__webpack_require__(243);
 
 var TIME_PER_PERSON = 20;
-var RED = "#DB3A34";
-
-// make people visible and highlight them w/ correct delays
-function drawPeople() {
-  setTimeout(showPeople, 750);
-  setTimeout(highlightPeople, 750 + 100 * TIME_PER_PERSON + 100);
-}
-
-function highlightPeople() {
-  console.log("highlight");
-  d3.selectAll(".personToHighlight")
-    .transition()
-    .duration( function(d, i) {
-      return i * TIME_PER_PERSON;
-    })
-    .delay( function(d, i) { return i * TIME_PER_PERSON; })
-    .attr("style", "color: RED");
-}
-
-// make people visible
-function showPeople() {
-  d3.selectAll(".fa-male")
-    .transition()
-    .duration( function(d, i) {
-      return i * TIME_PER_PERSON;
-    })
-    .delay( function(d, i) { return i * TIME_PER_PERSON; })
-    .attr("style", "visibility:visible");
-}
 
 // to reduce scopes of variables and functions that are unnecessary
 (function() {
@@ -33460,7 +33432,18 @@ function showPeople() {
   var height = 5;
 
   $(document).ready(function() {
-      genPeople(width, height);
+    genPeople(width, height);
+    // timeout because of the way fullpage loads sections
+    setTimeout(function() {
+      var waypoint = new Waypoint({
+        element: $("#fbiSectionContainer"),
+        handler: function() {
+          drawPeople();
+          waypoint.disable();
+        },
+        offset: 300
+      });}, 1000
+    );
   });
 
   // create people but make them invisible
@@ -33487,12 +33470,35 @@ function showPeople() {
       e.appendChild(row);
     }
   }
-}());
 
-// to use in main
-module.exports = {
-    drawPeople: drawPeople
-};
+  // make people visible and highlight them w/ correct delays
+  function drawPeople() {
+    setTimeout(showPeople, 750);
+    setTimeout(highlightPeople, 750 + 100 * TIME_PER_PERSON + 100);
+  }
+
+  function highlightPeople() {
+    console.log("highlight");
+    d3.selectAll(".personToHighlight")
+      .transition()
+      .duration( function(d, i) {
+        return i * TIME_PER_PERSON;
+      })
+      .delay( function(d, i) { return i * TIME_PER_PERSON; })
+      .attr("class", "fa fa-male highlighted");
+  }
+
+  // make people visible
+  function showPeople() {
+    d3.selectAll(".fa-male")
+      .transition()
+      .duration( function(d, i) {
+        return i * TIME_PER_PERSON;
+      })
+      .delay( function(d, i) { return i * TIME_PER_PERSON; })
+      .attr("style", "visibility:visible");
+  }
+}());
 
 
 /***/ }),
@@ -33549,6 +33555,7 @@ const fuse = __webpack_require__(239);
     var tooltipDiv;
     var clickedCity = null;
     var victimSymbols;
+    var randomWalkTimer;
     var cities;
     var currentVisible;
     var stateVictimCount;
@@ -33576,7 +33583,7 @@ const fuse = __webpack_require__(239);
         return d * (scale - 1 + zoomLevel) / scale;
     }
 
-    var MAX_RADIUS = 20;
+    var MAX_RADIUS = 10;
     var radius;
 
     var legendWidth = 100;
@@ -33676,11 +33683,6 @@ const fuse = __webpack_require__(239);
                 displayAutoComplete(foundCities);
             }
         });
-
-        // Get rid of all autocomplete results
-        function clearAutoComplete() {
-            $('.autoCompleteResult').remove();
-        }
 
         // Display autocomplete results as h6's which select their respective
         // city when clicked
@@ -33858,26 +33860,27 @@ const fuse = __webpack_require__(239);
             .style("opacity", 0);
 
         randomSelection(cityData); // make it happen right away
-        var timer = setInterval(randomSelection, 3000, cityData);
+        randomWalkTimer = setInterval(randomSelection, 3000, cityData);
 
         function enableRandomWalk() {
             // only random walk if we didn't click on a city
             if (!clickedCity) {
-                timer = setInterval(randomSelection, 3000, cityData);
+                randomWalkTimer = setInterval(randomSelection, 3000, cityData);
             }
         }
 
         function disableRandomWalk() {
-            if (timer) {
+            if (randomWalkTimer) {
                 d3.select("#highlightedCityDuplicate").remove();
-                clearInterval(timer);
+                clearInterval(randomWalkTimer);
                 deselectCity();
-                timer = null;
+                randomWalkTimer = null;
             }
         }
 
         svg.on("mouseenter", disableRandomWalk);
-        svg.on("mouseleave", enableRandomWalk);
+        $("#victimMapFilters, #cityNameAndSearch").click(disableRandomWalk);
+
 
         makeLegend(cityData);
 
@@ -33891,6 +33894,11 @@ const fuse = __webpack_require__(239);
             return result + "px";
         });
 
+    }
+
+    // Get rid of all autocomplete results
+    function clearAutoComplete() {
+        $('.autoCompleteResult').remove();
     }
 
     function getCityID(city, state) {
@@ -34287,9 +34295,7 @@ const fuse = __webpack_require__(239);
             selectCity(randCity, false);
             setTimeout(function () {
                 d3.selectAll(".symbol")
-                    .filter(function (d) {
-                        return d === city;
-                    })
+                    .filter(function(d) { return d === randCity; })
                     .classed("highlightedCity", true);
             }, 1500);
         }
@@ -34336,6 +34342,7 @@ const fuse = __webpack_require__(239);
         d3.selectAll(".highlightedCity")
             .classed("highlightedCity", false);
         clickedCity = null;
+        $("#cityNameAndSearch").val("");
     }
 
     function setVictimCount(count) {
@@ -34363,7 +34370,6 @@ const fuse = __webpack_require__(239);
                 y = (bounds[0][1] + bounds[1][1]) / 2,
                 scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / w, dy / h))),
                 translate = [w / 2 - scale * x, h / 2 - scale * y];
-            console.log("clicked ", scale, translate)
             zoomLevel = d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale);
         }
 
@@ -34396,8 +34402,8 @@ const fuse = __webpack_require__(239);
         });
 
         // resize the legend
-        var newLegendWidth = radiusTransform(legendWidth, 20);
-        var newLegendHeight = radiusTransform(legendHeight, 20);
+        var newLegendWidth = radiusTransform(legendWidth, 40);
+        var newLegendHeight = radiusTransform(legendHeight, 40);
         drawLegend(newLegendWidth, newLegendHeight);
     }
 
@@ -34406,7 +34412,7 @@ const fuse = __webpack_require__(239);
     }
 
     function makeLegend(cityData) {
-        var toShow = [1, 10, 20, 30];
+        var toShow = [1, 15, 30];
         maxLegend = toShow[toShow.length - 1];
 
         // First: Set up static parts of the legend
@@ -34707,15 +34713,6 @@ $(document).ready(function() {
     $('#fullpage').fullpage({
         autoScrolling: false,
         fitToSection: false,
-        onLeave: function(index, nextIndex, direction){
-            var leavingSection = $(this);
-            // one-based indexing
-            // after leaving section 3, show the people if not shown
-            if(!peopleLoaded && index == 3 && direction =='down'){
-                drawPeople();
-                peopleLoaded = true;
-            }
-        }
     });
 
     setTimeout(highlightIntro, 1500);
@@ -47192,7 +47189,7 @@ exports = module.exports = __webpack_require__(188)(undefined);
 
 
 // module
-exports.push([module.i, "#section1 {\n  background: url(" + __webpack_require__(238) + ") no-repeat center center fixed;\n  -webkit-background-size: cover;\n  -moz-background-size: cover;\n  -o-background-size: cover;\n  background-size: cover; }\n  #section1 .fp-tableCell {\n    /* This is the same as --background-color :( */\n    background: rgba(47, 57, 77, 0.7);\n    text-align: center; }\n  #section1 blockquote {\n    width: 775px; }\n  #section1 #highlightedText {\n    color: #DB3A34; }\n\n#fbiSection .row {\n  font-size: 30pt;\n  padding-bottom: 5pt; }\n\n#fbiSection .col1 {\n  display: table-cell;\n  width: 40%;\n  vertical-align: middle;\n  text-align: left; }\n  #fbiSection .col1 p {\n    font-size: 15pt;\n    margin: 30px 50px 30px 10px; }\n\n#fbiSection .col2 {\n  display: table-cell;\n  vertical-align: middle;\n  text-align: right;\n  color: #E4E3D3; }\n\n#fbiSection .fa.fa-male {\n  margin-left: 5pt; }\n\n#ethnicitySectionContainer #ethnicityCanvasContainer, #ethnicitySectionContainer #ethnicitySectionText {\n  display: table-cell; }\n\n#ethnicitySectionContainer #ethnicitySectionText {\n  padding-left: 10px;\n  vertical-align: top; }\n\n#ethnicitySectionContainer #ethnicityCanvasContainer {\n  border-color: #b1b1b1; }\n\n#ethnicitySectionContainer #reveal {\n  display: none; }\n\n#ethnicitySectionContainer canvas {\n  display: inherit; }\n\n#ethnicitySectionContainer label, #ethnicitySectionContainer input {\n  vertical-align: top;\n  font-size: 17pt;\n  padding-right: 10px; }\n\n#ethnicitySectionContainer #selectInstructions {\n  padding-top: 20px;\n  border-top: 5px dotted white; }\n\n#section2 {\n  text-align: left; }\n  #section2 .autoCompleteResult, #section2 #cityName, #section2 #cityCount {\n    margin-top: 1pt;\n    margin-bottom: 5px;\n    color: #E4E3D3; }\n  #section2 #cityNameAndSearch {\n    margin-top: 1pt;\n    margin-bottom: 5px;\n    color: var(--outline-color);\n    background: transparent;\n    border: 1px solid var(--secondary-color);\n    font-family: 'Ropa Sans', sans-serif;\n    /* copy default h6 characteristics */\n    display: block;\n    font-size: 0.67em;\n    font-weight: bold; }\n  #section2 #cityLabel, #section2 #countLabel {\n    margin-top: 10px;\n    margin-bottom: 1pt;\n    color: #b1b1b1; }\n  #section2 #victimsLabel {\n    margin-top: 10px;\n    margin-bottom: 5pt;\n    color: #b1b1b1; }\n  #section2 #victimList {\n    list-style-type: none;\n    margin: 0pt;\n    padding: 0pt;\n    font-size: 1.7vh;\n    -webkit-column-count: 2;\n    -moz-column-count: 2;\n    column-count: 2;\n    color: #E4E3D3; }\n    #section2 #victimList li {\n      margin-bottom: 5pt; }\n  #section2 #section2HeaderRow {\n    width: 100%; }\n  #section2 .directionsParagraph {\n    margin-top: 0pt;\n    margin-bottom: 1pt; }\n  #section2 .mapInfo {\n    display: table-cell;\n    font-size: 20pt;\n    vertical-align: top;\n    padding-left: 10px; }\n  #section2 .mapSVG {\n    display: table-cell; }\n  #section2 .states {\n    fill: #b1b1b1;\n    stroke: #fff;\n    cursor: pointer; }\n  #section2 .states.active {\n    fill: orange; }\n  #section2 .states.unclickable {\n    cursor: default; }\n  #section2 .states.unclickable:hover {\n    fill: #b1b1b1; }\n  #section2 .states.unclickable.active {\n    fill: orange; }\n  #section2 .symbol {\n    fill: steelblue;\n    fill-opacity: .7;\n    stroke: #3f75a2;\n    cursor: pointer; }\n  #section2 .symbol.highlightedCity, #section2 .symbol#highlightedCityDuplicate {\n    fill: #DB3A34;\n    stroke: #b11a1a; }\n  #section2 .state-borders {\n    fill: none;\n    stroke: #2F394D;\n    stroke-width: 0.5px;\n    stroke-linejoin: round;\n    stroke-linecap: round;\n    pointer-events: none; }\n  #section2 .us-outline {\n    stroke: #E4E3D3;\n    stroke-width: 1px;\n    fill: none; }\n  #section2 .legend rect {\n    stroke: #E4E3D3;\n    fill: #2F394D;\n    opacity: 0.7; }\n  #section2 .legend .legendCircle {\n    stroke: #E4E3D3;\n    fill: none; }\n  #section2 .legend .legendLabel, #section2 .legend #legendTitle {\n    font-size: small;\n    fill: #E4E3D3; }\n  #section2 #hoverDirections {\n    display: table-cell;\n    font-size: 12pt;\n    opacity: .7;\n    text-align: left;\n    padding-bottom: 7pt; }\n  #section2 #usSvgContainer {\n    position: relative; }\n  #section2 button {\n    position: absolute;\n    width: 40px;\n    height: 25px;\n    left: 2px;\n    top: 2px; }\n  #section2 #zoomOut {\n    left: 50px; }\n  #section2 #citySearch {\n    float: right;\n    position: absolute;\n    width: 100;\n    height: 25px;\n    right: 2px;\n    top: 2px;\n    opacity: 0.5;\n    color: #b1b1b1;\n    font-size: small;\n    text-align: center;\n    /*background-color: var(--background-color);*/\n    font-family: 'Ropa Sans', sans-serif; }\n  #section2 .victimFilterContainer {\n    display: table-cell; }\n  #section2 .victimFilterContainer h5 {\n    font-size: 20pt; }\n  #section2 #victimDateFilter {\n    width: 30%; }\n  #section2 #dateSlider {\n    width: 100%; }\n  #section2 #ageSlider {\n    width: 100%; }\n  #section2 #dateSliderGroup, #section2 #ageSliderGroup {\n    transform: translate(10px, 30px); }\n  #section2 #victimDemographics {\n    display: table;\n    width: 100%; }\n  #section2 #victimDemographicsContainer {\n    width: 70%; }\n  #section2 #victimParamsCol1, #section2 #victimParamsCol2,\n  #section2 #victimParamsCol3, #section2 #victimParamsCol4,\n  #section2 #victimParamsCol5 {\n    display: table-cell; }\n  #section2 #victimParamsCol1 {\n    width: 40%; }\n  #section2 #victimParamsCol2, #section2 #victimParamsCol3, #section2 #victimParamsCol4 {\n    width: 16%; }\n  #section2 #victimParamsCol5 {\n    width: 12%; }\n  #section2 .victimDemographicList {\n    font-size: 15pt;\n    list-style-type: none; }\n  #section2 .victimDemographicList h6 {\n    margin: 0pt;\n    color: #E4E3D3; }\n  #section2 .victimFilterContainer h5 {\n    margin-top: 10pt;\n    margin-bottom: 10pt; }\n  #section2 #victimMapFilters {\n    margin-top: 10px;\n    width: 100%; }\n  #section2 .EthnicityCheckboxColumn {\n    display: table-cell;\n    width: 33%; }\n  #section2 #EthnicityCheckboxContainer {\n    display: table;\n    width: 100%; }\n  #section2 .checkboxItem {\n    font-size: 10pt; }\n  #section2 .ticks {\n    /*stroke: var(--outline-color);*/\n    fill: #E4E3D3;\n    font-size: medium; }\n  #section2 .track, #section2 .track-inset, #section2 .track-overlay {\n    stroke-linecap: round; }\n  #section2 .track {\n    /*stroke: var(--outline-color);*/\n    stroke-opacity: 0.3;\n    stroke-width: 10px; }\n  #section2 #lowerTicks {\n    transform: translate(0px, 25px); }\n  #section2 #upperTicks {\n    transform: translate(0px, -16px); }\n  #section2 .track-inset {\n    stroke: #b1b1b1;\n    stroke-width: 8px; }\n  #section2 #date-track-inset-selected-region, #section2 #age-track-inset-selected-region {\n    stroke-opacity: 1.0;\n    stroke: white;\n    stroke-width: 8px; }\n  #section2 .track-overlay {\n    pointer-events: stroke;\n    stroke-width: 50px;\n    stroke: transparent;\n    cursor: crosshair; }\n  #section2 .dateFilterHandle, #section2 .ageFilterHandle {\n    fill: #fff;\n    stroke: #000;\n    stroke-opacity: 0.5;\n    stroke-width: 1.25px; }\n\ndiv.tooltip {\n  position: absolute;\n  max-height: 100px;\n  background: #2F394D;\n  border: 0px;\n  font-family: 'Ropa Sans', sans-serif;\n  color: #E4E3D3;\n  padding: 4pt; }\n\ndiv.tooltip h2 {\n  margin: 0; }\n\n#nextSteps ul.tabs {\n  margin: 0px 10px 0px 10px;\n  padding: 0px;\n  list-style: none; }\n  #nextSteps ul.tabs li {\n    background: #b1b1b1;\n    color: #222;\n    display: inline-block;\n    padding: 10px 15px;\n    cursor: pointer;\n    border-radius: 5px 5px 0px 0px; }\n  #nextSteps ul.tabs li.current {\n    background: #ededed;\n    color: #222; }\n\n#nextSteps .tab-content {\n  border-top: 1px solid #ededed;\n  display: none;\n  padding: 15px; }\n\n#nextSteps .tab-content.current {\n  display: inherit; }\n\n#nextSteps a.bigButton {\n  width: 200px;\n  text-align: center;\n  text-decoration: none; }\n\n#nextSteps .halfPage {\n  vertical-align: top;\n  display: inline-block;\n  margin: 0;\n  width: 50%; }\n\n/* * * * * * * * * * * * * * * * * * * * * * * * * *\n * Note: We will assume all styles                 *\n * listed in above imports are appropriately       *\n * scoped and will not interfere with each other.  *\n * Anything that should be applying to             *\n * multiple sections should go in this file below  *\n * * * * * * * * * *  * * * *  * * * * *  * *  * * */\n::-webkit-scrollbar {\n  width: 0px;\n  background: transparent;\n  height: 0px; }\n\n/**\n * General section styles\n */\n.section {\n  color: #b1b1b1;\n  font-size: 6em;\n  text-align: center;\n  background-color: #2F394D;\n  font-family: 'Ropa Sans', sans-serif; }\n\n.sectionTitle {\n  font-size: 30pt;\n  margin-bottom: 20pt;\n  display: table-cell;\n  color: #b1b1b1; }\n\n.sectionSubtitle {\n  margin-top: 2pt;\n  font-size: 15pt;\n  color: #E4E3D3;\n  margin-bottom: 4pt; }\n\n.sectionRow {\n  display: table; }\n\n.sectionContainer {\n  width: 90%;\n  height: 90%;\n  margin: auto;\n  display: table; }\n\n.backgroundRect {\n  fill: none;\n  stroke: #E4E3D3;\n  stroke-width: 1px;\n  pointer-events: all; }\n\n.section3Subtitle, .section4Subtitle {\n  margin-top: 15pt;\n  font-size: 20pt;\n  color: #E4E3D3;\n  text-align: left;\n  margin: auto; }\n\n.sectionText {\n  font-size: 13pt;\n  text-align: left; }\n\n.footer {\n  font-size: 15pt;\n  color: white; }\n\n.github-logo {\n  fill: #b1b1b1; }\n\na {\n  color: #FFFFFF; }\n\n/* Styles for our big button look */\n.bigButton {\n  display: block;\n  margin: 0 auto;\n  padding: 15px 45px;\n  font-size: 20px;\n  font-family: \"Bitter\",serif;\n  line-height: 1.8;\n  appearance: none;\n  box-shadow: none;\n  border-radius: 0;\n  color: #fff;\n  background-color: #6496c8;\n  text-shadow: -1px 1px #417cb8;\n  border: none; }\n\n.bigButton:focus {\n  outline: none; }\n\n.bigButton:hover {\n  background-color: #346392;\n  text-shadow: -1px 1px #27496d;\n  cursor: pointer; }\n\n.bigButton:active {\n  background-color: #27496d;\n  text-shadow: -1px 1px #193047; }\n\nblockquote {\n  display: block;\n  font-family: Georgia, serif;\n  font-size: 18px;\n  font-style: italic;\n  width: 500px;\n  margin: 0 auto;\n  padding: 0.25em 40px;\n  line-height: 1.45;\n  position: relative; }\n  blockquote cite {\n    color: #999999;\n    font-size: 14px;\n    display: block;\n    margin-top: 5px; }\n  blockquote cite:before {\n    content: \"\\2014   \\2009\"; }\n\nblockquote:before {\n  display: block;\n  content: \"\\201C\";\n  font-size: 80px;\n  position: absolute;\n  left: -20px;\n  top: -20px;\n  color: #7a7a7a; }\n", ""]);
+exports.push([module.i, "#section1 {\n  background: url(" + __webpack_require__(238) + ") no-repeat center center fixed;\n  -webkit-background-size: cover;\n  -moz-background-size: cover;\n  -o-background-size: cover;\n  background-size: cover; }\n  #section1 .fp-tableCell {\n    /* This is the same as --background-color :( */\n    background: rgba(47, 57, 77, 0.7);\n    text-align: center; }\n  #section1 blockquote {\n    width: 775px; }\n  #section1 #highlightedText {\n    color: #DB3A34; }\n\n#fbiSection .row {\n  font-size: 30pt;\n  padding-bottom: 5pt; }\n\n#fbiSection .col1 {\n  display: table-cell;\n  width: 40%;\n  vertical-align: middle;\n  text-align: left; }\n  #fbiSection .col1 p {\n    font-size: 15pt;\n    margin: 30px 50px 30px 10px; }\n\n#fbiSection .col2 {\n  display: table-cell;\n  vertical-align: middle;\n  text-align: right;\n  color: #E4E3D3; }\n\n#fbiSection .fa.fa-male {\n  margin-left: 5pt; }\n\n#fbiSection .fa.fa-male.highlighted {\n  color: #DB3A34; }\n\n#ethnicitySectionContainer #ethnicityCanvasContainer, #ethnicitySectionContainer #ethnicitySectionText {\n  display: table-cell; }\n\n#ethnicitySectionContainer #ethnicitySectionText {\n  padding-left: 10px;\n  vertical-align: top; }\n\n#ethnicitySectionContainer #ethnicityCanvasContainer {\n  border-color: #b1b1b1; }\n\n#ethnicitySectionContainer #reveal {\n  display: none; }\n\n#ethnicitySectionContainer canvas {\n  display: inherit; }\n\n#ethnicitySectionContainer label, #ethnicitySectionContainer input {\n  vertical-align: top;\n  font-size: 17pt;\n  padding-right: 10px; }\n\n#ethnicitySectionContainer #selectInstructions {\n  padding-top: 20px;\n  border-top: 5px dotted white; }\n\n#ethnicitySectionContainer form {\n  height: 50px; }\n\n#section2 {\n  text-align: left; }\n  #section2 .autoCompleteResult, #section2 #cityName, #section2 #cityCount {\n    margin-top: 1pt;\n    margin-bottom: 5px;\n    color: #E4E3D3; }\n  #section2 #cityNameAndSearch {\n    margin-top: 1pt;\n    margin-bottom: 5px;\n    color: var(--outline-color);\n    background: transparent;\n    border: 1px solid var(--secondary-color);\n    font-family: 'Ropa Sans', sans-serif;\n    /* copy default h6 characteristics */\n    display: block;\n    font-size: 0.67em;\n    font-weight: bold; }\n  #section2 #cityLabel, #section2 #countLabel {\n    margin-top: 10px;\n    margin-bottom: 1pt;\n    color: #b1b1b1; }\n  #section2 #victimsLabel {\n    margin-top: 10px;\n    margin-bottom: 5pt;\n    color: #b1b1b1; }\n  #section2 #victimList {\n    list-style-type: none;\n    margin: 0pt;\n    padding: 0pt;\n    font-size: 1.7vh;\n    -webkit-column-count: 2;\n    -moz-column-count: 2;\n    column-count: 2;\n    color: #E4E3D3; }\n    #section2 #victimList li {\n      margin-bottom: 5pt; }\n  #section2 #section2HeaderRow {\n    width: 100%; }\n  #section2 .directionsParagraph {\n    margin-top: 0pt;\n    margin-bottom: 1pt; }\n  #section2 .mapInfo {\n    display: table-cell;\n    font-size: 20pt;\n    vertical-align: top;\n    padding-left: 10px; }\n  #section2 .mapSVG {\n    display: table-cell; }\n  #section2 .states {\n    fill: #b1b1b1;\n    stroke: #fff;\n    cursor: pointer; }\n  #section2 .states.active {\n    fill: orange; }\n  #section2 .states.unclickable {\n    cursor: default; }\n  #section2 .states.unclickable:hover {\n    fill: #b1b1b1; }\n  #section2 .states.unclickable.active {\n    fill: orange; }\n  #section2 .symbol {\n    fill: steelblue;\n    fill-opacity: .7;\n    stroke: #3f75a2;\n    cursor: pointer; }\n  #section2 .symbol.highlightedCity, #section2 .symbol#highlightedCityDuplicate {\n    fill: #DB3A34;\n    stroke: #b11a1a; }\n  #section2 .state-borders {\n    fill: none;\n    stroke: #2F394D;\n    stroke-width: 0.5px;\n    stroke-linejoin: round;\n    stroke-linecap: round;\n    pointer-events: none; }\n  #section2 .us-outline {\n    stroke: #E4E3D3;\n    stroke-width: 1px;\n    fill: none; }\n  #section2 .legend rect {\n    stroke: #E4E3D3;\n    fill: #2F394D;\n    opacity: 0.7; }\n  #section2 .legend .legendCircle {\n    stroke: #E4E3D3;\n    fill: none; }\n  #section2 .legend .legendLabel, #section2 .legend #legendTitle {\n    font-size: small;\n    fill: #E4E3D3; }\n  #section2 #hoverDirections {\n    display: table-cell;\n    padding-bottom: 7pt; }\n  #section2 #usSvgContainer {\n    position: relative; }\n  #section2 button {\n    position: absolute;\n    width: 40px;\n    height: 25px;\n    left: 2px;\n    top: 2px; }\n  #section2 #zoomOut {\n    left: 50px; }\n  #section2 #citySearch {\n    float: right;\n    position: absolute;\n    width: 100;\n    height: 25px;\n    right: 2px;\n    top: 2px;\n    opacity: 0.5;\n    color: #b1b1b1;\n    font-size: small;\n    text-align: center;\n    /*background-color: var(--background-color);*/\n    font-family: 'Ropa Sans', sans-serif; }\n  #section2 .victimFilterContainer {\n    display: table-cell; }\n  #section2 .victimFilterContainer h5 {\n    font-size: 20pt; }\n  #section2 #victimDateFilter {\n    width: 30%; }\n  #section2 #dateSlider {\n    width: 100%; }\n  #section2 #ageSlider {\n    width: 100%; }\n  #section2 #dateSliderGroup, #section2 #ageSliderGroup {\n    transform: translate(10px, 30px); }\n  #section2 #victimDemographics {\n    display: table;\n    width: 100%; }\n  #section2 #victimDemographicsContainer {\n    width: 70%; }\n  #section2 #victimParamsCol1, #section2 #victimParamsCol2,\n  #section2 #victimParamsCol3, #section2 #victimParamsCol4,\n  #section2 #victimParamsCol5 {\n    display: table-cell; }\n  #section2 #victimParamsCol1 {\n    width: 40%; }\n  #section2 #victimParamsCol2, #section2 #victimParamsCol3, #section2 #victimParamsCol4 {\n    width: 16%; }\n  #section2 #victimParamsCol5 {\n    width: 12%; }\n  #section2 .victimDemographicList {\n    font-size: 15pt;\n    list-style-type: none; }\n  #section2 .victimDemographicList h6 {\n    margin: 0pt;\n    color: #E4E3D3; }\n  #section2 .victimFilterContainer h5 {\n    margin-top: 10pt;\n    margin-bottom: 10pt; }\n  #section2 #victimMapFilters {\n    margin-top: 10px;\n    width: 100%; }\n  #section2 .EthnicityCheckboxColumn {\n    display: table-cell;\n    width: 33%; }\n  #section2 #EthnicityCheckboxContainer {\n    display: table;\n    width: 100%; }\n  #section2 .checkboxItem {\n    font-size: 10pt; }\n  #section2 .ticks {\n    /*stroke: var(--outline-color);*/\n    fill: #E4E3D3;\n    font-size: medium; }\n  #section2 .track, #section2 .track-inset, #section2 .track-overlay {\n    stroke-linecap: round; }\n  #section2 .track {\n    /*stroke: var(--outline-color);*/\n    stroke-opacity: 0.3;\n    stroke-width: 10px; }\n  #section2 #lowerTicks {\n    transform: translate(0px, 25px); }\n  #section2 #upperTicks {\n    transform: translate(0px, -16px); }\n  #section2 .track-inset {\n    stroke: #b1b1b1;\n    stroke-width: 8px; }\n  #section2 #date-track-inset-selected-region, #section2 #age-track-inset-selected-region {\n    stroke-opacity: 1.0;\n    stroke: white;\n    stroke-width: 8px; }\n  #section2 .track-overlay {\n    pointer-events: stroke;\n    stroke-width: 50px;\n    stroke: transparent;\n    cursor: crosshair; }\n  #section2 .dateFilterHandle, #section2 .ageFilterHandle {\n    fill: #fff;\n    stroke: #000;\n    stroke-opacity: 0.5;\n    stroke-width: 1.25px; }\n\ndiv.tooltip {\n  position: absolute;\n  max-height: 100px;\n  background: #2F394D;\n  border: 0px;\n  font-family: 'Ropa Sans', sans-serif;\n  color: #E4E3D3;\n  padding: 4pt; }\n\ndiv.tooltip h2 {\n  margin: 0; }\n\n#nextSteps ul.tabs {\n  margin: 0px 10px 0px 10px;\n  padding: 0px;\n  list-style: none; }\n  #nextSteps ul.tabs li {\n    background: #b1b1b1;\n    color: #222;\n    display: inline-block;\n    padding: 10px 15px;\n    cursor: pointer;\n    border-radius: 5px 5px 0px 0px; }\n  #nextSteps ul.tabs li.current {\n    background: #ededed;\n    color: #222; }\n\n#nextSteps .tab-content {\n  border-top: 1px solid #ededed;\n  display: none;\n  padding: 15px; }\n\n#nextSteps .tab-content.current {\n  display: inherit; }\n\n#nextSteps a.bigButton {\n  width: 200px;\n  text-align: center;\n  text-decoration: none; }\n\n#nextSteps .halfPage {\n  vertical-align: top;\n  display: inline-block;\n  margin: 0;\n  width: 50%; }\n\n/* * * * * * * * * * * * * * * * * * * * * * * * * *\n * Note: We will assume all styles                 *\n * listed in above imports are appropriately       *\n * scoped and will not interfere with each other.  *\n * Anything that should be applying to             *\n * multiple sections should go in this file below  *\n * * * * * * * * * *  * * * *  * * * * *  * *  * * */\n::-webkit-scrollbar {\n  width: 0px;\n  background: transparent;\n  height: 0px; }\n\n/**\n * General section styles\n */\n.section {\n  color: #b1b1b1;\n  font-size: 6em;\n  text-align: center;\n  background-color: #2F394D;\n  font-family: 'Ropa Sans', sans-serif; }\n\n.sectionTitle {\n  font-size: 30pt;\n  margin-bottom: 20pt;\n  display: table-cell;\n  color: #b1b1b1; }\n\n.sectionSubtitle {\n  margin-top: 2pt;\n  font-size: 15pt;\n  color: #E4E3D3;\n  margin-bottom: 4pt; }\n\n.sectionRow {\n  display: table; }\n\n.sectionContainer {\n  width: 90%;\n  height: 90%;\n  margin: auto;\n  display: table; }\n\n.backgroundRect {\n  fill: none;\n  stroke: #E4E3D3;\n  stroke-width: 1px;\n  pointer-events: all; }\n\n.section3Subtitle, .section4Subtitle {\n  margin-top: 15pt;\n  font-size: 20pt;\n  color: #E4E3D3;\n  text-align: left;\n  margin: auto; }\n\n.sectionText {\n  font-size: 13pt;\n  text-align: left; }\n\n/* Styles for instruction text */\n.instructions {\n  font-size: 12pt;\n  opacity: .7;\n  text-align: left; }\n\n.footer {\n  font-size: 15pt;\n  color: white; }\n\n.github-logo {\n  fill: #b1b1b1; }\n\na {\n  color: #FFFFFF; }\n\n/* Styles for our big button look */\n.bigButton {\n  display: block;\n  margin: 0 auto;\n  padding: 15px 45px;\n  font-size: 20px;\n  font-family: \"Bitter\",serif;\n  line-height: 1.8;\n  appearance: none;\n  box-shadow: none;\n  border-radius: 0;\n  color: #fff;\n  background-color: #6496c8;\n  text-shadow: -1px 1px #417cb8;\n  border: none; }\n\n.bigButton:focus {\n  outline: none; }\n\n.bigButton:hover {\n  background-color: #346392;\n  text-shadow: -1px 1px #27496d;\n  cursor: pointer; }\n\n.bigButton:active {\n  background-color: #27496d;\n  text-shadow: -1px 1px #193047; }\n\nblockquote {\n  display: block;\n  font-family: Georgia, serif;\n  font-size: 18px;\n  font-style: italic;\n  width: 500px;\n  margin: 0 auto;\n  padding: 0.25em 40px;\n  line-height: 1.45;\n  position: relative; }\n  blockquote cite {\n    color: #999999;\n    font-size: 14px;\n    display: block;\n    margin-top: 5px; }\n  blockquote cite:before {\n    content: \"\\2014   \\2009\"; }\n\nblockquote:before {\n  display: block;\n  content: \"\\201C\";\n  font-size: 80px;\n  position: absolute;\n  left: -20px;\n  top: -20px;\n  color: #7a7a7a; }\n", ""]);
 
 // exports
 
