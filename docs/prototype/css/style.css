@@ -5,11 +5,9 @@ html {
     --red: #DB3A34;
 }
 
-
 .section {
     color: var(--secondary-color);
     font-size: 6em;
-    text-align: center;
     background-color: var(--background-color);
     font-family: 'Ropa Sans', sans-serif;
 }
@@ -25,6 +23,7 @@ html {
 #section1 .fp-tableCell {
     /* This is the same as --background-color :( */
     background: rgba(47, 57, 77, 0.7);
+    text-align: center;
 }
 
 #section1 blockquote {
@@ -78,6 +77,38 @@ html {
 
 .github-logo {
     fill: var(--secondary-color);
+}
+
+/*
+ " ----------------------------------------------------------------------------
+ " Styles for fbi comparison section
+ " ----------------------------------------------------------------------------
+*/
+.row {
+    font-size:30pt;
+    padding-bottom: 5pt;
+}
+
+.col1 {
+    display:table-cell;
+    width:40%;
+    vertical-align: middle;
+    text-align: left;
+} 
+
+.col2 {
+    display:table-cell;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.col1 p {
+    font-size:15pt;
+    margin: 30px 50px 30px 10px
+}
+
+#fbiSection .fa.fa-male {
+    margin-left:5pt;
 }
 
 /*

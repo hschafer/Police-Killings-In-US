@@ -1,11 +1,25 @@
 // Our modules are designed to execute when imported
 require('./ethnicity.js');
 require('./the_victims.js');
+require('./fbi_comparison.js');
 
 $(document).ready(function() {
+    var drawPeople = require('./fbi_comparison').drawPeople;
+    var peopleLoaded = false;
+
     $('#fullpage').fullpage({
         autoScrolling: false,
         fitToSection: false,
+        onLeave: function(index, nextIndex, direction){
+            var leavingSection = $(this);
+            // one-based indexing
+            // after leaving section 1, show the people if not shown
+            if(!peopleLoaded && index == 3 && direction =='down'){
+                console.log("hello");
+                drawPeople();
+                peopleLoaded = true;
+            }
+        } 
     });
 
     setTimeout(highlightIntro, 1500);

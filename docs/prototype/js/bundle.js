@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 138);
+/******/ 	return __webpack_require__(__webpack_require__.s = 140);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1899,7 +1899,7 @@ function loadLocale(name) {
             module && module.exports) {
         try {
             oldLocale = globalLocale._abbr;
-            __webpack_require__(235)("./" + name);
+            __webpack_require__(146)("./" + name);
             // because defineLocale currently also sets the global locale, we
             // want to undo that for lazy loaded locales
             getSetGlobalLocale(oldLocale);
@@ -4534,7 +4534,7 @@ return hooks;
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(237)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(238)(module)))
 
 /***/ }),
 /* 1 */
@@ -4553,7 +4553,7 @@ return hooks;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3_interpolate__ = __webpack_require__(187);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3_interpolate__ = __webpack_require__(188);
 
 
 /* harmony default export */ __webpack_exports__["a"] = (function(scheme) {
@@ -4566,14 +4566,14 @@ return hooks;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_color__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_color__ = __webpack_require__(7);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_0__src_color__["h"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_0__src_color__["g"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_0__src_color__["f"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_lab__ = __webpack_require__(186);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_lab__ = __webpack_require__(190);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__src_lab__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__src_lab__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_cubehelix__ = __webpack_require__(185);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_cubehelix__ = __webpack_require__(189);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_2__src_cubehelix__["a"]; });
 
 
@@ -4585,7 +4585,7 @@ return hooks;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constant__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constant__ = __webpack_require__(132);
 /* harmony export (immutable) */ __webpack_exports__["b"] = hue;
 /* harmony export (immutable) */ __webpack_exports__["c"] = gamma;
 /* harmony export (immutable) */ __webpack_exports__["a"] = nogamma;
@@ -4634,10 +4634,91 @@ function nogamma(a, b) {
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const d3 = __webpack_require__(11);
+const d3Chromatic = __webpack_require__(128);
+
+var TIME_PER_PERSON = 20;
+
+// make people visible and highlight them w/ correct delays
+function drawPeople() {
+  console.log("hi");
+  setTimeout(showPeople, 750);
+  setTimeout(highlightPeople, 750 + 100 * TIME_PER_PERSON + 100);
+}
+
+function highlightPeople() {
+  d3.selectAll(".personToHighlight")
+    .transition()
+    .duration( function(d, i) { 
+      console.log(i); 
+      return i * TIME_PER_PERSON; 
+    })
+    .delay( function(d, i) { return i * TIME_PER_PERSON; })
+    .attr("style", "color: var(--red);");
+}
+
+// make people visible
+function showPeople() {
+  d3.selectAll(".fa-male")
+    .transition()
+    .duration( function(d, i) { 
+      console.log(i); 
+      return i * TIME_PER_PERSON; 
+    })
+    .delay( function(d, i) { return i * TIME_PER_PERSON; })
+    .attr("style", "visibility:visible")
+    .attr("style", "color:var(--outline-color");
+}
+
+// to reduce scopes of variables and functions that are unnecessary
+(function() {
+  var width = 20;
+  var height = 5;
+
+  $(document).ready(function() {
+      genPeople(width, height);
+  });
+
+  // create people but make them invisible
+  function genPeople(w, h) { 
+    var e = document.getElementById("people"); 
+    var totalCount = 0;
+    for(var i = 0; i < h; i++){ 
+      var row = document.createElement("div"); 
+      row.className = "row";
+      row.id = "row" + i; 
+      for(var j = 0; j < w; j++){ 
+        var person = document.createElement("i");
+        person.className = "fa fa-male";
+        person.id = "person" + totalCount;
+        person.style = "visibility:hidden";
+        person.visible = "false";
+        // Select 45 of the people
+        if (j < 9) {
+          person.className = "fa fa-male personToHighlight";
+        } 
+        totalCount += 1;
+        row.appendChild(person); 
+      } 
+      e.appendChild(row); 
+    } 
+  }
+}());
+
+// to use in main
+module.exports = {
+    drawPeople: drawPeople
+};
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__define__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__define__ = __webpack_require__(8);
 /* harmony export (immutable) */ __webpack_exports__["c"] = Color;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return darker; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return brighter; });
@@ -4980,7 +5061,7 @@ function hsl2rgb(h, m1, m2) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4998,7 +5079,7 @@ function extend(parent, definition) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5025,18 +5106,18 @@ function basis(t1, v0, v1, v2, v3) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3_color__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rgb__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__array__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__date__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rgb__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__array__ = __webpack_require__(130);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__date__ = __webpack_require__(133);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__number__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__object__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__string__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__constant__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__object__ = __webpack_require__(134);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__string__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__constant__ = __webpack_require__(132);
 
 
 
@@ -5054,324 +5135,13 @@ function basis(t1, v0, v1, v2, v3) {
       : b instanceof __WEBPACK_IMPORTED_MODULE_0_d3_color__["f" /* color */] ? __WEBPACK_IMPORTED_MODULE_1__rgb__["b" /* default */]
       : b instanceof Date ? __WEBPACK_IMPORTED_MODULE_3__date__["a" /* default */]
       : Array.isArray(b) ? __WEBPACK_IMPORTED_MODULE_2__array__["a" /* default */]
-      : isNaN(b) ? __WEBPACK_IMPORTED_MODULE_5__object__["a" /* default */]
+      : typeof b.valueOf !== "function" && typeof b.toString !== "function" || isNaN(b) ? __WEBPACK_IMPORTED_MODULE_5__object__["a" /* default */]
       : __WEBPACK_IMPORTED_MODULE_4__number__["a" /* default */])(a, b);
 });
 
 
 /***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * @namespace Chart
- */
-var Chart = __webpack_require__(159)();
-
-__webpack_require__(157)(Chart);
-__webpack_require__(173)(Chart);
-__webpack_require__(153)(Chart);
-__webpack_require__(162)(Chart);
-__webpack_require__(156)(Chart);
-__webpack_require__(152)(Chart);
-__webpack_require__(154)(Chart);
-__webpack_require__(155)(Chart);
-__webpack_require__(160)(Chart);
-__webpack_require__(164)(Chart);
-__webpack_require__(165)(Chart);
-__webpack_require__(163)(Chart);
-__webpack_require__(166)(Chart);
-__webpack_require__(161)(Chart);
-__webpack_require__(158)(Chart);
-__webpack_require__(167)(Chart);
-
-__webpack_require__(168)(Chart);
-__webpack_require__(169)(Chart);
-__webpack_require__(170)(Chart);
-__webpack_require__(171)(Chart);
-
-__webpack_require__(176)(Chart);
-__webpack_require__(174)(Chart);
-__webpack_require__(175)(Chart);
-__webpack_require__(177)(Chart);
-__webpack_require__(178)(Chart);
-__webpack_require__(179)(Chart);
-
-// Controllers must be loaded after elements
-// See Chart.core.datasetController.dataElementType
-__webpack_require__(146)(Chart);
-__webpack_require__(147)(Chart);
-__webpack_require__(148)(Chart);
-__webpack_require__(149)(Chart);
-__webpack_require__(150)(Chart);
-__webpack_require__(151)(Chart);
-
-__webpack_require__(139)(Chart);
-__webpack_require__(140)(Chart);
-__webpack_require__(141)(Chart);
-__webpack_require__(142)(Chart);
-__webpack_require__(143)(Chart);
-__webpack_require__(144)(Chart);
-__webpack_require__(145)(Chart);
-
-window.Chart = module.exports = Chart;
-
-
-/***/ }),
 /* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return deg2rad; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return rad2deg; });
-var deg2rad = Math.PI / 180;
-var rad2deg = 180 / Math.PI;
-
-
-/***/ }),
-/* 12 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__value__ = __webpack_require__(9);
-
-
-/* harmony default export */ __webpack_exports__["a"] = (function(a, b) {
-  var nb = b ? b.length : 0,
-      na = a ? Math.min(nb, a.length) : 0,
-      x = new Array(nb),
-      c = new Array(nb),
-      i;
-
-  for (i = 0; i < na; ++i) x[i] = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__value__["a" /* default */])(a[i], b[i]);
-  for (; i < nb; ++i) c[i] = b[i];
-
-  return function(t) {
-    for (i = 0; i < na; ++i) c[i] = x[i](t);
-    return c;
-  };
-});
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__basis__ = __webpack_require__(8);
-
-
-/* harmony default export */ __webpack_exports__["a"] = (function(values) {
-  var n = values.length;
-  return function(t) {
-    var i = Math.floor(((t %= 1) < 0 ? ++t : t) * n),
-        v0 = values[(i + n - 1) % n],
-        v1 = values[i % n],
-        v2 = values[(i + 1) % n],
-        v3 = values[(i + 2) % n];
-    return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__basis__["b" /* basis */])((t - i / n) * n, v0, v1, v2, v3);
-  };
-});
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = (function(x) {
-  return function() {
-    return x;
-  };
-});
-
-
-/***/ }),
-/* 15 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = (function(a, b) {
-  var d = new Date;
-  return a = +a, b -= a, function(t) {
-    return d.setTime(a + b * t), d;
-  };
-});
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__value__ = __webpack_require__(9);
-
-
-/* harmony default export */ __webpack_exports__["a"] = (function(a, b) {
-  var i = {},
-      c = {},
-      k;
-
-  if (a === null || typeof a !== "object") a = {};
-  if (b === null || typeof b !== "object") b = {};
-
-  for (k in b) {
-    if (k in a) {
-      i[k] = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__value__["a" /* default */])(a[k], b[k]);
-    } else {
-      c[k] = b[k];
-    }
-  }
-
-  return function(t) {
-    for (k in i) c[k] = i[k](t);
-    return c;
-  };
-});
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3_color__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__basis__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__basisClosed__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__color__ = __webpack_require__(4);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return rgbBasis; });
-/* unused harmony export rgbBasisClosed */
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["b"] = ((function rgbGamma(y) {
-  var color = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__color__["c" /* gamma */])(y);
-
-  function rgb(start, end) {
-    var r = color((start = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_d3_color__["e" /* rgb */])(start)).r, (end = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_d3_color__["e" /* rgb */])(end)).r),
-        g = color(start.g, end.g),
-        b = color(start.b, end.b),
-        opacity = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__color__["a" /* default */])(start.opacity, end.opacity);
-    return function(t) {
-      start.r = r(t);
-      start.g = g(t);
-      start.b = b(t);
-      start.opacity = opacity(t);
-      return start + "";
-    };
-  }
-
-  rgb.gamma = rgbGamma;
-
-  return rgb;
-})(1));
-
-function rgbSpline(spline) {
-  return function(colors) {
-    var n = colors.length,
-        r = new Array(n),
-        g = new Array(n),
-        b = new Array(n),
-        i, color;
-    for (i = 0; i < n; ++i) {
-      color = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_d3_color__["e" /* rgb */])(colors[i]);
-      r[i] = color.r || 0;
-      g[i] = color.g || 0;
-      b[i] = color.b || 0;
-    }
-    r = spline(r);
-    g = spline(g);
-    b = spline(b);
-    color.opacity = 1;
-    return function(t) {
-      color.r = r(t);
-      color.g = g(t);
-      color.b = b(t);
-      return color + "";
-    };
-  };
-}
-
-var rgbBasis = rgbSpline(__WEBPACK_IMPORTED_MODULE_1__basis__["a" /* default */]);
-var rgbBasisClosed = rgbSpline(__WEBPACK_IMPORTED_MODULE_2__basisClosed__["a" /* default */]);
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__number__ = __webpack_require__(5);
-
-
-var reA = /[-+]?(?:\d+\.?\d*|\.?\d+)(?:[eE][-+]?\d+)?/g,
-    reB = new RegExp(reA.source, "g");
-
-function zero(b) {
-  return function() {
-    return b;
-  };
-}
-
-function one(b) {
-  return function(t) {
-    return b(t) + "";
-  };
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (function(a, b) {
-  var bi = reA.lastIndex = reB.lastIndex = 0, // scan index for next number in b
-      am, // current match in a
-      bm, // current match in b
-      bs, // string preceding current number in b, if any
-      i = -1, // index in s
-      s = [], // string constants and placeholders
-      q = []; // number interpolators
-
-  // Coerce inputs to strings.
-  a = a + "", b = b + "";
-
-  // Interpolate pairs of numbers in a & b.
-  while ((am = reA.exec(a))
-      && (bm = reB.exec(b))) {
-    if ((bs = bm.index) > bi) { // a string precedes the next number in b
-      bs = b.slice(bi, bs);
-      if (s[i]) s[i] += bs; // coalesce with previous string
-      else s[++i] = bs;
-    }
-    if ((am = am[0]) === (bm = bm[0])) { // numbers in a & b match
-      if (s[i]) s[i] += bm; // coalesce with previous string
-      else s[++i] = bm;
-    } else { // interpolate non-matching numbers
-      s[++i] = null;
-      q.push({i: i, x: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__number__["a" /* default */])(am, bm)});
-    }
-    bi = reB.lastIndex;
-  }
-
-  // Add remains of b.
-  if (bi < b.length) {
-    bs = b.slice(bi);
-    if (s[i]) s[i] += bs; // coalesce with previous string
-    else s[++i] = bs;
-  }
-
-  // Special optimization for only a single match.
-  // Otherwise, interpolate each of the numbers and rejoin the string.
-  return s.length < 2 ? (q[0]
-      ? one(q[0].x)
-      : zero(b))
-      : (b = q.length, function(t) {
-          for (var i = 0, o; i < b; ++i) s[(o = q[i]).i] = o.x(t);
-          return s.join("");
-        });
-});
-
-
-/***/ }),
-/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://d3js.org Version 4.8.0. Copyright 2017 Mike Bostock.
@@ -22050,7 +21820,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 
 /***/ }),
-/* 20 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22128,7 +21898,7 @@ return af;
 
 
 /***/ }),
-/* 21 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22192,7 +21962,7 @@ return arDz;
 
 
 /***/ }),
-/* 22 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22256,7 +22026,7 @@ return arKw;
 
 
 /***/ }),
-/* 23 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22387,7 +22157,7 @@ return arLy;
 
 
 /***/ }),
-/* 24 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22452,7 +22222,7 @@ return arMa;
 
 
 /***/ }),
-/* 25 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22562,7 +22332,7 @@ return arSa;
 
 
 /***/ }),
-/* 26 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22626,7 +22396,7 @@ return arTn;
 
 
 /***/ }),
-/* 27 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22773,7 +22543,7 @@ return ar;
 
 
 /***/ }),
-/* 28 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22883,7 +22653,7 @@ return az;
 
 
 /***/ }),
-/* 29 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23022,7 +22792,7 @@ return be;
 
 
 /***/ }),
-/* 30 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23117,7 +22887,7 @@ return bg;
 
 
 /***/ }),
-/* 31 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23241,7 +23011,7 @@ return bn;
 
 
 /***/ }),
-/* 32 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23365,7 +23135,7 @@ return bo;
 
 
 /***/ }),
-/* 33 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23478,7 +23248,7 @@ return br;
 
 
 /***/ }),
-/* 34 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23626,7 +23396,7 @@ return bs;
 
 
 /***/ }),
-/* 35 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23719,7 +23489,7 @@ return ca;
 
 
 /***/ }),
-/* 36 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23896,7 +23666,7 @@ return cs;
 
 
 /***/ }),
-/* 37 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23964,7 +23734,7 @@ return cv;
 
 
 /***/ }),
-/* 38 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24050,7 +23820,7 @@ return cy;
 
 
 /***/ }),
-/* 39 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24115,7 +23885,7 @@ return da;
 
 
 /***/ }),
-/* 40 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24199,7 +23969,7 @@ return deAt;
 
 
 /***/ }),
-/* 41 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24282,7 +24052,7 @@ return deCh;
 
 
 /***/ }),
-/* 42 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24365,7 +24135,7 @@ return de;
 
 
 /***/ }),
-/* 43 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24470,7 +24240,7 @@ return dv;
 
 
 /***/ }),
-/* 44 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24575,7 +24345,7 @@ return el;
 
 
 /***/ }),
-/* 45 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24647,7 +24417,7 @@ return enAu;
 
 
 /***/ }),
-/* 46 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24715,7 +24485,7 @@ return enCa;
 
 
 /***/ }),
-/* 47 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24787,7 +24557,7 @@ return enGb;
 
 
 /***/ }),
-/* 48 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24859,7 +24629,7 @@ return enIe;
 
 
 /***/ }),
-/* 49 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24931,7 +24701,7 @@ return enNz;
 
 
 /***/ }),
-/* 50 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25009,7 +24779,7 @@ return eo;
 
 
 /***/ }),
-/* 51 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25096,7 +24866,7 @@ return esDo;
 
 
 /***/ }),
-/* 52 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25184,7 +24954,7 @@ return es;
 
 
 /***/ }),
-/* 53 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25269,7 +25039,7 @@ return et;
 
 
 /***/ }),
-/* 54 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25340,7 +25110,7 @@ return eu;
 
 
 /***/ }),
-/* 55 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25452,7 +25222,7 @@ return fa;
 
 
 /***/ }),
-/* 56 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25564,7 +25334,7 @@ return fi;
 
 
 /***/ }),
-/* 57 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25629,7 +25399,7 @@ return fo;
 
 
 /***/ }),
-/* 58 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25708,7 +25478,7 @@ return frCa;
 
 
 /***/ }),
-/* 59 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25791,7 +25561,7 @@ return frCh;
 
 
 /***/ }),
-/* 60 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25879,7 +25649,7 @@ return fr;
 
 
 /***/ }),
-/* 61 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25959,7 +25729,7 @@ return fy;
 
 
 /***/ }),
-/* 62 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26040,7 +25810,7 @@ return gd;
 
 
 /***/ }),
-/* 63 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26122,7 +25892,7 @@ return gl;
 
 
 /***/ }),
-/* 64 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26249,7 +26019,7 @@ return gomLatn;
 
 
 /***/ }),
-/* 65 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26353,7 +26123,7 @@ return he;
 
 
 /***/ }),
-/* 66 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26482,7 +26252,7 @@ return hi;
 
 
 /***/ }),
-/* 67 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26632,7 +26402,7 @@ return hr;
 
 
 /***/ }),
-/* 68 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26746,7 +26516,7 @@ return hu;
 
 
 /***/ }),
-/* 69 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26846,7 +26616,7 @@ return hyAm;
 
 
 /***/ }),
-/* 70 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26934,7 +26704,7 @@ return id;
 
 
 /***/ }),
-/* 71 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -27066,7 +26836,7 @@ return is;
 
 
 /***/ }),
-/* 72 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -27141,7 +26911,7 @@ return it;
 
 
 /***/ }),
-/* 73 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -27226,7 +26996,7 @@ return ja;
 
 
 /***/ }),
-/* 74 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -27314,7 +27084,7 @@ return jv;
 
 
 /***/ }),
-/* 75 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -27408,7 +27178,7 @@ return ka;
 
 
 /***/ }),
-/* 76 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -27500,7 +27270,7 @@ return kk;
 
 
 /***/ }),
-/* 77 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -27563,7 +27333,7 @@ return km;
 
 
 /***/ }),
-/* 78 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -27694,7 +27464,7 @@ return kn;
 
 
 /***/ }),
-/* 79 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -27768,7 +27538,7 @@ return ko;
 
 
 /***/ }),
-/* 80 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -27861,7 +27631,7 @@ return ky;
 
 
 /***/ }),
-/* 81 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -28003,7 +27773,7 @@ return lb;
 
 
 /***/ }),
-/* 82 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -28078,7 +27848,7 @@ return lo;
 
 
 /***/ }),
-/* 83 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -28200,7 +27970,7 @@ return lt;
 
 
 /***/ }),
-/* 84 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -28302,7 +28072,7 @@ return lv;
 
 
 /***/ }),
-/* 85 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -28418,7 +28188,7 @@ return me;
 
 
 /***/ }),
-/* 86 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -28487,7 +28257,7 @@ return mi;
 
 
 /***/ }),
-/* 87 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -28582,7 +28352,7 @@ return mk;
 
 
 /***/ }),
-/* 88 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -28668,7 +28438,7 @@ return ml;
 
 
 /***/ }),
-/* 89 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -28832,7 +28602,7 @@ return mr;
 
 
 /***/ }),
-/* 90 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -28920,7 +28690,7 @@ return msMy;
 
 
 /***/ }),
-/* 91 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -29007,7 +28777,7 @@ return ms;
 
 
 /***/ }),
-/* 92 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -29108,7 +28878,7 @@ return my;
 
 
 /***/ }),
-/* 93 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -29176,7 +28946,7 @@ return nb;
 
 
 /***/ }),
-/* 94 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -29304,7 +29074,7 @@ return ne;
 
 
 /***/ }),
-/* 95 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -29397,7 +29167,7 @@ return nlBe;
 
 
 /***/ }),
-/* 96 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -29490,7 +29260,7 @@ return nl;
 
 
 /***/ }),
-/* 97 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -29555,7 +29325,7 @@ return nn;
 
 
 /***/ }),
-/* 98 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -29684,7 +29454,7 @@ return paIn;
 
 
 /***/ }),
-/* 99 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -29796,7 +29566,7 @@ return pl;
 
 
 /***/ }),
-/* 100 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -29862,7 +29632,7 @@ return ptBr;
 
 
 /***/ }),
-/* 101 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -29932,7 +29702,7 @@ return pt;
 
 
 /***/ }),
-/* 102 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -30012,7 +29782,7 @@ return ro;
 
 
 /***/ }),
-/* 103 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -30200,7 +29970,7 @@ return ru;
 
 
 /***/ }),
-/* 104 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -30303,7 +30073,7 @@ return sd;
 
 
 /***/ }),
-/* 105 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -30369,7 +30139,7 @@ return se;
 
 
 /***/ }),
-/* 106 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -30445,7 +30215,7 @@ return si;
 
 
 /***/ }),
-/* 107 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -30600,7 +30370,7 @@ return sk;
 
 
 /***/ }),
-/* 108 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -30767,7 +30537,7 @@ return sl;
 
 
 /***/ }),
-/* 109 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -30842,7 +30612,7 @@ return sq;
 
 
 /***/ }),
-/* 110 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -30957,7 +30727,7 @@ return srCyrl;
 
 
 /***/ }),
-/* 111 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -31072,7 +30842,7 @@ return sr;
 
 
 /***/ }),
-/* 112 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -31166,7 +30936,7 @@ return ss;
 
 
 /***/ }),
-/* 113 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -31240,7 +31010,7 @@ return sv;
 
 
 /***/ }),
-/* 114 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -31304,7 +31074,7 @@ return sw;
 
 
 /***/ }),
-/* 115 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -31439,7 +31209,7 @@ return ta;
 
 
 /***/ }),
-/* 116 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -31533,7 +31303,7 @@ return te;
 
 
 /***/ }),
-/* 117 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -31606,7 +31376,7 @@ return tet;
 
 
 /***/ }),
-/* 118 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -31678,7 +31448,7 @@ return th;
 
 
 /***/ }),
-/* 119 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -31745,7 +31515,7 @@ return tlPh;
 
 
 /***/ }),
-/* 120 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -31870,7 +31640,7 @@ return tlh;
 
 
 /***/ }),
-/* 121 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -31965,7 +31735,7 @@ return tr;
 
 
 /***/ }),
-/* 122 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -32061,7 +31831,7 @@ return tzl;
 
 
 /***/ }),
-/* 123 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -32124,7 +31894,7 @@ return tzmLatn;
 
 
 /***/ }),
-/* 124 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -32187,7 +31957,7 @@ return tzm;
 
 
 /***/ }),
-/* 125 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -32343,7 +32113,7 @@ return uk;
 
 
 /***/ }),
-/* 126 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -32447,7 +32217,7 @@ return ur;
 
 
 /***/ }),
-/* 127 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -32510,7 +32280,7 @@ return uzLatn;
 
 
 /***/ }),
-/* 128 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -32573,7 +32343,7 @@ return uz;
 
 
 /***/ }),
-/* 129 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -32657,7 +32427,7 @@ return vi;
 
 
 /***/ }),
-/* 130 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -32730,7 +32500,7 @@ return xPseudo;
 
 
 /***/ }),
-/* 131 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -32795,7 +32565,7 @@ return yo;
 
 
 /***/ }),
-/* 132 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -32911,7 +32681,7 @@ return zhCn;
 
 
 /***/ }),
-/* 133 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -33021,7 +32791,7 @@ return zhHk;
 
 
 /***/ }),
-/* 134 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -33130,14 +32900,465 @@ return zhTw;
 
 
 /***/ }),
-/* 135 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const d3 = __webpack_require__(19);
-const d3Chromatic = __webpack_require__(198);
-const Chart = __webpack_require__(10);
-__webpack_require__(236);
-__webpack_require__(137)
+/**
+ * @namespace Chart
+ */
+var Chart = __webpack_require__(167)();
+
+__webpack_require__(165)(Chart);
+__webpack_require__(181)(Chart);
+__webpack_require__(161)(Chart);
+__webpack_require__(170)(Chart);
+__webpack_require__(164)(Chart);
+__webpack_require__(160)(Chart);
+__webpack_require__(162)(Chart);
+__webpack_require__(163)(Chart);
+__webpack_require__(168)(Chart);
+__webpack_require__(172)(Chart);
+__webpack_require__(173)(Chart);
+__webpack_require__(171)(Chart);
+__webpack_require__(174)(Chart);
+__webpack_require__(169)(Chart);
+__webpack_require__(166)(Chart);
+__webpack_require__(175)(Chart);
+
+__webpack_require__(176)(Chart);
+__webpack_require__(177)(Chart);
+__webpack_require__(178)(Chart);
+__webpack_require__(179)(Chart);
+
+__webpack_require__(184)(Chart);
+__webpack_require__(182)(Chart);
+__webpack_require__(183)(Chart);
+__webpack_require__(185)(Chart);
+__webpack_require__(186)(Chart);
+__webpack_require__(187)(Chart);
+
+// Controllers must be loaded after elements
+// See Chart.core.datasetController.dataElementType
+__webpack_require__(154)(Chart);
+__webpack_require__(155)(Chart);
+__webpack_require__(156)(Chart);
+__webpack_require__(157)(Chart);
+__webpack_require__(158)(Chart);
+__webpack_require__(159)(Chart);
+
+__webpack_require__(147)(Chart);
+__webpack_require__(148)(Chart);
+__webpack_require__(149)(Chart);
+__webpack_require__(150)(Chart);
+__webpack_require__(151)(Chart);
+__webpack_require__(152)(Chart);
+__webpack_require__(153)(Chart);
+
+window.Chart = module.exports = Chart;
+
+
+/***/ }),
+/* 128 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_categorical_Accent__ = __webpack_require__(201);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeAccent", function() { return __WEBPACK_IMPORTED_MODULE_0__src_categorical_Accent__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_categorical_Dark2__ = __webpack_require__(202);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeDark2", function() { return __WEBPACK_IMPORTED_MODULE_1__src_categorical_Dark2__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_categorical_Paired__ = __webpack_require__(203);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePaired", function() { return __WEBPACK_IMPORTED_MODULE_2__src_categorical_Paired__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_categorical_Pastel1__ = __webpack_require__(204);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePastel1", function() { return __WEBPACK_IMPORTED_MODULE_3__src_categorical_Pastel1__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_categorical_Pastel2__ = __webpack_require__(205);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePastel2", function() { return __WEBPACK_IMPORTED_MODULE_4__src_categorical_Pastel2__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_categorical_Set1__ = __webpack_require__(206);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeSet1", function() { return __WEBPACK_IMPORTED_MODULE_5__src_categorical_Set1__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__src_categorical_Set2__ = __webpack_require__(207);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeSet2", function() { return __WEBPACK_IMPORTED_MODULE_6__src_categorical_Set2__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__src_categorical_Set3__ = __webpack_require__(208);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeSet3", function() { return __WEBPACK_IMPORTED_MODULE_7__src_categorical_Set3__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__src_diverging_BrBG__ = __webpack_require__(209);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateBrBG", function() { return __WEBPACK_IMPORTED_MODULE_8__src_diverging_BrBG__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeBrBG", function() { return __WEBPACK_IMPORTED_MODULE_8__src_diverging_BrBG__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src_diverging_PRGn__ = __webpack_require__(210);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePRGn", function() { return __WEBPACK_IMPORTED_MODULE_9__src_diverging_PRGn__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePRGn", function() { return __WEBPACK_IMPORTED_MODULE_9__src_diverging_PRGn__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__src_diverging_PiYG__ = __webpack_require__(211);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePiYG", function() { return __WEBPACK_IMPORTED_MODULE_10__src_diverging_PiYG__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePiYG", function() { return __WEBPACK_IMPORTED_MODULE_10__src_diverging_PiYG__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__src_diverging_PuOr__ = __webpack_require__(212);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePuOr", function() { return __WEBPACK_IMPORTED_MODULE_11__src_diverging_PuOr__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePuOr", function() { return __WEBPACK_IMPORTED_MODULE_11__src_diverging_PuOr__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__src_diverging_RdBu__ = __webpack_require__(213);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateRdBu", function() { return __WEBPACK_IMPORTED_MODULE_12__src_diverging_RdBu__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeRdBu", function() { return __WEBPACK_IMPORTED_MODULE_12__src_diverging_RdBu__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__src_diverging_RdGy__ = __webpack_require__(214);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateRdGy", function() { return __WEBPACK_IMPORTED_MODULE_13__src_diverging_RdGy__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeRdGy", function() { return __WEBPACK_IMPORTED_MODULE_13__src_diverging_RdGy__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__src_diverging_RdYlBu__ = __webpack_require__(215);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateRdYlBu", function() { return __WEBPACK_IMPORTED_MODULE_14__src_diverging_RdYlBu__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeRdYlBu", function() { return __WEBPACK_IMPORTED_MODULE_14__src_diverging_RdYlBu__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__src_diverging_RdYlGn__ = __webpack_require__(216);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateRdYlGn", function() { return __WEBPACK_IMPORTED_MODULE_15__src_diverging_RdYlGn__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeRdYlGn", function() { return __WEBPACK_IMPORTED_MODULE_15__src_diverging_RdYlGn__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__src_diverging_Spectral__ = __webpack_require__(217);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateSpectral", function() { return __WEBPACK_IMPORTED_MODULE_16__src_diverging_Spectral__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeSpectral", function() { return __WEBPACK_IMPORTED_MODULE_16__src_diverging_Spectral__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__src_sequential_multi_BuGn__ = __webpack_require__(218);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateBuGn", function() { return __WEBPACK_IMPORTED_MODULE_17__src_sequential_multi_BuGn__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeBuGn", function() { return __WEBPACK_IMPORTED_MODULE_17__src_sequential_multi_BuGn__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__src_sequential_multi_BuPu__ = __webpack_require__(219);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateBuPu", function() { return __WEBPACK_IMPORTED_MODULE_18__src_sequential_multi_BuPu__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeBuPu", function() { return __WEBPACK_IMPORTED_MODULE_18__src_sequential_multi_BuPu__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__src_sequential_multi_GnBu__ = __webpack_require__(220);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateGnBu", function() { return __WEBPACK_IMPORTED_MODULE_19__src_sequential_multi_GnBu__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeGnBu", function() { return __WEBPACK_IMPORTED_MODULE_19__src_sequential_multi_GnBu__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__src_sequential_multi_OrRd__ = __webpack_require__(221);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateOrRd", function() { return __WEBPACK_IMPORTED_MODULE_20__src_sequential_multi_OrRd__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeOrRd", function() { return __WEBPACK_IMPORTED_MODULE_20__src_sequential_multi_OrRd__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__src_sequential_multi_PuBuGn__ = __webpack_require__(223);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePuBuGn", function() { return __WEBPACK_IMPORTED_MODULE_21__src_sequential_multi_PuBuGn__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePuBuGn", function() { return __WEBPACK_IMPORTED_MODULE_21__src_sequential_multi_PuBuGn__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__src_sequential_multi_PuBu__ = __webpack_require__(222);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePuBu", function() { return __WEBPACK_IMPORTED_MODULE_22__src_sequential_multi_PuBu__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePuBu", function() { return __WEBPACK_IMPORTED_MODULE_22__src_sequential_multi_PuBu__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__src_sequential_multi_PuRd__ = __webpack_require__(224);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePuRd", function() { return __WEBPACK_IMPORTED_MODULE_23__src_sequential_multi_PuRd__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePuRd", function() { return __WEBPACK_IMPORTED_MODULE_23__src_sequential_multi_PuRd__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__src_sequential_multi_RdPu__ = __webpack_require__(225);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateRdPu", function() { return __WEBPACK_IMPORTED_MODULE_24__src_sequential_multi_RdPu__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeRdPu", function() { return __WEBPACK_IMPORTED_MODULE_24__src_sequential_multi_RdPu__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__src_sequential_multi_YlGnBu__ = __webpack_require__(227);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateYlGnBu", function() { return __WEBPACK_IMPORTED_MODULE_25__src_sequential_multi_YlGnBu__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeYlGnBu", function() { return __WEBPACK_IMPORTED_MODULE_25__src_sequential_multi_YlGnBu__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__src_sequential_multi_YlGn__ = __webpack_require__(226);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateYlGn", function() { return __WEBPACK_IMPORTED_MODULE_26__src_sequential_multi_YlGn__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeYlGn", function() { return __WEBPACK_IMPORTED_MODULE_26__src_sequential_multi_YlGn__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__src_sequential_multi_YlOrBr__ = __webpack_require__(228);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateYlOrBr", function() { return __WEBPACK_IMPORTED_MODULE_27__src_sequential_multi_YlOrBr__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeYlOrBr", function() { return __WEBPACK_IMPORTED_MODULE_27__src_sequential_multi_YlOrBr__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__src_sequential_multi_YlOrRd__ = __webpack_require__(229);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateYlOrRd", function() { return __WEBPACK_IMPORTED_MODULE_28__src_sequential_multi_YlOrRd__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeYlOrRd", function() { return __WEBPACK_IMPORTED_MODULE_28__src_sequential_multi_YlOrRd__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__src_sequential_single_Blues__ = __webpack_require__(230);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateBlues", function() { return __WEBPACK_IMPORTED_MODULE_29__src_sequential_single_Blues__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeBlues", function() { return __WEBPACK_IMPORTED_MODULE_29__src_sequential_single_Blues__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__src_sequential_single_Greens__ = __webpack_require__(231);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateGreens", function() { return __WEBPACK_IMPORTED_MODULE_30__src_sequential_single_Greens__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeGreens", function() { return __WEBPACK_IMPORTED_MODULE_30__src_sequential_single_Greens__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__src_sequential_single_Greys__ = __webpack_require__(232);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateGreys", function() { return __WEBPACK_IMPORTED_MODULE_31__src_sequential_single_Greys__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeGreys", function() { return __WEBPACK_IMPORTED_MODULE_31__src_sequential_single_Greys__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__src_sequential_single_Purples__ = __webpack_require__(234);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePurples", function() { return __WEBPACK_IMPORTED_MODULE_32__src_sequential_single_Purples__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePurples", function() { return __WEBPACK_IMPORTED_MODULE_32__src_sequential_single_Purples__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__src_sequential_single_Reds__ = __webpack_require__(235);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateReds", function() { return __WEBPACK_IMPORTED_MODULE_33__src_sequential_single_Reds__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeReds", function() { return __WEBPACK_IMPORTED_MODULE_33__src_sequential_single_Reds__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__src_sequential_single_Oranges__ = __webpack_require__(233);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateOranges", function() { return __WEBPACK_IMPORTED_MODULE_34__src_sequential_single_Oranges__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeOranges", function() { return __WEBPACK_IMPORTED_MODULE_34__src_sequential_single_Oranges__["b"]; });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+/* 129 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return deg2rad; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return rad2deg; });
+var deg2rad = Math.PI / 180;
+var rad2deg = 180 / Math.PI;
+
+
+/***/ }),
+/* 130 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__value__ = __webpack_require__(10);
+
+
+/* harmony default export */ __webpack_exports__["a"] = (function(a, b) {
+  var nb = b ? b.length : 0,
+      na = a ? Math.min(nb, a.length) : 0,
+      x = new Array(nb),
+      c = new Array(nb),
+      i;
+
+  for (i = 0; i < na; ++i) x[i] = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__value__["a" /* default */])(a[i], b[i]);
+  for (; i < nb; ++i) c[i] = b[i];
+
+  return function(t) {
+    for (i = 0; i < na; ++i) c[i] = x[i](t);
+    return c;
+  };
+});
+
+
+/***/ }),
+/* 131 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__basis__ = __webpack_require__(9);
+
+
+/* harmony default export */ __webpack_exports__["a"] = (function(values) {
+  var n = values.length;
+  return function(t) {
+    var i = Math.floor(((t %= 1) < 0 ? ++t : t) * n),
+        v0 = values[(i + n - 1) % n],
+        v1 = values[i % n],
+        v2 = values[(i + 1) % n],
+        v3 = values[(i + 2) % n];
+    return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__basis__["b" /* basis */])((t - i / n) * n, v0, v1, v2, v3);
+  };
+});
+
+
+/***/ }),
+/* 132 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = (function(x) {
+  return function() {
+    return x;
+  };
+});
+
+
+/***/ }),
+/* 133 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = (function(a, b) {
+  var d = new Date;
+  return a = +a, b -= a, function(t) {
+    return d.setTime(a + b * t), d;
+  };
+});
+
+
+/***/ }),
+/* 134 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__value__ = __webpack_require__(10);
+
+
+/* harmony default export */ __webpack_exports__["a"] = (function(a, b) {
+  var i = {},
+      c = {},
+      k;
+
+  if (a === null || typeof a !== "object") a = {};
+  if (b === null || typeof b !== "object") b = {};
+
+  for (k in b) {
+    if (k in a) {
+      i[k] = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__value__["a" /* default */])(a[k], b[k]);
+    } else {
+      c[k] = b[k];
+    }
+  }
+
+  return function(t) {
+    for (k in i) c[k] = i[k](t);
+    return c;
+  };
+});
+
+
+/***/ }),
+/* 135 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3_color__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__basis__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__basisClosed__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__color__ = __webpack_require__(4);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return rgbBasis; });
+/* unused harmony export rgbBasisClosed */
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["b"] = ((function rgbGamma(y) {
+  var color = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__color__["c" /* gamma */])(y);
+
+  function rgb(start, end) {
+    var r = color((start = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_d3_color__["e" /* rgb */])(start)).r, (end = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_d3_color__["e" /* rgb */])(end)).r),
+        g = color(start.g, end.g),
+        b = color(start.b, end.b),
+        opacity = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__color__["a" /* default */])(start.opacity, end.opacity);
+    return function(t) {
+      start.r = r(t);
+      start.g = g(t);
+      start.b = b(t);
+      start.opacity = opacity(t);
+      return start + "";
+    };
+  }
+
+  rgb.gamma = rgbGamma;
+
+  return rgb;
+})(1));
+
+function rgbSpline(spline) {
+  return function(colors) {
+    var n = colors.length,
+        r = new Array(n),
+        g = new Array(n),
+        b = new Array(n),
+        i, color;
+    for (i = 0; i < n; ++i) {
+      color = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_d3_color__["e" /* rgb */])(colors[i]);
+      r[i] = color.r || 0;
+      g[i] = color.g || 0;
+      b[i] = color.b || 0;
+    }
+    r = spline(r);
+    g = spline(g);
+    b = spline(b);
+    color.opacity = 1;
+    return function(t) {
+      color.r = r(t);
+      color.g = g(t);
+      color.b = b(t);
+      return color + "";
+    };
+  };
+}
+
+var rgbBasis = rgbSpline(__WEBPACK_IMPORTED_MODULE_1__basis__["a" /* default */]);
+var rgbBasisClosed = rgbSpline(__WEBPACK_IMPORTED_MODULE_2__basisClosed__["a" /* default */]);
+
+
+/***/ }),
+/* 136 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__number__ = __webpack_require__(5);
+
+
+var reA = /[-+]?(?:\d+\.?\d*|\.?\d+)(?:[eE][-+]?\d+)?/g,
+    reB = new RegExp(reA.source, "g");
+
+function zero(b) {
+  return function() {
+    return b;
+  };
+}
+
+function one(b) {
+  return function(t) {
+    return b(t) + "";
+  };
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (function(a, b) {
+  var bi = reA.lastIndex = reB.lastIndex = 0, // scan index for next number in b
+      am, // current match in a
+      bm, // current match in b
+      bs, // string preceding current number in b, if any
+      i = -1, // index in s
+      s = [], // string constants and placeholders
+      q = []; // number interpolators
+
+  // Coerce inputs to strings.
+  a = a + "", b = b + "";
+
+  // Interpolate pairs of numbers in a & b.
+  while ((am = reA.exec(a))
+      && (bm = reB.exec(b))) {
+    if ((bs = bm.index) > bi) { // a string precedes the next number in b
+      bs = b.slice(bi, bs);
+      if (s[i]) s[i] += bs; // coalesce with previous string
+      else s[++i] = bs;
+    }
+    if ((am = am[0]) === (bm = bm[0])) { // numbers in a & b match
+      if (s[i]) s[i] += bm; // coalesce with previous string
+      else s[++i] = bm;
+    } else { // interpolate non-matching numbers
+      s[++i] = null;
+      q.push({i: i, x: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__number__["a" /* default */])(am, bm)});
+    }
+    bi = reB.lastIndex;
+  }
+
+  // Add remains of b.
+  if (bi < b.length) {
+    bs = b.slice(bi);
+    if (s[i]) s[i] += bs; // coalesce with previous string
+    else s[++i] = bs;
+  }
+
+  // Special optimization for only a single match.
+  // Otherwise, interpolate each of the numbers and rejoin the string.
+  return s.length < 2 ? (q[0]
+      ? one(q[0].x)
+      : zero(b))
+      : (b = q.length, function(t) {
+          for (var i = 0, o; i < b; ++i) s[(o = q[i]).i] = o.x(t);
+          return s.join("");
+        });
+});
+
+
+/***/ }),
+/* 137 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const d3 = __webpack_require__(11);
+const d3Chromatic = __webpack_require__(128);
+const Chart = __webpack_require__(127);
+__webpack_require__(237);
+__webpack_require__(139)
 
 var OUTLINE_COLOR = "#b1b1b1";
 var BACKGROUND_COLOR = "#2f394d";
@@ -33418,11 +33639,11 @@ function tooltipLabel(tooltipItem, data, signed) {
 
 
 /***/ }),
-/* 136 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const d3 = __webpack_require__(19);
-const fuse = __webpack_require__(234);
+const d3 = __webpack_require__(11);
+const fuse = __webpack_require__(236);
 
 (function () {
 
@@ -34347,10 +34568,10 @@ const fuse = __webpack_require__(234);
 
 
 /***/ }),
-/* 137 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Chart = __webpack_require__(10);
+const Chart = __webpack_require__(127);
 
 var DEFAULT_ROTATIONS = [Chart.defaults.doughnut.rotation, Chart.defaults.doughnut.rotation];
 
@@ -34534,17 +34755,31 @@ Chart.pluginService.register({
 
 
 /***/ }),
-/* 138 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Our modules are designed to execute when imported
-__webpack_require__(135);
-__webpack_require__(136);
+__webpack_require__(137);
+__webpack_require__(138);
+__webpack_require__(6);
 
 $(document).ready(function() {
+    var drawPeople = __webpack_require__(6).drawPeople;
+    var peopleLoaded = false;
+
     $('#fullpage').fullpage({
         autoScrolling: false,
         fitToSection: false,
+        onLeave: function(index, nextIndex, direction){
+            var leavingSection = $(this);
+            // one-based indexing
+            // after leaving section 1, show the people if not shown
+            if(!peopleLoaded && index == 3 && direction =='down'){
+                console.log("hello");
+                drawPeople();
+                peopleLoaded = true;
+            }
+        } 
     });
 
     setTimeout(highlightIntro, 1500);
@@ -34584,7 +34819,1933 @@ function highlightIntro() {
 
 
 /***/ }),
-/* 139 */
+/* 141 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* MIT license */
+var convert = __webpack_require__(145);
+var string = __webpack_require__(142);
+
+var Color = function (obj) {
+	if (obj instanceof Color) {
+		return obj;
+	}
+	if (!(this instanceof Color)) {
+		return new Color(obj);
+	}
+
+	this.valid = false;
+	this.values = {
+		rgb: [0, 0, 0],
+		hsl: [0, 0, 0],
+		hsv: [0, 0, 0],
+		hwb: [0, 0, 0],
+		cmyk: [0, 0, 0, 0],
+		alpha: 1
+	};
+
+	// parse Color() argument
+	var vals;
+	if (typeof obj === 'string') {
+		vals = string.getRgba(obj);
+		if (vals) {
+			this.setValues('rgb', vals);
+		} else if (vals = string.getHsla(obj)) {
+			this.setValues('hsl', vals);
+		} else if (vals = string.getHwb(obj)) {
+			this.setValues('hwb', vals);
+		}
+	} else if (typeof obj === 'object') {
+		vals = obj;
+		if (vals.r !== undefined || vals.red !== undefined) {
+			this.setValues('rgb', vals);
+		} else if (vals.l !== undefined || vals.lightness !== undefined) {
+			this.setValues('hsl', vals);
+		} else if (vals.v !== undefined || vals.value !== undefined) {
+			this.setValues('hsv', vals);
+		} else if (vals.w !== undefined || vals.whiteness !== undefined) {
+			this.setValues('hwb', vals);
+		} else if (vals.c !== undefined || vals.cyan !== undefined) {
+			this.setValues('cmyk', vals);
+		}
+	}
+};
+
+Color.prototype = {
+	isValid: function () {
+		return this.valid;
+	},
+	rgb: function () {
+		return this.setSpace('rgb', arguments);
+	},
+	hsl: function () {
+		return this.setSpace('hsl', arguments);
+	},
+	hsv: function () {
+		return this.setSpace('hsv', arguments);
+	},
+	hwb: function () {
+		return this.setSpace('hwb', arguments);
+	},
+	cmyk: function () {
+		return this.setSpace('cmyk', arguments);
+	},
+
+	rgbArray: function () {
+		return this.values.rgb;
+	},
+	hslArray: function () {
+		return this.values.hsl;
+	},
+	hsvArray: function () {
+		return this.values.hsv;
+	},
+	hwbArray: function () {
+		var values = this.values;
+		if (values.alpha !== 1) {
+			return values.hwb.concat([values.alpha]);
+		}
+		return values.hwb;
+	},
+	cmykArray: function () {
+		return this.values.cmyk;
+	},
+	rgbaArray: function () {
+		var values = this.values;
+		return values.rgb.concat([values.alpha]);
+	},
+	hslaArray: function () {
+		var values = this.values;
+		return values.hsl.concat([values.alpha]);
+	},
+	alpha: function (val) {
+		if (val === undefined) {
+			return this.values.alpha;
+		}
+		this.setValues('alpha', val);
+		return this;
+	},
+
+	red: function (val) {
+		return this.setChannel('rgb', 0, val);
+	},
+	green: function (val) {
+		return this.setChannel('rgb', 1, val);
+	},
+	blue: function (val) {
+		return this.setChannel('rgb', 2, val);
+	},
+	hue: function (val) {
+		if (val) {
+			val %= 360;
+			val = val < 0 ? 360 + val : val;
+		}
+		return this.setChannel('hsl', 0, val);
+	},
+	saturation: function (val) {
+		return this.setChannel('hsl', 1, val);
+	},
+	lightness: function (val) {
+		return this.setChannel('hsl', 2, val);
+	},
+	saturationv: function (val) {
+		return this.setChannel('hsv', 1, val);
+	},
+	whiteness: function (val) {
+		return this.setChannel('hwb', 1, val);
+	},
+	blackness: function (val) {
+		return this.setChannel('hwb', 2, val);
+	},
+	value: function (val) {
+		return this.setChannel('hsv', 2, val);
+	},
+	cyan: function (val) {
+		return this.setChannel('cmyk', 0, val);
+	},
+	magenta: function (val) {
+		return this.setChannel('cmyk', 1, val);
+	},
+	yellow: function (val) {
+		return this.setChannel('cmyk', 2, val);
+	},
+	black: function (val) {
+		return this.setChannel('cmyk', 3, val);
+	},
+
+	hexString: function () {
+		return string.hexString(this.values.rgb);
+	},
+	rgbString: function () {
+		return string.rgbString(this.values.rgb, this.values.alpha);
+	},
+	rgbaString: function () {
+		return string.rgbaString(this.values.rgb, this.values.alpha);
+	},
+	percentString: function () {
+		return string.percentString(this.values.rgb, this.values.alpha);
+	},
+	hslString: function () {
+		return string.hslString(this.values.hsl, this.values.alpha);
+	},
+	hslaString: function () {
+		return string.hslaString(this.values.hsl, this.values.alpha);
+	},
+	hwbString: function () {
+		return string.hwbString(this.values.hwb, this.values.alpha);
+	},
+	keyword: function () {
+		return string.keyword(this.values.rgb, this.values.alpha);
+	},
+
+	rgbNumber: function () {
+		var rgb = this.values.rgb;
+		return (rgb[0] << 16) | (rgb[1] << 8) | rgb[2];
+	},
+
+	luminosity: function () {
+		// http://www.w3.org/TR/WCAG20/#relativeluminancedef
+		var rgb = this.values.rgb;
+		var lum = [];
+		for (var i = 0; i < rgb.length; i++) {
+			var chan = rgb[i] / 255;
+			lum[i] = (chan <= 0.03928) ? chan / 12.92 : Math.pow(((chan + 0.055) / 1.055), 2.4);
+		}
+		return 0.2126 * lum[0] + 0.7152 * lum[1] + 0.0722 * lum[2];
+	},
+
+	contrast: function (color2) {
+		// http://www.w3.org/TR/WCAG20/#contrast-ratiodef
+		var lum1 = this.luminosity();
+		var lum2 = color2.luminosity();
+		if (lum1 > lum2) {
+			return (lum1 + 0.05) / (lum2 + 0.05);
+		}
+		return (lum2 + 0.05) / (lum1 + 0.05);
+	},
+
+	level: function (color2) {
+		var contrastRatio = this.contrast(color2);
+		if (contrastRatio >= 7.1) {
+			return 'AAA';
+		}
+
+		return (contrastRatio >= 4.5) ? 'AA' : '';
+	},
+
+	dark: function () {
+		// YIQ equation from http://24ways.org/2010/calculating-color-contrast
+		var rgb = this.values.rgb;
+		var yiq = (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000;
+		return yiq < 128;
+	},
+
+	light: function () {
+		return !this.dark();
+	},
+
+	negate: function () {
+		var rgb = [];
+		for (var i = 0; i < 3; i++) {
+			rgb[i] = 255 - this.values.rgb[i];
+		}
+		this.setValues('rgb', rgb);
+		return this;
+	},
+
+	lighten: function (ratio) {
+		var hsl = this.values.hsl;
+		hsl[2] += hsl[2] * ratio;
+		this.setValues('hsl', hsl);
+		return this;
+	},
+
+	darken: function (ratio) {
+		var hsl = this.values.hsl;
+		hsl[2] -= hsl[2] * ratio;
+		this.setValues('hsl', hsl);
+		return this;
+	},
+
+	saturate: function (ratio) {
+		var hsl = this.values.hsl;
+		hsl[1] += hsl[1] * ratio;
+		this.setValues('hsl', hsl);
+		return this;
+	},
+
+	desaturate: function (ratio) {
+		var hsl = this.values.hsl;
+		hsl[1] -= hsl[1] * ratio;
+		this.setValues('hsl', hsl);
+		return this;
+	},
+
+	whiten: function (ratio) {
+		var hwb = this.values.hwb;
+		hwb[1] += hwb[1] * ratio;
+		this.setValues('hwb', hwb);
+		return this;
+	},
+
+	blacken: function (ratio) {
+		var hwb = this.values.hwb;
+		hwb[2] += hwb[2] * ratio;
+		this.setValues('hwb', hwb);
+		return this;
+	},
+
+	greyscale: function () {
+		var rgb = this.values.rgb;
+		// http://en.wikipedia.org/wiki/Grayscale#Converting_color_to_grayscale
+		var val = rgb[0] * 0.3 + rgb[1] * 0.59 + rgb[2] * 0.11;
+		this.setValues('rgb', [val, val, val]);
+		return this;
+	},
+
+	clearer: function (ratio) {
+		var alpha = this.values.alpha;
+		this.setValues('alpha', alpha - (alpha * ratio));
+		return this;
+	},
+
+	opaquer: function (ratio) {
+		var alpha = this.values.alpha;
+		this.setValues('alpha', alpha + (alpha * ratio));
+		return this;
+	},
+
+	rotate: function (degrees) {
+		var hsl = this.values.hsl;
+		var hue = (hsl[0] + degrees) % 360;
+		hsl[0] = hue < 0 ? 360 + hue : hue;
+		this.setValues('hsl', hsl);
+		return this;
+	},
+
+	/**
+	 * Ported from sass implementation in C
+	 * https://github.com/sass/libsass/blob/0e6b4a2850092356aa3ece07c6b249f0221caced/functions.cpp#L209
+	 */
+	mix: function (mixinColor, weight) {
+		var color1 = this;
+		var color2 = mixinColor;
+		var p = weight === undefined ? 0.5 : weight;
+
+		var w = 2 * p - 1;
+		var a = color1.alpha() - color2.alpha();
+
+		var w1 = (((w * a === -1) ? w : (w + a) / (1 + w * a)) + 1) / 2.0;
+		var w2 = 1 - w1;
+
+		return this
+			.rgb(
+				w1 * color1.red() + w2 * color2.red(),
+				w1 * color1.green() + w2 * color2.green(),
+				w1 * color1.blue() + w2 * color2.blue()
+			)
+			.alpha(color1.alpha() * p + color2.alpha() * (1 - p));
+	},
+
+	toJSON: function () {
+		return this.rgb();
+	},
+
+	clone: function () {
+		// NOTE(SB): using node-clone creates a dependency to Buffer when using browserify,
+		// making the final build way to big to embed in Chart.js. So let's do it manually,
+		// assuming that values to clone are 1 dimension arrays containing only numbers,
+		// except 'alpha' which is a number.
+		var result = new Color();
+		var source = this.values;
+		var target = result.values;
+		var value, type;
+
+		for (var prop in source) {
+			if (source.hasOwnProperty(prop)) {
+				value = source[prop];
+				type = ({}).toString.call(value);
+				if (type === '[object Array]') {
+					target[prop] = value.slice(0);
+				} else if (type === '[object Number]') {
+					target[prop] = value;
+				} else {
+					console.error('unexpected color value:', value);
+				}
+			}
+		}
+
+		return result;
+	}
+};
+
+Color.prototype.spaces = {
+	rgb: ['red', 'green', 'blue'],
+	hsl: ['hue', 'saturation', 'lightness'],
+	hsv: ['hue', 'saturation', 'value'],
+	hwb: ['hue', 'whiteness', 'blackness'],
+	cmyk: ['cyan', 'magenta', 'yellow', 'black']
+};
+
+Color.prototype.maxes = {
+	rgb: [255, 255, 255],
+	hsl: [360, 100, 100],
+	hsv: [360, 100, 100],
+	hwb: [360, 100, 100],
+	cmyk: [100, 100, 100, 100]
+};
+
+Color.prototype.getValues = function (space) {
+	var values = this.values;
+	var vals = {};
+
+	for (var i = 0; i < space.length; i++) {
+		vals[space.charAt(i)] = values[space][i];
+	}
+
+	if (values.alpha !== 1) {
+		vals.a = values.alpha;
+	}
+
+	// {r: 255, g: 255, b: 255, a: 0.4}
+	return vals;
+};
+
+Color.prototype.setValues = function (space, vals) {
+	var values = this.values;
+	var spaces = this.spaces;
+	var maxes = this.maxes;
+	var alpha = 1;
+	var i;
+
+	this.valid = true;
+
+	if (space === 'alpha') {
+		alpha = vals;
+	} else if (vals.length) {
+		// [10, 10, 10]
+		values[space] = vals.slice(0, space.length);
+		alpha = vals[space.length];
+	} else if (vals[space.charAt(0)] !== undefined) {
+		// {r: 10, g: 10, b: 10}
+		for (i = 0; i < space.length; i++) {
+			values[space][i] = vals[space.charAt(i)];
+		}
+
+		alpha = vals.a;
+	} else if (vals[spaces[space][0]] !== undefined) {
+		// {red: 10, green: 10, blue: 10}
+		var chans = spaces[space];
+
+		for (i = 0; i < space.length; i++) {
+			values[space][i] = vals[chans[i]];
+		}
+
+		alpha = vals.alpha;
+	}
+
+	values.alpha = Math.max(0, Math.min(1, (alpha === undefined ? values.alpha : alpha)));
+
+	if (space === 'alpha') {
+		return false;
+	}
+
+	var capped;
+
+	// cap values of the space prior converting all values
+	for (i = 0; i < space.length; i++) {
+		capped = Math.max(0, Math.min(maxes[space][i], values[space][i]));
+		values[space][i] = Math.round(capped);
+	}
+
+	// convert to all the other color spaces
+	for (var sname in spaces) {
+		if (sname !== space) {
+			values[sname] = convert[space][sname](values[space]);
+		}
+	}
+
+	return true;
+};
+
+Color.prototype.setSpace = function (space, args) {
+	var vals = args[0];
+
+	if (vals === undefined) {
+		// color.rgb()
+		return this.getValues(space);
+	}
+
+	// color.rgb(10, 10, 10)
+	if (typeof vals === 'number') {
+		vals = Array.prototype.slice.call(args);
+	}
+
+	this.setValues(space, vals);
+	return this;
+};
+
+Color.prototype.setChannel = function (space, index, val) {
+	var svalues = this.values[space];
+	if (val === undefined) {
+		// color.red()
+		return svalues[index];
+	} else if (val === svalues[index]) {
+		// color.red(color.red())
+		return this;
+	}
+
+	// color.red(100)
+	svalues[index] = val;
+	this.setValues(space, svalues);
+
+	return this;
+};
+
+if (typeof window !== 'undefined') {
+	window.Color = Color;
+}
+
+module.exports = Color;
+
+
+/***/ }),
+/* 142 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* MIT license */
+var colorNames = __webpack_require__(143);
+
+module.exports = {
+   getRgba: getRgba,
+   getHsla: getHsla,
+   getRgb: getRgb,
+   getHsl: getHsl,
+   getHwb: getHwb,
+   getAlpha: getAlpha,
+
+   hexString: hexString,
+   rgbString: rgbString,
+   rgbaString: rgbaString,
+   percentString: percentString,
+   percentaString: percentaString,
+   hslString: hslString,
+   hslaString: hslaString,
+   hwbString: hwbString,
+   keyword: keyword
+}
+
+function getRgba(string) {
+   if (!string) {
+      return;
+   }
+   var abbr =  /^#([a-fA-F0-9]{3})$/,
+       hex =  /^#([a-fA-F0-9]{6})$/,
+       rgba = /^rgba?\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/,
+       per = /^rgba?\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/,
+       keyword = /(\w+)/;
+
+   var rgb = [0, 0, 0],
+       a = 1,
+       match = string.match(abbr);
+   if (match) {
+      match = match[1];
+      for (var i = 0; i < rgb.length; i++) {
+         rgb[i] = parseInt(match[i] + match[i], 16);
+      }
+   }
+   else if (match = string.match(hex)) {
+      match = match[1];
+      for (var i = 0; i < rgb.length; i++) {
+         rgb[i] = parseInt(match.slice(i * 2, i * 2 + 2), 16);
+      }
+   }
+   else if (match = string.match(rgba)) {
+      for (var i = 0; i < rgb.length; i++) {
+         rgb[i] = parseInt(match[i + 1]);
+      }
+      a = parseFloat(match[4]);
+   }
+   else if (match = string.match(per)) {
+      for (var i = 0; i < rgb.length; i++) {
+         rgb[i] = Math.round(parseFloat(match[i + 1]) * 2.55);
+      }
+      a = parseFloat(match[4]);
+   }
+   else if (match = string.match(keyword)) {
+      if (match[1] == "transparent") {
+         return [0, 0, 0, 0];
+      }
+      rgb = colorNames[match[1]];
+      if (!rgb) {
+         return;
+      }
+   }
+
+   for (var i = 0; i < rgb.length; i++) {
+      rgb[i] = scale(rgb[i], 0, 255);
+   }
+   if (!a && a != 0) {
+      a = 1;
+   }
+   else {
+      a = scale(a, 0, 1);
+   }
+   rgb[3] = a;
+   return rgb;
+}
+
+function getHsla(string) {
+   if (!string) {
+      return;
+   }
+   var hsl = /^hsla?\(\s*([+-]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)/;
+   var match = string.match(hsl);
+   if (match) {
+      var alpha = parseFloat(match[4]);
+      var h = scale(parseInt(match[1]), 0, 360),
+          s = scale(parseFloat(match[2]), 0, 100),
+          l = scale(parseFloat(match[3]), 0, 100),
+          a = scale(isNaN(alpha) ? 1 : alpha, 0, 1);
+      return [h, s, l, a];
+   }
+}
+
+function getHwb(string) {
+   if (!string) {
+      return;
+   }
+   var hwb = /^hwb\(\s*([+-]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)/;
+   var match = string.match(hwb);
+   if (match) {
+    var alpha = parseFloat(match[4]);
+      var h = scale(parseInt(match[1]), 0, 360),
+          w = scale(parseFloat(match[2]), 0, 100),
+          b = scale(parseFloat(match[3]), 0, 100),
+          a = scale(isNaN(alpha) ? 1 : alpha, 0, 1);
+      return [h, w, b, a];
+   }
+}
+
+function getRgb(string) {
+   var rgba = getRgba(string);
+   return rgba && rgba.slice(0, 3);
+}
+
+function getHsl(string) {
+  var hsla = getHsla(string);
+  return hsla && hsla.slice(0, 3);
+}
+
+function getAlpha(string) {
+   var vals = getRgba(string);
+   if (vals) {
+      return vals[3];
+   }
+   else if (vals = getHsla(string)) {
+      return vals[3];
+   }
+   else if (vals = getHwb(string)) {
+      return vals[3];
+   }
+}
+
+// generators
+function hexString(rgb) {
+   return "#" + hexDouble(rgb[0]) + hexDouble(rgb[1])
+              + hexDouble(rgb[2]);
+}
+
+function rgbString(rgba, alpha) {
+   if (alpha < 1 || (rgba[3] && rgba[3] < 1)) {
+      return rgbaString(rgba, alpha);
+   }
+   return "rgb(" + rgba[0] + ", " + rgba[1] + ", " + rgba[2] + ")";
+}
+
+function rgbaString(rgba, alpha) {
+   if (alpha === undefined) {
+      alpha = (rgba[3] !== undefined ? rgba[3] : 1);
+   }
+   return "rgba(" + rgba[0] + ", " + rgba[1] + ", " + rgba[2]
+           + ", " + alpha + ")";
+}
+
+function percentString(rgba, alpha) {
+   if (alpha < 1 || (rgba[3] && rgba[3] < 1)) {
+      return percentaString(rgba, alpha);
+   }
+   var r = Math.round(rgba[0]/255 * 100),
+       g = Math.round(rgba[1]/255 * 100),
+       b = Math.round(rgba[2]/255 * 100);
+
+   return "rgb(" + r + "%, " + g + "%, " + b + "%)";
+}
+
+function percentaString(rgba, alpha) {
+   var r = Math.round(rgba[0]/255 * 100),
+       g = Math.round(rgba[1]/255 * 100),
+       b = Math.round(rgba[2]/255 * 100);
+   return "rgba(" + r + "%, " + g + "%, " + b + "%, " + (alpha || rgba[3] || 1) + ")";
+}
+
+function hslString(hsla, alpha) {
+   if (alpha < 1 || (hsla[3] && hsla[3] < 1)) {
+      return hslaString(hsla, alpha);
+   }
+   return "hsl(" + hsla[0] + ", " + hsla[1] + "%, " + hsla[2] + "%)";
+}
+
+function hslaString(hsla, alpha) {
+   if (alpha === undefined) {
+      alpha = (hsla[3] !== undefined ? hsla[3] : 1);
+   }
+   return "hsla(" + hsla[0] + ", " + hsla[1] + "%, " + hsla[2] + "%, "
+           + alpha + ")";
+}
+
+// hwb is a bit different than rgb(a) & hsl(a) since there is no alpha specific syntax
+// (hwb have alpha optional & 1 is default value)
+function hwbString(hwb, alpha) {
+   if (alpha === undefined) {
+      alpha = (hwb[3] !== undefined ? hwb[3] : 1);
+   }
+   return "hwb(" + hwb[0] + ", " + hwb[1] + "%, " + hwb[2] + "%"
+           + (alpha !== undefined && alpha !== 1 ? ", " + alpha : "") + ")";
+}
+
+function keyword(rgb) {
+  return reverseNames[rgb.slice(0, 3)];
+}
+
+// helpers
+function scale(num, min, max) {
+   return Math.min(Math.max(min, num), max);
+}
+
+function hexDouble(num) {
+  var str = num.toString(16).toUpperCase();
+  return (str.length < 2) ? "0" + str : str;
+}
+
+
+//create a list of reverse color names
+var reverseNames = {};
+for (var name in colorNames) {
+   reverseNames[colorNames[name]] = name;
+}
+
+
+/***/ }),
+/* 143 */
+/***/ (function(module, exports) {
+
+module.exports = {
+	"aliceblue": [240, 248, 255],
+	"antiquewhite": [250, 235, 215],
+	"aqua": [0, 255, 255],
+	"aquamarine": [127, 255, 212],
+	"azure": [240, 255, 255],
+	"beige": [245, 245, 220],
+	"bisque": [255, 228, 196],
+	"black": [0, 0, 0],
+	"blanchedalmond": [255, 235, 205],
+	"blue": [0, 0, 255],
+	"blueviolet": [138, 43, 226],
+	"brown": [165, 42, 42],
+	"burlywood": [222, 184, 135],
+	"cadetblue": [95, 158, 160],
+	"chartreuse": [127, 255, 0],
+	"chocolate": [210, 105, 30],
+	"coral": [255, 127, 80],
+	"cornflowerblue": [100, 149, 237],
+	"cornsilk": [255, 248, 220],
+	"crimson": [220, 20, 60],
+	"cyan": [0, 255, 255],
+	"darkblue": [0, 0, 139],
+	"darkcyan": [0, 139, 139],
+	"darkgoldenrod": [184, 134, 11],
+	"darkgray": [169, 169, 169],
+	"darkgreen": [0, 100, 0],
+	"darkgrey": [169, 169, 169],
+	"darkkhaki": [189, 183, 107],
+	"darkmagenta": [139, 0, 139],
+	"darkolivegreen": [85, 107, 47],
+	"darkorange": [255, 140, 0],
+	"darkorchid": [153, 50, 204],
+	"darkred": [139, 0, 0],
+	"darksalmon": [233, 150, 122],
+	"darkseagreen": [143, 188, 143],
+	"darkslateblue": [72, 61, 139],
+	"darkslategray": [47, 79, 79],
+	"darkslategrey": [47, 79, 79],
+	"darkturquoise": [0, 206, 209],
+	"darkviolet": [148, 0, 211],
+	"deeppink": [255, 20, 147],
+	"deepskyblue": [0, 191, 255],
+	"dimgray": [105, 105, 105],
+	"dimgrey": [105, 105, 105],
+	"dodgerblue": [30, 144, 255],
+	"firebrick": [178, 34, 34],
+	"floralwhite": [255, 250, 240],
+	"forestgreen": [34, 139, 34],
+	"fuchsia": [255, 0, 255],
+	"gainsboro": [220, 220, 220],
+	"ghostwhite": [248, 248, 255],
+	"gold": [255, 215, 0],
+	"goldenrod": [218, 165, 32],
+	"gray": [128, 128, 128],
+	"green": [0, 128, 0],
+	"greenyellow": [173, 255, 47],
+	"grey": [128, 128, 128],
+	"honeydew": [240, 255, 240],
+	"hotpink": [255, 105, 180],
+	"indianred": [205, 92, 92],
+	"indigo": [75, 0, 130],
+	"ivory": [255, 255, 240],
+	"khaki": [240, 230, 140],
+	"lavender": [230, 230, 250],
+	"lavenderblush": [255, 240, 245],
+	"lawngreen": [124, 252, 0],
+	"lemonchiffon": [255, 250, 205],
+	"lightblue": [173, 216, 230],
+	"lightcoral": [240, 128, 128],
+	"lightcyan": [224, 255, 255],
+	"lightgoldenrodyellow": [250, 250, 210],
+	"lightgray": [211, 211, 211],
+	"lightgreen": [144, 238, 144],
+	"lightgrey": [211, 211, 211],
+	"lightpink": [255, 182, 193],
+	"lightsalmon": [255, 160, 122],
+	"lightseagreen": [32, 178, 170],
+	"lightskyblue": [135, 206, 250],
+	"lightslategray": [119, 136, 153],
+	"lightslategrey": [119, 136, 153],
+	"lightsteelblue": [176, 196, 222],
+	"lightyellow": [255, 255, 224],
+	"lime": [0, 255, 0],
+	"limegreen": [50, 205, 50],
+	"linen": [250, 240, 230],
+	"magenta": [255, 0, 255],
+	"maroon": [128, 0, 0],
+	"mediumaquamarine": [102, 205, 170],
+	"mediumblue": [0, 0, 205],
+	"mediumorchid": [186, 85, 211],
+	"mediumpurple": [147, 112, 219],
+	"mediumseagreen": [60, 179, 113],
+	"mediumslateblue": [123, 104, 238],
+	"mediumspringgreen": [0, 250, 154],
+	"mediumturquoise": [72, 209, 204],
+	"mediumvioletred": [199, 21, 133],
+	"midnightblue": [25, 25, 112],
+	"mintcream": [245, 255, 250],
+	"mistyrose": [255, 228, 225],
+	"moccasin": [255, 228, 181],
+	"navajowhite": [255, 222, 173],
+	"navy": [0, 0, 128],
+	"oldlace": [253, 245, 230],
+	"olive": [128, 128, 0],
+	"olivedrab": [107, 142, 35],
+	"orange": [255, 165, 0],
+	"orangered": [255, 69, 0],
+	"orchid": [218, 112, 214],
+	"palegoldenrod": [238, 232, 170],
+	"palegreen": [152, 251, 152],
+	"paleturquoise": [175, 238, 238],
+	"palevioletred": [219, 112, 147],
+	"papayawhip": [255, 239, 213],
+	"peachpuff": [255, 218, 185],
+	"peru": [205, 133, 63],
+	"pink": [255, 192, 203],
+	"plum": [221, 160, 221],
+	"powderblue": [176, 224, 230],
+	"purple": [128, 0, 128],
+	"rebeccapurple": [102, 51, 153],
+	"red": [255, 0, 0],
+	"rosybrown": [188, 143, 143],
+	"royalblue": [65, 105, 225],
+	"saddlebrown": [139, 69, 19],
+	"salmon": [250, 128, 114],
+	"sandybrown": [244, 164, 96],
+	"seagreen": [46, 139, 87],
+	"seashell": [255, 245, 238],
+	"sienna": [160, 82, 45],
+	"silver": [192, 192, 192],
+	"skyblue": [135, 206, 235],
+	"slateblue": [106, 90, 205],
+	"slategray": [112, 128, 144],
+	"slategrey": [112, 128, 144],
+	"snow": [255, 250, 250],
+	"springgreen": [0, 255, 127],
+	"steelblue": [70, 130, 180],
+	"tan": [210, 180, 140],
+	"teal": [0, 128, 128],
+	"thistle": [216, 191, 216],
+	"tomato": [255, 99, 71],
+	"turquoise": [64, 224, 208],
+	"violet": [238, 130, 238],
+	"wheat": [245, 222, 179],
+	"white": [255, 255, 255],
+	"whitesmoke": [245, 245, 245],
+	"yellow": [255, 255, 0],
+	"yellowgreen": [154, 205, 50]
+};
+
+/***/ }),
+/* 144 */
+/***/ (function(module, exports) {
+
+/* MIT license */
+
+module.exports = {
+  rgb2hsl: rgb2hsl,
+  rgb2hsv: rgb2hsv,
+  rgb2hwb: rgb2hwb,
+  rgb2cmyk: rgb2cmyk,
+  rgb2keyword: rgb2keyword,
+  rgb2xyz: rgb2xyz,
+  rgb2lab: rgb2lab,
+  rgb2lch: rgb2lch,
+
+  hsl2rgb: hsl2rgb,
+  hsl2hsv: hsl2hsv,
+  hsl2hwb: hsl2hwb,
+  hsl2cmyk: hsl2cmyk,
+  hsl2keyword: hsl2keyword,
+
+  hsv2rgb: hsv2rgb,
+  hsv2hsl: hsv2hsl,
+  hsv2hwb: hsv2hwb,
+  hsv2cmyk: hsv2cmyk,
+  hsv2keyword: hsv2keyword,
+
+  hwb2rgb: hwb2rgb,
+  hwb2hsl: hwb2hsl,
+  hwb2hsv: hwb2hsv,
+  hwb2cmyk: hwb2cmyk,
+  hwb2keyword: hwb2keyword,
+
+  cmyk2rgb: cmyk2rgb,
+  cmyk2hsl: cmyk2hsl,
+  cmyk2hsv: cmyk2hsv,
+  cmyk2hwb: cmyk2hwb,
+  cmyk2keyword: cmyk2keyword,
+
+  keyword2rgb: keyword2rgb,
+  keyword2hsl: keyword2hsl,
+  keyword2hsv: keyword2hsv,
+  keyword2hwb: keyword2hwb,
+  keyword2cmyk: keyword2cmyk,
+  keyword2lab: keyword2lab,
+  keyword2xyz: keyword2xyz,
+
+  xyz2rgb: xyz2rgb,
+  xyz2lab: xyz2lab,
+  xyz2lch: xyz2lch,
+
+  lab2xyz: lab2xyz,
+  lab2rgb: lab2rgb,
+  lab2lch: lab2lch,
+
+  lch2lab: lch2lab,
+  lch2xyz: lch2xyz,
+  lch2rgb: lch2rgb
+}
+
+
+function rgb2hsl(rgb) {
+  var r = rgb[0]/255,
+      g = rgb[1]/255,
+      b = rgb[2]/255,
+      min = Math.min(r, g, b),
+      max = Math.max(r, g, b),
+      delta = max - min,
+      h, s, l;
+
+  if (max == min)
+    h = 0;
+  else if (r == max)
+    h = (g - b) / delta;
+  else if (g == max)
+    h = 2 + (b - r) / delta;
+  else if (b == max)
+    h = 4 + (r - g)/ delta;
+
+  h = Math.min(h * 60, 360);
+
+  if (h < 0)
+    h += 360;
+
+  l = (min + max) / 2;
+
+  if (max == min)
+    s = 0;
+  else if (l <= 0.5)
+    s = delta / (max + min);
+  else
+    s = delta / (2 - max - min);
+
+  return [h, s * 100, l * 100];
+}
+
+function rgb2hsv(rgb) {
+  var r = rgb[0],
+      g = rgb[1],
+      b = rgb[2],
+      min = Math.min(r, g, b),
+      max = Math.max(r, g, b),
+      delta = max - min,
+      h, s, v;
+
+  if (max == 0)
+    s = 0;
+  else
+    s = (delta/max * 1000)/10;
+
+  if (max == min)
+    h = 0;
+  else if (r == max)
+    h = (g - b) / delta;
+  else if (g == max)
+    h = 2 + (b - r) / delta;
+  else if (b == max)
+    h = 4 + (r - g) / delta;
+
+  h = Math.min(h * 60, 360);
+
+  if (h < 0)
+    h += 360;
+
+  v = ((max / 255) * 1000) / 10;
+
+  return [h, s, v];
+}
+
+function rgb2hwb(rgb) {
+  var r = rgb[0],
+      g = rgb[1],
+      b = rgb[2],
+      h = rgb2hsl(rgb)[0],
+      w = 1/255 * Math.min(r, Math.min(g, b)),
+      b = 1 - 1/255 * Math.max(r, Math.max(g, b));
+
+  return [h, w * 100, b * 100];
+}
+
+function rgb2cmyk(rgb) {
+  var r = rgb[0] / 255,
+      g = rgb[1] / 255,
+      b = rgb[2] / 255,
+      c, m, y, k;
+
+  k = Math.min(1 - r, 1 - g, 1 - b);
+  c = (1 - r - k) / (1 - k) || 0;
+  m = (1 - g - k) / (1 - k) || 0;
+  y = (1 - b - k) / (1 - k) || 0;
+  return [c * 100, m * 100, y * 100, k * 100];
+}
+
+function rgb2keyword(rgb) {
+  return reverseKeywords[JSON.stringify(rgb)];
+}
+
+function rgb2xyz(rgb) {
+  var r = rgb[0] / 255,
+      g = rgb[1] / 255,
+      b = rgb[2] / 255;
+
+  // assume sRGB
+  r = r > 0.04045 ? Math.pow(((r + 0.055) / 1.055), 2.4) : (r / 12.92);
+  g = g > 0.04045 ? Math.pow(((g + 0.055) / 1.055), 2.4) : (g / 12.92);
+  b = b > 0.04045 ? Math.pow(((b + 0.055) / 1.055), 2.4) : (b / 12.92);
+
+  var x = (r * 0.4124) + (g * 0.3576) + (b * 0.1805);
+  var y = (r * 0.2126) + (g * 0.7152) + (b * 0.0722);
+  var z = (r * 0.0193) + (g * 0.1192) + (b * 0.9505);
+
+  return [x * 100, y *100, z * 100];
+}
+
+function rgb2lab(rgb) {
+  var xyz = rgb2xyz(rgb),
+        x = xyz[0],
+        y = xyz[1],
+        z = xyz[2],
+        l, a, b;
+
+  x /= 95.047;
+  y /= 100;
+  z /= 108.883;
+
+  x = x > 0.008856 ? Math.pow(x, 1/3) : (7.787 * x) + (16 / 116);
+  y = y > 0.008856 ? Math.pow(y, 1/3) : (7.787 * y) + (16 / 116);
+  z = z > 0.008856 ? Math.pow(z, 1/3) : (7.787 * z) + (16 / 116);
+
+  l = (116 * y) - 16;
+  a = 500 * (x - y);
+  b = 200 * (y - z);
+
+  return [l, a, b];
+}
+
+function rgb2lch(args) {
+  return lab2lch(rgb2lab(args));
+}
+
+function hsl2rgb(hsl) {
+  var h = hsl[0] / 360,
+      s = hsl[1] / 100,
+      l = hsl[2] / 100,
+      t1, t2, t3, rgb, val;
+
+  if (s == 0) {
+    val = l * 255;
+    return [val, val, val];
+  }
+
+  if (l < 0.5)
+    t2 = l * (1 + s);
+  else
+    t2 = l + s - l * s;
+  t1 = 2 * l - t2;
+
+  rgb = [0, 0, 0];
+  for (var i = 0; i < 3; i++) {
+    t3 = h + 1 / 3 * - (i - 1);
+    t3 < 0 && t3++;
+    t3 > 1 && t3--;
+
+    if (6 * t3 < 1)
+      val = t1 + (t2 - t1) * 6 * t3;
+    else if (2 * t3 < 1)
+      val = t2;
+    else if (3 * t3 < 2)
+      val = t1 + (t2 - t1) * (2 / 3 - t3) * 6;
+    else
+      val = t1;
+
+    rgb[i] = val * 255;
+  }
+
+  return rgb;
+}
+
+function hsl2hsv(hsl) {
+  var h = hsl[0],
+      s = hsl[1] / 100,
+      l = hsl[2] / 100,
+      sv, v;
+
+  if(l === 0) {
+      // no need to do calc on black
+      // also avoids divide by 0 error
+      return [0, 0, 0];
+  }
+
+  l *= 2;
+  s *= (l <= 1) ? l : 2 - l;
+  v = (l + s) / 2;
+  sv = (2 * s) / (l + s);
+  return [h, sv * 100, v * 100];
+}
+
+function hsl2hwb(args) {
+  return rgb2hwb(hsl2rgb(args));
+}
+
+function hsl2cmyk(args) {
+  return rgb2cmyk(hsl2rgb(args));
+}
+
+function hsl2keyword(args) {
+  return rgb2keyword(hsl2rgb(args));
+}
+
+
+function hsv2rgb(hsv) {
+  var h = hsv[0] / 60,
+      s = hsv[1] / 100,
+      v = hsv[2] / 100,
+      hi = Math.floor(h) % 6;
+
+  var f = h - Math.floor(h),
+      p = 255 * v * (1 - s),
+      q = 255 * v * (1 - (s * f)),
+      t = 255 * v * (1 - (s * (1 - f))),
+      v = 255 * v;
+
+  switch(hi) {
+    case 0:
+      return [v, t, p];
+    case 1:
+      return [q, v, p];
+    case 2:
+      return [p, v, t];
+    case 3:
+      return [p, q, v];
+    case 4:
+      return [t, p, v];
+    case 5:
+      return [v, p, q];
+  }
+}
+
+function hsv2hsl(hsv) {
+  var h = hsv[0],
+      s = hsv[1] / 100,
+      v = hsv[2] / 100,
+      sl, l;
+
+  l = (2 - s) * v;
+  sl = s * v;
+  sl /= (l <= 1) ? l : 2 - l;
+  sl = sl || 0;
+  l /= 2;
+  return [h, sl * 100, l * 100];
+}
+
+function hsv2hwb(args) {
+  return rgb2hwb(hsv2rgb(args))
+}
+
+function hsv2cmyk(args) {
+  return rgb2cmyk(hsv2rgb(args));
+}
+
+function hsv2keyword(args) {
+  return rgb2keyword(hsv2rgb(args));
+}
+
+// http://dev.w3.org/csswg/css-color/#hwb-to-rgb
+function hwb2rgb(hwb) {
+  var h = hwb[0] / 360,
+      wh = hwb[1] / 100,
+      bl = hwb[2] / 100,
+      ratio = wh + bl,
+      i, v, f, n;
+
+  // wh + bl cant be > 1
+  if (ratio > 1) {
+    wh /= ratio;
+    bl /= ratio;
+  }
+
+  i = Math.floor(6 * h);
+  v = 1 - bl;
+  f = 6 * h - i;
+  if ((i & 0x01) != 0) {
+    f = 1 - f;
+  }
+  n = wh + f * (v - wh);  // linear interpolation
+
+  switch (i) {
+    default:
+    case 6:
+    case 0: r = v; g = n; b = wh; break;
+    case 1: r = n; g = v; b = wh; break;
+    case 2: r = wh; g = v; b = n; break;
+    case 3: r = wh; g = n; b = v; break;
+    case 4: r = n; g = wh; b = v; break;
+    case 5: r = v; g = wh; b = n; break;
+  }
+
+  return [r * 255, g * 255, b * 255];
+}
+
+function hwb2hsl(args) {
+  return rgb2hsl(hwb2rgb(args));
+}
+
+function hwb2hsv(args) {
+  return rgb2hsv(hwb2rgb(args));
+}
+
+function hwb2cmyk(args) {
+  return rgb2cmyk(hwb2rgb(args));
+}
+
+function hwb2keyword(args) {
+  return rgb2keyword(hwb2rgb(args));
+}
+
+function cmyk2rgb(cmyk) {
+  var c = cmyk[0] / 100,
+      m = cmyk[1] / 100,
+      y = cmyk[2] / 100,
+      k = cmyk[3] / 100,
+      r, g, b;
+
+  r = 1 - Math.min(1, c * (1 - k) + k);
+  g = 1 - Math.min(1, m * (1 - k) + k);
+  b = 1 - Math.min(1, y * (1 - k) + k);
+  return [r * 255, g * 255, b * 255];
+}
+
+function cmyk2hsl(args) {
+  return rgb2hsl(cmyk2rgb(args));
+}
+
+function cmyk2hsv(args) {
+  return rgb2hsv(cmyk2rgb(args));
+}
+
+function cmyk2hwb(args) {
+  return rgb2hwb(cmyk2rgb(args));
+}
+
+function cmyk2keyword(args) {
+  return rgb2keyword(cmyk2rgb(args));
+}
+
+
+function xyz2rgb(xyz) {
+  var x = xyz[0] / 100,
+      y = xyz[1] / 100,
+      z = xyz[2] / 100,
+      r, g, b;
+
+  r = (x * 3.2406) + (y * -1.5372) + (z * -0.4986);
+  g = (x * -0.9689) + (y * 1.8758) + (z * 0.0415);
+  b = (x * 0.0557) + (y * -0.2040) + (z * 1.0570);
+
+  // assume sRGB
+  r = r > 0.0031308 ? ((1.055 * Math.pow(r, 1.0 / 2.4)) - 0.055)
+    : r = (r * 12.92);
+
+  g = g > 0.0031308 ? ((1.055 * Math.pow(g, 1.0 / 2.4)) - 0.055)
+    : g = (g * 12.92);
+
+  b = b > 0.0031308 ? ((1.055 * Math.pow(b, 1.0 / 2.4)) - 0.055)
+    : b = (b * 12.92);
+
+  r = Math.min(Math.max(0, r), 1);
+  g = Math.min(Math.max(0, g), 1);
+  b = Math.min(Math.max(0, b), 1);
+
+  return [r * 255, g * 255, b * 255];
+}
+
+function xyz2lab(xyz) {
+  var x = xyz[0],
+      y = xyz[1],
+      z = xyz[2],
+      l, a, b;
+
+  x /= 95.047;
+  y /= 100;
+  z /= 108.883;
+
+  x = x > 0.008856 ? Math.pow(x, 1/3) : (7.787 * x) + (16 / 116);
+  y = y > 0.008856 ? Math.pow(y, 1/3) : (7.787 * y) + (16 / 116);
+  z = z > 0.008856 ? Math.pow(z, 1/3) : (7.787 * z) + (16 / 116);
+
+  l = (116 * y) - 16;
+  a = 500 * (x - y);
+  b = 200 * (y - z);
+
+  return [l, a, b];
+}
+
+function xyz2lch(args) {
+  return lab2lch(xyz2lab(args));
+}
+
+function lab2xyz(lab) {
+  var l = lab[0],
+      a = lab[1],
+      b = lab[2],
+      x, y, z, y2;
+
+  if (l <= 8) {
+    y = (l * 100) / 903.3;
+    y2 = (7.787 * (y / 100)) + (16 / 116);
+  } else {
+    y = 100 * Math.pow((l + 16) / 116, 3);
+    y2 = Math.pow(y / 100, 1/3);
+  }
+
+  x = x / 95.047 <= 0.008856 ? x = (95.047 * ((a / 500) + y2 - (16 / 116))) / 7.787 : 95.047 * Math.pow((a / 500) + y2, 3);
+
+  z = z / 108.883 <= 0.008859 ? z = (108.883 * (y2 - (b / 200) - (16 / 116))) / 7.787 : 108.883 * Math.pow(y2 - (b / 200), 3);
+
+  return [x, y, z];
+}
+
+function lab2lch(lab) {
+  var l = lab[0],
+      a = lab[1],
+      b = lab[2],
+      hr, h, c;
+
+  hr = Math.atan2(b, a);
+  h = hr * 360 / 2 / Math.PI;
+  if (h < 0) {
+    h += 360;
+  }
+  c = Math.sqrt(a * a + b * b);
+  return [l, c, h];
+}
+
+function lab2rgb(args) {
+  return xyz2rgb(lab2xyz(args));
+}
+
+function lch2lab(lch) {
+  var l = lch[0],
+      c = lch[1],
+      h = lch[2],
+      a, b, hr;
+
+  hr = h / 360 * 2 * Math.PI;
+  a = c * Math.cos(hr);
+  b = c * Math.sin(hr);
+  return [l, a, b];
+}
+
+function lch2xyz(args) {
+  return lab2xyz(lch2lab(args));
+}
+
+function lch2rgb(args) {
+  return lab2rgb(lch2lab(args));
+}
+
+function keyword2rgb(keyword) {
+  return cssKeywords[keyword];
+}
+
+function keyword2hsl(args) {
+  return rgb2hsl(keyword2rgb(args));
+}
+
+function keyword2hsv(args) {
+  return rgb2hsv(keyword2rgb(args));
+}
+
+function keyword2hwb(args) {
+  return rgb2hwb(keyword2rgb(args));
+}
+
+function keyword2cmyk(args) {
+  return rgb2cmyk(keyword2rgb(args));
+}
+
+function keyword2lab(args) {
+  return rgb2lab(keyword2rgb(args));
+}
+
+function keyword2xyz(args) {
+  return rgb2xyz(keyword2rgb(args));
+}
+
+var cssKeywords = {
+  aliceblue:  [240,248,255],
+  antiquewhite: [250,235,215],
+  aqua: [0,255,255],
+  aquamarine: [127,255,212],
+  azure:  [240,255,255],
+  beige:  [245,245,220],
+  bisque: [255,228,196],
+  black:  [0,0,0],
+  blanchedalmond: [255,235,205],
+  blue: [0,0,255],
+  blueviolet: [138,43,226],
+  brown:  [165,42,42],
+  burlywood:  [222,184,135],
+  cadetblue:  [95,158,160],
+  chartreuse: [127,255,0],
+  chocolate:  [210,105,30],
+  coral:  [255,127,80],
+  cornflowerblue: [100,149,237],
+  cornsilk: [255,248,220],
+  crimson:  [220,20,60],
+  cyan: [0,255,255],
+  darkblue: [0,0,139],
+  darkcyan: [0,139,139],
+  darkgoldenrod:  [184,134,11],
+  darkgray: [169,169,169],
+  darkgreen:  [0,100,0],
+  darkgrey: [169,169,169],
+  darkkhaki:  [189,183,107],
+  darkmagenta:  [139,0,139],
+  darkolivegreen: [85,107,47],
+  darkorange: [255,140,0],
+  darkorchid: [153,50,204],
+  darkred:  [139,0,0],
+  darksalmon: [233,150,122],
+  darkseagreen: [143,188,143],
+  darkslateblue:  [72,61,139],
+  darkslategray:  [47,79,79],
+  darkslategrey:  [47,79,79],
+  darkturquoise:  [0,206,209],
+  darkviolet: [148,0,211],
+  deeppink: [255,20,147],
+  deepskyblue:  [0,191,255],
+  dimgray:  [105,105,105],
+  dimgrey:  [105,105,105],
+  dodgerblue: [30,144,255],
+  firebrick:  [178,34,34],
+  floralwhite:  [255,250,240],
+  forestgreen:  [34,139,34],
+  fuchsia:  [255,0,255],
+  gainsboro:  [220,220,220],
+  ghostwhite: [248,248,255],
+  gold: [255,215,0],
+  goldenrod:  [218,165,32],
+  gray: [128,128,128],
+  green:  [0,128,0],
+  greenyellow:  [173,255,47],
+  grey: [128,128,128],
+  honeydew: [240,255,240],
+  hotpink:  [255,105,180],
+  indianred:  [205,92,92],
+  indigo: [75,0,130],
+  ivory:  [255,255,240],
+  khaki:  [240,230,140],
+  lavender: [230,230,250],
+  lavenderblush:  [255,240,245],
+  lawngreen:  [124,252,0],
+  lemonchiffon: [255,250,205],
+  lightblue:  [173,216,230],
+  lightcoral: [240,128,128],
+  lightcyan:  [224,255,255],
+  lightgoldenrodyellow: [250,250,210],
+  lightgray:  [211,211,211],
+  lightgreen: [144,238,144],
+  lightgrey:  [211,211,211],
+  lightpink:  [255,182,193],
+  lightsalmon:  [255,160,122],
+  lightseagreen:  [32,178,170],
+  lightskyblue: [135,206,250],
+  lightslategray: [119,136,153],
+  lightslategrey: [119,136,153],
+  lightsteelblue: [176,196,222],
+  lightyellow:  [255,255,224],
+  lime: [0,255,0],
+  limegreen:  [50,205,50],
+  linen:  [250,240,230],
+  magenta:  [255,0,255],
+  maroon: [128,0,0],
+  mediumaquamarine: [102,205,170],
+  mediumblue: [0,0,205],
+  mediumorchid: [186,85,211],
+  mediumpurple: [147,112,219],
+  mediumseagreen: [60,179,113],
+  mediumslateblue:  [123,104,238],
+  mediumspringgreen:  [0,250,154],
+  mediumturquoise:  [72,209,204],
+  mediumvioletred:  [199,21,133],
+  midnightblue: [25,25,112],
+  mintcream:  [245,255,250],
+  mistyrose:  [255,228,225],
+  moccasin: [255,228,181],
+  navajowhite:  [255,222,173],
+  navy: [0,0,128],
+  oldlace:  [253,245,230],
+  olive:  [128,128,0],
+  olivedrab:  [107,142,35],
+  orange: [255,165,0],
+  orangered:  [255,69,0],
+  orchid: [218,112,214],
+  palegoldenrod:  [238,232,170],
+  palegreen:  [152,251,152],
+  paleturquoise:  [175,238,238],
+  palevioletred:  [219,112,147],
+  papayawhip: [255,239,213],
+  peachpuff:  [255,218,185],
+  peru: [205,133,63],
+  pink: [255,192,203],
+  plum: [221,160,221],
+  powderblue: [176,224,230],
+  purple: [128,0,128],
+  rebeccapurple: [102, 51, 153],
+  red:  [255,0,0],
+  rosybrown:  [188,143,143],
+  royalblue:  [65,105,225],
+  saddlebrown:  [139,69,19],
+  salmon: [250,128,114],
+  sandybrown: [244,164,96],
+  seagreen: [46,139,87],
+  seashell: [255,245,238],
+  sienna: [160,82,45],
+  silver: [192,192,192],
+  skyblue:  [135,206,235],
+  slateblue:  [106,90,205],
+  slategray:  [112,128,144],
+  slategrey:  [112,128,144],
+  snow: [255,250,250],
+  springgreen:  [0,255,127],
+  steelblue:  [70,130,180],
+  tan:  [210,180,140],
+  teal: [0,128,128],
+  thistle:  [216,191,216],
+  tomato: [255,99,71],
+  turquoise:  [64,224,208],
+  violet: [238,130,238],
+  wheat:  [245,222,179],
+  white:  [255,255,255],
+  whitesmoke: [245,245,245],
+  yellow: [255,255,0],
+  yellowgreen:  [154,205,50]
+};
+
+var reverseKeywords = {};
+for (var key in cssKeywords) {
+  reverseKeywords[JSON.stringify(cssKeywords[key])] = key;
+}
+
+
+/***/ }),
+/* 145 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var conversions = __webpack_require__(144);
+
+var convert = function() {
+   return new Converter();
+}
+
+for (var func in conversions) {
+  // export Raw versions
+  convert[func + "Raw"] =  (function(func) {
+    // accept array or plain args
+    return function(arg) {
+      if (typeof arg == "number")
+        arg = Array.prototype.slice.call(arguments);
+      return conversions[func](arg);
+    }
+  })(func);
+
+  var pair = /(\w+)2(\w+)/.exec(func),
+      from = pair[1],
+      to = pair[2];
+
+  // export rgb2hsl and ["rgb"]["hsl"]
+  convert[from] = convert[from] || {};
+
+  convert[from][to] = convert[func] = (function(func) { 
+    return function(arg) {
+      if (typeof arg == "number")
+        arg = Array.prototype.slice.call(arguments);
+      
+      var val = conversions[func](arg);
+      if (typeof val == "string" || val === undefined)
+        return val; // keyword
+
+      for (var i = 0; i < val.length; i++)
+        val[i] = Math.round(val[i]);
+      return val;
+    }
+  })(func);
+}
+
+
+/* Converter does lazy conversion and caching */
+var Converter = function() {
+   this.convs = {};
+};
+
+/* Either get the values for a space or
+  set the values for a space, depending on args */
+Converter.prototype.routeSpace = function(space, args) {
+   var values = args[0];
+   if (values === undefined) {
+      // color.rgb()
+      return this.getValues(space);
+   }
+   // color.rgb(10, 10, 10)
+   if (typeof values == "number") {
+      values = Array.prototype.slice.call(args);        
+   }
+
+   return this.setValues(space, values);
+};
+  
+/* Set the values for a space, invalidating cache */
+Converter.prototype.setValues = function(space, values) {
+   this.space = space;
+   this.convs = {};
+   this.convs[space] = values;
+   return this;
+};
+
+/* Get the values for a space. If there's already
+  a conversion for the space, fetch it, otherwise
+  compute it */
+Converter.prototype.getValues = function(space) {
+   var vals = this.convs[space];
+   if (!vals) {
+      var fspace = this.space,
+          from = this.convs[fspace];
+      vals = convert[fspace][space](from);
+
+      this.convs[space] = vals;
+   }
+  return vals;
+};
+
+["rgb", "hsl", "hsv", "cmyk", "keyword"].forEach(function(space) {
+   Converter.prototype[space] = function(vals) {
+      return this.routeSpace(space, arguments);
+   }
+});
+
+module.exports = convert;
+
+/***/ }),
+/* 146 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./af": 12,
+	"./af.js": 12,
+	"./ar": 19,
+	"./ar-dz": 13,
+	"./ar-dz.js": 13,
+	"./ar-kw": 14,
+	"./ar-kw.js": 14,
+	"./ar-ly": 15,
+	"./ar-ly.js": 15,
+	"./ar-ma": 16,
+	"./ar-ma.js": 16,
+	"./ar-sa": 17,
+	"./ar-sa.js": 17,
+	"./ar-tn": 18,
+	"./ar-tn.js": 18,
+	"./ar.js": 19,
+	"./az": 20,
+	"./az.js": 20,
+	"./be": 21,
+	"./be.js": 21,
+	"./bg": 22,
+	"./bg.js": 22,
+	"./bn": 23,
+	"./bn.js": 23,
+	"./bo": 24,
+	"./bo.js": 24,
+	"./br": 25,
+	"./br.js": 25,
+	"./bs": 26,
+	"./bs.js": 26,
+	"./ca": 27,
+	"./ca.js": 27,
+	"./cs": 28,
+	"./cs.js": 28,
+	"./cv": 29,
+	"./cv.js": 29,
+	"./cy": 30,
+	"./cy.js": 30,
+	"./da": 31,
+	"./da.js": 31,
+	"./de": 34,
+	"./de-at": 32,
+	"./de-at.js": 32,
+	"./de-ch": 33,
+	"./de-ch.js": 33,
+	"./de.js": 34,
+	"./dv": 35,
+	"./dv.js": 35,
+	"./el": 36,
+	"./el.js": 36,
+	"./en-au": 37,
+	"./en-au.js": 37,
+	"./en-ca": 38,
+	"./en-ca.js": 38,
+	"./en-gb": 39,
+	"./en-gb.js": 39,
+	"./en-ie": 40,
+	"./en-ie.js": 40,
+	"./en-nz": 41,
+	"./en-nz.js": 41,
+	"./eo": 42,
+	"./eo.js": 42,
+	"./es": 44,
+	"./es-do": 43,
+	"./es-do.js": 43,
+	"./es.js": 44,
+	"./et": 45,
+	"./et.js": 45,
+	"./eu": 46,
+	"./eu.js": 46,
+	"./fa": 47,
+	"./fa.js": 47,
+	"./fi": 48,
+	"./fi.js": 48,
+	"./fo": 49,
+	"./fo.js": 49,
+	"./fr": 52,
+	"./fr-ca": 50,
+	"./fr-ca.js": 50,
+	"./fr-ch": 51,
+	"./fr-ch.js": 51,
+	"./fr.js": 52,
+	"./fy": 53,
+	"./fy.js": 53,
+	"./gd": 54,
+	"./gd.js": 54,
+	"./gl": 55,
+	"./gl.js": 55,
+	"./gom-latn": 56,
+	"./gom-latn.js": 56,
+	"./he": 57,
+	"./he.js": 57,
+	"./hi": 58,
+	"./hi.js": 58,
+	"./hr": 59,
+	"./hr.js": 59,
+	"./hu": 60,
+	"./hu.js": 60,
+	"./hy-am": 61,
+	"./hy-am.js": 61,
+	"./id": 62,
+	"./id.js": 62,
+	"./is": 63,
+	"./is.js": 63,
+	"./it": 64,
+	"./it.js": 64,
+	"./ja": 65,
+	"./ja.js": 65,
+	"./jv": 66,
+	"./jv.js": 66,
+	"./ka": 67,
+	"./ka.js": 67,
+	"./kk": 68,
+	"./kk.js": 68,
+	"./km": 69,
+	"./km.js": 69,
+	"./kn": 70,
+	"./kn.js": 70,
+	"./ko": 71,
+	"./ko.js": 71,
+	"./ky": 72,
+	"./ky.js": 72,
+	"./lb": 73,
+	"./lb.js": 73,
+	"./lo": 74,
+	"./lo.js": 74,
+	"./lt": 75,
+	"./lt.js": 75,
+	"./lv": 76,
+	"./lv.js": 76,
+	"./me": 77,
+	"./me.js": 77,
+	"./mi": 78,
+	"./mi.js": 78,
+	"./mk": 79,
+	"./mk.js": 79,
+	"./ml": 80,
+	"./ml.js": 80,
+	"./mr": 81,
+	"./mr.js": 81,
+	"./ms": 83,
+	"./ms-my": 82,
+	"./ms-my.js": 82,
+	"./ms.js": 83,
+	"./my": 84,
+	"./my.js": 84,
+	"./nb": 85,
+	"./nb.js": 85,
+	"./ne": 86,
+	"./ne.js": 86,
+	"./nl": 88,
+	"./nl-be": 87,
+	"./nl-be.js": 87,
+	"./nl.js": 88,
+	"./nn": 89,
+	"./nn.js": 89,
+	"./pa-in": 90,
+	"./pa-in.js": 90,
+	"./pl": 91,
+	"./pl.js": 91,
+	"./pt": 93,
+	"./pt-br": 92,
+	"./pt-br.js": 92,
+	"./pt.js": 93,
+	"./ro": 94,
+	"./ro.js": 94,
+	"./ru": 95,
+	"./ru.js": 95,
+	"./sd": 96,
+	"./sd.js": 96,
+	"./se": 97,
+	"./se.js": 97,
+	"./si": 98,
+	"./si.js": 98,
+	"./sk": 99,
+	"./sk.js": 99,
+	"./sl": 100,
+	"./sl.js": 100,
+	"./sq": 101,
+	"./sq.js": 101,
+	"./sr": 103,
+	"./sr-cyrl": 102,
+	"./sr-cyrl.js": 102,
+	"./sr.js": 103,
+	"./ss": 104,
+	"./ss.js": 104,
+	"./sv": 105,
+	"./sv.js": 105,
+	"./sw": 106,
+	"./sw.js": 106,
+	"./ta": 107,
+	"./ta.js": 107,
+	"./te": 108,
+	"./te.js": 108,
+	"./tet": 109,
+	"./tet.js": 109,
+	"./th": 110,
+	"./th.js": 110,
+	"./tl-ph": 111,
+	"./tl-ph.js": 111,
+	"./tlh": 112,
+	"./tlh.js": 112,
+	"./tr": 113,
+	"./tr.js": 113,
+	"./tzl": 114,
+	"./tzl.js": 114,
+	"./tzm": 116,
+	"./tzm-latn": 115,
+	"./tzm-latn.js": 115,
+	"./tzm.js": 116,
+	"./uk": 117,
+	"./uk.js": 117,
+	"./ur": 118,
+	"./ur.js": 118,
+	"./uz": 120,
+	"./uz-latn": 119,
+	"./uz-latn.js": 119,
+	"./uz.js": 120,
+	"./vi": 121,
+	"./vi.js": 121,
+	"./x-pseudo": 122,
+	"./x-pseudo.js": 122,
+	"./yo": 123,
+	"./yo.js": 123,
+	"./zh-cn": 124,
+	"./zh-cn.js": 124,
+	"./zh-hk": 125,
+	"./zh-hk.js": 125,
+	"./zh-tw": 126,
+	"./zh-tw.js": 126
+};
+function webpackContext(req) {
+	return __webpack_require__(webpackContextResolve(req));
+};
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) // check for number or string
+		throw new Error("Cannot find module '" + req + "'.");
+	return id;
+};
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 146;
+
+/***/ }),
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34602,7 +36763,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 140 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34619,7 +36780,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 141 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34637,7 +36798,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 142 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34655,7 +36816,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 143 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34673,7 +36834,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 144 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34691,7 +36852,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 145 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34745,7 +36906,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 146 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35292,7 +37453,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 147 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35421,7 +37582,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 148 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35731,7 +37892,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 149 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36077,7 +38238,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 150 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36299,7 +38460,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 151 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36487,7 +38648,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 152 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36633,7 +38794,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 153 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36764,7 +38925,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 154 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37523,7 +39684,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 155 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37839,7 +40000,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 156 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37942,7 +40103,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 157 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37950,7 +40111,7 @@ module.exports = function(Chart) {
 /* global document: false */
 
 
-var color = __webpack_require__(181);
+var color = __webpack_require__(141);
 
 module.exports = function(Chart) {
 	// Global Chart helpers object for utility methods and classes
@@ -38918,7 +41079,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 158 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39237,7 +41398,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 159 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39300,7 +41461,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 160 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39676,7 +41837,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 161 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40219,7 +42380,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 162 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40551,7 +42712,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 163 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41317,7 +43478,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 164 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41364,7 +43525,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 165 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41579,7 +43740,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 166 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41806,7 +43967,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 167 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42693,7 +44854,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 168 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42804,7 +44965,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 169 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42995,7 +45156,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 170 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43102,7 +45263,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 171 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43317,7 +45478,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 172 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43601,7 +45762,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 173 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43609,7 +45770,7 @@ module.exports = function(Chart) {
 
 // By default, select the browser (DOM) platform.
 // @TODO Make possible to select another platform at build time.
-var implementation = __webpack_require__(172);
+var implementation = __webpack_require__(180);
 
 module.exports = function(Chart) {
 	/**
@@ -43677,7 +45838,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 174 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43809,7 +45970,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 175 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44000,7 +46161,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 176 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44105,7 +46266,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 177 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44356,7 +46517,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 178 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44876,7 +47037,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 179 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45339,1687 +47500,77 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 180 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* MIT license */
-var colorNames = __webpack_require__(184);
-
-module.exports = {
-   getRgba: getRgba,
-   getHsla: getHsla,
-   getRgb: getRgb,
-   getHsl: getHsl,
-   getHwb: getHwb,
-   getAlpha: getAlpha,
-
-   hexString: hexString,
-   rgbString: rgbString,
-   rgbaString: rgbaString,
-   percentString: percentString,
-   percentaString: percentaString,
-   hslString: hslString,
-   hslaString: hslaString,
-   hwbString: hwbString,
-   keyword: keyword
-}
-
-function getRgba(string) {
-   if (!string) {
-      return;
-   }
-   var abbr =  /^#([a-fA-F0-9]{3})$/,
-       hex =  /^#([a-fA-F0-9]{6})$/,
-       rgba = /^rgba?\(\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*,\s*([+-]?\d+)\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/,
-       per = /^rgba?\(\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*,\s*([+-]?[\d\.]+)\%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)$/,
-       keyword = /(\w+)/;
-
-   var rgb = [0, 0, 0],
-       a = 1,
-       match = string.match(abbr);
-   if (match) {
-      match = match[1];
-      for (var i = 0; i < rgb.length; i++) {
-         rgb[i] = parseInt(match[i] + match[i], 16);
-      }
-   }
-   else if (match = string.match(hex)) {
-      match = match[1];
-      for (var i = 0; i < rgb.length; i++) {
-         rgb[i] = parseInt(match.slice(i * 2, i * 2 + 2), 16);
-      }
-   }
-   else if (match = string.match(rgba)) {
-      for (var i = 0; i < rgb.length; i++) {
-         rgb[i] = parseInt(match[i + 1]);
-      }
-      a = parseFloat(match[4]);
-   }
-   else if (match = string.match(per)) {
-      for (var i = 0; i < rgb.length; i++) {
-         rgb[i] = Math.round(parseFloat(match[i + 1]) * 2.55);
-      }
-      a = parseFloat(match[4]);
-   }
-   else if (match = string.match(keyword)) {
-      if (match[1] == "transparent") {
-         return [0, 0, 0, 0];
-      }
-      rgb = colorNames[match[1]];
-      if (!rgb) {
-         return;
-      }
-   }
-
-   for (var i = 0; i < rgb.length; i++) {
-      rgb[i] = scale(rgb[i], 0, 255);
-   }
-   if (!a && a != 0) {
-      a = 1;
-   }
-   else {
-      a = scale(a, 0, 1);
-   }
-   rgb[3] = a;
-   return rgb;
-}
-
-function getHsla(string) {
-   if (!string) {
-      return;
-   }
-   var hsl = /^hsla?\(\s*([+-]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)/;
-   var match = string.match(hsl);
-   if (match) {
-      var alpha = parseFloat(match[4]);
-      var h = scale(parseInt(match[1]), 0, 360),
-          s = scale(parseFloat(match[2]), 0, 100),
-          l = scale(parseFloat(match[3]), 0, 100),
-          a = scale(isNaN(alpha) ? 1 : alpha, 0, 1);
-      return [h, s, l, a];
-   }
-}
-
-function getHwb(string) {
-   if (!string) {
-      return;
-   }
-   var hwb = /^hwb\(\s*([+-]?\d+)(?:deg)?\s*,\s*([+-]?[\d\.]+)%\s*,\s*([+-]?[\d\.]+)%\s*(?:,\s*([+-]?[\d\.]+)\s*)?\)/;
-   var match = string.match(hwb);
-   if (match) {
-    var alpha = parseFloat(match[4]);
-      var h = scale(parseInt(match[1]), 0, 360),
-          w = scale(parseFloat(match[2]), 0, 100),
-          b = scale(parseFloat(match[3]), 0, 100),
-          a = scale(isNaN(alpha) ? 1 : alpha, 0, 1);
-      return [h, w, b, a];
-   }
-}
-
-function getRgb(string) {
-   var rgba = getRgba(string);
-   return rgba && rgba.slice(0, 3);
-}
-
-function getHsl(string) {
-  var hsla = getHsla(string);
-  return hsla && hsla.slice(0, 3);
-}
-
-function getAlpha(string) {
-   var vals = getRgba(string);
-   if (vals) {
-      return vals[3];
-   }
-   else if (vals = getHsla(string)) {
-      return vals[3];
-   }
-   else if (vals = getHwb(string)) {
-      return vals[3];
-   }
-}
-
-// generators
-function hexString(rgb) {
-   return "#" + hexDouble(rgb[0]) + hexDouble(rgb[1])
-              + hexDouble(rgb[2]);
-}
-
-function rgbString(rgba, alpha) {
-   if (alpha < 1 || (rgba[3] && rgba[3] < 1)) {
-      return rgbaString(rgba, alpha);
-   }
-   return "rgb(" + rgba[0] + ", " + rgba[1] + ", " + rgba[2] + ")";
-}
-
-function rgbaString(rgba, alpha) {
-   if (alpha === undefined) {
-      alpha = (rgba[3] !== undefined ? rgba[3] : 1);
-   }
-   return "rgba(" + rgba[0] + ", " + rgba[1] + ", " + rgba[2]
-           + ", " + alpha + ")";
-}
-
-function percentString(rgba, alpha) {
-   if (alpha < 1 || (rgba[3] && rgba[3] < 1)) {
-      return percentaString(rgba, alpha);
-   }
-   var r = Math.round(rgba[0]/255 * 100),
-       g = Math.round(rgba[1]/255 * 100),
-       b = Math.round(rgba[2]/255 * 100);
-
-   return "rgb(" + r + "%, " + g + "%, " + b + "%)";
-}
-
-function percentaString(rgba, alpha) {
-   var r = Math.round(rgba[0]/255 * 100),
-       g = Math.round(rgba[1]/255 * 100),
-       b = Math.round(rgba[2]/255 * 100);
-   return "rgba(" + r + "%, " + g + "%, " + b + "%, " + (alpha || rgba[3] || 1) + ")";
-}
-
-function hslString(hsla, alpha) {
-   if (alpha < 1 || (hsla[3] && hsla[3] < 1)) {
-      return hslaString(hsla, alpha);
-   }
-   return "hsl(" + hsla[0] + ", " + hsla[1] + "%, " + hsla[2] + "%)";
-}
-
-function hslaString(hsla, alpha) {
-   if (alpha === undefined) {
-      alpha = (hsla[3] !== undefined ? hsla[3] : 1);
-   }
-   return "hsla(" + hsla[0] + ", " + hsla[1] + "%, " + hsla[2] + "%, "
-           + alpha + ")";
-}
-
-// hwb is a bit different than rgb(a) & hsl(a) since there is no alpha specific syntax
-// (hwb have alpha optional & 1 is default value)
-function hwbString(hwb, alpha) {
-   if (alpha === undefined) {
-      alpha = (hwb[3] !== undefined ? hwb[3] : 1);
-   }
-   return "hwb(" + hwb[0] + ", " + hwb[1] + "%, " + hwb[2] + "%"
-           + (alpha !== undefined && alpha !== 1 ? ", " + alpha : "") + ")";
-}
-
-function keyword(rgb) {
-  return reverseNames[rgb.slice(0, 3)];
-}
-
-// helpers
-function scale(num, min, max) {
-   return Math.min(Math.max(min, num), max);
-}
-
-function hexDouble(num) {
-  var str = num.toString(16).toUpperCase();
-  return (str.length < 2) ? "0" + str : str;
-}
-
-
-//create a list of reverse color names
-var reverseNames = {};
-for (var name in colorNames) {
-   reverseNames[colorNames[name]] = name;
-}
-
-
-/***/ }),
-/* 181 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* MIT license */
-var convert = __webpack_require__(183);
-var string = __webpack_require__(180);
-
-var Color = function (obj) {
-	if (obj instanceof Color) {
-		return obj;
-	}
-	if (!(this instanceof Color)) {
-		return new Color(obj);
-	}
-
-	this.valid = false;
-	this.values = {
-		rgb: [0, 0, 0],
-		hsl: [0, 0, 0],
-		hsv: [0, 0, 0],
-		hwb: [0, 0, 0],
-		cmyk: [0, 0, 0, 0],
-		alpha: 1
-	};
-
-	// parse Color() argument
-	var vals;
-	if (typeof obj === 'string') {
-		vals = string.getRgba(obj);
-		if (vals) {
-			this.setValues('rgb', vals);
-		} else if (vals = string.getHsla(obj)) {
-			this.setValues('hsl', vals);
-		} else if (vals = string.getHwb(obj)) {
-			this.setValues('hwb', vals);
-		}
-	} else if (typeof obj === 'object') {
-		vals = obj;
-		if (vals.r !== undefined || vals.red !== undefined) {
-			this.setValues('rgb', vals);
-		} else if (vals.l !== undefined || vals.lightness !== undefined) {
-			this.setValues('hsl', vals);
-		} else if (vals.v !== undefined || vals.value !== undefined) {
-			this.setValues('hsv', vals);
-		} else if (vals.w !== undefined || vals.whiteness !== undefined) {
-			this.setValues('hwb', vals);
-		} else if (vals.c !== undefined || vals.cyan !== undefined) {
-			this.setValues('cmyk', vals);
-		}
-	}
-};
-
-Color.prototype = {
-	isValid: function () {
-		return this.valid;
-	},
-	rgb: function () {
-		return this.setSpace('rgb', arguments);
-	},
-	hsl: function () {
-		return this.setSpace('hsl', arguments);
-	},
-	hsv: function () {
-		return this.setSpace('hsv', arguments);
-	},
-	hwb: function () {
-		return this.setSpace('hwb', arguments);
-	},
-	cmyk: function () {
-		return this.setSpace('cmyk', arguments);
-	},
-
-	rgbArray: function () {
-		return this.values.rgb;
-	},
-	hslArray: function () {
-		return this.values.hsl;
-	},
-	hsvArray: function () {
-		return this.values.hsv;
-	},
-	hwbArray: function () {
-		var values = this.values;
-		if (values.alpha !== 1) {
-			return values.hwb.concat([values.alpha]);
-		}
-		return values.hwb;
-	},
-	cmykArray: function () {
-		return this.values.cmyk;
-	},
-	rgbaArray: function () {
-		var values = this.values;
-		return values.rgb.concat([values.alpha]);
-	},
-	hslaArray: function () {
-		var values = this.values;
-		return values.hsl.concat([values.alpha]);
-	},
-	alpha: function (val) {
-		if (val === undefined) {
-			return this.values.alpha;
-		}
-		this.setValues('alpha', val);
-		return this;
-	},
-
-	red: function (val) {
-		return this.setChannel('rgb', 0, val);
-	},
-	green: function (val) {
-		return this.setChannel('rgb', 1, val);
-	},
-	blue: function (val) {
-		return this.setChannel('rgb', 2, val);
-	},
-	hue: function (val) {
-		if (val) {
-			val %= 360;
-			val = val < 0 ? 360 + val : val;
-		}
-		return this.setChannel('hsl', 0, val);
-	},
-	saturation: function (val) {
-		return this.setChannel('hsl', 1, val);
-	},
-	lightness: function (val) {
-		return this.setChannel('hsl', 2, val);
-	},
-	saturationv: function (val) {
-		return this.setChannel('hsv', 1, val);
-	},
-	whiteness: function (val) {
-		return this.setChannel('hwb', 1, val);
-	},
-	blackness: function (val) {
-		return this.setChannel('hwb', 2, val);
-	},
-	value: function (val) {
-		return this.setChannel('hsv', 2, val);
-	},
-	cyan: function (val) {
-		return this.setChannel('cmyk', 0, val);
-	},
-	magenta: function (val) {
-		return this.setChannel('cmyk', 1, val);
-	},
-	yellow: function (val) {
-		return this.setChannel('cmyk', 2, val);
-	},
-	black: function (val) {
-		return this.setChannel('cmyk', 3, val);
-	},
-
-	hexString: function () {
-		return string.hexString(this.values.rgb);
-	},
-	rgbString: function () {
-		return string.rgbString(this.values.rgb, this.values.alpha);
-	},
-	rgbaString: function () {
-		return string.rgbaString(this.values.rgb, this.values.alpha);
-	},
-	percentString: function () {
-		return string.percentString(this.values.rgb, this.values.alpha);
-	},
-	hslString: function () {
-		return string.hslString(this.values.hsl, this.values.alpha);
-	},
-	hslaString: function () {
-		return string.hslaString(this.values.hsl, this.values.alpha);
-	},
-	hwbString: function () {
-		return string.hwbString(this.values.hwb, this.values.alpha);
-	},
-	keyword: function () {
-		return string.keyword(this.values.rgb, this.values.alpha);
-	},
-
-	rgbNumber: function () {
-		var rgb = this.values.rgb;
-		return (rgb[0] << 16) | (rgb[1] << 8) | rgb[2];
-	},
-
-	luminosity: function () {
-		// http://www.w3.org/TR/WCAG20/#relativeluminancedef
-		var rgb = this.values.rgb;
-		var lum = [];
-		for (var i = 0; i < rgb.length; i++) {
-			var chan = rgb[i] / 255;
-			lum[i] = (chan <= 0.03928) ? chan / 12.92 : Math.pow(((chan + 0.055) / 1.055), 2.4);
-		}
-		return 0.2126 * lum[0] + 0.7152 * lum[1] + 0.0722 * lum[2];
-	},
-
-	contrast: function (color2) {
-		// http://www.w3.org/TR/WCAG20/#contrast-ratiodef
-		var lum1 = this.luminosity();
-		var lum2 = color2.luminosity();
-		if (lum1 > lum2) {
-			return (lum1 + 0.05) / (lum2 + 0.05);
-		}
-		return (lum2 + 0.05) / (lum1 + 0.05);
-	},
-
-	level: function (color2) {
-		var contrastRatio = this.contrast(color2);
-		if (contrastRatio >= 7.1) {
-			return 'AAA';
-		}
-
-		return (contrastRatio >= 4.5) ? 'AA' : '';
-	},
-
-	dark: function () {
-		// YIQ equation from http://24ways.org/2010/calculating-color-contrast
-		var rgb = this.values.rgb;
-		var yiq = (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000;
-		return yiq < 128;
-	},
-
-	light: function () {
-		return !this.dark();
-	},
-
-	negate: function () {
-		var rgb = [];
-		for (var i = 0; i < 3; i++) {
-			rgb[i] = 255 - this.values.rgb[i];
-		}
-		this.setValues('rgb', rgb);
-		return this;
-	},
-
-	lighten: function (ratio) {
-		var hsl = this.values.hsl;
-		hsl[2] += hsl[2] * ratio;
-		this.setValues('hsl', hsl);
-		return this;
-	},
-
-	darken: function (ratio) {
-		var hsl = this.values.hsl;
-		hsl[2] -= hsl[2] * ratio;
-		this.setValues('hsl', hsl);
-		return this;
-	},
-
-	saturate: function (ratio) {
-		var hsl = this.values.hsl;
-		hsl[1] += hsl[1] * ratio;
-		this.setValues('hsl', hsl);
-		return this;
-	},
-
-	desaturate: function (ratio) {
-		var hsl = this.values.hsl;
-		hsl[1] -= hsl[1] * ratio;
-		this.setValues('hsl', hsl);
-		return this;
-	},
-
-	whiten: function (ratio) {
-		var hwb = this.values.hwb;
-		hwb[1] += hwb[1] * ratio;
-		this.setValues('hwb', hwb);
-		return this;
-	},
-
-	blacken: function (ratio) {
-		var hwb = this.values.hwb;
-		hwb[2] += hwb[2] * ratio;
-		this.setValues('hwb', hwb);
-		return this;
-	},
-
-	greyscale: function () {
-		var rgb = this.values.rgb;
-		// http://en.wikipedia.org/wiki/Grayscale#Converting_color_to_grayscale
-		var val = rgb[0] * 0.3 + rgb[1] * 0.59 + rgb[2] * 0.11;
-		this.setValues('rgb', [val, val, val]);
-		return this;
-	},
-
-	clearer: function (ratio) {
-		var alpha = this.values.alpha;
-		this.setValues('alpha', alpha - (alpha * ratio));
-		return this;
-	},
-
-	opaquer: function (ratio) {
-		var alpha = this.values.alpha;
-		this.setValues('alpha', alpha + (alpha * ratio));
-		return this;
-	},
-
-	rotate: function (degrees) {
-		var hsl = this.values.hsl;
-		var hue = (hsl[0] + degrees) % 360;
-		hsl[0] = hue < 0 ? 360 + hue : hue;
-		this.setValues('hsl', hsl);
-		return this;
-	},
-
-	/**
-	 * Ported from sass implementation in C
-	 * https://github.com/sass/libsass/blob/0e6b4a2850092356aa3ece07c6b249f0221caced/functions.cpp#L209
-	 */
-	mix: function (mixinColor, weight) {
-		var color1 = this;
-		var color2 = mixinColor;
-		var p = weight === undefined ? 0.5 : weight;
-
-		var w = 2 * p - 1;
-		var a = color1.alpha() - color2.alpha();
-
-		var w1 = (((w * a === -1) ? w : (w + a) / (1 + w * a)) + 1) / 2.0;
-		var w2 = 1 - w1;
-
-		return this
-			.rgb(
-				w1 * color1.red() + w2 * color2.red(),
-				w1 * color1.green() + w2 * color2.green(),
-				w1 * color1.blue() + w2 * color2.blue()
-			)
-			.alpha(color1.alpha() * p + color2.alpha() * (1 - p));
-	},
-
-	toJSON: function () {
-		return this.rgb();
-	},
-
-	clone: function () {
-		// NOTE(SB): using node-clone creates a dependency to Buffer when using browserify,
-		// making the final build way to big to embed in Chart.js. So let's do it manually,
-		// assuming that values to clone are 1 dimension arrays containing only numbers,
-		// except 'alpha' which is a number.
-		var result = new Color();
-		var source = this.values;
-		var target = result.values;
-		var value, type;
-
-		for (var prop in source) {
-			if (source.hasOwnProperty(prop)) {
-				value = source[prop];
-				type = ({}).toString.call(value);
-				if (type === '[object Array]') {
-					target[prop] = value.slice(0);
-				} else if (type === '[object Number]') {
-					target[prop] = value;
-				} else {
-					console.error('unexpected color value:', value);
-				}
-			}
-		}
-
-		return result;
-	}
-};
-
-Color.prototype.spaces = {
-	rgb: ['red', 'green', 'blue'],
-	hsl: ['hue', 'saturation', 'lightness'],
-	hsv: ['hue', 'saturation', 'value'],
-	hwb: ['hue', 'whiteness', 'blackness'],
-	cmyk: ['cyan', 'magenta', 'yellow', 'black']
-};
-
-Color.prototype.maxes = {
-	rgb: [255, 255, 255],
-	hsl: [360, 100, 100],
-	hsv: [360, 100, 100],
-	hwb: [360, 100, 100],
-	cmyk: [100, 100, 100, 100]
-};
-
-Color.prototype.getValues = function (space) {
-	var values = this.values;
-	var vals = {};
-
-	for (var i = 0; i < space.length; i++) {
-		vals[space.charAt(i)] = values[space][i];
-	}
-
-	if (values.alpha !== 1) {
-		vals.a = values.alpha;
-	}
-
-	// {r: 255, g: 255, b: 255, a: 0.4}
-	return vals;
-};
-
-Color.prototype.setValues = function (space, vals) {
-	var values = this.values;
-	var spaces = this.spaces;
-	var maxes = this.maxes;
-	var alpha = 1;
-	var i;
-
-	this.valid = true;
-
-	if (space === 'alpha') {
-		alpha = vals;
-	} else if (vals.length) {
-		// [10, 10, 10]
-		values[space] = vals.slice(0, space.length);
-		alpha = vals[space.length];
-	} else if (vals[space.charAt(0)] !== undefined) {
-		// {r: 10, g: 10, b: 10}
-		for (i = 0; i < space.length; i++) {
-			values[space][i] = vals[space.charAt(i)];
-		}
-
-		alpha = vals.a;
-	} else if (vals[spaces[space][0]] !== undefined) {
-		// {red: 10, green: 10, blue: 10}
-		var chans = spaces[space];
-
-		for (i = 0; i < space.length; i++) {
-			values[space][i] = vals[chans[i]];
-		}
-
-		alpha = vals.alpha;
-	}
-
-	values.alpha = Math.max(0, Math.min(1, (alpha === undefined ? values.alpha : alpha)));
-
-	if (space === 'alpha') {
-		return false;
-	}
-
-	var capped;
-
-	// cap values of the space prior converting all values
-	for (i = 0; i < space.length; i++) {
-		capped = Math.max(0, Math.min(maxes[space][i], values[space][i]));
-		values[space][i] = Math.round(capped);
-	}
-
-	// convert to all the other color spaces
-	for (var sname in spaces) {
-		if (sname !== space) {
-			values[sname] = convert[space][sname](values[space]);
-		}
-	}
-
-	return true;
-};
-
-Color.prototype.setSpace = function (space, args) {
-	var vals = args[0];
-
-	if (vals === undefined) {
-		// color.rgb()
-		return this.getValues(space);
-	}
-
-	// color.rgb(10, 10, 10)
-	if (typeof vals === 'number') {
-		vals = Array.prototype.slice.call(args);
-	}
-
-	this.setValues(space, vals);
-	return this;
-};
-
-Color.prototype.setChannel = function (space, index, val) {
-	var svalues = this.values[space];
-	if (val === undefined) {
-		// color.red()
-		return svalues[index];
-	} else if (val === svalues[index]) {
-		// color.red(color.red())
-		return this;
-	}
-
-	// color.red(100)
-	svalues[index] = val;
-	this.setValues(space, svalues);
-
-	return this;
-};
-
-if (typeof window !== 'undefined') {
-	window.Color = Color;
-}
-
-module.exports = Color;
-
-
-/***/ }),
-/* 182 */
-/***/ (function(module, exports) {
-
-/* MIT license */
-
-module.exports = {
-  rgb2hsl: rgb2hsl,
-  rgb2hsv: rgb2hsv,
-  rgb2hwb: rgb2hwb,
-  rgb2cmyk: rgb2cmyk,
-  rgb2keyword: rgb2keyword,
-  rgb2xyz: rgb2xyz,
-  rgb2lab: rgb2lab,
-  rgb2lch: rgb2lch,
-
-  hsl2rgb: hsl2rgb,
-  hsl2hsv: hsl2hsv,
-  hsl2hwb: hsl2hwb,
-  hsl2cmyk: hsl2cmyk,
-  hsl2keyword: hsl2keyword,
-
-  hsv2rgb: hsv2rgb,
-  hsv2hsl: hsv2hsl,
-  hsv2hwb: hsv2hwb,
-  hsv2cmyk: hsv2cmyk,
-  hsv2keyword: hsv2keyword,
-
-  hwb2rgb: hwb2rgb,
-  hwb2hsl: hwb2hsl,
-  hwb2hsv: hwb2hsv,
-  hwb2cmyk: hwb2cmyk,
-  hwb2keyword: hwb2keyword,
-
-  cmyk2rgb: cmyk2rgb,
-  cmyk2hsl: cmyk2hsl,
-  cmyk2hsv: cmyk2hsv,
-  cmyk2hwb: cmyk2hwb,
-  cmyk2keyword: cmyk2keyword,
-
-  keyword2rgb: keyword2rgb,
-  keyword2hsl: keyword2hsl,
-  keyword2hsv: keyword2hsv,
-  keyword2hwb: keyword2hwb,
-  keyword2cmyk: keyword2cmyk,
-  keyword2lab: keyword2lab,
-  keyword2xyz: keyword2xyz,
-
-  xyz2rgb: xyz2rgb,
-  xyz2lab: xyz2lab,
-  xyz2lch: xyz2lch,
-
-  lab2xyz: lab2xyz,
-  lab2rgb: lab2rgb,
-  lab2lch: lab2lch,
-
-  lch2lab: lch2lab,
-  lch2xyz: lch2xyz,
-  lch2rgb: lch2rgb
-}
-
-
-function rgb2hsl(rgb) {
-  var r = rgb[0]/255,
-      g = rgb[1]/255,
-      b = rgb[2]/255,
-      min = Math.min(r, g, b),
-      max = Math.max(r, g, b),
-      delta = max - min,
-      h, s, l;
-
-  if (max == min)
-    h = 0;
-  else if (r == max)
-    h = (g - b) / delta;
-  else if (g == max)
-    h = 2 + (b - r) / delta;
-  else if (b == max)
-    h = 4 + (r - g)/ delta;
-
-  h = Math.min(h * 60, 360);
-
-  if (h < 0)
-    h += 360;
-
-  l = (min + max) / 2;
-
-  if (max == min)
-    s = 0;
-  else if (l <= 0.5)
-    s = delta / (max + min);
-  else
-    s = delta / (2 - max - min);
-
-  return [h, s * 100, l * 100];
-}
-
-function rgb2hsv(rgb) {
-  var r = rgb[0],
-      g = rgb[1],
-      b = rgb[2],
-      min = Math.min(r, g, b),
-      max = Math.max(r, g, b),
-      delta = max - min,
-      h, s, v;
-
-  if (max == 0)
-    s = 0;
-  else
-    s = (delta/max * 1000)/10;
-
-  if (max == min)
-    h = 0;
-  else if (r == max)
-    h = (g - b) / delta;
-  else if (g == max)
-    h = 2 + (b - r) / delta;
-  else if (b == max)
-    h = 4 + (r - g) / delta;
-
-  h = Math.min(h * 60, 360);
-
-  if (h < 0)
-    h += 360;
-
-  v = ((max / 255) * 1000) / 10;
-
-  return [h, s, v];
-}
-
-function rgb2hwb(rgb) {
-  var r = rgb[0],
-      g = rgb[1],
-      b = rgb[2],
-      h = rgb2hsl(rgb)[0],
-      w = 1/255 * Math.min(r, Math.min(g, b)),
-      b = 1 - 1/255 * Math.max(r, Math.max(g, b));
-
-  return [h, w * 100, b * 100];
-}
-
-function rgb2cmyk(rgb) {
-  var r = rgb[0] / 255,
-      g = rgb[1] / 255,
-      b = rgb[2] / 255,
-      c, m, y, k;
-
-  k = Math.min(1 - r, 1 - g, 1 - b);
-  c = (1 - r - k) / (1 - k) || 0;
-  m = (1 - g - k) / (1 - k) || 0;
-  y = (1 - b - k) / (1 - k) || 0;
-  return [c * 100, m * 100, y * 100, k * 100];
-}
-
-function rgb2keyword(rgb) {
-  return reverseKeywords[JSON.stringify(rgb)];
-}
-
-function rgb2xyz(rgb) {
-  var r = rgb[0] / 255,
-      g = rgb[1] / 255,
-      b = rgb[2] / 255;
-
-  // assume sRGB
-  r = r > 0.04045 ? Math.pow(((r + 0.055) / 1.055), 2.4) : (r / 12.92);
-  g = g > 0.04045 ? Math.pow(((g + 0.055) / 1.055), 2.4) : (g / 12.92);
-  b = b > 0.04045 ? Math.pow(((b + 0.055) / 1.055), 2.4) : (b / 12.92);
-
-  var x = (r * 0.4124) + (g * 0.3576) + (b * 0.1805);
-  var y = (r * 0.2126) + (g * 0.7152) + (b * 0.0722);
-  var z = (r * 0.0193) + (g * 0.1192) + (b * 0.9505);
-
-  return [x * 100, y *100, z * 100];
-}
-
-function rgb2lab(rgb) {
-  var xyz = rgb2xyz(rgb),
-        x = xyz[0],
-        y = xyz[1],
-        z = xyz[2],
-        l, a, b;
-
-  x /= 95.047;
-  y /= 100;
-  z /= 108.883;
-
-  x = x > 0.008856 ? Math.pow(x, 1/3) : (7.787 * x) + (16 / 116);
-  y = y > 0.008856 ? Math.pow(y, 1/3) : (7.787 * y) + (16 / 116);
-  z = z > 0.008856 ? Math.pow(z, 1/3) : (7.787 * z) + (16 / 116);
-
-  l = (116 * y) - 16;
-  a = 500 * (x - y);
-  b = 200 * (y - z);
-
-  return [l, a, b];
-}
-
-function rgb2lch(args) {
-  return lab2lch(rgb2lab(args));
-}
-
-function hsl2rgb(hsl) {
-  var h = hsl[0] / 360,
-      s = hsl[1] / 100,
-      l = hsl[2] / 100,
-      t1, t2, t3, rgb, val;
-
-  if (s == 0) {
-    val = l * 255;
-    return [val, val, val];
-  }
-
-  if (l < 0.5)
-    t2 = l * (1 + s);
-  else
-    t2 = l + s - l * s;
-  t1 = 2 * l - t2;
-
-  rgb = [0, 0, 0];
-  for (var i = 0; i < 3; i++) {
-    t3 = h + 1 / 3 * - (i - 1);
-    t3 < 0 && t3++;
-    t3 > 1 && t3--;
-
-    if (6 * t3 < 1)
-      val = t1 + (t2 - t1) * 6 * t3;
-    else if (2 * t3 < 1)
-      val = t2;
-    else if (3 * t3 < 2)
-      val = t1 + (t2 - t1) * (2 / 3 - t3) * 6;
-    else
-      val = t1;
-
-    rgb[i] = val * 255;
-  }
-
-  return rgb;
-}
-
-function hsl2hsv(hsl) {
-  var h = hsl[0],
-      s = hsl[1] / 100,
-      l = hsl[2] / 100,
-      sv, v;
-
-  if(l === 0) {
-      // no need to do calc on black
-      // also avoids divide by 0 error
-      return [0, 0, 0];
-  }
-
-  l *= 2;
-  s *= (l <= 1) ? l : 2 - l;
-  v = (l + s) / 2;
-  sv = (2 * s) / (l + s);
-  return [h, sv * 100, v * 100];
-}
-
-function hsl2hwb(args) {
-  return rgb2hwb(hsl2rgb(args));
-}
-
-function hsl2cmyk(args) {
-  return rgb2cmyk(hsl2rgb(args));
-}
-
-function hsl2keyword(args) {
-  return rgb2keyword(hsl2rgb(args));
-}
-
-
-function hsv2rgb(hsv) {
-  var h = hsv[0] / 60,
-      s = hsv[1] / 100,
-      v = hsv[2] / 100,
-      hi = Math.floor(h) % 6;
-
-  var f = h - Math.floor(h),
-      p = 255 * v * (1 - s),
-      q = 255 * v * (1 - (s * f)),
-      t = 255 * v * (1 - (s * (1 - f))),
-      v = 255 * v;
-
-  switch(hi) {
-    case 0:
-      return [v, t, p];
-    case 1:
-      return [q, v, p];
-    case 2:
-      return [p, v, t];
-    case 3:
-      return [p, q, v];
-    case 4:
-      return [t, p, v];
-    case 5:
-      return [v, p, q];
-  }
-}
-
-function hsv2hsl(hsv) {
-  var h = hsv[0],
-      s = hsv[1] / 100,
-      v = hsv[2] / 100,
-      sl, l;
-
-  l = (2 - s) * v;
-  sl = s * v;
-  sl /= (l <= 1) ? l : 2 - l;
-  sl = sl || 0;
-  l /= 2;
-  return [h, sl * 100, l * 100];
-}
-
-function hsv2hwb(args) {
-  return rgb2hwb(hsv2rgb(args))
-}
-
-function hsv2cmyk(args) {
-  return rgb2cmyk(hsv2rgb(args));
-}
-
-function hsv2keyword(args) {
-  return rgb2keyword(hsv2rgb(args));
-}
-
-// http://dev.w3.org/csswg/css-color/#hwb-to-rgb
-function hwb2rgb(hwb) {
-  var h = hwb[0] / 360,
-      wh = hwb[1] / 100,
-      bl = hwb[2] / 100,
-      ratio = wh + bl,
-      i, v, f, n;
-
-  // wh + bl cant be > 1
-  if (ratio > 1) {
-    wh /= ratio;
-    bl /= ratio;
-  }
-
-  i = Math.floor(6 * h);
-  v = 1 - bl;
-  f = 6 * h - i;
-  if ((i & 0x01) != 0) {
-    f = 1 - f;
-  }
-  n = wh + f * (v - wh);  // linear interpolation
-
-  switch (i) {
-    default:
-    case 6:
-    case 0: r = v; g = n; b = wh; break;
-    case 1: r = n; g = v; b = wh; break;
-    case 2: r = wh; g = v; b = n; break;
-    case 3: r = wh; g = n; b = v; break;
-    case 4: r = n; g = wh; b = v; break;
-    case 5: r = v; g = wh; b = n; break;
-  }
-
-  return [r * 255, g * 255, b * 255];
-}
-
-function hwb2hsl(args) {
-  return rgb2hsl(hwb2rgb(args));
-}
-
-function hwb2hsv(args) {
-  return rgb2hsv(hwb2rgb(args));
-}
-
-function hwb2cmyk(args) {
-  return rgb2cmyk(hwb2rgb(args));
-}
-
-function hwb2keyword(args) {
-  return rgb2keyword(hwb2rgb(args));
-}
-
-function cmyk2rgb(cmyk) {
-  var c = cmyk[0] / 100,
-      m = cmyk[1] / 100,
-      y = cmyk[2] / 100,
-      k = cmyk[3] / 100,
-      r, g, b;
-
-  r = 1 - Math.min(1, c * (1 - k) + k);
-  g = 1 - Math.min(1, m * (1 - k) + k);
-  b = 1 - Math.min(1, y * (1 - k) + k);
-  return [r * 255, g * 255, b * 255];
-}
-
-function cmyk2hsl(args) {
-  return rgb2hsl(cmyk2rgb(args));
-}
-
-function cmyk2hsv(args) {
-  return rgb2hsv(cmyk2rgb(args));
-}
-
-function cmyk2hwb(args) {
-  return rgb2hwb(cmyk2rgb(args));
-}
-
-function cmyk2keyword(args) {
-  return rgb2keyword(cmyk2rgb(args));
-}
-
-
-function xyz2rgb(xyz) {
-  var x = xyz[0] / 100,
-      y = xyz[1] / 100,
-      z = xyz[2] / 100,
-      r, g, b;
-
-  r = (x * 3.2406) + (y * -1.5372) + (z * -0.4986);
-  g = (x * -0.9689) + (y * 1.8758) + (z * 0.0415);
-  b = (x * 0.0557) + (y * -0.2040) + (z * 1.0570);
-
-  // assume sRGB
-  r = r > 0.0031308 ? ((1.055 * Math.pow(r, 1.0 / 2.4)) - 0.055)
-    : r = (r * 12.92);
-
-  g = g > 0.0031308 ? ((1.055 * Math.pow(g, 1.0 / 2.4)) - 0.055)
-    : g = (g * 12.92);
-
-  b = b > 0.0031308 ? ((1.055 * Math.pow(b, 1.0 / 2.4)) - 0.055)
-    : b = (b * 12.92);
-
-  r = Math.min(Math.max(0, r), 1);
-  g = Math.min(Math.max(0, g), 1);
-  b = Math.min(Math.max(0, b), 1);
-
-  return [r * 255, g * 255, b * 255];
-}
-
-function xyz2lab(xyz) {
-  var x = xyz[0],
-      y = xyz[1],
-      z = xyz[2],
-      l, a, b;
-
-  x /= 95.047;
-  y /= 100;
-  z /= 108.883;
-
-  x = x > 0.008856 ? Math.pow(x, 1/3) : (7.787 * x) + (16 / 116);
-  y = y > 0.008856 ? Math.pow(y, 1/3) : (7.787 * y) + (16 / 116);
-  z = z > 0.008856 ? Math.pow(z, 1/3) : (7.787 * z) + (16 / 116);
-
-  l = (116 * y) - 16;
-  a = 500 * (x - y);
-  b = 200 * (y - z);
-
-  return [l, a, b];
-}
-
-function xyz2lch(args) {
-  return lab2lch(xyz2lab(args));
-}
-
-function lab2xyz(lab) {
-  var l = lab[0],
-      a = lab[1],
-      b = lab[2],
-      x, y, z, y2;
-
-  if (l <= 8) {
-    y = (l * 100) / 903.3;
-    y2 = (7.787 * (y / 100)) + (16 / 116);
-  } else {
-    y = 100 * Math.pow((l + 16) / 116, 3);
-    y2 = Math.pow(y / 100, 1/3);
-  }
-
-  x = x / 95.047 <= 0.008856 ? x = (95.047 * ((a / 500) + y2 - (16 / 116))) / 7.787 : 95.047 * Math.pow((a / 500) + y2, 3);
-
-  z = z / 108.883 <= 0.008859 ? z = (108.883 * (y2 - (b / 200) - (16 / 116))) / 7.787 : 108.883 * Math.pow(y2 - (b / 200), 3);
-
-  return [x, y, z];
-}
-
-function lab2lch(lab) {
-  var l = lab[0],
-      a = lab[1],
-      b = lab[2],
-      hr, h, c;
-
-  hr = Math.atan2(b, a);
-  h = hr * 360 / 2 / Math.PI;
-  if (h < 0) {
-    h += 360;
-  }
-  c = Math.sqrt(a * a + b * b);
-  return [l, c, h];
-}
-
-function lab2rgb(args) {
-  return xyz2rgb(lab2xyz(args));
-}
-
-function lch2lab(lch) {
-  var l = lch[0],
-      c = lch[1],
-      h = lch[2],
-      a, b, hr;
-
-  hr = h / 360 * 2 * Math.PI;
-  a = c * Math.cos(hr);
-  b = c * Math.sin(hr);
-  return [l, a, b];
-}
-
-function lch2xyz(args) {
-  return lab2xyz(lch2lab(args));
-}
-
-function lch2rgb(args) {
-  return lab2rgb(lch2lab(args));
-}
-
-function keyword2rgb(keyword) {
-  return cssKeywords[keyword];
-}
-
-function keyword2hsl(args) {
-  return rgb2hsl(keyword2rgb(args));
-}
-
-function keyword2hsv(args) {
-  return rgb2hsv(keyword2rgb(args));
-}
-
-function keyword2hwb(args) {
-  return rgb2hwb(keyword2rgb(args));
-}
-
-function keyword2cmyk(args) {
-  return rgb2cmyk(keyword2rgb(args));
-}
-
-function keyword2lab(args) {
-  return rgb2lab(keyword2rgb(args));
-}
-
-function keyword2xyz(args) {
-  return rgb2xyz(keyword2rgb(args));
-}
-
-var cssKeywords = {
-  aliceblue:  [240,248,255],
-  antiquewhite: [250,235,215],
-  aqua: [0,255,255],
-  aquamarine: [127,255,212],
-  azure:  [240,255,255],
-  beige:  [245,245,220],
-  bisque: [255,228,196],
-  black:  [0,0,0],
-  blanchedalmond: [255,235,205],
-  blue: [0,0,255],
-  blueviolet: [138,43,226],
-  brown:  [165,42,42],
-  burlywood:  [222,184,135],
-  cadetblue:  [95,158,160],
-  chartreuse: [127,255,0],
-  chocolate:  [210,105,30],
-  coral:  [255,127,80],
-  cornflowerblue: [100,149,237],
-  cornsilk: [255,248,220],
-  crimson:  [220,20,60],
-  cyan: [0,255,255],
-  darkblue: [0,0,139],
-  darkcyan: [0,139,139],
-  darkgoldenrod:  [184,134,11],
-  darkgray: [169,169,169],
-  darkgreen:  [0,100,0],
-  darkgrey: [169,169,169],
-  darkkhaki:  [189,183,107],
-  darkmagenta:  [139,0,139],
-  darkolivegreen: [85,107,47],
-  darkorange: [255,140,0],
-  darkorchid: [153,50,204],
-  darkred:  [139,0,0],
-  darksalmon: [233,150,122],
-  darkseagreen: [143,188,143],
-  darkslateblue:  [72,61,139],
-  darkslategray:  [47,79,79],
-  darkslategrey:  [47,79,79],
-  darkturquoise:  [0,206,209],
-  darkviolet: [148,0,211],
-  deeppink: [255,20,147],
-  deepskyblue:  [0,191,255],
-  dimgray:  [105,105,105],
-  dimgrey:  [105,105,105],
-  dodgerblue: [30,144,255],
-  firebrick:  [178,34,34],
-  floralwhite:  [255,250,240],
-  forestgreen:  [34,139,34],
-  fuchsia:  [255,0,255],
-  gainsboro:  [220,220,220],
-  ghostwhite: [248,248,255],
-  gold: [255,215,0],
-  goldenrod:  [218,165,32],
-  gray: [128,128,128],
-  green:  [0,128,0],
-  greenyellow:  [173,255,47],
-  grey: [128,128,128],
-  honeydew: [240,255,240],
-  hotpink:  [255,105,180],
-  indianred:  [205,92,92],
-  indigo: [75,0,130],
-  ivory:  [255,255,240],
-  khaki:  [240,230,140],
-  lavender: [230,230,250],
-  lavenderblush:  [255,240,245],
-  lawngreen:  [124,252,0],
-  lemonchiffon: [255,250,205],
-  lightblue:  [173,216,230],
-  lightcoral: [240,128,128],
-  lightcyan:  [224,255,255],
-  lightgoldenrodyellow: [250,250,210],
-  lightgray:  [211,211,211],
-  lightgreen: [144,238,144],
-  lightgrey:  [211,211,211],
-  lightpink:  [255,182,193],
-  lightsalmon:  [255,160,122],
-  lightseagreen:  [32,178,170],
-  lightskyblue: [135,206,250],
-  lightslategray: [119,136,153],
-  lightslategrey: [119,136,153],
-  lightsteelblue: [176,196,222],
-  lightyellow:  [255,255,224],
-  lime: [0,255,0],
-  limegreen:  [50,205,50],
-  linen:  [250,240,230],
-  magenta:  [255,0,255],
-  maroon: [128,0,0],
-  mediumaquamarine: [102,205,170],
-  mediumblue: [0,0,205],
-  mediumorchid: [186,85,211],
-  mediumpurple: [147,112,219],
-  mediumseagreen: [60,179,113],
-  mediumslateblue:  [123,104,238],
-  mediumspringgreen:  [0,250,154],
-  mediumturquoise:  [72,209,204],
-  mediumvioletred:  [199,21,133],
-  midnightblue: [25,25,112],
-  mintcream:  [245,255,250],
-  mistyrose:  [255,228,225],
-  moccasin: [255,228,181],
-  navajowhite:  [255,222,173],
-  navy: [0,0,128],
-  oldlace:  [253,245,230],
-  olive:  [128,128,0],
-  olivedrab:  [107,142,35],
-  orange: [255,165,0],
-  orangered:  [255,69,0],
-  orchid: [218,112,214],
-  palegoldenrod:  [238,232,170],
-  palegreen:  [152,251,152],
-  paleturquoise:  [175,238,238],
-  palevioletred:  [219,112,147],
-  papayawhip: [255,239,213],
-  peachpuff:  [255,218,185],
-  peru: [205,133,63],
-  pink: [255,192,203],
-  plum: [221,160,221],
-  powderblue: [176,224,230],
-  purple: [128,0,128],
-  rebeccapurple: [102, 51, 153],
-  red:  [255,0,0],
-  rosybrown:  [188,143,143],
-  royalblue:  [65,105,225],
-  saddlebrown:  [139,69,19],
-  salmon: [250,128,114],
-  sandybrown: [244,164,96],
-  seagreen: [46,139,87],
-  seashell: [255,245,238],
-  sienna: [160,82,45],
-  silver: [192,192,192],
-  skyblue:  [135,206,235],
-  slateblue:  [106,90,205],
-  slategray:  [112,128,144],
-  slategrey:  [112,128,144],
-  snow: [255,250,250],
-  springgreen:  [0,255,127],
-  steelblue:  [70,130,180],
-  tan:  [210,180,140],
-  teal: [0,128,128],
-  thistle:  [216,191,216],
-  tomato: [255,99,71],
-  turquoise:  [64,224,208],
-  violet: [238,130,238],
-  wheat:  [245,222,179],
-  white:  [255,255,255],
-  whitesmoke: [245,245,245],
-  yellow: [255,255,0],
-  yellowgreen:  [154,205,50]
-};
-
-var reverseKeywords = {};
-for (var key in cssKeywords) {
-  reverseKeywords[JSON.stringify(cssKeywords[key])] = key;
-}
-
-
-/***/ }),
-/* 183 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var conversions = __webpack_require__(182);
-
-var convert = function() {
-   return new Converter();
-}
-
-for (var func in conversions) {
-  // export Raw versions
-  convert[func + "Raw"] =  (function(func) {
-    // accept array or plain args
-    return function(arg) {
-      if (typeof arg == "number")
-        arg = Array.prototype.slice.call(arguments);
-      return conversions[func](arg);
-    }
-  })(func);
-
-  var pair = /(\w+)2(\w+)/.exec(func),
-      from = pair[1],
-      to = pair[2];
-
-  // export rgb2hsl and ["rgb"]["hsl"]
-  convert[from] = convert[from] || {};
-
-  convert[from][to] = convert[func] = (function(func) { 
-    return function(arg) {
-      if (typeof arg == "number")
-        arg = Array.prototype.slice.call(arguments);
-      
-      var val = conversions[func](arg);
-      if (typeof val == "string" || val === undefined)
-        return val; // keyword
-
-      for (var i = 0; i < val.length; i++)
-        val[i] = Math.round(val[i]);
-      return val;
-    }
-  })(func);
-}
-
-
-/* Converter does lazy conversion and caching */
-var Converter = function() {
-   this.convs = {};
-};
-
-/* Either get the values for a space or
-  set the values for a space, depending on args */
-Converter.prototype.routeSpace = function(space, args) {
-   var values = args[0];
-   if (values === undefined) {
-      // color.rgb()
-      return this.getValues(space);
-   }
-   // color.rgb(10, 10, 10)
-   if (typeof values == "number") {
-      values = Array.prototype.slice.call(args);        
-   }
-
-   return this.setValues(space, values);
-};
-  
-/* Set the values for a space, invalidating cache */
-Converter.prototype.setValues = function(space, values) {
-   this.space = space;
-   this.convs = {};
-   this.convs[space] = values;
-   return this;
-};
-
-/* Get the values for a space. If there's already
-  a conversion for the space, fetch it, otherwise
-  compute it */
-Converter.prototype.getValues = function(space) {
-   var vals = this.convs[space];
-   if (!vals) {
-      var fspace = this.space,
-          from = this.convs[fspace];
-      vals = convert[fspace][space](from);
-
-      this.convs[space] = vals;
-   }
-  return vals;
-};
-
-["rgb", "hsl", "hsv", "cmyk", "keyword"].forEach(function(space) {
-   Converter.prototype[space] = function(vals) {
-      return this.routeSpace(space, arguments);
-   }
-});
-
-module.exports = convert;
-
-/***/ }),
-/* 184 */
-/***/ (function(module, exports) {
-
-module.exports = {
-	"aliceblue": [240, 248, 255],
-	"antiquewhite": [250, 235, 215],
-	"aqua": [0, 255, 255],
-	"aquamarine": [127, 255, 212],
-	"azure": [240, 255, 255],
-	"beige": [245, 245, 220],
-	"bisque": [255, 228, 196],
-	"black": [0, 0, 0],
-	"blanchedalmond": [255, 235, 205],
-	"blue": [0, 0, 255],
-	"blueviolet": [138, 43, 226],
-	"brown": [165, 42, 42],
-	"burlywood": [222, 184, 135],
-	"cadetblue": [95, 158, 160],
-	"chartreuse": [127, 255, 0],
-	"chocolate": [210, 105, 30],
-	"coral": [255, 127, 80],
-	"cornflowerblue": [100, 149, 237],
-	"cornsilk": [255, 248, 220],
-	"crimson": [220, 20, 60],
-	"cyan": [0, 255, 255],
-	"darkblue": [0, 0, 139],
-	"darkcyan": [0, 139, 139],
-	"darkgoldenrod": [184, 134, 11],
-	"darkgray": [169, 169, 169],
-	"darkgreen": [0, 100, 0],
-	"darkgrey": [169, 169, 169],
-	"darkkhaki": [189, 183, 107],
-	"darkmagenta": [139, 0, 139],
-	"darkolivegreen": [85, 107, 47],
-	"darkorange": [255, 140, 0],
-	"darkorchid": [153, 50, 204],
-	"darkred": [139, 0, 0],
-	"darksalmon": [233, 150, 122],
-	"darkseagreen": [143, 188, 143],
-	"darkslateblue": [72, 61, 139],
-	"darkslategray": [47, 79, 79],
-	"darkslategrey": [47, 79, 79],
-	"darkturquoise": [0, 206, 209],
-	"darkviolet": [148, 0, 211],
-	"deeppink": [255, 20, 147],
-	"deepskyblue": [0, 191, 255],
-	"dimgray": [105, 105, 105],
-	"dimgrey": [105, 105, 105],
-	"dodgerblue": [30, 144, 255],
-	"firebrick": [178, 34, 34],
-	"floralwhite": [255, 250, 240],
-	"forestgreen": [34, 139, 34],
-	"fuchsia": [255, 0, 255],
-	"gainsboro": [220, 220, 220],
-	"ghostwhite": [248, 248, 255],
-	"gold": [255, 215, 0],
-	"goldenrod": [218, 165, 32],
-	"gray": [128, 128, 128],
-	"green": [0, 128, 0],
-	"greenyellow": [173, 255, 47],
-	"grey": [128, 128, 128],
-	"honeydew": [240, 255, 240],
-	"hotpink": [255, 105, 180],
-	"indianred": [205, 92, 92],
-	"indigo": [75, 0, 130],
-	"ivory": [255, 255, 240],
-	"khaki": [240, 230, 140],
-	"lavender": [230, 230, 250],
-	"lavenderblush": [255, 240, 245],
-	"lawngreen": [124, 252, 0],
-	"lemonchiffon": [255, 250, 205],
-	"lightblue": [173, 216, 230],
-	"lightcoral": [240, 128, 128],
-	"lightcyan": [224, 255, 255],
-	"lightgoldenrodyellow": [250, 250, 210],
-	"lightgray": [211, 211, 211],
-	"lightgreen": [144, 238, 144],
-	"lightgrey": [211, 211, 211],
-	"lightpink": [255, 182, 193],
-	"lightsalmon": [255, 160, 122],
-	"lightseagreen": [32, 178, 170],
-	"lightskyblue": [135, 206, 250],
-	"lightslategray": [119, 136, 153],
-	"lightslategrey": [119, 136, 153],
-	"lightsteelblue": [176, 196, 222],
-	"lightyellow": [255, 255, 224],
-	"lime": [0, 255, 0],
-	"limegreen": [50, 205, 50],
-	"linen": [250, 240, 230],
-	"magenta": [255, 0, 255],
-	"maroon": [128, 0, 0],
-	"mediumaquamarine": [102, 205, 170],
-	"mediumblue": [0, 0, 205],
-	"mediumorchid": [186, 85, 211],
-	"mediumpurple": [147, 112, 219],
-	"mediumseagreen": [60, 179, 113],
-	"mediumslateblue": [123, 104, 238],
-	"mediumspringgreen": [0, 250, 154],
-	"mediumturquoise": [72, 209, 204],
-	"mediumvioletred": [199, 21, 133],
-	"midnightblue": [25, 25, 112],
-	"mintcream": [245, 255, 250],
-	"mistyrose": [255, 228, 225],
-	"moccasin": [255, 228, 181],
-	"navajowhite": [255, 222, 173],
-	"navy": [0, 0, 128],
-	"oldlace": [253, 245, 230],
-	"olive": [128, 128, 0],
-	"olivedrab": [107, 142, 35],
-	"orange": [255, 165, 0],
-	"orangered": [255, 69, 0],
-	"orchid": [218, 112, 214],
-	"palegoldenrod": [238, 232, 170],
-	"palegreen": [152, 251, 152],
-	"paleturquoise": [175, 238, 238],
-	"palevioletred": [219, 112, 147],
-	"papayawhip": [255, 239, 213],
-	"peachpuff": [255, 218, 185],
-	"peru": [205, 133, 63],
-	"pink": [255, 192, 203],
-	"plum": [221, 160, 221],
-	"powderblue": [176, 224, 230],
-	"purple": [128, 0, 128],
-	"rebeccapurple": [102, 51, 153],
-	"red": [255, 0, 0],
-	"rosybrown": [188, 143, 143],
-	"royalblue": [65, 105, 225],
-	"saddlebrown": [139, 69, 19],
-	"salmon": [250, 128, 114],
-	"sandybrown": [244, 164, 96],
-	"seagreen": [46, 139, 87],
-	"seashell": [255, 245, 238],
-	"sienna": [160, 82, 45],
-	"silver": [192, 192, 192],
-	"skyblue": [135, 206, 235],
-	"slateblue": [106, 90, 205],
-	"slategray": [112, 128, 144],
-	"slategrey": [112, 128, 144],
-	"snow": [255, 250, 250],
-	"springgreen": [0, 255, 127],
-	"steelblue": [70, 130, 180],
-	"tan": [210, 180, 140],
-	"teal": [0, 128, 128],
-	"thistle": [216, 191, 216],
-	"tomato": [255, 99, 71],
-	"turquoise": [64, 224, 208],
-	"violet": [238, 130, 238],
-	"wheat": [245, 222, 179],
-	"white": [255, 255, 255],
-	"whitesmoke": [245, 245, 245],
-	"yellow": [255, 255, 0],
-	"yellowgreen": [154, 205, 50]
-};
-
-/***/ }),
-/* 185 */
+/* 188 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__define__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__color__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__math__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_value__ = __webpack_require__(10);
+/* unused harmony reexport interpolate */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_array__ = __webpack_require__(130);
+/* unused harmony reexport interpolateArray */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_basis__ = __webpack_require__(9);
+/* unused harmony reexport interpolateBasis */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_basisClosed__ = __webpack_require__(131);
+/* unused harmony reexport interpolateBasisClosed */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_date__ = __webpack_require__(133);
+/* unused harmony reexport interpolateDate */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_number__ = __webpack_require__(5);
+/* unused harmony reexport interpolateNumber */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__src_object__ = __webpack_require__(134);
+/* unused harmony reexport interpolateObject */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__src_round__ = __webpack_require__(196);
+/* unused harmony reexport interpolateRound */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__src_string__ = __webpack_require__(136);
+/* unused harmony reexport interpolateString */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src_transform_index__ = __webpack_require__(198);
+/* unused harmony reexport interpolateTransformCss */
+/* unused harmony reexport interpolateTransformSvg */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__src_zoom__ = __webpack_require__(200);
+/* unused harmony reexport interpolateZoom */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__src_rgb__ = __webpack_require__(135);
+/* unused harmony reexport interpolateRgb */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_11__src_rgb__["a"]; });
+/* unused harmony reexport interpolateRgbBasisClosed */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__src_hsl__ = __webpack_require__(193);
+/* unused harmony reexport interpolateHsl */
+/* unused harmony reexport interpolateHslLong */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__src_lab__ = __webpack_require__(194);
+/* unused harmony reexport interpolateLab */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__src_hcl__ = __webpack_require__(192);
+/* unused harmony reexport interpolateHcl */
+/* unused harmony reexport interpolateHclLong */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__src_cubehelix__ = __webpack_require__(191);
+/* unused harmony reexport interpolateCubehelix */
+/* unused harmony reexport interpolateCubehelixLong */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__src_quantize__ = __webpack_require__(195);
+/* unused harmony reexport quantize */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+/* 189 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__define__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__color__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__math__ = __webpack_require__(129);
 /* harmony export (immutable) */ __webpack_exports__["a"] = cubehelix;
 /* unused harmony export Cubehelix */
 
@@ -47086,13 +47637,13 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__define__["a" /* default */])(
 
 
 /***/ }),
-/* 186 */
+/* 190 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__define__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__color__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__math__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__define__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__color__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__math__ = __webpack_require__(129);
 /* harmony export (immutable) */ __webpack_exports__["b"] = lab;
 /* unused harmony export Lab */
 /* harmony export (immutable) */ __webpack_exports__["a"] = hcl;
@@ -47208,71 +47759,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__define__["a" /* default */])(
 
 
 /***/ }),
-/* 187 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_value__ = __webpack_require__(9);
-/* unused harmony reexport interpolate */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_array__ = __webpack_require__(12);
-/* unused harmony reexport interpolateArray */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_basis__ = __webpack_require__(8);
-/* unused harmony reexport interpolateBasis */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_basisClosed__ = __webpack_require__(13);
-/* unused harmony reexport interpolateBasisClosed */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_date__ = __webpack_require__(15);
-/* unused harmony reexport interpolateDate */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_number__ = __webpack_require__(5);
-/* unused harmony reexport interpolateNumber */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__src_object__ = __webpack_require__(16);
-/* unused harmony reexport interpolateObject */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__src_round__ = __webpack_require__(193);
-/* unused harmony reexport interpolateRound */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__src_string__ = __webpack_require__(18);
-/* unused harmony reexport interpolateString */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src_transform_index__ = __webpack_require__(195);
-/* unused harmony reexport interpolateTransformCss */
-/* unused harmony reexport interpolateTransformSvg */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__src_zoom__ = __webpack_require__(197);
-/* unused harmony reexport interpolateZoom */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__src_rgb__ = __webpack_require__(17);
-/* unused harmony reexport interpolateRgb */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_11__src_rgb__["a"]; });
-/* unused harmony reexport interpolateRgbBasisClosed */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__src_hsl__ = __webpack_require__(190);
-/* unused harmony reexport interpolateHsl */
-/* unused harmony reexport interpolateHslLong */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__src_lab__ = __webpack_require__(191);
-/* unused harmony reexport interpolateLab */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__src_hcl__ = __webpack_require__(189);
-/* unused harmony reexport interpolateHcl */
-/* unused harmony reexport interpolateHclLong */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__src_cubehelix__ = __webpack_require__(188);
-/* unused harmony reexport interpolateCubehelix */
-/* unused harmony reexport interpolateCubehelixLong */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__src_quantize__ = __webpack_require__(192);
-/* unused harmony reexport quantize */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/***/ }),
-/* 188 */
+/* 191 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47311,7 +47798,7 @@ var cubehelixLong = cubehelix(__WEBPACK_IMPORTED_MODULE_1__color__["a" /* defaul
 
 
 /***/ }),
-/* 189 */
+/* 192 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47342,7 +47829,7 @@ var hclLong = hcl(__WEBPACK_IMPORTED_MODULE_1__color__["a" /* default */]);
 
 
 /***/ }),
-/* 190 */
+/* 193 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47373,7 +47860,7 @@ var hslLong = hsl(__WEBPACK_IMPORTED_MODULE_1__color__["a" /* default */]);
 
 
 /***/ }),
-/* 191 */
+/* 194 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47399,7 +47886,7 @@ function lab(start, end) {
 
 
 /***/ }),
-/* 192 */
+/* 195 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47411,7 +47898,7 @@ function lab(start, end) {
 
 
 /***/ }),
-/* 193 */
+/* 196 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47423,7 +47910,7 @@ function lab(start, end) {
 
 
 /***/ }),
-/* 194 */
+/* 197 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47457,12 +47944,12 @@ var identity = {
 
 
 /***/ }),
-/* 195 */
+/* 198 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__number__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__parse__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__parse__ = __webpack_require__(199);
 /* unused harmony export interpolateTransformCss */
 /* unused harmony export interpolateTransformSvg */
 
@@ -47531,11 +48018,11 @@ var interpolateTransformSvg = interpolateTransform(__WEBPACK_IMPORTED_MODULE_1__
 
 
 /***/ }),
-/* 196 */
+/* 199 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__decompose__ = __webpack_require__(194);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__decompose__ = __webpack_require__(197);
 /* harmony export (immutable) */ __webpack_exports__["a"] = parseCss;
 /* harmony export (immutable) */ __webpack_exports__["b"] = parseSvg;
 
@@ -47566,7 +48053,7 @@ function parseSvg(value) {
 
 
 /***/ }),
-/* 197 */
+/* 200 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47637,147 +48124,7 @@ function tanh(x) {
 
 
 /***/ }),
-/* 198 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_categorical_Accent__ = __webpack_require__(199);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeAccent", function() { return __WEBPACK_IMPORTED_MODULE_0__src_categorical_Accent__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_categorical_Dark2__ = __webpack_require__(200);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeDark2", function() { return __WEBPACK_IMPORTED_MODULE_1__src_categorical_Dark2__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_categorical_Paired__ = __webpack_require__(201);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePaired", function() { return __WEBPACK_IMPORTED_MODULE_2__src_categorical_Paired__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_categorical_Pastel1__ = __webpack_require__(202);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePastel1", function() { return __WEBPACK_IMPORTED_MODULE_3__src_categorical_Pastel1__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_categorical_Pastel2__ = __webpack_require__(203);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePastel2", function() { return __WEBPACK_IMPORTED_MODULE_4__src_categorical_Pastel2__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_categorical_Set1__ = __webpack_require__(204);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeSet1", function() { return __WEBPACK_IMPORTED_MODULE_5__src_categorical_Set1__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__src_categorical_Set2__ = __webpack_require__(205);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeSet2", function() { return __WEBPACK_IMPORTED_MODULE_6__src_categorical_Set2__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__src_categorical_Set3__ = __webpack_require__(206);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeSet3", function() { return __WEBPACK_IMPORTED_MODULE_7__src_categorical_Set3__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__src_diverging_BrBG__ = __webpack_require__(207);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateBrBG", function() { return __WEBPACK_IMPORTED_MODULE_8__src_diverging_BrBG__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeBrBG", function() { return __WEBPACK_IMPORTED_MODULE_8__src_diverging_BrBG__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src_diverging_PRGn__ = __webpack_require__(208);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePRGn", function() { return __WEBPACK_IMPORTED_MODULE_9__src_diverging_PRGn__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePRGn", function() { return __WEBPACK_IMPORTED_MODULE_9__src_diverging_PRGn__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__src_diverging_PiYG__ = __webpack_require__(209);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePiYG", function() { return __WEBPACK_IMPORTED_MODULE_10__src_diverging_PiYG__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePiYG", function() { return __WEBPACK_IMPORTED_MODULE_10__src_diverging_PiYG__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__src_diverging_PuOr__ = __webpack_require__(210);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePuOr", function() { return __WEBPACK_IMPORTED_MODULE_11__src_diverging_PuOr__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePuOr", function() { return __WEBPACK_IMPORTED_MODULE_11__src_diverging_PuOr__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__src_diverging_RdBu__ = __webpack_require__(211);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateRdBu", function() { return __WEBPACK_IMPORTED_MODULE_12__src_diverging_RdBu__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeRdBu", function() { return __WEBPACK_IMPORTED_MODULE_12__src_diverging_RdBu__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__src_diverging_RdGy__ = __webpack_require__(212);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateRdGy", function() { return __WEBPACK_IMPORTED_MODULE_13__src_diverging_RdGy__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeRdGy", function() { return __WEBPACK_IMPORTED_MODULE_13__src_diverging_RdGy__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__src_diverging_RdYlBu__ = __webpack_require__(213);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateRdYlBu", function() { return __WEBPACK_IMPORTED_MODULE_14__src_diverging_RdYlBu__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeRdYlBu", function() { return __WEBPACK_IMPORTED_MODULE_14__src_diverging_RdYlBu__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__src_diverging_RdYlGn__ = __webpack_require__(214);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateRdYlGn", function() { return __WEBPACK_IMPORTED_MODULE_15__src_diverging_RdYlGn__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeRdYlGn", function() { return __WEBPACK_IMPORTED_MODULE_15__src_diverging_RdYlGn__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__src_diverging_Spectral__ = __webpack_require__(215);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateSpectral", function() { return __WEBPACK_IMPORTED_MODULE_16__src_diverging_Spectral__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeSpectral", function() { return __WEBPACK_IMPORTED_MODULE_16__src_diverging_Spectral__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__src_sequential_multi_BuGn__ = __webpack_require__(216);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateBuGn", function() { return __WEBPACK_IMPORTED_MODULE_17__src_sequential_multi_BuGn__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeBuGn", function() { return __WEBPACK_IMPORTED_MODULE_17__src_sequential_multi_BuGn__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__src_sequential_multi_BuPu__ = __webpack_require__(217);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateBuPu", function() { return __WEBPACK_IMPORTED_MODULE_18__src_sequential_multi_BuPu__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeBuPu", function() { return __WEBPACK_IMPORTED_MODULE_18__src_sequential_multi_BuPu__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__src_sequential_multi_GnBu__ = __webpack_require__(218);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateGnBu", function() { return __WEBPACK_IMPORTED_MODULE_19__src_sequential_multi_GnBu__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeGnBu", function() { return __WEBPACK_IMPORTED_MODULE_19__src_sequential_multi_GnBu__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__src_sequential_multi_OrRd__ = __webpack_require__(219);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateOrRd", function() { return __WEBPACK_IMPORTED_MODULE_20__src_sequential_multi_OrRd__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeOrRd", function() { return __WEBPACK_IMPORTED_MODULE_20__src_sequential_multi_OrRd__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__src_sequential_multi_PuBuGn__ = __webpack_require__(221);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePuBuGn", function() { return __WEBPACK_IMPORTED_MODULE_21__src_sequential_multi_PuBuGn__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePuBuGn", function() { return __WEBPACK_IMPORTED_MODULE_21__src_sequential_multi_PuBuGn__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__src_sequential_multi_PuBu__ = __webpack_require__(220);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePuBu", function() { return __WEBPACK_IMPORTED_MODULE_22__src_sequential_multi_PuBu__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePuBu", function() { return __WEBPACK_IMPORTED_MODULE_22__src_sequential_multi_PuBu__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__src_sequential_multi_PuRd__ = __webpack_require__(222);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePuRd", function() { return __WEBPACK_IMPORTED_MODULE_23__src_sequential_multi_PuRd__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePuRd", function() { return __WEBPACK_IMPORTED_MODULE_23__src_sequential_multi_PuRd__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__src_sequential_multi_RdPu__ = __webpack_require__(223);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateRdPu", function() { return __WEBPACK_IMPORTED_MODULE_24__src_sequential_multi_RdPu__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeRdPu", function() { return __WEBPACK_IMPORTED_MODULE_24__src_sequential_multi_RdPu__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__src_sequential_multi_YlGnBu__ = __webpack_require__(225);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateYlGnBu", function() { return __WEBPACK_IMPORTED_MODULE_25__src_sequential_multi_YlGnBu__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeYlGnBu", function() { return __WEBPACK_IMPORTED_MODULE_25__src_sequential_multi_YlGnBu__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__src_sequential_multi_YlGn__ = __webpack_require__(224);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateYlGn", function() { return __WEBPACK_IMPORTED_MODULE_26__src_sequential_multi_YlGn__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeYlGn", function() { return __WEBPACK_IMPORTED_MODULE_26__src_sequential_multi_YlGn__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__src_sequential_multi_YlOrBr__ = __webpack_require__(226);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateYlOrBr", function() { return __WEBPACK_IMPORTED_MODULE_27__src_sequential_multi_YlOrBr__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeYlOrBr", function() { return __WEBPACK_IMPORTED_MODULE_27__src_sequential_multi_YlOrBr__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__src_sequential_multi_YlOrRd__ = __webpack_require__(227);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateYlOrRd", function() { return __WEBPACK_IMPORTED_MODULE_28__src_sequential_multi_YlOrRd__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeYlOrRd", function() { return __WEBPACK_IMPORTED_MODULE_28__src_sequential_multi_YlOrRd__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__src_sequential_single_Blues__ = __webpack_require__(228);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateBlues", function() { return __WEBPACK_IMPORTED_MODULE_29__src_sequential_single_Blues__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeBlues", function() { return __WEBPACK_IMPORTED_MODULE_29__src_sequential_single_Blues__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__src_sequential_single_Greens__ = __webpack_require__(229);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateGreens", function() { return __WEBPACK_IMPORTED_MODULE_30__src_sequential_single_Greens__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeGreens", function() { return __WEBPACK_IMPORTED_MODULE_30__src_sequential_single_Greens__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__src_sequential_single_Greys__ = __webpack_require__(230);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateGreys", function() { return __WEBPACK_IMPORTED_MODULE_31__src_sequential_single_Greys__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeGreys", function() { return __WEBPACK_IMPORTED_MODULE_31__src_sequential_single_Greys__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__src_sequential_single_Purples__ = __webpack_require__(232);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePurples", function() { return __WEBPACK_IMPORTED_MODULE_32__src_sequential_single_Purples__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePurples", function() { return __WEBPACK_IMPORTED_MODULE_32__src_sequential_single_Purples__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__src_sequential_single_Reds__ = __webpack_require__(233);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateReds", function() { return __WEBPACK_IMPORTED_MODULE_33__src_sequential_single_Reds__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeReds", function() { return __WEBPACK_IMPORTED_MODULE_33__src_sequential_single_Reds__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__src_sequential_single_Oranges__ = __webpack_require__(231);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateOranges", function() { return __WEBPACK_IMPORTED_MODULE_34__src_sequential_single_Oranges__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeOranges", function() { return __WEBPACK_IMPORTED_MODULE_34__src_sequential_single_Oranges__["b"]; });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/***/ }),
-/* 199 */
+/* 201 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47788,7 +48135,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 200 */
+/* 202 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47799,7 +48146,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 201 */
+/* 203 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47810,7 +48157,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 202 */
+/* 204 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47821,7 +48168,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 203 */
+/* 205 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47832,7 +48179,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 204 */
+/* 206 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47843,7 +48190,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 205 */
+/* 207 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47854,7 +48201,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 206 */
+/* 208 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47865,7 +48212,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 207 */
+/* 209 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47891,7 +48238,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 208 */
+/* 210 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47917,7 +48264,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 209 */
+/* 211 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47943,7 +48290,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 210 */
+/* 212 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47969,7 +48316,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 211 */
+/* 213 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47995,7 +48342,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 212 */
+/* 214 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48021,7 +48368,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 213 */
+/* 215 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48047,7 +48394,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 214 */
+/* 216 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48073,7 +48420,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 215 */
+/* 217 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48099,7 +48446,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 216 */
+/* 218 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48123,7 +48470,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 217 */
+/* 219 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48147,7 +48494,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 218 */
+/* 220 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48171,7 +48518,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 219 */
+/* 221 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48195,7 +48542,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 220 */
+/* 222 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48219,7 +48566,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 221 */
+/* 223 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48243,7 +48590,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 222 */
+/* 224 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48267,7 +48614,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 223 */
+/* 225 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48291,7 +48638,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 224 */
+/* 226 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48315,7 +48662,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 225 */
+/* 227 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48339,7 +48686,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 226 */
+/* 228 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48363,7 +48710,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 227 */
+/* 229 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48387,7 +48734,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 228 */
+/* 230 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48411,7 +48758,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 229 */
+/* 231 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48435,7 +48782,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 230 */
+/* 232 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48459,7 +48806,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 231 */
+/* 233 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48483,7 +48830,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 232 */
+/* 234 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48507,7 +48854,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 233 */
+/* 235 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48531,7 +48878,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 234 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -49514,259 +49861,7 @@ module.exports = Fuse;
 //# sourceMappingURL=fuse.js.map
 
 /***/ }),
-/* 235 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var map = {
-	"./af": 20,
-	"./af.js": 20,
-	"./ar": 27,
-	"./ar-dz": 21,
-	"./ar-dz.js": 21,
-	"./ar-kw": 22,
-	"./ar-kw.js": 22,
-	"./ar-ly": 23,
-	"./ar-ly.js": 23,
-	"./ar-ma": 24,
-	"./ar-ma.js": 24,
-	"./ar-sa": 25,
-	"./ar-sa.js": 25,
-	"./ar-tn": 26,
-	"./ar-tn.js": 26,
-	"./ar.js": 27,
-	"./az": 28,
-	"./az.js": 28,
-	"./be": 29,
-	"./be.js": 29,
-	"./bg": 30,
-	"./bg.js": 30,
-	"./bn": 31,
-	"./bn.js": 31,
-	"./bo": 32,
-	"./bo.js": 32,
-	"./br": 33,
-	"./br.js": 33,
-	"./bs": 34,
-	"./bs.js": 34,
-	"./ca": 35,
-	"./ca.js": 35,
-	"./cs": 36,
-	"./cs.js": 36,
-	"./cv": 37,
-	"./cv.js": 37,
-	"./cy": 38,
-	"./cy.js": 38,
-	"./da": 39,
-	"./da.js": 39,
-	"./de": 42,
-	"./de-at": 40,
-	"./de-at.js": 40,
-	"./de-ch": 41,
-	"./de-ch.js": 41,
-	"./de.js": 42,
-	"./dv": 43,
-	"./dv.js": 43,
-	"./el": 44,
-	"./el.js": 44,
-	"./en-au": 45,
-	"./en-au.js": 45,
-	"./en-ca": 46,
-	"./en-ca.js": 46,
-	"./en-gb": 47,
-	"./en-gb.js": 47,
-	"./en-ie": 48,
-	"./en-ie.js": 48,
-	"./en-nz": 49,
-	"./en-nz.js": 49,
-	"./eo": 50,
-	"./eo.js": 50,
-	"./es": 52,
-	"./es-do": 51,
-	"./es-do.js": 51,
-	"./es.js": 52,
-	"./et": 53,
-	"./et.js": 53,
-	"./eu": 54,
-	"./eu.js": 54,
-	"./fa": 55,
-	"./fa.js": 55,
-	"./fi": 56,
-	"./fi.js": 56,
-	"./fo": 57,
-	"./fo.js": 57,
-	"./fr": 60,
-	"./fr-ca": 58,
-	"./fr-ca.js": 58,
-	"./fr-ch": 59,
-	"./fr-ch.js": 59,
-	"./fr.js": 60,
-	"./fy": 61,
-	"./fy.js": 61,
-	"./gd": 62,
-	"./gd.js": 62,
-	"./gl": 63,
-	"./gl.js": 63,
-	"./gom-latn": 64,
-	"./gom-latn.js": 64,
-	"./he": 65,
-	"./he.js": 65,
-	"./hi": 66,
-	"./hi.js": 66,
-	"./hr": 67,
-	"./hr.js": 67,
-	"./hu": 68,
-	"./hu.js": 68,
-	"./hy-am": 69,
-	"./hy-am.js": 69,
-	"./id": 70,
-	"./id.js": 70,
-	"./is": 71,
-	"./is.js": 71,
-	"./it": 72,
-	"./it.js": 72,
-	"./ja": 73,
-	"./ja.js": 73,
-	"./jv": 74,
-	"./jv.js": 74,
-	"./ka": 75,
-	"./ka.js": 75,
-	"./kk": 76,
-	"./kk.js": 76,
-	"./km": 77,
-	"./km.js": 77,
-	"./kn": 78,
-	"./kn.js": 78,
-	"./ko": 79,
-	"./ko.js": 79,
-	"./ky": 80,
-	"./ky.js": 80,
-	"./lb": 81,
-	"./lb.js": 81,
-	"./lo": 82,
-	"./lo.js": 82,
-	"./lt": 83,
-	"./lt.js": 83,
-	"./lv": 84,
-	"./lv.js": 84,
-	"./me": 85,
-	"./me.js": 85,
-	"./mi": 86,
-	"./mi.js": 86,
-	"./mk": 87,
-	"./mk.js": 87,
-	"./ml": 88,
-	"./ml.js": 88,
-	"./mr": 89,
-	"./mr.js": 89,
-	"./ms": 91,
-	"./ms-my": 90,
-	"./ms-my.js": 90,
-	"./ms.js": 91,
-	"./my": 92,
-	"./my.js": 92,
-	"./nb": 93,
-	"./nb.js": 93,
-	"./ne": 94,
-	"./ne.js": 94,
-	"./nl": 96,
-	"./nl-be": 95,
-	"./nl-be.js": 95,
-	"./nl.js": 96,
-	"./nn": 97,
-	"./nn.js": 97,
-	"./pa-in": 98,
-	"./pa-in.js": 98,
-	"./pl": 99,
-	"./pl.js": 99,
-	"./pt": 101,
-	"./pt-br": 100,
-	"./pt-br.js": 100,
-	"./pt.js": 101,
-	"./ro": 102,
-	"./ro.js": 102,
-	"./ru": 103,
-	"./ru.js": 103,
-	"./sd": 104,
-	"./sd.js": 104,
-	"./se": 105,
-	"./se.js": 105,
-	"./si": 106,
-	"./si.js": 106,
-	"./sk": 107,
-	"./sk.js": 107,
-	"./sl": 108,
-	"./sl.js": 108,
-	"./sq": 109,
-	"./sq.js": 109,
-	"./sr": 111,
-	"./sr-cyrl": 110,
-	"./sr-cyrl.js": 110,
-	"./sr.js": 111,
-	"./ss": 112,
-	"./ss.js": 112,
-	"./sv": 113,
-	"./sv.js": 113,
-	"./sw": 114,
-	"./sw.js": 114,
-	"./ta": 115,
-	"./ta.js": 115,
-	"./te": 116,
-	"./te.js": 116,
-	"./tet": 117,
-	"./tet.js": 117,
-	"./th": 118,
-	"./th.js": 118,
-	"./tl-ph": 119,
-	"./tl-ph.js": 119,
-	"./tlh": 120,
-	"./tlh.js": 120,
-	"./tr": 121,
-	"./tr.js": 121,
-	"./tzl": 122,
-	"./tzl.js": 122,
-	"./tzm": 124,
-	"./tzm-latn": 123,
-	"./tzm-latn.js": 123,
-	"./tzm.js": 124,
-	"./uk": 125,
-	"./uk.js": 125,
-	"./ur": 126,
-	"./ur.js": 126,
-	"./uz": 128,
-	"./uz-latn": 127,
-	"./uz-latn.js": 127,
-	"./uz.js": 128,
-	"./vi": 129,
-	"./vi.js": 129,
-	"./x-pseudo": 130,
-	"./x-pseudo.js": 130,
-	"./yo": 131,
-	"./yo.js": 131,
-	"./zh-cn": 132,
-	"./zh-cn.js": 132,
-	"./zh-hk": 133,
-	"./zh-hk.js": 133,
-	"./zh-tw": 134,
-	"./zh-tw.js": 134
-};
-function webpackContext(req) {
-	return __webpack_require__(webpackContextResolve(req));
-};
-function webpackContextResolve(req) {
-	var id = map[req];
-	if(!(id + 1)) // check for number or string
-		throw new Error("Cannot find module '" + req + "'.");
-	return id;
-};
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = 235;
-
-/***/ }),
-/* 236 */
+/* 237 */
 /***/ (function(module, exports) {
 
 /*!
@@ -50433,7 +50528,7 @@ https://github.com/imakewebthings/waypoints/blob/master/licenses.txt
 ;
 
 /***/ }),
-/* 237 */
+/* 238 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
