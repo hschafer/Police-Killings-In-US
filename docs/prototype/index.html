@@ -11,6 +11,8 @@
   <script type="text/javascript" src="js/lib/jquery.easings.min.js"></script>
   <script type="text/javascript" src="js/lib/jquery.fullPage.min.js"></script>
   <script type="text/javascript" src="js/lib/campaign-zero-widget.js"></script>
+  <!-- Font Awesome for little icons -->
+  <script src="https://use.fontawesome.com/afd480914f.js"></script>
 
   <!-- Include our files -->
   <script type="text/javascript" src="js/bundle.js"></script>
@@ -119,7 +121,10 @@
         <div class="mapInfo">
           <div id="cityTipDiv" class="cityTip">
             <h5 id="cityLabel">Location</h5>
-            <input id="cityNameAndSearch" type="text" />
+            <div class="cityNameWrapper">
+              <input id="cityNameAndSearch" type="text" />
+              <i class="fa fa-search" id="citySearchIcon" aria-hidden="true"></i>
+            </div>
           </div>
           <div id="cityVictims">
             <h5 id="victimsLabel">Victims</h5>

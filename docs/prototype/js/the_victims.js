@@ -166,6 +166,9 @@ const fuse = require('fuse.js');
         $('#cityNameAndSearch').on('focus', function () {
             disableRandomWalk();
             $('#cityNameAndSearch').val("");
+            $('.cityNameWrapper').addClass('citySearchFocused');
+        }).on('focusout', function () {
+            $('.cityNameWrapper').removeClass('citySearchFocused');
         }).on('input', function () {
             disableRandomWalk();
             var foundCities = fuzzy.search($('#cityNameAndSearch').val());

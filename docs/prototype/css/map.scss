@@ -7,19 +7,38 @@
         color: $outline-color;
     }
 
-    #cityNameAndSearch {
-        margin-top: 1pt;
-        margin-bottom: 5px;
-        color: var(--outline-color);
-        background: transparent;
-        border: 1px solid var(--secondary-color);
-        font-family: 'Ropa Sans', sans-serif;
-        width: 100%;
+    .cityNameWrapper {
+        display: flex;
+        border: 1px solid transparent;
 
-        /* copy default h6 characteristics */
-        display: block;
-        font-size: 0.67em;
-        font-weight: bold;
+        #cityNameAndSearch {
+            /*margin-top: 1pt;*/
+            /*margin-bottom: 5px;*/
+            color: $outline-color;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-family: 'Ropa Sans', sans-serif;
+            width: 90%;
+            position: relative;
+
+            /* copy default h6 characteristics */
+            display: block;
+            font-size: 0.67em;
+            font-weight: bold;
+        }
+
+        #citySearchIcon {
+            visibility: hidden;
+        }
+    }
+
+    .citySearchFocused, .cityNameWrapper:hover {
+        border: 1px solid $secondary-color;
+
+        #citySearchIcon {
+            visibility: visible;
+        }
     }
 
     #cityLabel, #countLabel {
