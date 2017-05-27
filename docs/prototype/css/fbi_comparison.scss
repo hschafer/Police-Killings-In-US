@@ -19,7 +19,7 @@
     .col2 {
         display:table-cell;
         vertical-align: middle;
-        text-align: right;
+        text-align: center;
         color: $outline-color;
     }
 
@@ -29,5 +29,40 @@
 
     .fa.fa-male.highlighted {
         color: $red;
+    }
+
+    $border: 1px solid black;
+    $bracketHeight: 25px;
+    $labelHeight: 50px;
+
+    #wapoBracket {
+        border-top: $border;
+    }
+
+    #fbiBracket {
+        border-bottom: $border;
+    }
+
+    #wapoBracket, #fbiBracket {
+        border-left: $border;
+        border-right: $border;
+        font-size: 20pt;
+        height: $bracketHeight;
+    }
+
+    #wapoBracketLabel, #fbiBracketLabel {
+      height: $labelHeight;
+    }
+
+    #fbiBracketLabel {
+      color: $red;
+    }
+
+    .labelContainer {
+      height: $labelHeight + $bracketHeight;
+    }
+
+    .invisible {
+        display: none;
     }
 }

@@ -1,10 +1,10 @@
 const d3 = require('d3');
 require('waypoints/lib/jquery.waypoints.js');
 
-var TIME_PER_PERSON = 20;
 
 // to reduce scopes of variables and functions that are unnecessary
 (function() {
+  var TIME_PER_PERSON = 20;
   var width = 20;
   var height = 5;
 
@@ -51,11 +51,10 @@ var TIME_PER_PERSON = 20;
   // make people visible and highlight them w/ correct delays
   function drawPeople() {
     setTimeout(showPeople, 750);
-    setTimeout(highlightPeople, 750 + 100 * TIME_PER_PERSON + 100);
+    setTimeout(highlightPeople, 1500 + 100 * TIME_PER_PERSON);
   }
 
   function highlightPeople() {
-    console.log("highlight");
     d3.selectAll(".personToHighlight")
       .transition()
       .duration( function(d, i) {
@@ -63,6 +62,10 @@ var TIME_PER_PERSON = 20;
       })
       .delay( function(d, i) { return i * TIME_PER_PERSON; })
       .attr("class", "fa fa-male highlighted");
+
+    setTimeout(function() { showLabel("#fbiBracket", "#fbiBracketLabel", 0.45); },
+        100 * 0.45 * TIME_PER_PERSON);
+
   }
 
   // make people visible
@@ -74,5 +77,19 @@ var TIME_PER_PERSON = 20;
       })
       .delay( function(d, i) { return i * TIME_PER_PERSON; })
       .attr("style", "visibility:visible");
+
+    setTimeout(function() { showLabel("#wapoBracket", "#wapoBracketLabel", 1.0); },
+        100 * TIME_PER_PERSON);
+  }
+
+  function showLabel(bracketId, bracketLabelId, percentOfWidth) {
+      var peopleWidth = $("#people").width();
+      var bracket = $(bracketId);
+      bracket.width(percentOfWidth * peopleWidth);
+      bracket.fadeIn();
+
+      var bracketLabel = $(bracketLabelId);
+      bracketLabel.width(percentOfWidth * peopleWidth);
+      bracketLabel.fadeIn();
   }
 }());

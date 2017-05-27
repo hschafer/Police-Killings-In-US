@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 146);
+/******/ 	return __webpack_require__(__webpack_require__.s = 141);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1899,7 +1899,7 @@ function loadLocale(name) {
             module && module.exports) {
         try {
             oldLocale = globalLocale._abbr;
-            __webpack_require__(247)("./" + name);
+            __webpack_require__(240)("./" + name);
             // because defineLocale currently also sets the global locale, we
             // want to undo that for lazy loaded locales
             getSetGlobalLocale(oldLocale);
@@ -4534,7 +4534,7 @@ return hooks;
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(250)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(243)(module)))
 
 /***/ }),
 /* 1 */
@@ -4553,7 +4553,7 @@ return hooks;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3_interpolate__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3_interpolate__ = __webpack_require__(192);
 
 
 /* harmony default export */ __webpack_exports__["a"] = (function(scheme) {
@@ -4570,10 +4570,10 @@ return hooks;
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_0__src_color__["h"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_0__src_color__["g"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_0__src_color__["f"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_lab__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_lab__ = __webpack_require__(191);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__src_lab__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__src_lab__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_cubehelix__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_cubehelix__ = __webpack_require__(190);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_2__src_cubehelix__["a"]; });
 
 
@@ -21745,53 +21745,53 @@ Object.defineProperty(exports, '__esModule', { value: true });
 /**
  * @namespace Chart
  */
-var Chart = __webpack_require__(167)();
+var Chart = __webpack_require__(162)();
 
+__webpack_require__(160)(Chart);
+__webpack_require__(176)(Chart);
+__webpack_require__(156)(Chart);
 __webpack_require__(165)(Chart);
-__webpack_require__(181)(Chart);
+__webpack_require__(159)(Chart);
+__webpack_require__(155)(Chart);
+__webpack_require__(157)(Chart);
+__webpack_require__(158)(Chart);
+__webpack_require__(163)(Chart);
+__webpack_require__(167)(Chart);
+__webpack_require__(168)(Chart);
+__webpack_require__(166)(Chart);
+__webpack_require__(169)(Chart);
+__webpack_require__(164)(Chart);
 __webpack_require__(161)(Chart);
 __webpack_require__(170)(Chart);
-__webpack_require__(164)(Chart);
-__webpack_require__(160)(Chart);
-__webpack_require__(162)(Chart);
-__webpack_require__(163)(Chart);
-__webpack_require__(168)(Chart);
+
+__webpack_require__(171)(Chart);
 __webpack_require__(172)(Chart);
 __webpack_require__(173)(Chart);
-__webpack_require__(171)(Chart);
 __webpack_require__(174)(Chart);
-__webpack_require__(169)(Chart);
-__webpack_require__(166)(Chart);
-__webpack_require__(175)(Chart);
 
-__webpack_require__(176)(Chart);
+__webpack_require__(179)(Chart);
 __webpack_require__(177)(Chart);
 __webpack_require__(178)(Chart);
-__webpack_require__(179)(Chart);
-
-__webpack_require__(184)(Chart);
+__webpack_require__(180)(Chart);
+__webpack_require__(181)(Chart);
 __webpack_require__(182)(Chart);
-__webpack_require__(183)(Chart);
-__webpack_require__(185)(Chart);
-__webpack_require__(186)(Chart);
-__webpack_require__(187)(Chart);
 
 // Controllers must be loaded after elements
 // See Chart.core.datasetController.dataElementType
-__webpack_require__(154)(Chart);
-__webpack_require__(155)(Chart);
-__webpack_require__(156)(Chart);
-__webpack_require__(157)(Chart);
-__webpack_require__(158)(Chart);
-__webpack_require__(159)(Chart);
-
-__webpack_require__(147)(Chart);
-__webpack_require__(148)(Chart);
 __webpack_require__(149)(Chart);
 __webpack_require__(150)(Chart);
 __webpack_require__(151)(Chart);
 __webpack_require__(152)(Chart);
 __webpack_require__(153)(Chart);
+__webpack_require__(154)(Chart);
+
+__webpack_require__(142)(Chart);
+__webpack_require__(143)(Chart);
+__webpack_require__(144)(Chart);
+__webpack_require__(145)(Chart);
+__webpack_require__(146)(Chart);
+__webpack_require__(147)(Chart);
+__webpack_require__(148)(Chart);
 
 window.Chart = module.exports = Chart;
 
@@ -33801,15 +33801,15 @@ https://github.com/imakewebthings/waypoints/blob/master/licenses.txt
 /***/ (function(module, exports, __webpack_require__) {
 
 const d3 = __webpack_require__(10);
-const d3Chromatic = __webpack_require__(208);
+const d3Chromatic = __webpack_require__(203);
 const Chart = __webpack_require__(11);
 __webpack_require__(135);
-__webpack_require__(145);
+__webpack_require__(140);
 
 var OUTLINE_COLOR = "#b1b1b1";
-var BACKGROUND_COLOR = "#2f394d";
+var BACKGROUND_COLOR = "#fbfff3";
 
-Chart.defaults.global.defaultFontColor = OUTLINE_COLOR;
+Chart.defaults.global.defaultFontColor = "#80857b";
 
 function tooltipLabel(tooltipItem, data, signed) {
     var val = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
@@ -33857,7 +33857,10 @@ function tooltipLabel(tooltipItem, data, signed) {
 
         var allVictimData = victimData[selected].values.sort(compareStrings);
 
-        var colors = ["#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e", "#a6761d", "#e6ab02"];
+        //var colors = ["#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e", "#a6761d", "#e6ab02"];
+
+        // --outline-color, --dark-gray, --dark-blue, --red, --red-faded, --red-faded, --gray
+        var colors = ["#dcdfd7", "#2F394D","#80857b", "#a03e33 ", "#2e1513",  "#B57A71", "#819fb1"];
 
         pieCharts = makePieCharts(allVictimData, colors);
 
@@ -33935,8 +33938,8 @@ function tooltipLabel(tooltipItem, data, signed) {
                 elements: {
 				    center: {
 					    text: "Race of Victims",
-                        color: OUTLINE_COLOR, // Default is #000000
-                        fontStyle: 'Arial', // Default is Arial
+                        color: "#2F394D", // Default is #000000
+                        fontStyle: 'Ropa Sans', // Default is Arial
                         sidePadding: 20 // Defualt is 20 (as a percentage)
 				    }
                 },
@@ -34091,10 +34094,10 @@ function tooltipLabel(tooltipItem, data, signed) {
 const d3 = __webpack_require__(10);
 __webpack_require__(135);
 
-var TIME_PER_PERSON = 20;
 
 // to reduce scopes of variables and functions that are unnecessary
 (function() {
+  var TIME_PER_PERSON = 20;
   var width = 20;
   var height = 5;
 
@@ -34141,11 +34144,10 @@ var TIME_PER_PERSON = 20;
   // make people visible and highlight them w/ correct delays
   function drawPeople() {
     setTimeout(showPeople, 750);
-    setTimeout(highlightPeople, 750 + 100 * TIME_PER_PERSON + 100);
+    setTimeout(highlightPeople, 1500 + 100 * TIME_PER_PERSON);
   }
 
   function highlightPeople() {
-    console.log("highlight");
     d3.selectAll(".personToHighlight")
       .transition()
       .duration( function(d, i) {
@@ -34153,6 +34155,10 @@ var TIME_PER_PERSON = 20;
       })
       .delay( function(d, i) { return i * TIME_PER_PERSON; })
       .attr("class", "fa fa-male highlighted");
+
+    setTimeout(function() { showLabel("#fbiBracket", "#fbiBracketLabel", 0.45); },
+        100 * 0.45 * TIME_PER_PERSON);
+
   }
 
   // make people visible
@@ -34164,6 +34170,20 @@ var TIME_PER_PERSON = 20;
       })
       .delay( function(d, i) { return i * TIME_PER_PERSON; })
       .attr("style", "visibility:visible");
+
+    setTimeout(function() { showLabel("#wapoBracket", "#wapoBracketLabel", 1.0); },
+        100 * TIME_PER_PERSON);
+  }
+
+  function showLabel(bracketId, bracketLabelId, percentOfWidth) {
+      var peopleWidth = $("#people").width();
+      var bracket = $(bracketId);
+      bracket.width(percentOfWidth * peopleWidth);
+      bracket.fadeIn();
+
+      var bracketLabel = $(bracketLabelId);
+      bracketLabel.width(percentOfWidth * peopleWidth);
+      bracketLabel.fadeIn();
   }
 }());
 
@@ -34173,7 +34193,7 @@ var TIME_PER_PERSON = 20;
 /***/ (function(module, exports, __webpack_require__) {
 
 const d3 = __webpack_require__(10);
-const fuse = __webpack_require__(246);
+const fuse = __webpack_require__(239);
 
 (function () {
 
@@ -35158,7 +35178,7 @@ const fuse = __webpack_require__(246);
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(193);
+var content = __webpack_require__(188);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -35166,7 +35186,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(248)(content, options);
+var update = __webpack_require__(241)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -35183,12 +35203,7 @@ if(false) {
 }
 
 /***/ }),
-/* 140 */,
-/* 141 */,
-/* 142 */,
-/* 143 */,
-/* 144 */,
-/* 145 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const Chart = __webpack_require__(11);
@@ -35375,7 +35390,7 @@ Chart.pluginService.register({
 
 
 /***/ }),
-/* 146 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Our modules are designed to execute when imported
@@ -35431,7 +35446,7 @@ function highlightIntro() {
 
 
 /***/ }),
-/* 147 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35449,7 +35464,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 148 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35466,7 +35481,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 149 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35484,7 +35499,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 150 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35502,7 +35517,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 151 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35520,7 +35535,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 152 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35538,7 +35553,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 153 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35592,7 +35607,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 154 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36139,7 +36154,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 155 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36268,7 +36283,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 156 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36578,7 +36593,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 157 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36924,7 +36939,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 158 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37146,7 +37161,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 159 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37334,7 +37349,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 160 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37480,7 +37495,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 161 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37611,7 +37626,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 162 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38370,7 +38385,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 163 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38686,7 +38701,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 164 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38789,7 +38804,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 165 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38797,7 +38812,7 @@ module.exports = function(Chart) {
 /* global document: false */
 
 
-var color = __webpack_require__(189);
+var color = __webpack_require__(184);
 
 module.exports = function(Chart) {
 	// Global Chart helpers object for utility methods and classes
@@ -39765,7 +39780,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 166 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40084,7 +40099,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 167 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40147,7 +40162,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 168 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40523,7 +40538,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 169 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41066,7 +41081,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 170 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41398,7 +41413,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 171 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42164,7 +42179,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 172 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42211,7 +42226,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 173 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42426,7 +42441,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 174 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42653,7 +42668,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 175 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43540,7 +43555,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 176 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43651,7 +43666,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 177 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43842,7 +43857,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 178 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43949,7 +43964,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 179 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44164,7 +44179,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 180 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44448,7 +44463,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 181 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44456,7 +44471,7 @@ module.exports = function(Chart) {
 
 // By default, select the browser (DOM) platform.
 // @TODO Make possible to select another platform at build time.
-var implementation = __webpack_require__(180);
+var implementation = __webpack_require__(175);
 
 module.exports = function(Chart) {
 	/**
@@ -44524,7 +44539,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 182 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44656,7 +44671,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 183 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44847,7 +44862,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 184 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44952,7 +44967,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 185 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45203,7 +45218,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 186 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45723,7 +45738,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 187 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46186,11 +46201,11 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 188 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var colorNames = __webpack_require__(192);
+var colorNames = __webpack_require__(187);
 
 module.exports = {
    getRgba: getRgba,
@@ -46413,12 +46428,12 @@ for (var name in colorNames) {
 
 
 /***/ }),
-/* 189 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var convert = __webpack_require__(191);
-var string = __webpack_require__(188);
+var convert = __webpack_require__(186);
+var string = __webpack_require__(183);
 
 var Color = function (obj) {
 	if (obj instanceof Color) {
@@ -46904,7 +46919,7 @@ module.exports = Color;
 
 
 /***/ }),
-/* 190 */
+/* 185 */
 /***/ (function(module, exports) {
 
 /* MIT license */
@@ -47608,10 +47623,10 @@ for (var key in cssKeywords) {
 
 
 /***/ }),
-/* 191 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(190);
+var conversions = __webpack_require__(185);
 
 var convert = function() {
    return new Converter();
@@ -47705,7 +47720,7 @@ Converter.prototype.getValues = function(space) {
 module.exports = convert;
 
 /***/ }),
-/* 192 */
+/* 187 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -47860,21 +47875,21 @@ module.exports = {
 };
 
 /***/ }),
-/* 193 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(194)(undefined);
+exports = module.exports = __webpack_require__(189)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "#section1 {\n  background: url(" + __webpack_require__(244) + ") no-repeat center center fixed;\n  -webkit-background-size: cover;\n  -moz-background-size: cover;\n  -o-background-size: cover;\n  background-size: cover; }\n  #section1 .fp-tableCell {\n    /* This is the same as --background-color :( */\n    background: rgba(47, 57, 77, 0.7);\n    text-align: center; }\n  #section1 blockquote {\n    width: 775px; }\n  #section1 #highlightedText {\n    color: #DB3A34; }\n\n#fbiSection .row {\n  font-size: 30pt;\n  padding-bottom: 5pt; }\n\n#fbiSection .col1 {\n  display: table-cell;\n  width: 40%;\n  vertical-align: middle;\n  text-align: left; }\n  #fbiSection .col1 p {\n    font-size: 15pt;\n    margin: 30px 50px 30px 10px; }\n\n#fbiSection .col2 {\n  display: table-cell;\n  vertical-align: middle;\n  text-align: right;\n  color: #E4E3D3; }\n\n#fbiSection .fa.fa-male {\n  margin-left: 5pt; }\n\n#fbiSection .fa.fa-male.highlighted {\n  color: #DB3A34; }\n\n#ethnicitySectionContainer #ethnicityCanvasContainer, #ethnicitySectionContainer #ethnicitySectionText {\n  display: table-cell; }\n\n#ethnicitySectionContainer #ethnicitySectionText {\n  padding-left: 10px;\n  vertical-align: top; }\n\n#ethnicitySectionContainer #ethnicityCanvasContainer {\n  border-color: #b1b1b1; }\n\n#ethnicitySectionContainer #reveal {\n  display: none; }\n\n#ethnicitySectionContainer canvas {\n  display: inherit; }\n\n#ethnicitySectionContainer label, #ethnicitySectionContainer input {\n  vertical-align: top;\n  font-size: 17pt;\n  padding-right: 10px; }\n\n#ethnicitySectionContainer #selectInstructions {\n  padding-top: 20px;\n  border-top: 5px dotted white; }\n\n#ethnicitySectionContainer form {\n  height: 50px; }\n\n#section2 {\n  text-align: left; }\n  #section2 .autoCompleteResult, #section2 #cityName, #section2 #cityCount {\n    margin-top: 1pt;\n    margin-bottom: 5px;\n    color: #E4E3D3; }\n  #section2 .cityNameWrapper {\n    display: flex;\n    border: 1px solid transparent; }\n    #section2 .cityNameWrapper #cityNameAndSearch {\n      /*margin-top: 1pt;*/\n      /*margin-bottom: 5px;*/\n      color: #E4E3D3;\n      background: transparent;\n      border: none;\n      outline: none;\n      font-family: 'Ropa Sans', sans-serif;\n      width: 90%;\n      position: relative;\n      /* copy default h6 characteristics */\n      display: block;\n      font-size: 0.67em;\n      font-weight: bold; }\n    #section2 .cityNameWrapper #citySearchIcon {\n      visibility: hidden; }\n  #section2 .citySearchFocused, #section2 .cityNameWrapper:hover {\n    border: 1px solid #b1b1b1; }\n    #section2 .citySearchFocused #citySearchIcon, #section2 .cityNameWrapper:hover #citySearchIcon {\n      visibility: visible; }\n  #section2 #cityLabel, #section2 #countLabel {\n    margin-top: 10px;\n    margin-bottom: 1pt;\n    color: #b1b1b1; }\n  #section2 #victimsLabel {\n    margin-top: 10px;\n    margin-bottom: 5pt;\n    color: #b1b1b1; }\n  #section2 #victimList {\n    list-style-type: none;\n    margin: 0pt;\n    padding: 0pt;\n    font-size: 1.7vh;\n    -webkit-column-count: 2;\n    -moz-column-count: 2;\n    column-count: 2;\n    color: #E4E3D3; }\n    #section2 #victimList li {\n      margin-bottom: 5pt; }\n  #section2 #section2HeaderRow {\n    width: 100%; }\n  #section2 .directionsParagraph {\n    margin-top: 0pt;\n    margin-bottom: 1pt; }\n  #section2 .mapInfo {\n    display: table-cell;\n    font-size: 20pt;\n    vertical-align: top;\n    padding-left: 10px;\n    width: 100%; }\n  #section2 .mapSVG {\n    display: table-cell; }\n  #section2 .states {\n    fill: #b1b1b1;\n    stroke: #fff;\n    cursor: pointer; }\n  #section2 .states.active {\n    fill: orange; }\n  #section2 .states.unclickable {\n    cursor: default; }\n  #section2 .states.unclickable:hover {\n    fill: #b1b1b1; }\n  #section2 .states.unclickable.active {\n    fill: orange; }\n  #section2 .symbol {\n    fill: steelblue;\n    fill-opacity: .7;\n    stroke: #3f75a2;\n    cursor: pointer; }\n  #section2 .symbol.highlightedCity, #section2 .symbol#highlightedCityDuplicate {\n    fill: #DB3A34;\n    stroke: #b11a1a; }\n  #section2 .state-borders {\n    fill: none;\n    stroke: #2F394D;\n    stroke-width: 0.5px;\n    stroke-linejoin: round;\n    stroke-linecap: round;\n    pointer-events: none; }\n  #section2 .us-outline {\n    stroke: #E4E3D3;\n    stroke-width: 1px;\n    fill: none; }\n  #section2 .legend rect {\n    stroke: #E4E3D3;\n    fill: #2F394D;\n    opacity: 0.7; }\n  #section2 .legend .legendCircle {\n    stroke: #E4E3D3;\n    fill: none; }\n  #section2 .legend .legendLabel, #section2 .legend #legendTitle {\n    font-size: small;\n    fill: #E4E3D3; }\n  #section2 #hoverDirections {\n    display: table-cell;\n    padding-bottom: 7pt; }\n  #section2 #usSvgContainer {\n    position: relative; }\n  #section2 button {\n    position: absolute;\n    width: 40px;\n    height: 25px;\n    left: 2px;\n    top: 2px; }\n  #section2 #zoomOut {\n    left: 50px; }\n  #section2 #citySearch {\n    float: right;\n    position: absolute;\n    width: 100;\n    height: 25px;\n    right: 2px;\n    top: 2px;\n    opacity: 0.5;\n    color: #b1b1b1;\n    font-size: small;\n    text-align: center;\n    /*background-color: var(--background-color);*/\n    font-family: 'Ropa Sans', sans-serif; }\n  #section2 .victimFilterContainer {\n    display: table-cell; }\n  #section2 .victimFilterContainer h5 {\n    font-size: 20pt; }\n  #section2 #victimDateFilter {\n    width: 30%; }\n  #section2 #dateSlider {\n    width: 100%; }\n  #section2 #ageSlider {\n    width: 100%; }\n  #section2 #dateSliderGroup, #section2 #ageSliderGroup {\n    transform: translate(10px, 30px); }\n  #section2 #victimDemographics {\n    display: table;\n    width: 100%; }\n  #section2 #victimDemographicsContainer {\n    width: 70%; }\n  #section2 #victimParamsCol1, #section2 #victimParamsCol2,\n  #section2 #victimParamsCol3, #section2 #victimParamsCol4,\n  #section2 #victimParamsCol5 {\n    display: table-cell; }\n  #section2 #victimParamsCol1 {\n    width: 40%; }\n  #section2 #victimParamsCol2, #section2 #victimParamsCol3, #section2 #victimParamsCol4 {\n    width: 16%; }\n  #section2 #victimParamsCol5 {\n    width: 12%; }\n  #section2 .victimDemographicList {\n    font-size: 15pt;\n    list-style-type: none; }\n  #section2 .victimDemographicList h6 {\n    margin: 0pt;\n    color: #E4E3D3; }\n  #section2 .victimFilterContainer h5 {\n    margin-top: 10pt;\n    margin-bottom: 10pt; }\n  #section2 #victimMapFilters {\n    margin-top: 10px;\n    width: 100%; }\n  #section2 .EthnicityCheckboxColumn {\n    display: table-cell;\n    width: 33%; }\n  #section2 #EthnicityCheckboxContainer {\n    display: table;\n    width: 100%; }\n  #section2 .checkboxItem {\n    font-size: 10pt; }\n  #section2 .ticks {\n    /*stroke: var(--outline-color);*/\n    fill: #E4E3D3;\n    font-size: medium; }\n  #section2 .track, #section2 .track-inset, #section2 .track-overlay {\n    stroke-linecap: round; }\n  #section2 .track {\n    /*stroke: var(--outline-color);*/\n    stroke-opacity: 0.3;\n    stroke-width: 10px; }\n  #section2 #lowerTicks {\n    transform: translate(0px, 25px); }\n  #section2 #upperTicks {\n    transform: translate(0px, -16px); }\n  #section2 .track-inset {\n    stroke: #b1b1b1;\n    stroke-width: 8px; }\n  #section2 #date-track-inset-selected-region, #section2 #age-track-inset-selected-region {\n    stroke-opacity: 1.0;\n    stroke: white;\n    stroke-width: 8px; }\n  #section2 .track-overlay {\n    pointer-events: stroke;\n    stroke-width: 50px;\n    stroke: transparent;\n    cursor: crosshair; }\n  #section2 .dateFilterHandle, #section2 .ageFilterHandle {\n    fill: #fff;\n    stroke: #000;\n    stroke-opacity: 0.5;\n    stroke-width: 1.25px; }\n\ndiv.tooltip {\n  position: absolute;\n  max-height: 100px;\n  background: #2F394D;\n  border: 0px;\n  font-family: 'Ropa Sans', sans-serif;\n  color: #E4E3D3;\n  padding: 4pt; }\n\ndiv.tooltip h2 {\n  margin: 0; }\n\n#nextSteps ul.tabs {\n  margin: 0px 10px 0px 10px;\n  padding: 0px;\n  list-style: none; }\n  #nextSteps ul.tabs li {\n    background: #b1b1b1;\n    color: #222;\n    display: inline-block;\n    padding: 10px 15px;\n    cursor: pointer;\n    border-radius: 5px 5px 0px 0px; }\n  #nextSteps ul.tabs li.current {\n    background: #ededed;\n    color: #222; }\n\n#nextSteps .tab-content {\n  border-top: 1px solid #ededed;\n  display: none;\n  padding: 15px; }\n\n#nextSteps .tab-content.current {\n  display: inherit; }\n\n#nextSteps a.bigButton {\n  width: 200px;\n  text-align: center;\n  text-decoration: none; }\n\n#nextSteps .halfPage {\n  vertical-align: top;\n  display: inline-block;\n  margin: 0;\n  width: 50%; }\n\n/* * * * * * * * * * * * * * * * * * * * * * * * * *\n * Note: We will assume all styles                 *\n * listed in above imports are appropriately       *\n * scoped and will not interfere with each other.  *\n * Anything that should be applying to             *\n * multiple sections should go in this file below  *\n * * * * * * * * * *  * * * *  * * * * *  * *  * * */\n::-webkit-scrollbar {\n  width: 0px;\n  background: transparent;\n  height: 0px; }\n\n/**\n * General section styles\n */\n.section {\n  color: #b1b1b1;\n  font-size: 6em;\n  text-align: center;\n  background-color: #2F394D;\n  font-family: 'Ropa Sans', sans-serif; }\n\n.sectionTitle {\n  font-size: 30pt;\n  margin-bottom: 20pt;\n  display: table-cell;\n  color: #b1b1b1; }\n\n.sectionSubtitle {\n  margin-top: 2pt;\n  font-size: 15pt;\n  color: #E4E3D3;\n  margin-bottom: 4pt; }\n\n.sectionRow {\n  display: table; }\n\n.sectionContainer {\n  width: 90%;\n  height: 90%;\n  margin: auto;\n  display: table; }\n\n.backgroundRect {\n  fill: none;\n  stroke: #E4E3D3;\n  stroke-width: 1px;\n  pointer-events: all; }\n\n.section3Subtitle, .section4Subtitle {\n  margin-top: 15pt;\n  font-size: 20pt;\n  color: #E4E3D3;\n  text-align: left;\n  margin: auto; }\n\n.sectionText {\n  font-size: 13pt;\n  text-align: left; }\n\n/* Styles for instruction text */\n.instructions {\n  font-size: 12pt;\n  opacity: .7;\n  text-align: left; }\n\n.footer {\n  font-size: 15pt;\n  color: white; }\n\n.github-logo {\n  fill: #b1b1b1; }\n\na {\n  color: #FFFFFF; }\n\n/* Styles for our big button look */\n.bigButton {\n  display: block;\n  margin: 0 auto;\n  padding: 15px 45px;\n  font-size: 20px;\n  font-family: \"Bitter\",serif;\n  line-height: 1.8;\n  appearance: none;\n  box-shadow: none;\n  border-radius: 0;\n  color: #fff;\n  background-color: #6496c8;\n  text-shadow: -1px 1px #417cb8;\n  border: none; }\n\n.bigButton:focus {\n  outline: none; }\n\n.bigButton:hover {\n  background-color: #346392;\n  text-shadow: -1px 1px #27496d;\n  cursor: pointer; }\n\n.bigButton:active {\n  background-color: #27496d;\n  text-shadow: -1px 1px #193047; }\n\nblockquote {\n  display: block;\n  font-family: Georgia, serif;\n  font-size: 18px;\n  font-style: italic;\n  width: 500px;\n  margin: 0 auto;\n  padding: 0.25em 40px;\n  line-height: 1.45;\n  position: relative; }\n  blockquote cite {\n    color: #999999;\n    font-size: 14px;\n    display: block;\n    margin-top: 5px; }\n  blockquote cite:before {\n    content: \"\\2014   \\2009\"; }\n\nblockquote:before {\n  display: block;\n  content: \"\\201C\";\n  font-size: 80px;\n  position: absolute;\n  left: -20px;\n  top: -20px;\n  color: #7a7a7a; }\n", ""]);
+exports.push([module.i, "#section1 {\n  -webkit-background-size: cover;\n  -moz-background-size: cover;\n  -o-background-size: cover;\n  background-size: cover; }\n  #section1 .fp-tableCell {\n    background: #fbfff3;\n    text-align: center; }\n  #section1 blockquote {\n    width: 775px; }\n  #section1 #highlightedText {\n    color: #a03e33; }\n\n#fbiSection .row {\n  font-size: 30pt;\n  padding-bottom: 5pt; }\n\n#fbiSection .col1 {\n  display: table-cell;\n  width: 40%;\n  vertical-align: middle;\n  text-align: left; }\n  #fbiSection .col1 p {\n    font-size: 15pt;\n    margin: 30px 50px 30px 10px; }\n\n#fbiSection .col2 {\n  display: table-cell;\n  vertical-align: middle;\n  text-align: center;\n  color: #819fb1; }\n\n#fbiSection .fa.fa-male {\n  margin-left: 5pt; }\n\n#fbiSection .fa.fa-male.highlighted {\n  color: #a03e33; }\n\n#fbiSection #wapoBracket {\n  border-top: 1px solid black; }\n\n#fbiSection #fbiBracket {\n  border-bottom: 1px solid black; }\n\n#fbiSection #wapoBracket, #fbiSection #fbiBracket {\n  border-left: 1px solid black;\n  border-right: 1px solid black;\n  font-size: 20pt;\n  height: 25px; }\n\n#fbiSection #wapoBracketLabel, #fbiSection #fbiBracketLabel {\n  height: 50px; }\n\n#fbiSection #fbiBracketLabel {\n  color: #a03e33; }\n\n#fbiSection .labelContainer {\n  height: 75px; }\n\n#fbiSection .invisible {\n  display: none; }\n\n#ethnicitySectionContainer #ethnicityCanvasContainer, #ethnicitySectionContainer #ethnicitySectionText {\n  display: table-cell; }\n\n#ethnicitySectionContainer #ethnicitySectionText {\n  padding-left: 10px;\n  vertical-align: top; }\n\n#ethnicitySectionContainer #ethnicityCanvasContainer {\n  border-color: #2F394D; }\n\n#ethnicitySectionContainer #reveal {\n  display: none; }\n\n#ethnicitySectionContainer canvas {\n  display: inherit; }\n\n#ethnicitySectionContainer label, #ethnicitySectionContainer input {\n  vertical-align: top;\n  font-size: 17pt;\n  padding-right: 10px; }\n\n#ethnicitySectionContainer #selectInstructions {\n  padding-top: 20px;\n  border-top: 5px dotted white; }\n\n#ethnicitySectionContainer form {\n  height: 50px; }\n\n#section2 {\n  text-align: left; }\n  #section2 .autoCompleteResult, #section2 #cityName, #section2 #cityCount {\n    margin-top: 1pt;\n    margin-bottom: 5px;\n    color: #819fb1; }\n  #section2 .cityNameWrapper {\n    display: flex;\n    border: 1px solid transparent; }\n    #section2 .cityNameWrapper #cityNameAndSearch {\n      /*margin-top: 1pt;*/\n      /*margin-bottom: 5px;*/\n      color: #819fb1;\n      background: transparent;\n      border: none;\n      outline: none;\n      font-family: 'Ropa Sans', sans-serif;\n      width: 90%;\n      position: relative;\n      /* copy default h6 characteristics */\n      display: block;\n      font-size: 0.67em;\n      font-weight: bold; }\n    #section2 .cityNameWrapper #citySearchIcon {\n      visibility: hidden; }\n  #section2 .citySearchFocused, #section2 .cityNameWrapper:hover {\n    border: 1px solid #2F394D; }\n    #section2 .citySearchFocused #citySearchIcon, #section2 .cityNameWrapper:hover #citySearchIcon {\n      visibility: visible; }\n  #section2 #cityLabel, #section2 #countLabel {\n    margin-top: 10px;\n    margin-bottom: 1pt;\n    color: #2F394D; }\n  #section2 #victimsLabel {\n    margin-top: 10px;\n    margin-bottom: 5pt;\n    color: #2F394D; }\n  #section2 #victimList {\n    list-style-type: none;\n    margin: 0pt;\n    padding: 0pt;\n    font-size: 1.7vh;\n    -webkit-column-count: 2;\n    -moz-column-count: 2;\n    column-count: 2;\n    color: #80857b; }\n    #section2 #victimList li {\n      margin-bottom: 5pt; }\n  #section2 #section2HeaderRow {\n    width: 100%; }\n  #section2 .directionsParagraph {\n    margin-top: 0pt;\n    margin-bottom: 1pt; }\n  #section2 .mapInfo {\n    display: table-cell;\n    font-size: 20pt;\n    vertical-align: top;\n    padding-left: 10px;\n    width: 100%; }\n  #section2 .mapSVG {\n    display: table-cell; }\n  #section2 .states {\n    fill: #a6a9a1;\n    stroke: #fff;\n    cursor: pointer; }\n  #section2 .states.active {\n    fill: orange; }\n  #section2 .states.unclickable {\n    cursor: default; }\n  #section2 .states.unclickable:hover {\n    fill: #2F394D; }\n  #section2 .states.unclickable.active {\n    fill: orange; }\n  #section2 .symbol {\n    fill: #2F394D;\n    fill-opacity: .7;\n    cursor: pointer; }\n  #section2 .symbol.highlightedCity, #section2 .symbol#highlightedCityDuplicate {\n    fill: #a03e33;\n    stroke: #b11a1a; }\n  #section2 .state-borders {\n    fill: none;\n    stroke: #fbfff3;\n    stroke-width: 0.5px;\n    stroke-linejoin: round;\n    stroke-linecap: round;\n    pointer-events: none; }\n  #section2 .us-outline {\n    stroke: #819fb1;\n    stroke-width: 1px;\n    fill: none; }\n  #section2 .legend rect {\n    stroke: #819fb1;\n    fill: #fbfff3;\n    opacity: 0.7; }\n  #section2 .legend .legendCircle {\n    stroke: #819fb1;\n    fill: none; }\n  #section2 .legend .legendLabel, #section2 .legend #legendTitle {\n    font-size: small;\n    fill: #819fb1; }\n  #section2 #hoverDirections {\n    display: table-cell;\n    padding-bottom: 7pt; }\n  #section2 #usSvgContainer {\n    position: relative; }\n  #section2 button {\n    position: absolute;\n    width: 40px;\n    height: 25px;\n    left: 2px;\n    top: 2px; }\n  #section2 #zoomOut {\n    left: 50px; }\n  #section2 #citySearch {\n    float: right;\n    position: absolute;\n    width: 100;\n    height: 25px;\n    right: 2px;\n    top: 2px;\n    opacity: 0.5;\n    color: #2F394D;\n    font-size: small;\n    text-align: center;\n    /*background-color: var(--background-color);*/\n    font-family: 'Ropa Sans', sans-serif; }\n  #section2 .victimFilterContainer {\n    display: table-cell; }\n  #section2 .victimFilterContainer h5 {\n    font-size: 20pt; }\n  #section2 #victimDateFilter {\n    width: 30%; }\n  #section2 #dateSlider {\n    width: 100%; }\n  #section2 #ageSlider {\n    width: 100%; }\n  #section2 #dateSliderGroup, #section2 #ageSliderGroup {\n    transform: translate(10px, 30px); }\n  #section2 #victimDemographics {\n    display: table;\n    width: 100%; }\n  #section2 #victimDemographicsContainer {\n    width: 70%; }\n  #section2 #victimParamsCol1, #section2 #victimParamsCol2,\n  #section2 #victimParamsCol3, #section2 #victimParamsCol4,\n  #section2 #victimParamsCol5 {\n    display: table-cell; }\n  #section2 #victimParamsCol1 {\n    width: 40%; }\n  #section2 #victimParamsCol2, #section2 #victimParamsCol3, #section2 #victimParamsCol4 {\n    width: 16%; }\n  #section2 #victimParamsCol5 {\n    width: 12%; }\n  #section2 .victimDemographicList {\n    font-size: 15pt;\n    list-style-type: none; }\n  #section2 .victimDemographicList h6 {\n    margin: 0pt;\n    color: #819fb1; }\n  #section2 .victimFilterContainer h5 {\n    margin-top: 10pt;\n    margin-bottom: 10pt; }\n  #section2 #victimMapFilters {\n    margin-top: 10px;\n    width: 100%; }\n  #section2 .EthnicityCheckboxColumn {\n    display: table-cell;\n    width: 33%; }\n  #section2 #EthnicityCheckboxContainer {\n    display: table;\n    width: 100%; }\n  #section2 .checkboxItem {\n    font-size: 10pt; }\n  #section2 .ticks {\n    /*stroke: var(--outline-color);*/\n    fill: #819fb1;\n    font-size: medium; }\n  #section2 .track, #section2 .track-inset, #section2 .track-overlay {\n    stroke-linecap: round; }\n  #section2 .track {\n    /*stroke: var(--outline-color);*/\n    stroke-opacity: 0.3;\n    stroke-width: 10px; }\n  #section2 #lowerTicks {\n    transform: translate(0px, 25px); }\n  #section2 #upperTicks {\n    transform: translate(0px, -16px); }\n  #section2 .track-inset {\n    stroke: #2F394D;\n    stroke-width: 8px; }\n  #section2 #date-track-inset-selected-region, #section2 #age-track-inset-selected-region {\n    stroke-opacity: 1.0;\n    stroke: white;\n    stroke-width: 8px; }\n  #section2 .track-overlay {\n    pointer-events: stroke;\n    stroke-width: 50px;\n    stroke: transparent;\n    cursor: crosshair; }\n  #section2 .dateFilterHandle, #section2 .ageFilterHandle {\n    fill: #fff;\n    stroke: #000;\n    stroke-opacity: 0.5;\n    stroke-width: 1.25px; }\n\ndiv.tooltip {\n  position: absolute;\n  max-height: 100px;\n  background: #fbfff3;\n  border: 0px;\n  font-family: 'Ropa Sans', sans-serif;\n  color: #819fb1;\n  padding: 4pt; }\n\ndiv.tooltip h2 {\n  margin: 0; }\n\n#nextSteps ul.tabs {\n  margin: 0px 10px 0px 10px;\n  padding: 0px;\n  list-style: none; }\n  #nextSteps ul.tabs li {\n    background: #2F394D;\n    color: #222;\n    display: inline-block;\n    padding: 10px 15px;\n    cursor: pointer;\n    border-radius: 5px 5px 0px 0px; }\n  #nextSteps ul.tabs li.current {\n    background: #ededed;\n    color: #222; }\n\n#nextSteps .tab-content {\n  border-top: 1px solid #ededed;\n  display: none;\n  padding: 15px; }\n\n#nextSteps .tab-content.current {\n  display: inherit; }\n\n#nextSteps a.bigButton {\n  width: 200px;\n  text-align: center;\n  text-decoration: none; }\n\n#nextSteps .halfPage {\n  vertical-align: top;\n  display: inline-block;\n  margin: 0;\n  width: 50%; }\n\n/* * * * * * * * * * * * * * * * * * * * * * * * * *\n * Note: We will assume all styles                 *\n * listed in above imports are appropriately       *\n * scoped and will not interfere with each other.  *\n * Anything that should be applying to             *\n * multiple sections should go in this file below  *\n * * * * * * * * * *  * * * *  * * * * *  * *  * * */\n::-webkit-scrollbar {\n  width: 0px;\n  background: transparent;\n  height: 0px; }\n\n/**\n * General section styles\n */\n.section {\n  color: #2F394D;\n  font-size: 6em;\n  text-align: center;\n  background-color: #fbfff3;\n  font-family: 'Ropa Sans', sans-serif; }\n\n.sectionTitle {\n  font-size: 30pt;\n  margin-bottom: 20pt;\n  display: table-cell;\n  color: #2F394D; }\n\n.sectionSubtitle {\n  margin-top: 2pt;\n  font-size: 15pt;\n  color: #80857b;\n  margin-bottom: 4pt; }\n\n.sectionRow {\n  display: table; }\n\n.sectionContainer {\n  width: 90%;\n  height: 90%;\n  margin: auto;\n  display: table; }\n\n.backgroundRect {\n  fill: none;\n  stroke: #819fb1;\n  stroke-width: 1px;\n  pointer-events: all; }\n\n.section3Subtitle, .section4Subtitle {\n  margin-top: 15pt;\n  font-size: 20pt;\n  color: #819fb1;\n  text-align: left;\n  margin: auto; }\n\n.sectionText {\n  font-size: 13pt;\n  text-align: left; }\n\n/* Styles for instruction text */\n.instructions {\n  font-size: 12pt;\n  opacity: .7;\n  text-align: left; }\n\n.footer {\n  font-size: 15pt;\n  color: white; }\n\n.github-logo {\n  fill: #2F394D; }\n\na {\n  color: #FFFFFF; }\n\n/* Styles for our big button look */\n.bigButton {\n  display: block;\n  margin: 0 auto;\n  padding: 15px 45px;\n  font-size: 20px;\n  font-family: \"Bitter\",serif;\n  line-height: 1.8;\n  appearance: none;\n  box-shadow: none;\n  border-radius: 0;\n  color: #fff;\n  background-color: #6496c8;\n  text-shadow: -1px 1px #417cb8;\n  border: none; }\n\n.bigButton:focus {\n  outline: none; }\n\n.bigButton:hover {\n  background-color: #346392;\n  text-shadow: -1px 1px #27496d;\n  cursor: pointer; }\n\n.bigButton:active {\n  background-color: #27496d;\n  text-shadow: -1px 1px #193047; }\n\nblockquote {\n  display: block;\n  font-family: Georgia, serif;\n  font-size: 18px;\n  font-style: italic;\n  width: 500px;\n  margin: 0 auto;\n  padding: 0.25em 40px;\n  line-height: 1.45;\n  position: relative; }\n  blockquote cite {\n    color: #999999;\n    font-size: 14px;\n    display: block;\n    margin-top: 5px; }\n  blockquote cite:before {\n    content: \"\\2014   \\2009\"; }\n\nblockquote:before {\n  display: block;\n  content: \"\\201C\";\n  font-size: 80px;\n  position: absolute;\n  left: -20px;\n  top: -20px;\n  color: #7a7a7a; }\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 194 */
+/* 189 */
 /***/ (function(module, exports) {
 
 /*
@@ -47956,7 +47971,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 195 */
+/* 190 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48029,7 +48044,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__define__["a" /* default */])(
 
 
 /***/ }),
-/* 196 */
+/* 191 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48151,7 +48166,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__define__["a" /* default */])(
 
 
 /***/ }),
-/* 197 */
+/* 192 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48169,31 +48184,31 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__define__["a" /* default */])(
 /* unused harmony reexport interpolateNumber */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__src_object__ = __webpack_require__(17);
 /* unused harmony reexport interpolateObject */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__src_round__ = __webpack_require__(203);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__src_round__ = __webpack_require__(198);
 /* unused harmony reexport interpolateRound */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__src_string__ = __webpack_require__(19);
 /* unused harmony reexport interpolateString */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src_transform_index__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src_transform_index__ = __webpack_require__(200);
 /* unused harmony reexport interpolateTransformCss */
 /* unused harmony reexport interpolateTransformSvg */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__src_zoom__ = __webpack_require__(207);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__src_zoom__ = __webpack_require__(202);
 /* unused harmony reexport interpolateZoom */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__src_rgb__ = __webpack_require__(18);
 /* unused harmony reexport interpolateRgb */
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_11__src_rgb__["a"]; });
 /* unused harmony reexport interpolateRgbBasisClosed */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__src_hsl__ = __webpack_require__(200);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__src_hsl__ = __webpack_require__(195);
 /* unused harmony reexport interpolateHsl */
 /* unused harmony reexport interpolateHslLong */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__src_lab__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__src_lab__ = __webpack_require__(196);
 /* unused harmony reexport interpolateLab */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__src_hcl__ = __webpack_require__(199);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__src_hcl__ = __webpack_require__(194);
 /* unused harmony reexport interpolateHcl */
 /* unused harmony reexport interpolateHclLong */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__src_cubehelix__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__src_cubehelix__ = __webpack_require__(193);
 /* unused harmony reexport interpolateCubehelix */
 /* unused harmony reexport interpolateCubehelixLong */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__src_quantize__ = __webpack_require__(202);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__src_quantize__ = __webpack_require__(197);
 /* unused harmony reexport quantize */
 
 
@@ -48215,7 +48230,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__define__["a" /* default */])(
 
 
 /***/ }),
-/* 198 */
+/* 193 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48254,7 +48269,7 @@ var cubehelixLong = cubehelix(__WEBPACK_IMPORTED_MODULE_1__color__["a" /* defaul
 
 
 /***/ }),
-/* 199 */
+/* 194 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48285,7 +48300,7 @@ var hclLong = hcl(__WEBPACK_IMPORTED_MODULE_1__color__["a" /* default */]);
 
 
 /***/ }),
-/* 200 */
+/* 195 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48316,7 +48331,7 @@ var hslLong = hsl(__WEBPACK_IMPORTED_MODULE_1__color__["a" /* default */]);
 
 
 /***/ }),
-/* 201 */
+/* 196 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48342,7 +48357,7 @@ function lab(start, end) {
 
 
 /***/ }),
-/* 202 */
+/* 197 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48354,7 +48369,7 @@ function lab(start, end) {
 
 
 /***/ }),
-/* 203 */
+/* 198 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48366,7 +48381,7 @@ function lab(start, end) {
 
 
 /***/ }),
-/* 204 */
+/* 199 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48400,14 +48415,14 @@ var identity = {
 
 
 /***/ }),
-/* 205 */
+/* 200 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* unused harmony export interpolateTransformCss */
 /* unused harmony export interpolateTransformSvg */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__number__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__parse__ = __webpack_require__(206);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__parse__ = __webpack_require__(201);
 
 
 
@@ -48474,13 +48489,13 @@ var interpolateTransformSvg = interpolateTransform(__WEBPACK_IMPORTED_MODULE_1__
 
 
 /***/ }),
-/* 206 */
+/* 201 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = parseCss;
 /* harmony export (immutable) */ __webpack_exports__["b"] = parseSvg;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__decompose__ = __webpack_require__(204);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__decompose__ = __webpack_require__(199);
 
 
 var cssNode,
@@ -48509,7 +48524,7 @@ function parseSvg(value) {
 
 
 /***/ }),
-/* 207 */
+/* 202 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48580,106 +48595,106 @@ function tanh(x) {
 
 
 /***/ }),
-/* 208 */
+/* 203 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_categorical_Accent__ = __webpack_require__(209);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_categorical_Accent__ = __webpack_require__(204);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeAccent", function() { return __WEBPACK_IMPORTED_MODULE_0__src_categorical_Accent__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_categorical_Dark2__ = __webpack_require__(210);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_categorical_Dark2__ = __webpack_require__(205);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeDark2", function() { return __WEBPACK_IMPORTED_MODULE_1__src_categorical_Dark2__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_categorical_Paired__ = __webpack_require__(211);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_categorical_Paired__ = __webpack_require__(206);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePaired", function() { return __WEBPACK_IMPORTED_MODULE_2__src_categorical_Paired__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_categorical_Pastel1__ = __webpack_require__(212);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_categorical_Pastel1__ = __webpack_require__(207);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePastel1", function() { return __WEBPACK_IMPORTED_MODULE_3__src_categorical_Pastel1__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_categorical_Pastel2__ = __webpack_require__(213);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_categorical_Pastel2__ = __webpack_require__(208);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePastel2", function() { return __WEBPACK_IMPORTED_MODULE_4__src_categorical_Pastel2__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_categorical_Set1__ = __webpack_require__(214);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_categorical_Set1__ = __webpack_require__(209);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeSet1", function() { return __WEBPACK_IMPORTED_MODULE_5__src_categorical_Set1__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__src_categorical_Set2__ = __webpack_require__(215);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__src_categorical_Set2__ = __webpack_require__(210);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeSet2", function() { return __WEBPACK_IMPORTED_MODULE_6__src_categorical_Set2__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__src_categorical_Set3__ = __webpack_require__(216);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__src_categorical_Set3__ = __webpack_require__(211);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeSet3", function() { return __WEBPACK_IMPORTED_MODULE_7__src_categorical_Set3__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__src_diverging_BrBG__ = __webpack_require__(217);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__src_diverging_BrBG__ = __webpack_require__(212);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateBrBG", function() { return __WEBPACK_IMPORTED_MODULE_8__src_diverging_BrBG__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeBrBG", function() { return __WEBPACK_IMPORTED_MODULE_8__src_diverging_BrBG__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src_diverging_PRGn__ = __webpack_require__(218);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src_diverging_PRGn__ = __webpack_require__(213);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePRGn", function() { return __WEBPACK_IMPORTED_MODULE_9__src_diverging_PRGn__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePRGn", function() { return __WEBPACK_IMPORTED_MODULE_9__src_diverging_PRGn__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__src_diverging_PiYG__ = __webpack_require__(219);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__src_diverging_PiYG__ = __webpack_require__(214);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePiYG", function() { return __WEBPACK_IMPORTED_MODULE_10__src_diverging_PiYG__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePiYG", function() { return __WEBPACK_IMPORTED_MODULE_10__src_diverging_PiYG__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__src_diverging_PuOr__ = __webpack_require__(220);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__src_diverging_PuOr__ = __webpack_require__(215);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePuOr", function() { return __WEBPACK_IMPORTED_MODULE_11__src_diverging_PuOr__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePuOr", function() { return __WEBPACK_IMPORTED_MODULE_11__src_diverging_PuOr__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__src_diverging_RdBu__ = __webpack_require__(221);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__src_diverging_RdBu__ = __webpack_require__(216);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateRdBu", function() { return __WEBPACK_IMPORTED_MODULE_12__src_diverging_RdBu__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeRdBu", function() { return __WEBPACK_IMPORTED_MODULE_12__src_diverging_RdBu__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__src_diverging_RdGy__ = __webpack_require__(222);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__src_diverging_RdGy__ = __webpack_require__(217);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateRdGy", function() { return __WEBPACK_IMPORTED_MODULE_13__src_diverging_RdGy__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeRdGy", function() { return __WEBPACK_IMPORTED_MODULE_13__src_diverging_RdGy__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__src_diverging_RdYlBu__ = __webpack_require__(223);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__src_diverging_RdYlBu__ = __webpack_require__(218);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateRdYlBu", function() { return __WEBPACK_IMPORTED_MODULE_14__src_diverging_RdYlBu__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeRdYlBu", function() { return __WEBPACK_IMPORTED_MODULE_14__src_diverging_RdYlBu__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__src_diverging_RdYlGn__ = __webpack_require__(224);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__src_diverging_RdYlGn__ = __webpack_require__(219);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateRdYlGn", function() { return __WEBPACK_IMPORTED_MODULE_15__src_diverging_RdYlGn__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeRdYlGn", function() { return __WEBPACK_IMPORTED_MODULE_15__src_diverging_RdYlGn__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__src_diverging_Spectral__ = __webpack_require__(225);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__src_diverging_Spectral__ = __webpack_require__(220);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateSpectral", function() { return __WEBPACK_IMPORTED_MODULE_16__src_diverging_Spectral__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeSpectral", function() { return __WEBPACK_IMPORTED_MODULE_16__src_diverging_Spectral__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__src_sequential_multi_BuGn__ = __webpack_require__(226);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__src_sequential_multi_BuGn__ = __webpack_require__(221);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateBuGn", function() { return __WEBPACK_IMPORTED_MODULE_17__src_sequential_multi_BuGn__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeBuGn", function() { return __WEBPACK_IMPORTED_MODULE_17__src_sequential_multi_BuGn__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__src_sequential_multi_BuPu__ = __webpack_require__(227);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__src_sequential_multi_BuPu__ = __webpack_require__(222);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateBuPu", function() { return __WEBPACK_IMPORTED_MODULE_18__src_sequential_multi_BuPu__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeBuPu", function() { return __WEBPACK_IMPORTED_MODULE_18__src_sequential_multi_BuPu__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__src_sequential_multi_GnBu__ = __webpack_require__(228);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__src_sequential_multi_GnBu__ = __webpack_require__(223);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateGnBu", function() { return __WEBPACK_IMPORTED_MODULE_19__src_sequential_multi_GnBu__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeGnBu", function() { return __WEBPACK_IMPORTED_MODULE_19__src_sequential_multi_GnBu__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__src_sequential_multi_OrRd__ = __webpack_require__(229);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__src_sequential_multi_OrRd__ = __webpack_require__(224);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateOrRd", function() { return __WEBPACK_IMPORTED_MODULE_20__src_sequential_multi_OrRd__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeOrRd", function() { return __WEBPACK_IMPORTED_MODULE_20__src_sequential_multi_OrRd__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__src_sequential_multi_PuBuGn__ = __webpack_require__(231);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__src_sequential_multi_PuBuGn__ = __webpack_require__(226);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePuBuGn", function() { return __WEBPACK_IMPORTED_MODULE_21__src_sequential_multi_PuBuGn__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePuBuGn", function() { return __WEBPACK_IMPORTED_MODULE_21__src_sequential_multi_PuBuGn__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__src_sequential_multi_PuBu__ = __webpack_require__(230);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__src_sequential_multi_PuBu__ = __webpack_require__(225);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePuBu", function() { return __WEBPACK_IMPORTED_MODULE_22__src_sequential_multi_PuBu__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePuBu", function() { return __WEBPACK_IMPORTED_MODULE_22__src_sequential_multi_PuBu__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__src_sequential_multi_PuRd__ = __webpack_require__(232);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__src_sequential_multi_PuRd__ = __webpack_require__(227);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePuRd", function() { return __WEBPACK_IMPORTED_MODULE_23__src_sequential_multi_PuRd__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePuRd", function() { return __WEBPACK_IMPORTED_MODULE_23__src_sequential_multi_PuRd__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__src_sequential_multi_RdPu__ = __webpack_require__(233);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__src_sequential_multi_RdPu__ = __webpack_require__(228);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateRdPu", function() { return __WEBPACK_IMPORTED_MODULE_24__src_sequential_multi_RdPu__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeRdPu", function() { return __WEBPACK_IMPORTED_MODULE_24__src_sequential_multi_RdPu__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__src_sequential_multi_YlGnBu__ = __webpack_require__(235);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__src_sequential_multi_YlGnBu__ = __webpack_require__(230);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateYlGnBu", function() { return __WEBPACK_IMPORTED_MODULE_25__src_sequential_multi_YlGnBu__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeYlGnBu", function() { return __WEBPACK_IMPORTED_MODULE_25__src_sequential_multi_YlGnBu__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__src_sequential_multi_YlGn__ = __webpack_require__(234);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__src_sequential_multi_YlGn__ = __webpack_require__(229);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateYlGn", function() { return __WEBPACK_IMPORTED_MODULE_26__src_sequential_multi_YlGn__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeYlGn", function() { return __WEBPACK_IMPORTED_MODULE_26__src_sequential_multi_YlGn__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__src_sequential_multi_YlOrBr__ = __webpack_require__(236);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__src_sequential_multi_YlOrBr__ = __webpack_require__(231);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateYlOrBr", function() { return __WEBPACK_IMPORTED_MODULE_27__src_sequential_multi_YlOrBr__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeYlOrBr", function() { return __WEBPACK_IMPORTED_MODULE_27__src_sequential_multi_YlOrBr__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__src_sequential_multi_YlOrRd__ = __webpack_require__(237);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__src_sequential_multi_YlOrRd__ = __webpack_require__(232);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateYlOrRd", function() { return __WEBPACK_IMPORTED_MODULE_28__src_sequential_multi_YlOrRd__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeYlOrRd", function() { return __WEBPACK_IMPORTED_MODULE_28__src_sequential_multi_YlOrRd__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__src_sequential_single_Blues__ = __webpack_require__(238);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__src_sequential_single_Blues__ = __webpack_require__(233);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateBlues", function() { return __WEBPACK_IMPORTED_MODULE_29__src_sequential_single_Blues__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeBlues", function() { return __WEBPACK_IMPORTED_MODULE_29__src_sequential_single_Blues__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__src_sequential_single_Greens__ = __webpack_require__(239);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__src_sequential_single_Greens__ = __webpack_require__(234);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateGreens", function() { return __WEBPACK_IMPORTED_MODULE_30__src_sequential_single_Greens__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeGreens", function() { return __WEBPACK_IMPORTED_MODULE_30__src_sequential_single_Greens__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__src_sequential_single_Greys__ = __webpack_require__(240);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__src_sequential_single_Greys__ = __webpack_require__(235);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateGreys", function() { return __WEBPACK_IMPORTED_MODULE_31__src_sequential_single_Greys__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeGreys", function() { return __WEBPACK_IMPORTED_MODULE_31__src_sequential_single_Greys__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__src_sequential_single_Purples__ = __webpack_require__(242);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__src_sequential_single_Purples__ = __webpack_require__(237);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolatePurples", function() { return __WEBPACK_IMPORTED_MODULE_32__src_sequential_single_Purples__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemePurples", function() { return __WEBPACK_IMPORTED_MODULE_32__src_sequential_single_Purples__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__src_sequential_single_Reds__ = __webpack_require__(243);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__src_sequential_single_Reds__ = __webpack_require__(238);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateReds", function() { return __WEBPACK_IMPORTED_MODULE_33__src_sequential_single_Reds__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeReds", function() { return __WEBPACK_IMPORTED_MODULE_33__src_sequential_single_Reds__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__src_sequential_single_Oranges__ = __webpack_require__(241);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__src_sequential_single_Oranges__ = __webpack_require__(236);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "interpolateOranges", function() { return __WEBPACK_IMPORTED_MODULE_34__src_sequential_single_Oranges__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "schemeOranges", function() { return __WEBPACK_IMPORTED_MODULE_34__src_sequential_single_Oranges__["b"]; });
 
@@ -48720,7 +48735,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 209 */
+/* 204 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48731,7 +48746,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 210 */
+/* 205 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48742,7 +48757,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 211 */
+/* 206 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48753,7 +48768,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 212 */
+/* 207 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48764,7 +48779,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 213 */
+/* 208 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48775,7 +48790,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 214 */
+/* 209 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48786,7 +48801,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 215 */
+/* 210 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48797,7 +48812,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 216 */
+/* 211 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48808,7 +48823,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 217 */
+/* 212 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48834,7 +48849,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 218 */
+/* 213 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48860,7 +48875,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 219 */
+/* 214 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48886,7 +48901,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 220 */
+/* 215 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48912,7 +48927,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 221 */
+/* 216 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48938,7 +48953,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 222 */
+/* 217 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48964,7 +48979,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 223 */
+/* 218 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48990,7 +49005,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 224 */
+/* 219 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49016,7 +49031,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 225 */
+/* 220 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49042,7 +49057,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 226 */
+/* 221 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49066,7 +49081,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 227 */
+/* 222 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49090,7 +49105,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 228 */
+/* 223 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49114,7 +49129,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 229 */
+/* 224 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49138,7 +49153,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 230 */
+/* 225 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49162,7 +49177,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 231 */
+/* 226 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49186,7 +49201,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 232 */
+/* 227 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49210,7 +49225,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 233 */
+/* 228 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49234,7 +49249,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 234 */
+/* 229 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49258,7 +49273,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 235 */
+/* 230 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49282,7 +49297,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 236 */
+/* 231 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49306,7 +49321,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 237 */
+/* 232 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49330,7 +49345,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 238 */
+/* 233 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49354,7 +49369,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 239 */
+/* 234 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49378,7 +49393,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 240 */
+/* 235 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49402,7 +49417,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 241 */
+/* 236 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49426,7 +49441,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 242 */
+/* 237 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49450,7 +49465,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 243 */
+/* 238 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49474,14 +49489,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 244 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "6a5904ea557450b1086f8a0369319c9c.jpg";
-
-/***/ }),
-/* 245 */,
-/* 246 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -50464,7 +50472,7 @@ module.exports = Fuse;
 //# sourceMappingURL=fuse.js.map
 
 /***/ }),
-/* 247 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -50713,10 +50721,10 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 247;
+webpackContext.id = 240;
 
 /***/ }),
-/* 248 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -50762,7 +50770,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(249);
+var	fixUrls = __webpack_require__(242);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -51075,7 +51083,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 249 */
+/* 242 */
 /***/ (function(module, exports) {
 
 
@@ -51170,7 +51178,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 250 */
+/* 243 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
