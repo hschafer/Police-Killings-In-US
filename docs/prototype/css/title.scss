@@ -1,13 +1,12 @@
 #section1 {
-    background: url(maxresdefault_dark.jpg) no-repeat center center fixed;
+    //background: url(maxresdefault_dark.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 
     .fp-tableCell {
-        /* This is the same as --background-color :( */
-        background: rgba(47, 57, 77, 0.7);
+        background: $background-color;
         text-align: center;
     }
 
@@ -18,4 +17,5 @@
     #highlightedText {
         color: $red;
     }
+
 }
