@@ -171,7 +171,7 @@ Chart.pluginService.register({
             if (chart.config.options.elements.right) {
                 var rightTxt = chart.config.options.elements.right.text;
                 var rightStringWidth = ctx.measureText(rightTxt).width;
-                var rightX = centerX - chart.outerRadius / 2 - rightStringWidth;
+                var rightX = centerX - chart.outerRadius / 2 - rightStringWidth  + 15;
                 var rightY = 3 * centerY / 2;
                 ctx.fillText(rightTxt, rightX, rightY);
             }
