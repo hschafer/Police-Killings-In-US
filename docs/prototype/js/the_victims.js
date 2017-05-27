@@ -274,8 +274,7 @@ const fuse = require('fuse.js');
             });
 
         // style map filters
-        d3.select("#victimMapFilters")
-            .attr("height", h * (1.0 / 3) + "px");
+        d3.select("#victimMapFilters");
 
         var citySymbols = svg.selectAll(".symbol")
             .data(cities, function (d) {
@@ -614,7 +613,7 @@ const fuse = require('fuse.js');
             .text(MIN_AGE + "");
 
         d3.select("#ageFilterLabelUpper")
-            .attr("x", x.range()[1])
+            .attr("x", x.range()[1] - 5)
             .text(MAX_AGE + "");
 
         // make handle drag behavior
@@ -640,9 +639,28 @@ const fuse = require('fuse.js');
                 selectedRegion.attr("x1", leftXBound);
 
                 // update handle tooltip
-                d3.select("#ageFilterLabelLower")
+                var lowerLabel = d3.select("#ageFilterLabelLower")
                     .attr("x", leftXBound)
                     .text(Math.round(x.invert(leftXBound)));
+                var upperLabel = d3.select("#ageFilterLabelUpper");
+
+                var lower_x = lowerLabel.attr('x');
+                var upper_x = upperLabel.attr('x');
+                var space_between_labels = Math.abs(parseInt(lower_x)
+                    - parseInt(upper_x));
+
+                console.log("space between " + lower_x + " and " + upper_x + " is "
+                    + space_between_labels);
+
+                // fix label if necessary
+                if (space_between_labels < 15) {
+                    //if labels within 15 px of each other, move the upper handle's label
+                    // to accomodate
+                    lowerLabel.attr("x", function() {
+                        var old_x = parseInt(d3.select(this).attr("x"));
+                        return old_x - (15 - space_between_labels);
+                    });
+                }
 
                 // set global "visible" data
                 visible.startAge = Math.round(x.invert(leftXBound));
@@ -661,14 +679,34 @@ const fuse = require('fuse.js');
                 } else {
                     upperXBound = d3.event.x;
                 }
-                upperHandle.attr('cx', upperXBound);
+
+                upperHandle.attr('cx', upperXBound); // so it is centered under the dot
+                selectedRegion.attr("x2", upperXBound);
 
                 // update tooltip
-                d3.select("#ageFilterLabelUpper")
-                    .attr("x", upperXBound)
+                var upperLabel = d3.select("#ageFilterLabelUpper")
+                    .attr("x", upperXBound - 5) // subtract 5 to center the label under the dot
                     .text(Math.round(x.invert(upperXBound)));
+                var lowerLabel = d3.select("#ageFilterLabelLower");
 
-                selectedRegion.attr("x2", upperXBound);
+                var lower_x = lowerLabel.attr('x');
+                var upper_x = upperLabel.attr('x');
+                var space_between_labels = Math.abs(parseInt(lower_x)
+                    - parseInt(upper_x));
+                console.log("space between " + lower_x + " and " +
+                    upper_x + ": " + space_between_labels);
+
+                // fix label if necessary
+                if (space_between_labels < 10) {
+                    //if labels within 15 px of each other, move the upper handle's label
+                    // to accomodate
+                    upperLabel.attr("x", function() {
+                        var old_x = parseInt(d3.select(this).attr("x"));
+                        console.log("current x: " + old_x +
+                            " new x: " + (old_x + (10 - space_between_labels)));
+                        return old_x + (10 - space_between_labels);
+                    });
+                }
 
                 visible.endAge = Math.round(x.invert(upperXBound));
                 update();
