@@ -26,7 +26,7 @@
         On my honor, I will never betray my badge, my integrity, my character, or the public trust.<br/>
         I will always have the courage to hold myself and others <span id="highlightedText"></span><span id="originalText">accountable for our actions.</span><br />
         I will always uphold the Constitution, the community, and the agency I serve, so help me God.
-        <cite>Law Enforcement Oath of Honor</cite>
+        <cite>Law Enforcement Oath of Honor <sup class="citation">[1]</sup></cite>
       </blockquote>
     </div>
     <div id="narrative_section" class="section">
@@ -49,7 +49,7 @@
             The federal government does not require individual police departments to report when an officer kills a civilian.  Because of this, the FBI records far fewer deaths than the Washington Post.
             </p>
             <p>
-            The FBI reported 442 incidents of police officers shooting and killing civilians in 2015.  The Washington Post reported 991 incidents with the same description.
+            The FBI reported 442 incidents of police officers shooting and killing civilians in 2015 <sup class="citation">[2]</sup>.  The Washington Post reported 991 incidents with the same description <sup class="citation">[3]</sup>.
             </p>
           </div>
 
@@ -79,8 +79,8 @@
           <div id="ethnicitySectionText">
             <p class="sectionText">
             Some argue that there isn't a systematic bias in the police force because nearly 50% of the
-            victims shot by police officers are white. While this is true from the Guardian's data, we see
-            a different trend when comparing to the overall population.
+            victims shot by police officers are white. While this is true from the Guardian's data <sup class="citation">[4]</sup>, we see
+            a different trend when comparing to the overall population <sup class="citation">[5]</sup>.
             </p>
 
 
@@ -118,7 +118,7 @@
           <div class="sectionTitle">
             Who are the Victims?
             <p class="sectionSubtitle">Every fatal shooting in the United States by a police officer in the line of duty
-            since Jan. 1, 2015</p>
+            since Jan. 1, 2015 <sup class="citation">[3]</sup></p>
           </div>
           <div id="hoverDirections" class="instructions">
             <p class="directionsParagraph" id="zoomDirection">Click anywhere on the map to zoom.</p>
@@ -403,111 +403,14 @@
         </div>
       </div>
     </div>
-
-    <div id="section3" class="section">
-      <div id="section3Container" class="sectionContainer">
-        <div id="section3HeaderRow" class="sectionRow">
-          <div class="sectionTitle">
-            Design Rationale
-            <p class="section3Subtitle">Motivation</p>
-            <p class="sectionText">
-            Our overall project goal is to visualize aggregate information about police killings and to tell the stories
-            of the victims. For our prototype we aim to allow users to see that this trend of police killings is
-            apparent throughout the country, while also displaying information about individual victims. To do this, we
-            chose to create a map visualization showing of the number of police killings in each city, and the name each
-            victim. We display victim information on a city level because the amount of data countrywide would be
-            overwhelming to look at simultaneously. To show the possible interactions with the visualization, it
-            randomly highlights specific cities when the user is not actively engaged with the map.
-            </p>
-            <p class="section3Subtitle">Tooltips</p>
-            <p class="sectionText">
-            Once we chose to use a map, we decided to include tooltips for each city to allow for deeper exploration of
-            the dataset. Initially, the tooltips included both the city name and the list of victim names. This required
-            the user to scroll through the list of names for cities with more police killings. This UI was difficult to
-            use and obscured many of the names behind scrolling, defeating our primary purpose of highlighting each
-            victim. Because of this, we moved the list of names to the side of the map. We display the city name both on
-            the side of the map and on the tooltip to ensure the connection between the map and the names would be
-            apparent.
-            </p>
-            <p class="section3Subtitle">Zoom</p>
-            <p class="sectionText">
-            Zooming is a very important feature for map visualizations in general. It is effective at allowing users to
-            drill down to see more specific information, and users have come to expect the ability to zoom in. We
-            initially just implemented scroll zoom and click-to-zoom. We decided to have both of these features because
-            they serve slighty different purposes. Click-to-zoom allows users who are interested in a specific state to
-            easily get an optimized state view. Scroll zoom is best for users who want to freely explore the data or
-            want to zoom in on a very specific area. We later added the zoom buttons to assist users who may not be
-            comfortable with scroll zoom.
-            </p>
-            <p class="section3Subtitle">Bubbles</p>
-            <p class="sectionText">
-            We use the area of bubbles to represent the number of people killed by police in each city. It is important
-            that users can see every city that has an incident and can generally compare the number of incidents per
-            city, and an area encoding fulfills this purpose. We briefly considered using color rather than size to
-            encode the number of victims, but we wanted to avoid the complex connotations that come with different color
-            schemes. We included a key for the different sizes of bubbles to make it easier to discern specific values.
-            </p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <div id="section4" class="section">
-      <div id="section4Container" class="sectionContainer">
-        <div id="section4HeaderRow" class="sectionRow">
-          <div class="sectionTitle">
-            Development Process
-            <p class="section4Subtitle">Overall</p>
-            <p class="sectionText">In general, we discussed the motivation and design of our visualization. We
-            collaborated to decide which interactions to support, and to prioritize certain aspects of our data.
-            Implementation was split up between us, though we ended up doing some things collaboratively. </p>
-            <p class="section4Subtitle">Specifics</p>
-            <ul class="sectionText">
-              <li>Meredith Lampe: Initial map setup, grid layout within each section, changing the tooltips to only
-                include the city name, moving the list of victims/city name to the right side of the page, adding
-                descriptive text to the map, general styling
-              </li>
-              <li>Nick Mooney: Setup the project framework and tools, making github page, sizing bubbles correctly when
-                zooming, stop the page from scrolling down when zoomed out completely
-              </li>
-              <li>Hunter Schafer: Overall page layout, initial scroll zoom, click to zoom, processing data to extract
-                desired features, mapping data to bubbles on the map, center the map when zoomed out completely, title
-                page, random selection of cities, legend
-              </li>
-              <li>Erika Wolfe: Preliminary zooming, initial tooltips including the ability to scroll through the list of
-                victim names, saving condensed data to remove javascript processing, writing and styling the write-up
-              </li>
-            </ul>
-            <p class="sectionText">
-            In total, this application took us about 35 - 40 hours of work. The aspects that took the most time are
-            getting the map to show up correctly initially, getting the bubbles to show on the city locations initially,
-            and finalizing the details for zooming. The early work on the map took a long time because we were still
-            getting comfortable with D3, and we had some trouble with the relationship between the map and the bubbles.
-            </p>
-            <p class="section4Subtitle">Future Work</p>
-            <p class="sectionText">
-            In our final project we hope to address the issue that our prototype has with very dense areas of the map.
-            Most of the map is easy to read, but areas of many nearby cities with police killings are difficult to
-            discern. One example of this is the area around LA. To address this, we adjusted the size of the bubbles and
-            subtly outlined them to make them more distinct. We also ordered the bubbles by size so the smaller ones can
-            still be hovered over. Still, this does not fully address the problem. This prototype is an overview of who
-            the victims are, and will be just one page in our final visualization. Our final data story will add a
-            narrative to this dataset by highlighting specific victims' stories and including information about recent
-            legislation.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="footer">
-        <a href="https://cse442-17s.github.io/">CSE 442 Data Visualization</a> -
-        <a href="http://www.washington.edu">University of Washington</a> -
-        <a href="https://github.com/CSE442-17S/Police-Killings-In-US">View Source Code
-          <svg height="16" width="16">
-            <path class="github-logo" fill-rule="evenodd"
-                                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
-          </svg>
-        </a>
-      </div>
+    <div id="referenceSlide" class="section sectionText">
+      <ol>
+        <li>The Law Enforcement Oath of Honor comes from the <a href="http://www.theiacp.org/oathofhonor">International Association of Chiefs of Police</a></li>
+        <li>The FBI reports "justified" killings by law enforcment on their <a href="https://ucr.fbi.gov/crime-in-the-u.s/2015/crime-in-the-u.s.-2015/tables/expanded_homicide_data_table_14_justifiable_homicide_by_weapon_law_enforcement_2011-2015.xls">Crime in the United States Report</a></li>
+        <li>The Washington Post's collected <a href="https://www.washingtonpost.com/graphics/national/police-shootings/">dataset</a> on the people killed by law enforcment </li>
+        <li>The Guardian's collected <a href="https://www.theguardian.com/us-news/ng-interactive/2015/jun/01/the-counted-police-killings-us-database">dataset</a> on the people killed by law enforcment </li>
+        <li>The <a href="https://www.census.gov/quickfacts/table/PST045216/00">U.S. Census'</a> demographic estimates for 2015
+      </ol>
     </div>
   </div>
 </body>

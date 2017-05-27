@@ -1,6 +1,7 @@
 $background-color: #fbfff3;
 $outline-color: #819fb1;
 $secondary-color: #2F394D;
+$light-blue: #6496c8;
 $red: #a03e33;
 $red-faded: #B57A71;
 $red-dark: #6a2f27;
@@ -133,7 +134,7 @@ $light-gray: #dcdfd7;
 }
 
 a {
-    color: #FFFFFF;
+    color: $light-blue;
 }
 
 /* Styles for our big button look */
