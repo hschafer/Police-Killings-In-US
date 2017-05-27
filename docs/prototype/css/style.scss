@@ -33,6 +33,35 @@ $light-gray: #dcdfd7;
 /**
  * General section styles
  */
+
+.white {
+    color: $outline-color;
+}
+
+.african-american {
+    color: $gray;
+}
+
+.asian {
+    color: $secondary-color;
+}
+
+.hispanic {
+    color: $red-dark;
+}
+
+.native-american {
+    color: $darker-gray;
+}
+
+.other-race {
+    color: $red-super-dark;
+}
+
+.unknown-race {
+    color: $red-faded;
+}
+
 .section {
     color: $secondary-color;
     font-size: 6em;
@@ -113,15 +142,14 @@ a {
     margin: 0 auto;
     padding: 15px 45px;
     font-size: 20px;
-    font-family: "Bitter",serif;
+    font-family: "Ropa Sans",serif;
     line-height: 1.8;
     appearance: none;
     box-shadow: none;
-    border-radius: 0;
-    color: #fff;
-    background-color: #6496c8;
-    text-shadow: -1px 1px #417cb8;
-    border: none;
+    border-radius: 2px;
+    color: $darker-gray;
+    background: transparent;
+    border: 2px solid $darker-gray;
 }
 
 .bigButton:focus {
@@ -129,9 +157,9 @@ a {
 }
 
 .bigButton:hover {
-    background-color: #346392;
-    text-shadow: -1px 1px #27496d;
+    background-color: $outline-color;
     cursor: pointer;
+    color: $background-color
 }
 
 .bigButton:active {

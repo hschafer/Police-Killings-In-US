@@ -57,8 +57,9 @@ function tooltipLabel(tooltipItem, data, signed) {
 
         //var colors = ["#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e", "#a6761d", "#e6ab02"];
 
-        // --outline-color, --dark-gray, --dark-blue, --red, --red-faded, --red-faded, --gray
-        var colors = ["#dcdfd7", "#2F394D","#80857b", "#a03e33 ", "#2e1513",  "#B57A71", "#819fb1"];
+        // --outline-color, --red-dark, --secondary-color, --dark-gray, --red, --red-faded, --red-faded, --gray
+        // african american, asian, hispanic
+        var colors = ["#dcdfd7",  "#2F394D", "#a03e33 ", "#80857b","#2e1513",  "#B57A71", "#819fb1"];
 
         pieCharts = makePieCharts(allVictimData, colors);
 

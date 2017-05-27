@@ -254,7 +254,7 @@
 
     .victimDemographicList h6 {
         margin: 0pt;
-        color: $outline-color;
+        color: $darker-gray;
     }
 
     .victimFilterContainer h5 {
@@ -289,7 +289,7 @@
 
     .ticks {
         /*stroke: var(--outline-color);*/
-        fill: $outline-color;
+        fill: $darker-gray;
         font-size: medium;
     }
 
