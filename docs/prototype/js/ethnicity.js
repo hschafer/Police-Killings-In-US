@@ -7,7 +7,7 @@ require('./chart-extensions.js');
 var OUTLINE_COLOR = "#b1b1b1";
 var BACKGROUND_COLOR = "#fbfff3";
 
-Chart.defaults.global.defaultFontColor = OUTLINE_COLOR;
+Chart.defaults.global.defaultFontColor = "#80857b";
 
 function tooltipLabel(tooltipItem, data, signed) {
     var val = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
@@ -57,8 +57,8 @@ function tooltipLabel(tooltipItem, data, signed) {
 
         //var colors = ["#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e", "#a6761d", "#e6ab02"];
 
-        // --outline-color, --secondary-color, --dark-blue, --red, --red-faded, --red-faded, --gray
-        var colors = ["#819fb1", "#2F394D","#08101F", "#a03e33 ", "#2e1513",  "#B57A71", "#a6a9a1"];
+        // --outline-color, --dark-gray, --dark-blue, --red, --red-faded, --red-faded, --gray
+        var colors = ["#dcdfd7", "#2F394D","#80857b", "#a03e33 ", "#2e1513",  "#B57A71", "#819fb1"];
 
         pieCharts = makePieCharts(allVictimData, colors);
 
@@ -136,8 +136,8 @@ function tooltipLabel(tooltipItem, data, signed) {
                 elements: {
 				    center: {
 					    text: "Race of Victims",
-                        color: OUTLINE_COLOR, // Default is #000000
-                        fontStyle: 'Arial', // Default is Arial
+                        color: "#2F394D", // Default is #000000
+                        fontStyle: 'Ropa Sans', // Default is Arial
                         sidePadding: 20 // Defualt is 20 (as a percentage)
 				    }
                 },
