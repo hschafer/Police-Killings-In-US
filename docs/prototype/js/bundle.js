@@ -1899,7 +1899,7 @@ function loadLocale(name) {
             module && module.exports) {
         try {
             oldLocale = globalLocale._abbr;
-            __webpack_require__(241)("./" + name);
+            __webpack_require__(240)("./" + name);
             // because defineLocale currently also sets the global locale, we
             // want to undo that for lazy loaded locales
             getSetGlobalLocale(oldLocale);
@@ -4534,7 +4534,7 @@ return hooks;
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(244)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(243)(module)))
 
 /***/ }),
 /* 1 */
@@ -33931,6 +33931,7 @@ function tooltipLabel(tooltipItem, data, signed) {
                     data: victimData.map(function(d) { return d.value;}),
                     backgroundColor: colors,
                     borderColor: BACKGROUND_COLOR,
+                    hoverBorderColor: BACKGROUND_COLOR,
                     borderWidth: 2
                 }]
             },
@@ -33969,6 +33970,7 @@ function tooltipLabel(tooltipItem, data, signed) {
             data: censusData.map(function(d) { return d.value;}),
             backgroundColor: config.data.datasets[0].backgroundColor, // use the same color
             borderColor: BACKGROUND_COLOR,
+            hoverBorderColor: BACKGROUND_COLOR,
             borderWidth: 2
         });
         config.options.elements.right = {
@@ -34194,7 +34196,7 @@ __webpack_require__(135);
 /***/ (function(module, exports, __webpack_require__) {
 
 const d3 = __webpack_require__(10);
-const fuse = __webpack_require__(240);
+const fuse = __webpack_require__(239);
 
 (function () {
 
@@ -35220,7 +35222,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(242)(content, options);
+var update = __webpack_require__(241)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -49523,8 +49525,7 @@ var scheme = new Array(3).concat(
 
 
 /***/ }),
-/* 239 */,
-/* 240 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -50507,7 +50508,7 @@ module.exports = Fuse;
 //# sourceMappingURL=fuse.js.map
 
 /***/ }),
-/* 241 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -50756,10 +50757,10 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 241;
+webpackContext.id = 240;
 
 /***/ }),
-/* 242 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -50805,7 +50806,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(243);
+var	fixUrls = __webpack_require__(242);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -51118,7 +51119,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 243 */
+/* 242 */
 /***/ (function(module, exports) {
 
 
@@ -51213,7 +51214,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 244 */
+/* 243 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {

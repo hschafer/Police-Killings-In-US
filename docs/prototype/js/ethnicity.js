@@ -129,6 +129,7 @@ function tooltipLabel(tooltipItem, data, signed) {
                     data: victimData.map(function(d) { return d.value;}),
                     backgroundColor: colors,
                     borderColor: BACKGROUND_COLOR,
+                    hoverBorderColor: BACKGROUND_COLOR,
                     borderWidth: 2
                 }]
             },
@@ -167,6 +168,7 @@ function tooltipLabel(tooltipItem, data, signed) {
             data: censusData.map(function(d) { return d.value;}),
             backgroundColor: config.data.datasets[0].backgroundColor, // use the same color
             borderColor: BACKGROUND_COLOR,
+            hoverBorderColor: BACKGROUND_COLOR,
             borderWidth: 2
         });
         config.options.elements.right = {
