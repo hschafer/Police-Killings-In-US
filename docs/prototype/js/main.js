@@ -1,21 +1,21 @@
 // Our modules are designed to execute when imported
 require('./ethnicity.js');
 require('./the_victims.js');
-const fbiComparison = require('./fbi_comparison.js');
+require('./fbi_comparison.js');
 
 require('../css/style.scss');
 
 $(document).ready(function() {
-    var drawPeople = fbiComparison.drawPeople;
-    var peopleLoaded = false;
-
+    // set up full page
     $('#fullpage').fullpage({
         autoScrolling: false,
         fitToSection: false,
     });
 
+    // slow highlight of intro quote
     setTimeout(highlightIntro, 1500);
 
+    // next steps tabs
     $("ul.tabs li").click(function() {
         var me = $(this);
         var tabbed = me.attr("data-tab");
@@ -25,6 +25,13 @@ $(document).ready(function() {
 
 		me.addClass('current');
 		$('#' + tabbed).addClass('current');
+    });
+
+    // make citations clickable
+    $(".citation").click(function() {
+        // this is the location of the references slide.
+        // Please change if you add a new slide
+        $.fn.fullpage.moveTo(8);
     });
 });
 
