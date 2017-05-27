@@ -167,6 +167,8 @@
                 </g>
                 <line class="track-overlay" id="date-track-overlay"></line>
                 <line class="track" id="date-track-inset-selected-region"></line>
+                <circle id="lowerDateFilterHandle" class="dateFilterHandle"></circle>
+                <circle id="upperDateFilterHandle" class="dateFilterHandle"></circle>
                 </g>
               </svg>
             </div>
@@ -193,40 +195,56 @@
                         <div id="EthnicityCheckboxContainer">
                           <div class="EthnicityCheckboxColumn">
                             <div class="EthnicityCheckboxItem checkboxItem">
-                              <input name="African American" checked="true" type="checkbox" id="ChckAfricanAmerican">
-                              African American
+                              <input name="African American" checked="true" type="checkbox" id="ChckAfricanAmerican" class="checkbox">
+                              <label class="checkbox_label" for="ChckAfricanAmerican">
+                                African American
+                              </label>
                             </div>
                             <div class="EthnicityCheckboxItem checkboxItem">
                               <input checked="true" name="Asian" type="checkbox" id="ChckAsian">
-                              Asian
+                              <label class="checkbox_label" for="ChckAsian">
+                                Asian
+                              </label>
                             </div>
                           </div>
                           <div class="EthnicityCheckboxColumn">
                             <div class="EthnicityCheckboxItem checkboxItem">
                               <input name="Hispanic" checked="true" type="checkbox" id="ChckHispanic">
+                              <label class="checkbox_label" for="ChckHispanic">
                               Hispanic
+                                </label>
                             </div>
                             <div class="EthnicityCheckboxItem checkboxItem">
                               <input name="Native American" checked="true" type="checkbox" id="ChckNativeAmerican">
+                              <label class="checkbox_label" for="ChckNativeAmerican">
                               Native American
+                                </label>
                             </div>
                             <div class="EthnicityCheckboxItem checkboxItem">
                               <input name="Other" checked="true" type="checkbox" id="ChckOther">
+                              <label class="checkbox_label" for="ChckOther">
                               Other
+                                </label>
                             </div>
                           </div>
                           <div class="EthnicityCheckboxColumn">
                             <div class="EthnicityCheckboxItem checkboxItem">
                               <input name="Unknown" checked="true" type="checkbox" id="ChckUnknown">
+                              <label class="checkbox_label" for="ChckUnknown">
                               Unknown
+                                </label>
                             </div>
                             <div class="EthnicityCheckboxItem checkboxItem">
                               <input name="White" checked="true" type="checkbox" id="ChckWhite">
+                              <label class="checkbox_label" for="ChckWhite">
                               White
+                                </label>
                             </div>
                             <div class="EthnicityCheckboxItem checkboxItem">
                               <input name="All" checked="true" type="checkbox" id="ChckEthnicityAll">
+                              <label class="checkbox_label" for="ChckEthnicityAll">
                               Select All
+                              </label>
                             </div>
                           </div>
                         </div>
@@ -262,11 +280,15 @@
                       <h6>Armed/Unarmed</h6>
                       <div class="armedCheckedItem checkboxItem">
                         <input name="Armed" checked="true" type="checkbox" value="Armed" id="ChckArmed">
+                        <label class="checkbox_label" for="ChckArmed">
                         Armed
+                          </label>
                       </div>
                       <div class="armedCheckedItem checkboxItem">
                         <input name="Armed" checked="true" type="checkbox" value="Unarmed" id="ChckUnarmed">
+                        <label class="checkbox_label" for="ChckUnarmed">
                         Unarmed
+                          </label>
                       </div>
                     </div>
                   </div>
@@ -277,11 +299,15 @@
                       <h6>Signs of Mental Illness</h6>
                       <div class="mentalCheckedItem checkboxItem">
                         <input name="Showed signs" checked="true" type="checkbox" value="True" id="ChckMentalTrue">
+                        <label class="checkbox_label" for="ChckMentalTrue">
                         Showed signs
+                          </label>
                       </div>
                       <div class="mentalCheckedItem checkboxItem">
                         <input name="Did not show signs" checked="true" type="checkbox" value="False" id="ChckMentalFalse">
+                        <label class="checkbox_label" for="ChckMentalFalse">
                         Did not show signs
+                          </label>
                       </div>
                     </div>
                   </div>
@@ -292,11 +318,15 @@
                       <h6>Gender</h6>
                       <div class="genderCheckboxItem checkboxItem">
                         <input name="Female" checked="true" type="checkbox" id="ChckFemale">
+                        <label class="checkbox_label" for="ChckFemale">
                         Female
+                          </label>
                       </div>
                       <div class="genderCheckboxItem checkboxItem">
                         <input name="Male" checked="true" type="checkbox" id="ChckMale">
+                        <label class="checkbox_label" for="ChckMale">
                         Male
+                          </label>
                       </div>
                     </div>
                   </div>

@@ -14,7 +14,7 @@
         #cityNameAndSearch {
             /*margin-top: 1pt;*/
             /*margin-bottom: 5px;*/
-            color: $outline-color;
+            color: $darker-gray;
             background: transparent;
             border: none;
             outline: none;
@@ -96,7 +96,7 @@
     }
 
     .states.active {
-        fill: orange;
+        fill: $outline-color;
     }
 
     .states.unclickable {
@@ -108,7 +108,7 @@
     }
 
     .states.unclickable.active {
-        fill: orange;
+        fill: $outline-color;
     }
 
     .symbol {
@@ -261,6 +261,10 @@
     #victimMapFilters {
         margin-top: 10px;
         width: 100%;
+        //background-color: $light-gray;
+        //border-style: solid;
+        //border-color: $light-gray;
+        //border-width: 1px;
     }
 
     .EthnicityCheckboxColumn {
@@ -290,7 +294,7 @@
     .track {
         /*stroke: var(--outline-color);*/
         stroke-opacity: 0.3;
-        stroke-width: 10px;
+        stroke-width: 6px;
     }
 
     #lowerTicks {
@@ -303,13 +307,13 @@
 
     .track-inset {
         stroke: $secondary-color;
-        stroke-width: 8px;
+        stroke-width: 4px;
     }
 
     #date-track-inset-selected-region, #age-track-inset-selected-region {
         stroke-opacity: 1.0;
         stroke: white;
-        stroke-width: 8px;
+        stroke-width: 4px;
     }
 
     .track-overlay {
@@ -324,6 +328,8 @@
         stroke: #000;
         stroke-opacity: 0.5;
         stroke-width: 1.25px;
+        r: 6;
+        //z-index: 10;
     }
 }
 
@@ -339,4 +345,9 @@ div.tooltip {
 
 div.tooltip h2 {
     margin: 0;
+}
+
+#EthnicityCheckboxItem {
+    width: 25px;
+    margin: 20px 100px;
 }

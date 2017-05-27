@@ -517,7 +517,7 @@ const fuse = require('fuse.js');
                 // if handle is within expected area, move it to where it is being
                 // dragged to and update viz (this check prevents user from dragging
                 // handle off of track or in front of upper handle)
-                var upperHandleX = parseInt(d3.select("#upperDateFilterHandle").attr("cx")) - 15;
+                var upperHandleX = parseInt(d3.select("#upperDateFilterHandle").attr("cx")) - 6;
                 var selectedRegion = d3.select("#date-track-inset-selected-region");
                 var leftXBound;
                 if (d3.event.x < x.range()[0]) {
@@ -546,7 +546,7 @@ const fuse = require('fuse.js');
 
         var upperHandleDrag = d3.drag()
             .on('drag', function () {
-                var lowerHandleX = parseInt(d3.select("#lowerDateFilterHandle").attr("cx"), 10) + 15;
+                var lowerHandleX = parseInt(d3.select("#lowerDateFilterHandle").attr("cx"), 10) + 6;
                 var selectedRegion = d3.select("#date-track-inset-selected-region");
                 var upperXBound;
                 if (d3.event.x > x.range()[1]) {
@@ -571,17 +571,12 @@ const fuse = require('fuse.js');
                 update();
             });
 
-        var lowerHandle = slider.append("circle", "#date-track-overlay")
-            .attr("id", "lowerDateFilterHandle")
-            .attr("class", "dateFilterHandle")
-            .attr("r", 9)
+        var lowerHandle = d3.select("#lowerDateFilterHandle")
+            .attr("cx", x.range()[0])
             .call(lowerHandleDrag);
 
-        var upperHandle = slider.append("circle", "#date-track-overlay")
-            .attr("id", "upperDateFilterHandle")
-            .attr("class", "dateFilterHandle")
+        var upperHandle = d3.select("#upperDateFilterHandle")
             .attr("cx", x.range()[1])
-            .attr("r", 9)
             .call(upperHandleDrag);
     }
 
@@ -629,7 +624,7 @@ const fuse = require('fuse.js');
                 // if handle is within expected area, move it to where it is being
                 // dragged to and update viz (this check prevents user from dragging
                 // handle off of track or in front of upper handle)
-                var upperHandleX = parseInt(d3.select("#upperAgeFilterHandle").attr("cx")) - 15;
+                var upperHandleX = parseInt(d3.select("#upperAgeFilterHandle").attr("cx")) - 6;
                 var selectedRegion = d3.select("#age-track-inset-selected-region");
                 var leftXBound;
                 if (d3.event.x < x.range()[0]) {
@@ -656,7 +651,7 @@ const fuse = require('fuse.js');
 
         var upperHandleDrag = d3.drag()
             .on('drag', function () {
-                var lowerHandleX = parseInt(d3.select("#lowerAgeFilterHandle").attr("cx"), 10) + 15;
+                var lowerHandleX = parseInt(d3.select("#lowerAgeFilterHandle").attr("cx"), 10) + 6;
                 var selectedRegion = d3.select("#age-track-inset-selected-region");
                 var upperXBound;
                 if (d3.event.x > x.range()[1]) {
