@@ -7,6 +7,9 @@ require('./chart-extensions.js');
 var OUTLINE_COLOR = "#b1b1b1";
 var BACKGROUND_COLOR = "#fbfff3";
 
+var LEGEND_COLOR = "#2F394D";
+var LEGEND_FONT = "Ropa Sans";
+
 Chart.defaults.global.defaultFontColor = "#80857b";
 
 function tooltipLabel(tooltipItem, data, signed) {
@@ -21,7 +24,7 @@ function tooltipLabel(tooltipItem, data, signed) {
 (function() {
     var w = $(window).width() * 0.55;
     var h = $(window).height() * 0.5;
-    var chartH = 3 * h / 4;
+    var chartH = h / 2;
 
     var color = d3.scaleOrdinal(d3Chromatic.schemeDark2);
 
@@ -47,7 +50,7 @@ function tooltipLabel(tooltipItem, data, signed) {
             .attr("id", "diffChart")
             .style("display", "none")
             // add some padding between charts
-            .style("margin-top", (($(window).height() - h - chartH) / 2) + "px");
+            .style("margin-top", (($(window).height() - h - chartH) / 4) + "px");
 
 
     });
@@ -59,17 +62,27 @@ function tooltipLabel(tooltipItem, data, signed) {
 
         var allVictimData = victimData[selected].values.sort(compareStrings);
 
-        //var colors = ["#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e", "#a6761d", "#e6ab02"];
-
         // --outline-color, --red-dark, --secondary-color, --dark-gray, --red, --red-faded, --red-faded, --gray
         // african american, asian, hispanic
-        var colors = ["#dcdfd7",  "#2F394D", "#a03e33 ", "#80857b","#2e1513",  "#B57A71", "#819fb1"];
+        var colors = ["#dcdfd7",  "#2f394d", "#a03e33", "#80857b", "#2e1513", "#b57a71", "#819fb1"];
 
         pieCharts = makePieCharts(allVictimData, colors);
 
         // set this up now but it will remain hidden
         diffChart = makeDiffChart(allVictimData, censusData, colors);
         $("#pieProceed").click(function() { animatePieChart(pieCharts, censusData); });
+
+        // attach events to rotate when click on race name in text
+        var rotateByLabel = function(label) {
+            var index = allVictimData.findIndex(function(d) {
+                return d.key === label;
+            });
+            // this is the callback to call when clicked
+            return function() { rotateChart(index) };
+        }
+        $("#ethnicitySectionText .white").click(rotateByLabel("White"));
+        $("#ethnicitySectionText .african-american").click(rotateByLabel("African American"));
+        $("#ethnicitySectionText .hispanic").click(rotateByLabel("Hispanic"));
     }
 
     function prepareForm(victimData, censusData) {
@@ -142,8 +155,8 @@ function tooltipLabel(tooltipItem, data, signed) {
                 elements: {
 				    center: {
 					    text: "Race of Victims",
-                        color: "#2F394D", // Default is #000000
-                        fontStyle: 'Ropa Sans', // Default is Arial
+                        color: LEGEND_COLOR, // Default is #000000
+                        fontStyle: LEGEND_FONT, // Default is Arial
                         sidePadding: 20 // Defualt is 20 (as a percentage)
 				    }
                 },
@@ -158,7 +171,11 @@ function tooltipLabel(tooltipItem, data, signed) {
                 legend: {
                     onClick: rotation,
                     onHover: changePointer("#pieCharts"),
-                    position: "left"
+                    position: "left",
+                    labels: {
+                        fontColor: LEGEND_COLOR,
+                        fontFamily: LEGEND_FONT
+                    }
                 },
                 onClick: rotation
 			}
@@ -213,6 +230,8 @@ function tooltipLabel(tooltipItem, data, signed) {
     }
 
     function makeDiffChart(victimData, censusData, colors) {
+        // we don't want the "Unknown" race to show up in the diff chart
+        // because it doesn't show up in the census, remove it from the stuff
         var unknownIndex = 0;
         var diffs = victimData.map(function(d, i) {
             if (d.key === "Unknown") {
@@ -229,7 +248,7 @@ function tooltipLabel(tooltipItem, data, signed) {
             data: {
                 labels: diffs.map(function(d) { return d.key; }),
                 datasets: [{
-                    label: 'Percentage Difference Between Victims and Population',
+                    label: 'Difference Between Victim and Population Percentages',
                     data: diffs.map(function(d) { return d.value; }),
                     backgroundColor: chartColors,
                     borderColor: chartColors,
@@ -240,8 +259,11 @@ function tooltipLabel(tooltipItem, data, signed) {
                 legend: {
                     labels: {
                         boxWidth: 0, // make the annoying legend box dissapear
-                        fontSize: 20
+                        fontSize: 20,
+                        fontColor: LEGEND_COLOR,
+                        fontFamily: LEGEND_FONT
                     },
+                    //position: "bottom",
                     onClick: null
                 },
                 hover: {
@@ -255,10 +277,18 @@ function tooltipLabel(tooltipItem, data, signed) {
                             max: 0.20,
                             beginAtZero: true,
                             fixedStepSize: 0.05,
+                            fontFamily: LEGEND_FONT,
+                            fontColor: LEGEND_COLOR,
                             callback: function(val) {
                                 val = val.toFixed(2);
                                 return parseInt(100 * val) + "%"; // floating point is hard
                             }
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontFamily: LEGEND_FONT,
+                            fontColor: LEGEND_COLOR
                         }
                     }]
                 },

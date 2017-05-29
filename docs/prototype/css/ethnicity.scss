@@ -6,6 +6,11 @@
     #ethnicitySectionText {
         padding-left: 10px;
         vertical-align: top;
+
+        .white ,.african-american, .asian, .hispanic,
+        .native-american, .other-race, .unknown-race {
+            cursor: pointer;
+        }
     }
 
     #ethnicityCanvasContainer {
@@ -34,4 +39,5 @@
     form {
         height: 50px;
     }
+
 }
