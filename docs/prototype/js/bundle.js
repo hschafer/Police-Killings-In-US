@@ -33809,6 +33809,9 @@ __webpack_require__(140);
 var OUTLINE_COLOR = "#b1b1b1";
 var BACKGROUND_COLOR = "#fbfff3";
 
+var LEGEND_COLOR = "#2F394D";
+var LEGEND_FONT = "Ropa Sans";
+
 Chart.defaults.global.defaultFontColor = "#80857b";
 
 function tooltipLabel(tooltipItem, data, signed) {
@@ -33944,8 +33947,8 @@ function tooltipLabel(tooltipItem, data, signed) {
                 elements: {
 				    center: {
 					    text: "Race of Victims",
-                        color: "#2F394D", // Default is #000000
-                        fontStyle: 'Ropa Sans', // Default is Arial
+                        color: LEGEND_COLOR, // Default is #000000
+                        fontStyle: LEGEND_FONT, // Default is Arial
                         sidePadding: 20 // Defualt is 20 (as a percentage)
 				    }
                 },
@@ -33960,7 +33963,11 @@ function tooltipLabel(tooltipItem, data, signed) {
                 legend: {
                     onClick: rotation,
                     onHover: changePointer("#pieCharts"),
-                    position: "left"
+                    position: "left",
+                    labels: {
+                        fontColor: LEGEND_COLOR,
+                        fontFamily: LEGEND_FONT
+                    }
                 },
                 onClick: rotation
 			}
@@ -34042,7 +34049,9 @@ function tooltipLabel(tooltipItem, data, signed) {
                 legend: {
                     labels: {
                         boxWidth: 0, // make the annoying legend box dissapear
-                        fontSize: 20
+                        fontSize: 20,
+                        fontColor: LEGEND_COLOR,
+                        fontFamily: LEGEND_FONT
                     },
                     onClick: null
                 },
@@ -34057,10 +34066,18 @@ function tooltipLabel(tooltipItem, data, signed) {
                             max: 0.20,
                             beginAtZero: true,
                             fixedStepSize: 0.05,
+                            fontFamily: LEGEND_FONT,
+                            fontColor: LEGEND_COLOR,
                             callback: function(val) {
                                 val = val.toFixed(2);
                                 return parseInt(100 * val) + "%"; // floating point is hard
                             }
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontFamily: LEGEND_FONT,
+                            fontColor: LEGEND_COLOR
                         }
                     }]
                 },
