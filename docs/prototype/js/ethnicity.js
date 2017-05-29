@@ -64,7 +64,7 @@ function tooltipLabel(tooltipItem, data, signed) {
 
         // --outline-color, --red-dark, --secondary-color, --dark-gray, --red, --red-faded, --red-faded, --gray
         // african american, asian, hispanic
-        var colors = ["#dcdfd7",  "#2f394d", "#a03e33", "#80857b", "#2e1513", "#b57a71", "#819fb1"];
+        var colors = ["#dcdfd7",  "#2f394d", "#a03e33", "#80857b", "#2e1513", "#d08e84", "#819fb1"];
 
         pieCharts = makePieCharts(allVictimData, colors);
 
