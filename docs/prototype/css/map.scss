@@ -57,7 +57,7 @@
         list-style-type: none;
         margin: 0pt;
         padding: 0pt;
-        font-size: 1.7vh;
+        font-size: 1.45vh;
         -webkit-column-count: 2;
         -moz-column-count: 2;
         column-count: 2;
@@ -159,7 +159,7 @@
     #hoverDirections {
         display: table-cell;
         padding-bottom: 7pt;
-        font-size: 20px;
+        font-size: 13px;
     }
 
     #usSvgContainer {
@@ -263,6 +263,7 @@
     .victimDemographicList h6 {
         margin: 0pt;
         color: $darker-gray;
+        font-size: 11px;
     }
 
     .victimFilterContainer h5 {
@@ -292,13 +293,13 @@
     }
 
     .checkboxItem {
-        font-size: 10pt;
+        font-size: 10.5px;
     }
 
     .ticks {
         /*stroke: var(--outline-color);*/
         fill: $darker-gray;
-        font-size: medium;
+        font-size: small;
     }
 
     .track, .track-inset, .track-overlay {
