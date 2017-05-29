@@ -65,4 +65,11 @@
     .invisible {
         display: none;
     }
+
+    #peopleLegend {
+        text-align: right;
+        margin-right: 80pt;
+        color: $secondary-color;
+        font-size: 30pt;
+    }
 }
