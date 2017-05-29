@@ -236,7 +236,7 @@ function tooltipLabel(tooltipItem, data, signed) {
             data: {
                 labels: diffs.map(function(d) { return d.key; }),
                 datasets: [{
-                    label: 'Percentage Difference Between Victims and Population',
+                    label: 'Difference Between Victim and Population Percentages',
                     data: diffs.map(function(d) { return d.value; }),
                     backgroundColor: chartColors,
                     borderColor: chartColors,
@@ -251,6 +251,7 @@ function tooltipLabel(tooltipItem, data, signed) {
                         fontColor: LEGEND_COLOR,
                         fontFamily: LEGEND_FONT
                     },
+                    //position: "bottom",
                     onClick: null
                 },
                 hover: {
