@@ -65,6 +65,7 @@ require('waypoints/lib/jquery.waypoints.js');
 
     setTimeout(function() { showLabel("#fbiBracket", "#fbiBracketLabel", 0.45); },
         100 * 0.45 * TIME_PER_PERSON);
+    setTimeout(function() { showLegend(); }, 1500);
 
   }
 
@@ -91,5 +92,10 @@ require('waypoints/lib/jquery.waypoints.js');
       var bracketLabel = $(bracketLabelId);
       bracketLabel.width(percentOfWidth * peopleWidth);
       bracketLabel.fadeIn();
+  }
+
+  function showLegend() {
+    var peopleLegend = $("#peopleLegend");
+      peopleLegend.fadeIn();
   }
 }());
