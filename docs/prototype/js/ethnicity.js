@@ -62,8 +62,6 @@ function tooltipLabel(tooltipItem, data, signed) {
 
         var allVictimData = victimData[selected].values.sort(compareStrings);
 
-        //var colors = ["#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e", "#a6761d", "#e6ab02"];
-
         // --outline-color, --red-dark, --secondary-color, --dark-gray, --red, --red-faded, --red-faded, --gray
         // african american, asian, hispanic
         var colors = ["#dcdfd7",  "#2f394d", "#a03e33", "#80857b", "#2e1513", "#b57a71", "#819fb1"];
@@ -73,6 +71,18 @@ function tooltipLabel(tooltipItem, data, signed) {
         // set this up now but it will remain hidden
         diffChart = makeDiffChart(allVictimData, censusData, colors);
         $("#pieProceed").click(function() { animatePieChart(pieCharts, censusData); });
+
+        // attach events to rotate when click on race name in text
+        var rotateByLabel = function(label) {
+            var index = allVictimData.findIndex(function(d) {
+                return d.key === label;
+            });
+            // this is the callback to call when clicked
+            return function() { rotateChart(index) };
+        }
+        $("#ethnicitySectionText .white").click(rotateByLabel("White"));
+        $("#ethnicitySectionText .african-american").click(rotateByLabel("African American"));
+        $("#ethnicitySectionText .hispanic").click(rotateByLabel("Hispanic"));
     }
 
     function prepareForm(victimData, censusData) {
