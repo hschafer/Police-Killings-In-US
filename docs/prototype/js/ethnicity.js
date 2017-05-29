@@ -45,7 +45,11 @@ function tooltipLabel(tooltipItem, data, signed) {
             .attr("width", w)
             .attr("height", chartH)
             .attr("id", "diffChart")
-            .style("display", "none");
+            .style("display", "none")
+            // add some padding between charts
+            .style("margin-top", (($(window).height() - h - chartH) / 2) + "px");
+
+
     });
 
     function ready(error, victimData, censusData) {
