@@ -66,7 +66,7 @@ function tooltipLabel(tooltipItem, data, signed) {
 
         // --outline-color, --red-dark, --secondary-color, --dark-gray, --red, --red-faded, --red-faded, --gray
         // african american, asian, hispanic
-        var colors = ["#dcdfd7",  "#2F394D", "#a03e33 ", "#80857b","#2e1513",  "#B57A71", "#819fb1"];
+        var colors = ["#dcdfd7",  "#2f394d", "#a03e33", "#80857b", "#2e1513", "#b57a71", "#819fb1"];
 
         pieCharts = makePieCharts(allVictimData, colors);
 
@@ -220,6 +220,8 @@ function tooltipLabel(tooltipItem, data, signed) {
     }
 
     function makeDiffChart(victimData, censusData, colors) {
+        // we don't want the "Unknown" race to show up in the diff chart
+        // because it doesn't show up in the census, remove it from the stuff
         var unknownIndex = 0;
         var diffs = victimData.map(function(d, i) {
             if (d.key === "Unknown") {
