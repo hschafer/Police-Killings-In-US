@@ -33823,7 +33823,7 @@ function tooltipLabel(tooltipItem, data, signed) {
 (function() {
     var w = $(window).width() * 0.55;
     var h = $(window).height() * 0.5;
-    var chartH = 3 * h / 4;
+    var chartH = h / 2;
 
     var color = d3.scaleOrdinal(d3Chromatic.schemeDark2);
 
@@ -33849,7 +33849,7 @@ function tooltipLabel(tooltipItem, data, signed) {
             .attr("id", "diffChart")
             .style("display", "none")
             // add some padding between charts
-            .style("margin-top", (($(window).height() - h - chartH) / 2) + "px");
+            .style("margin-top", (($(window).height() - h - chartH) / 4) + "px");
 
 
     });
