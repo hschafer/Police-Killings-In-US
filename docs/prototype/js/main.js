@@ -40,19 +40,14 @@ function highlightIntro() {
     var original = $("#originalText");
     var originalText = original.html();
 
-    // "Typing" effect will be random for each character, with
-    // an offset between [staggerMinimum, staggerMinimum + staggerRange]
-    // added to staggerBase
-    var staggerRange = 100;
-    var staggerMinimum = -25;
-    var staggerBase = 50;
+    // "Typing" effect for red fade-in of motto
+    var characterDelay = 75;
 
     if (originalText) {
         var highlighted = $("#highlightedText");
         highlighted.html(highlighted.html() + originalText[0]);
         original.html(originalText.substring(1));
-        var timeoutStagger = Math.floor(Math.random() * staggerRange) + staggerMinimum;
-        setTimeout(highlightIntro, staggerBase + timeoutStagger);
+        setTimeout(highlightIntro, characterDelay);
     }
 }
 
