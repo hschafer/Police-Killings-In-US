@@ -75,7 +75,7 @@ body {
     font-size: 6em;
     text-align: center;
     background-color: $background-color;
-    font-family: 'Ropa Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .sectionTitle {
@@ -86,11 +86,17 @@ body {
     padding-bottom: 15pt;
 }
 
+.sectionTitle, .titleFont {
+    font-family: 'Ropa Sans', sans-serif;
+}
+
+
 .sectionSubtitle {
     margin-top: 2pt;
     font-size: 15pt;
     color: $darker-gray;
     margin-bottom: 4pt;
+    text-align: left;
 }
 
 .sectionRow {
@@ -114,14 +120,14 @@ body {
 }
 
 .sectionText {
-    font-size: 13pt;
+    font-size: 15px;
     text-align: left;
 }
 
 
 /* Styles for instruction text */
 .instructions {
-    font-size: 12pt;
+    font-size: 13px;
     opacity: .7;
     text-align: left;
 }

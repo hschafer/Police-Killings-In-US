@@ -1,5 +1,6 @@
 #section2 {
     text-align: left;
+    font-family: 'Ropa Sans', sans-serif;
 
     .autoCompleteResult, #cityName, #cityCount {
         margin-top: 1pt;
@@ -18,10 +19,10 @@
             background: transparent;
             border: none;
             outline: none;
-            font-family: 'Ropa Sans', sans-serif;
             width: 90%;
             position: relative;
 
+            font-family: 'Ropa Sans', sans-serif;
             /* copy default h6 characteristics */
             display: block;
             font-size: 0.67em;
@@ -73,6 +74,7 @@
     }
 
     .directionsParagraph {
+        font-size: 11pt;
         margin-top: 0pt;
         margin-bottom: 1pt;
     }
