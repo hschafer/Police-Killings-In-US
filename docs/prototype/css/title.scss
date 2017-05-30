@@ -18,4 +18,34 @@
         color: $red;
     }
 
+    #flagStarBoxTop {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+
+    #titlebox {
+        position: absolute;
+    }
+
+    .flagline {
+       height: 3px;
+    }
+
+    .flagline_vertical {
+        width: 3px;
+    }
+
+    #flagbluetop, #flagbluebottom, #verticalblue {
+        fill: $secondary-color;
+    }
+
+    .flagred, #verticalred {
+        fill: $red;
+    }
+
+    #verticalblue, #verticalred {
+
+    }
+
 }
