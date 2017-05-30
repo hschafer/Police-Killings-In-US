@@ -1,14 +1,16 @@
-#narrative_section {
+.narrative_section {
 
   vertical-align: center;
+  width: 70%;
+  margin: auto;
 
   p {
     font-size: 15pt;
   }
 
-  #narrative_text {
+  .narrative_text {
     text-align: left;
-    width: 30%;
+    width: 50%;
   }
 
 }

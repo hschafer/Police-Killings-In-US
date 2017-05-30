@@ -66,6 +66,10 @@ $less-light-gray: #c4c7bf;
     color: $red-faded;
 }
 
+body {
+    background-color: $background-color;
+}
+
 .section {
     color: $secondary-color;
     font-size: 6em;
