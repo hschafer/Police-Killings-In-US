@@ -6,77 +6,85 @@ require('waypoints/lib/jquery.waypoints.js');
 
 (function () {
 
-    var narrative1_text = "One summer afternoon in Seattle, Washington " +
-        "in 2010, Officer Ian Birk noticed a man crossing a city street " +
-        "holding a knife. Officer Birk, a member of the Seattle Police " +
-        "Department, left his vehicle to handle the situation. " ;
+    var partsOfNarrative = [
+        {
+            element: "#narrative_text0 p",
+            sentences: [
+                "One summer afternoon in Seattle, Washington " +
+                "in 2010, Officer Ian Birk noticed a man crossing a city street " +
+                "holding a knife. ",
 
-    var narrative2_text = "Officer Birk approached the man, commanding " +
-        "him to put down the knife. 4 seconds later, Officer Birk had " +
-        "fired four shots into the man, killing him.";
+                "Officer Birk, a member of the Seattle Police " +
+                "Department, left his vehicle to handle the situation."
+            ],
+            durationBetween: 200
+        },
+        {
+            element: "#narrative_text1 p",
+            sentences: [
+                "Officer Birk approached the man, commanding him to put down the knife. ",
 
-    var narrative3_text = "The man, John T. Williams, was a member of " +
-        "the Nuu-chah-nulth tribal group native to nearby Vancouver Island. " +
-        "He was a local woodcarver, hard of hearing, and was carrying a block of " +
-        "wood and his carving knife.";
+                "4 seconds later, Officer Birk had fired four shots into the man, killing him."
+            ],
+            durationBetween: 200
+        },
+        {
+            element: "#narrative_text2 p",
+            sentences: [
+                "The man, John T. Williams, was a member of " +
+                "the Nuu-chah-nulth tribal group native to nearby Vancouver Island. ",
+
+                "He was a local woodcarver, hard of hearing, and was carrying a block of " +
+                "wood and his carving knife."
+            ],
+            durationBetween: 200
+        }
+    ];
+
+    var duration = 4000;
 
     $(document).ready(function () {
         setTimeout(function () {
                 var waypoint1 = new Waypoint({
-                    element: $("#narrative_section1"),
+                    element: $(".narrative_section"),
                     handler: function () {
-                        typeInText("#narrative_section1 .narrative_text p", narrative1_text);
+                        typeInText(0, 0);
                         waypoint1.disable();
                     },
                     offset: 300
                 });
-
-                var waypoint2 = new Waypoint({
-                    element: $("#narrative_section2"),
-                    handler: function () {
-                        typeInText("#narrative_section2 .narrative_text p", narrative2_text);
-                        waypoint2.disable();
-                    },
-                    offset: 300
-                });
-
-                var waypoint3 = new Waypoint({
-                    element: $("#narrative_section3"),
-                    handler: function () {
-                        typeInText("#narrative_section3 .narrative_text p", narrative3_text);
-                        waypoint3.disable();
-                    },
-                    offset: 300
-                });
-
-            }, 1000
-        );
+            }, 1000);
     });
 
-    function typeInText(id_selector, text) {
-        console.log("type text from" + id_selector + " now");
-        var p = d3.select(id_selector);
-        var textLength = text.length;
-        p.transition()
-            .duration(4000)
-            .ease(d3.easeLinear)
-            .tween('text', function() {
-                return function(t) {
-                    var newText = text.substr(0,
-                            Math.round( t * textLength));
-                    d3.select(id_selector).html(newText);
-                };
-            });
-            //.tween("text", function () {
-            //    //debugger;
-            //    //var textcontent = this.textContent;
-            //    //var textLength = text.length;
-            //    return function (t) {
-            //        //debugger;
-            //        //this.innerHTML = text.substr(0,
-            //        //        Math.round( t * textLength) );
-            //        console.log("tween called at time " + t);
-            //    };
-            //});
+    function typeInText(partIndex, sentenceIndex) {
+        if (partIndex < partsOfNarrative.length) {
+            console.log("type text from " + partIndex + ", " + sentenceIndex + " now");
+            var part = partsOfNarrative[partIndex];
+
+            var p = d3.select(part.element);
+            var text = part.sentences[sentenceIndex];
+
+            var textLength = text.length;
+            var originalText = p.html();
+            p.transition()
+                .duration(duration)
+                .ease(d3.easeLinear)
+                .tween('text', function() {
+                    return function(t) {
+                        var newText = text.substr(0,
+                                Math.round( t * textLength));
+                        p.html(originalText + newText);
+                    };
+                });
+
+            setTimeout(function() {
+                sentenceIndex++;
+                if (sentenceIndex >= part.sentences.length) {
+                    partIndex++;
+                    sentenceIndex = 0;
+                }
+                typeInText(partIndex, sentenceIndex);
+            }, 1.1 * duration + part.durationBetween);
+        }
     }
 }());
