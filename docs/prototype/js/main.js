@@ -11,6 +11,9 @@ $(document).ready(function() {
     $('#fullpage').fullpage({
         autoScrolling: false,
         fitToSection: false,
+        navigation: true,
+        navigationPosition: 'left',
+        menu: '#menu'
     });
 
     // slow highlight of intro quote
