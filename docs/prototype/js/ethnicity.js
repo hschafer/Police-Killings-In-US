@@ -1,7 +1,6 @@
 const d3 = require('d3');
-const d3Chromatic = require('d3-scale-chromatic');
 const Chart = require('chart.js');
-require('waypoints/lib/jquery.waypoints.js');
+
 require('./chart-extensions.js');
 
 var OUTLINE_COLOR = "#b1b1b1";
@@ -25,8 +24,6 @@ function tooltipLabel(tooltipItem, data, signed) {
     var w = $(window).width() * 0.55;
     var h = $(window).height() * 0.5;
     var chartH = h / 2;
-
-    var color = d3.scaleOrdinal(d3Chromatic.schemeDark2);
 
     var pieCharts;
     var diffChart;
