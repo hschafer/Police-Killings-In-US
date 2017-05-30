@@ -3,16 +3,17 @@
 <head>
   <link rel="icon" href="resources/favicon.png"/>
   <title>Killings by Police Officers</title>
-  <!-- Include dependencies -->
+
+  <!-- Include stylesheets -->
   <link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css"/>
   <link href="https://fonts.googleapis.com/css?family=Ropa+Sans" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-  <!--<script src="https://embed.joincampaignzero.org/widget.js" charset="utf-8"></script>-->
+
+  <!-- Include our dependencies -->
   <script type="text/javascript" src="js/lib/jquery.min.js"></script>
   <script type="text/javascript" src="js/lib/jquery.easings.min.js"></script>
   <script type="text/javascript" src="js/lib/jquery.fullPage.min.js"></script>
   <script type="text/javascript" src="js/lib/campaign-zero-widget.js"></script>
-  <!-- Font Awesome for little icons -->
   <script src="https://use.fontawesome.com/afd480914f.js"></script>
 
   <!-- Include our files -->
@@ -424,20 +425,57 @@
     <div id="referenceSlide" class="section sectionText">
       <div class="sectionContainer">
         <div class="sectionRow">
-          <div class="sectionTitle">
+          <div class="sectionTitle col1">
             References
+          </div>
+          <div class="sectionTitle col2">
+            Authors
           </div>
         </div>
         <div class="sectionRow">
-          <ol>
-            <li>The Law Enforcement Oath of Honor comes from the <a href="http://www.theiacp.org/oathofhonor">International Association of Chiefs of Police</a></li>
-            <li>The FBI reports "justified" killings by law enforcment on their <a href="https://ucr.fbi.gov/crime-in-the-u.s/2015/crime-in-the-u.s.-2015/tables/expanded_homicide_data_table_14_justifiable_homicide_by_weapon_law_enforcement_2011-2015.xls">Crime in the United States Report</a></li>
-            <li>The Washington Post's collected <a href="https://www.washingtonpost.com/graphics/national/police-shootings/">dataset</a> on the people killed by law enforcment </li>
-            <li>The Guardian's collected <a href="https://www.theguardian.com/us-news/ng-interactive/2015/jun/01/the-counted-police-killings-us-database">dataset</a> on the people killed by law enforcment </li>
-            <li>The <a href="https://www.census.gov/quickfacts/table/PST045216/00">U.S. Census'</a> demographic estimates for 2015</li>
-            <li>Cambgridge <a href="http://journals.sagepub.com/doi/pdf/10.1177/0093854816668218">study</a> by Dr. Barak Ariel on use of body cams</li>
-            <li>Accompanying <a href="http://www.cam.ac.uk/research/news/use-of-body-worn-cameras-sees-complaints-against-police-virtually-vanish-study-finds">press release</a> for [6] on Cambgridge's research website</li>
-          </ol>
+          <div class="col1">
+            <ol>
+              <li>The Law Enforcement Oath of Honor comes from the <a href="http://www.theiacp.org/oathofhonor">International Association of Chiefs of Police</a></li>
+              <li>The FBI reports "justified" killings by law enforcment on their <a href="https://ucr.fbi.gov/crime-in-the-u.s/2015/crime-in-the-u.s.-2015/tables/expanded_homicide_data_table_14_justifiable_homicide_by_weapon_law_enforcement_2011-2015.xls">Crime in the United States Report</a></li>
+              <li>The Washington Post's collected <a href="https://www.washingtonpost.com/graphics/national/police-shootings/">dataset</a> on the people killed by law enforcment </li>
+              <li>The Guardian's collected <a href="https://www.theguardian.com/us-news/ng-interactive/2015/jun/01/the-counted-police-killings-us-database">dataset</a> on the people killed by law enforcment </li>
+              <li>The <a href="https://www.census.gov/quickfacts/table/PST045216/00">U.S. Census'</a> demographic estimates for 2015</li>
+              <li>Cambgridge <a href="http://journals.sagepub.com/doi/pdf/10.1177/0093854816668218">study</a> by Dr. Barak Ariel on use of body cams</li>
+              <li>Accompanying <a href="http://www.cam.ac.uk/research/news/use-of-body-worn-cameras-sees-complaints-against-police-virtually-vanish-study-finds">press release</a> for [6] on Cambgridge's research website</li>
+            </ol>
+          </div>
+          <div class="col2">
+            <ul>
+              <li>Erika Wolfe</li>
+              <li>Hunter Schafer</li>
+              <li>Meredith Lampe</li>
+              <li>Nick Moony</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sectionRow">
+          <div class="sectionTitle col1">
+            Purpose
+          </div>
+          <div class="sectionTitle col2">
+            Tools
+          </div>
+        </div>
+        <div class="sectionRow">
+          <div class="col1">
+            TODO
+          </div>
+          <div class="col2">
+            <ul>
+              <li><a href="https://d3js.org/">d3.js</a> - To make map</li>
+              <li><a href="http://www.chartjs.org/">chart.js</a> - To make doughnut charts</li>
+              <li><a href="https://jquery.com/">jquery.js</a> - Making JS easy since 2005</li>
+              <li><a href="https://alvarotrigo.com/fullPage/">fullpage.js</a> - To make narrative layout</li>
+              <li><a href="http://imakewebthings.com/waypoints/">waypoints.js</a> - Add interaction when scrolling</li>
+              <li><a href="http://fusejs.io/">fuse.js</a> - Search for map</li>
+              <li><a href="https://embed.joincampaignzero.org/">Campaign Zero Widget</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

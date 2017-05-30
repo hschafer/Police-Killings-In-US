@@ -213,3 +213,24 @@ sup.citation {
     cursor: pointer;
 }
 
+/*
+ * Reference slide
+ */
+#referenceSlide {
+    .sectionRow {
+        width: 100%;
+    }
+
+    .col1, .col2 {
+        display: table-cell;
+    }
+
+    .col1 {
+        width: 60%;
+    }
+
+    .col2 {
+        margin: 20px;
+        width: 30%;
+    }
+}
