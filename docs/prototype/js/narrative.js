@@ -6,20 +6,39 @@ require('waypoints/lib/jquery.waypoints.js');
 
 (function () {
 
-    var narrativeText = [
-        "One summer afternoon in Seattle, Washington " +
-        "in 2010, Officer Ian Birk noticed a man crossing a city street " +
-        "holding a knife. Officer Birk, a member of the Seattle Police " +
-        "Department, left his vehicle to handle the situation. ",
+    var partsOfNarrative = [
+        {
+            element: "#narrative_text0 p",
+            sentences: [
+                "One summer afternoon in Seattle, Washington " +
+                "in 2010, Officer Ian Birk noticed a man crossing a city street " +
+                "holding a knife. ",
 
-        "Officer Birk approached the man, commanding " +
-        "him to put down the knife. 4 seconds later, Officer Birk had " +
-        "fired four shots into the man, killing him.",
+                "Officer Birk, a member of the Seattle Police " +
+                "Department, left his vehicle to handle the situation."
+            ],
+            durationBetween: 200
+        },
+        {
+            element: "#narrative_text1 p",
+            sentences: [
+                "Officer Birk approached the man, commanding him to put down the knife. ",
 
-        "The man, John T. Williams, was a member of " +
-        "the Nuu-chah-nulth tribal group native to nearby Vancouver Island. " +
-        "He was a local woodcarver, hard of hearing, and was carrying a block of " +
-        "wood and his carving knife."
+                "4 seconds later, Officer Birk had fired four shots into the man, killing him."
+            ],
+            durationBetween: 200
+        },
+        {
+            element: "#narrative_text2 p",
+            sentences: [
+                "The man, John T. Williams, was a member of " +
+                "the Nuu-chah-nulth tribal group native to nearby Vancouver Island. ",
+
+                "He was a local woodcarver, hard of hearing, and was carrying a block of " +
+                "wood and his carving knife."
+            ],
+            durationBetween: 200
+        }
     ];
 
     var duration = 4000;
@@ -29,7 +48,7 @@ require('waypoints/lib/jquery.waypoints.js');
                 var waypoint1 = new Waypoint({
                     element: $(".narrative_section"),
                     handler: function () {
-                        typeInText(0);
+                        typeInText(0, 0);
                         waypoint1.disable();
                     },
                     offset: 300
@@ -37,12 +56,16 @@ require('waypoints/lib/jquery.waypoints.js');
             }, 1000);
     });
 
-    function typeInText(index) {
-        if (index < narrativeText.length) {
-            console.log("type text from " + index + " now");
-            var p = d3.select("#narrative_text" + index + " p");
-            var text = narrativeText[index];
+    function typeInText(partIndex, sentenceIndex) {
+        if (partIndex < partsOfNarrative.length) {
+            console.log("type text from " + partIndex + ", " + sentenceIndex + " now");
+            var part = partsOfNarrative[partIndex];
+
+            var p = d3.select(part.element);
+            var text = part.sentences[sentenceIndex];
+
             var textLength = text.length;
+            var originalText = p.html();
             p.transition()
                 .duration(duration)
                 .ease(d3.easeLinear)
@@ -50,21 +73,18 @@ require('waypoints/lib/jquery.waypoints.js');
                     return function(t) {
                         var newText = text.substr(0,
                                 Math.round( t * textLength));
-                        p.html(newText);
+                        p.html(originalText + newText);
                     };
                 });
-            setTimeout(function() { typeInText(index + 1); }, duration * 1.1);
+
+            setTimeout(function() {
+                sentenceIndex++;
+                if (sentenceIndex >= part.sentences.length) {
+                    partIndex++;
+                    sentenceIndex = 0;
+                }
+                typeInText(partIndex, sentenceIndex);
+            }, 1.1 * duration + part.durationBetween);
         }
-            //.tween("text", function () {
-            //    //debugger;
-            //    //var textcontent = this.textContent;
-            //    //var textLength = text.length;
-            //    return function (t) {
-            //        //debugger;
-            //        //this.innerHTML = text.substr(0,
-            //        //        Math.round( t * textLength) );
-            //        console.log("tween called at time " + t);
-            //    };
-            //});
     }
 }());

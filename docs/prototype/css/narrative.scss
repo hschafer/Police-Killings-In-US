@@ -1,15 +1,17 @@
-#narrative_text0, #narrative_text1, #narrative_text2 {
+#narrative_section {
+    #narrative_text0, #narrative_text1, #narrative_text2 {
 
-  vertical-align: center;
-  width: 70%;
-  margin: auto;
+      vertical-align: center;
+      width: 70%;
+      margin: auto;
 
-  p {
-    font-size: 15pt;
-  }
-}
+      p {
+        font-size: 15pt;
+      }
+    }
 
-.narrative_text {
-    text-align: left;
-    width: 50%;
+    .narrative_text {
+        text-align: left;
+        width: 50%;
+    }
 }
