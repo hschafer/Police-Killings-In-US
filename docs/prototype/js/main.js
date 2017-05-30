@@ -22,7 +22,7 @@ $(document).ready(function() {
     // define flag specs
     var flag_line_start_x = ($(window).width() * 0.2) - 120;
     var height_blue_box = 200;
-    var red_stripe_height = 50;
+    var red_stripe_height = 40;
 
     // slow highlight of intro quote
     setTimeout(highlightIntro, 1500);
@@ -69,9 +69,10 @@ function animateFlag(height_blue_box, red_stripe_height) {
     drawFlagLine("#flagbluebottom", 180, Math.random() * max_timeout);
     drawFlagLine("#flagred1", 50, Math.random() * max_timeout);
     drawFlagLine("#flagred2", 100, Math.random() * max_timeout);
-    drawFlagLine("#flagred3", 400, Math.random() * max_timeout);
-    drawFlagLine("#flagred4", 500, Math.random() * 200);
-    //setTimeout(drawFlagLine("#flagred5", 1000), Math.random() * 200, 8000);
+    drawFlagLine("#flagred3", 100, Math.random() * max_timeout);
+    drawFlagLine("#flagred4", 300, Math.random() * 200);
+    drawFlagLine("#flagred5", 700, Math.random() * 200);
+    drawFlagLine("#flagred6", 500, Math.random() * 200);
 
     // draw vertical lines
     // draw blue portion of vertical line
@@ -90,7 +91,7 @@ function animateFlag(height_blue_box, red_stripe_height) {
         .delay(5000)
         .duration(3000)
         .ease(d3.easeLinear)
-        .attr('height', (red_stripe_height * 4) - 3);
+        .attr('height', (red_stripe_height * 6) - 3);
     // subtract 3 because width of flag lines is 3 px
 }
 
