@@ -1,4 +1,4 @@
-#narrative_section1, #narrative_section2, #narrative_section3 {
+#narrative_text0, #narrative_text1, #narrative_text2 {
 
   vertical-align: center;
   width: 70%;
@@ -7,10 +7,9 @@
   p {
     font-size: 15pt;
   }
+}
 
-  .narrative_text {
+.narrative_text {
     text-align: left;
     width: 50%;
-  }
-
 }
