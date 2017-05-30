@@ -15,6 +15,7 @@ $(document).ready(function() {
 
     // slow highlight of intro quote
     setTimeout(highlightIntro, 1500);
+    drawFlag();
 
     // next steps tabs
     $("ul.tabs li").click(function() {
@@ -35,6 +36,10 @@ $(document).ready(function() {
         $.fn.fullpage.moveTo(8);
     });
 });
+
+function drawFlag() {
+
+}
 
 function highlightIntro() {
     var original = $("#originalText");

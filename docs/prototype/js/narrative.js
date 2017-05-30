@@ -58,7 +58,7 @@ require('waypoints/lib/jquery.waypoints.js');
         var p = d3.select(id_selector);
         var textLength = text.length;
         p.transition()
-            .duration(7000)
+            .duration(1000)
             .ease(d3.easeLinear)
             .tween('text', function() {
                 return function(t) {
