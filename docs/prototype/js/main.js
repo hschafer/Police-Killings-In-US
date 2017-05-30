@@ -2,6 +2,7 @@
 require('./ethnicity.js');
 require('./the_victims.js');
 require('./fbi_comparison.js');
+require('./narrative.js');
 
 require('../css/style.scss');
 
