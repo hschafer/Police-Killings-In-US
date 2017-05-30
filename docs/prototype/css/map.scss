@@ -1,5 +1,6 @@
 #section2 {
     text-align: left;
+    font-family: 'Ropa Sans', sans-serif;
 
     .autoCompleteResult, #cityName, #cityCount {
         margin-top: 1pt;
@@ -18,10 +19,10 @@
             background: transparent;
             border: none;
             outline: none;
-            font-family: 'Ropa Sans', sans-serif;
             width: 90%;
             position: relative;
 
+            font-family: 'Ropa Sans', sans-serif;
             /* copy default h6 characteristics */
             display: block;
             font-size: 0.67em;
@@ -57,7 +58,7 @@
         list-style-type: none;
         margin: 0pt;
         padding: 0pt;
-        font-size: 1.45vh;
+        font-size: 1.7vh;
         -webkit-column-count: 2;
         -moz-column-count: 2;
         column-count: 2;
@@ -159,7 +160,7 @@
     #hoverDirections {
         display: table-cell;
         padding-bottom: 7pt;
-        font-size: 13px;
+        font-size: 20px;
     }
 
     #usSvgContainer {
@@ -263,7 +264,6 @@
     .victimDemographicList h6 {
         margin: 0pt;
         color: $darker-gray;
-        font-size: 11px;
     }
 
     .victimFilterContainer h5 {
@@ -293,13 +293,13 @@
     }
 
     .checkboxItem {
-        font-size: 10.5px;
+        font-size: 10pt;
     }
 
     .ticks {
         /*stroke: var(--outline-color);*/
         fill: $darker-gray;
-        font-size: small;
+        font-size: medium;
     }
 
     .track, .track-inset, .track-overlay {
