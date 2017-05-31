@@ -24,6 +24,7 @@ require('waypoints/lib/jquery.waypoints.js');
             element: "#narrative_text1 p",
             sentences: [
                 "Officer Birk approached the man, commanding him to put down the knife. ",
+                "Less than 5 seconds later"
             ],
             typed: true,
             durationBetween: 200
@@ -31,15 +32,15 @@ require('waypoints/lib/jquery.waypoints.js');
         {
             element: "#narrative_text1 p",
             sentences: [
-                "Less than 5 seconds later, "
+                '.', '.', '.', '.'
             ],
             typed: true,
-            durationBetween: 4500
+            durationBetween: 1000
         },
         {
             element: "#narrative_text1 p",
             sentences: [
-                "Officer Birk had fired four shots into the man, killing him."
+                ", Officer Birk had fired four shots into the man, killing him."
             ],
             typed: true,
             durationBetween: 200
