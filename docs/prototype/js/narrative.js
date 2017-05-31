@@ -42,18 +42,42 @@ require('waypoints/lib/jquery.waypoints.js');
         {
             element: "#narrative_text3 p",
             sentences: [
-                "This case was independently reviewed by the Department of Justice but Birk " +
-                "was not prosecuted further after he resigned from the force.",
+                "Birk's actions were found unjustifiable by the SPD Firearms Review Board, " +
+                "and subsequently reviewed by the Department of Justice. ",
 
-                "However, we only have a loose idea of how many cases like this are happening " +
-                "across the country and are even less sure to what extent they are being investigated " +
-                "in order to make sure our law enforcement ..."
+                "The Department of Justice decided not to press charges because they would have " +
+                "to prove intent, rather than negligence. ",
+
+                "The case was not prosecuted further after Birk resigned from the force."
+            ],
+            durationBetween: 200
+        },
+        {
+            element: "#narrative_text4 p",
+            sentences: [
+                "Although Birk was not prosecuted, this case was at least " +
+                "reviewed independently to evaluate what happened. ",
+
+                "This internal investigation is not federally mandated, and may not have " +
+                "been completed in a different district or with a less publicized case. "
+            ],
+            durationBetween: 200
+        },
+        {
+            element: "#narrative_text5 p",
+            sentences: [
+                "The lack of federal guidelines following a police shooting makes it " +
+                "difficult to determine the number of incidents like this that are occuring " +
+                "in the US.  ",
+
+                "We have an even less concrete idea of the number of cases that are properly " +
+                "investigated."
             ],
             durationBetween: 200
         }
     ];
 
-    var duration = 4000;
+    var duration = 3000;
 
     $(document).ready(function () {
         setTimeout(function () {
