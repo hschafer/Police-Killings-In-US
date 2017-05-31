@@ -120,15 +120,36 @@ require('waypoints/lib/jquery.waypoints.js');
     var durationPerChar = 3000 / 122;
 
     $(document).ready(function () {
+        //d3.select("#narrative_section2_svg").attr("height", $(window).height() * 0.7);
+        var narrative2_svg_path = d3.select("#narrative_section2_svg path");
+        var totalLength = narrative2_svg_path.node().getTotalLength();
+
+        narrative2_svg_path
+            .attr("stroke-dasharray", totalLength + " " + totalLength)
+            .attr("stroke-dashoffset", totalLength)
+            .transition()
+            .duration(6000)
+            .ease(d3.easeLinear)
+            .attr("stroke-dashoffset", 0);
+
         setTimeout(function () {
                 var waypoint1 = new Waypoint({
-                    element: $(".narrative_section"),
+                    element: $("#narrative_section"),
                     handler: function () {
                         typeInText(0, 0);
                         waypoint1.disable();
                     },
                     offset: 300
                 });
+
+            //var waypoint2 = new Waypoint({
+            //    element: $("#narrative_section2"),
+            //    handler: function () {
+            //        typeInText(3, 0);
+            //        waypoint2.disable();
+            //    },
+            //    offset: 300
+            //});
             }, 1000);
     });
 

@@ -1,4 +1,4 @@
-#narrative_section {
+#narrative_section, #narrative_section2 {
     #narrative_text0, #narrative_text1, #narrative_text2, #narrative_text3, #narrative_text4, #narrative_text5 {
 
       vertical-align: center;
@@ -22,10 +22,28 @@
         display: table-cell;
     }
 
+  #narrative_section2_svg {
+    //width: 100%;
+    //height: 100%;
+    margin: auto;
+    width: 500px;
+    height: 700px;
+    position: absolute;
+    top: 40px;
+    right: 100px;
+  }
+
+  #narrative_section_row {
+    //width: 100%;
+    height: 100%;
+  }
+
     #blurry {
-        iframe {
-            position: relative;
-            filter: blur(5px);
-        }
+      //height:100%;
+      //width: 100%;
+      //  iframe {
+      //      position: relative;
+      //      filter: blur(5px);
+      //  }
     }
 }
