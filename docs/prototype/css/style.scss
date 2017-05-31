@@ -34,6 +34,20 @@ $less-light-gray: #c4c7bf;
     height: 0px;
 }
 
+/* I know the !important is annoying but we are trying to override fullpages' styles */
+.fp-tooltip {
+    background-color: $light-gray;
+    font-family: 'Ropa Sans', sans-serif !important;
+    color: $secondary-color !important;
+    padding: 5px !important;
+    max-width: 250px !important;
+    border-radius: 2px;
+}
+
+.active + .fp-tooltip {
+    background-color: $outline-color;
+}
+
 /**
  * General section styles
  */

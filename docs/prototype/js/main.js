@@ -14,6 +14,28 @@ $(document).ready(function() {
         fitToSection: false,
         navigation: true,
         navigationPosition: 'left',
+        navigationTooltips: [
+            "Title",
+            "John T. Williams' Story",
+            "John T. Williams' Story Result",
+            "Does the Government Track These Deaths?",
+            "Does Ethnicity Make a Difference?",
+            "TODO",
+            "Who are the Victims?",
+            "What Can We Do to Make a Difference?",
+            "Credits"
+        ],
+        anchors: [
+            "aTitle",
+            "aStory1",
+            "aStory2",
+            "aFbi",
+            "aEthnicity",
+            "aTODO",
+            "aVictims",
+            "aNextSteps",
+            "aCredits"
+        ],
         menu: '#menu'
     });
 
@@ -45,14 +67,10 @@ $(document).ready(function() {
     });
 
     // make citations clickable
-    $(".citation").click(citationClick);
+    $(".citation").click(function() {
+        $.fn.fullpage.moveTo("aCredits");
+    });
 });
-
-function citationClick() {
-    // this is the location of the references slide.
-    // Please change if you add a new slide
-    $.fn.fullpage.moveTo(8);
-}
 
 function animateFlag(height_blue_box, red_stripe_height) {
 
@@ -62,12 +80,6 @@ function animateFlag(height_blue_box, red_stripe_height) {
     // set all widths to 0 first (need this for animation)
     d3.selectAll(".flagline")
         .attr('width', 0);
-
-    console.log(Math.random());
-    console.log(Math.random());
-    console.log(Math.random());
-    console.log(Math.random());
-    console.log(Math.random());
 
     // animate width of rectangles, left to right
     drawFlagLine("#flagbluetop", 300, Math.random() * max_timeout);

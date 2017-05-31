@@ -154,7 +154,6 @@ require('waypoints/lib/jquery.waypoints.js');
 
     function typeInText(partIndex, sentenceIndex, endPartIndex, endSentenceIndex) {
         if (partIndex < partsOfNarrative.length) {
-            console.log("type text from " + partIndex + ", " + sentenceIndex + " now");
             var part = partsOfNarrative[partIndex];
 
             // TODO: change second narrative to use waypoint
@@ -186,8 +185,12 @@ require('waypoints/lib/jquery.waypoints.js');
                     });
                 toWait += duration * 1.1;
             } else {
-                console.log("Else branch");
                 p.html(originalText + text);
+
+                // so much work to attach an event listener on to one element
+                $(part.element + " .generatedCitation").click(function() {
+                    $.fn.fullpage.moveTo("aCredits");
+                });
             }
 
             setTimeout(function() {
@@ -205,7 +208,6 @@ require('waypoints/lib/jquery.waypoints.js');
 
     function done() {
         console.log("done");
-        $(".generatedCitation").click(citationClick);
     }
 }());
 
