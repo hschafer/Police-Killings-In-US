@@ -34,6 +34,7 @@
     "d3-scale-chromatic": "^1.1.1",
     "fuse.js": "^3.0.3",
     "jquery": "^3.2.1",
+    "vivus": "^0.4.0",
     "waypoints": "^4.0.1"
   }
 }
