@@ -121,16 +121,15 @@ require('waypoints/lib/jquery.waypoints.js');
 
     $(document).ready(function () {
         //d3.select("#narrative_section2_svg").attr("height", $(window).height() * 0.7);
-        var narrative2_svg_path = d3.select("#narrative_section2_svg path");
-        var totalLength = narrative2_svg_path.node().getTotalLength();
+        //var narrative2_svg_path = d3.select("#narrative_section2_svg path");
+        //var totalLength = narrative2_svg_path.node().getTotalLength();
 
-        narrative2_svg_path
-            .attr("stroke-dasharray", totalLength + " " + totalLength)
-            .attr("stroke-dashoffset", totalLength)
-            .transition()
-            .duration(6000)
-            .ease(d3.easeLinear)
-            .attr("stroke-dashoffset", 0);
+        //narrative2_svg_path
+        //    .attr("stroke-dasharray", totalLength + " " + totalLength)
+        //    .attr("stroke-dashoffset", totalLength)
+        //    .transition()
+        //    .duration(6000)
+        //    .attr("stroke-dashoffset", 0);
 
         setTimeout(function () {
                 var waypoint1 = new Waypoint({
@@ -153,10 +152,19 @@ require('waypoints/lib/jquery.waypoints.js');
             }, 1000);
     });
 
-    function typeInText(partIndex, sentenceIndex) {
+    function typeInText(partIndex, sentenceIndex, endPartIndex, endSentenceIndex) {
         if (partIndex < partsOfNarrative.length) {
             console.log("type text from " + partIndex + ", " + sentenceIndex + " now");
             var part = partsOfNarrative[partIndex];
+
+            // TODO: change second narrative to use waypoint
+            if (partIndex == 5) { // beginning of second narrative
+                // show svg corresponding with second page of narrative
+                d3.select("#narrative_section2_svg")
+                    .transition()
+                    .duration(3000)
+                    .attr("opacity", 1.0);
+            }
 
             var p = d3.select(part.element);
             var text = part.sentences[sentenceIndex];
