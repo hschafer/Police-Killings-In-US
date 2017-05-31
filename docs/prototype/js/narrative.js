@@ -132,38 +132,37 @@ require('waypoints/lib/jquery.waypoints.js');
         //    .attr("stroke-dashoffset", 0);
 
         setTimeout(function () {
-                var waypoint1 = new Waypoint({
-                    element: $("#narrative_section"),
-                    handler: function () {
-                        typeInText(0, 0);
-                        waypoint1.disable();
-                    },
-                    offset: 300
-                });
+            var waypoint1 = new Waypoint({
+                element: $("#narrative_section"),
+                handler: function () {
+                    typeInText(0, 0, 5);
+                    waypoint1.disable();
+                },
+                offset: 300
+            });
 
-            //var waypoint2 = new Waypoint({
-            //    element: $("#narrative_section2"),
-            //    handler: function () {
-            //        typeInText(3, 0);
-            //        waypoint2.disable();
-            //    },
-            //    offset: 300
-            //});
-            }, 1000);
+            var waypoint2 = new Waypoint({
+                element: $("#narrative_section2"),
+                handler: function () {
+
+                    // show police badge
+                    d3.select("#narrative_section2_svg")
+                        .transition()
+                        .duration(3000)
+                        .attr("opacity", 1.0);
+
+                    typeInText(5, 0, partsOfNarrative.length);
+                    waypoint2.disable();
+                },
+                offset: 300
+            });
+        }, 1000);
     });
 
-    function typeInText(partIndex, sentenceIndex, endPartIndex, endSentenceIndex) {
-        if (partIndex < partsOfNarrative.length) {
+    // start indices are inclusive, end index is exclusive
+    function typeInText(partIndex, sentenceIndex, endPartIndex) {
+        if (partIndex < partsOfNarrative.length && partIndex < endPartIndex) {
             var part = partsOfNarrative[partIndex];
-
-            // TODO: change second narrative to use waypoint
-            if (partIndex == 5) { // beginning of second narrative
-                // show svg corresponding with second page of narrative
-                d3.select("#narrative_section2_svg")
-                    .transition()
-                    .duration(3000)
-                    .attr("opacity", 1.0);
-            }
 
             var p = d3.select(part.element);
             var text = part.sentences[sentenceIndex];
@@ -176,10 +175,10 @@ require('waypoints/lib/jquery.waypoints.js');
                 p.transition()
                     .duration(duration)
                     .ease(d3.easeLinear)
-                    .tween('text', function() {
-                        return function(t) {
+                    .tween('text', function () {
+                        return function (t) {
                             var newText = text.substr(0,
-                                    Math.round( t * textLength));
+                                Math.round(t * textLength));
                             p.html(originalText + newText);
                         };
                     });
@@ -188,18 +187,18 @@ require('waypoints/lib/jquery.waypoints.js');
                 p.html(originalText + text);
 
                 // so much work to attach an event listener on to one element
-                $(part.element + " .generatedCitation").click(function() {
+                $(part.element + " .generatedCitation").click(function () {
                     $.fn.fullpage.moveTo("aCredits");
                 });
             }
 
-            setTimeout(function() {
+            setTimeout(function () {
                 sentenceIndex++;
                 if (sentenceIndex >= part.sentences.length) {
                     partIndex++;
                     sentenceIndex = 0;
                 }
-                typeInText(partIndex, sentenceIndex);
+                typeInText(partIndex, sentenceIndex, endPartIndex);
             }, toWait);
         } else {
             done();
