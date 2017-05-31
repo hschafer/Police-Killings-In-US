@@ -126,6 +126,15 @@ require('waypoints/lib/jquery.waypoints.js');
             var waypoint1 = new Waypoint({
                 element: $("#narrative_section"),
                 handler: function () {
+                    var totem_vivus = new vivus('narrative_section_svg', {start: 'autostart', duration: 2000});
+                    totem_vivus.play();
+
+                    var totem_svg = d3.select("#narrative_section_svg g")
+                        .transition()
+                        .delay(6000)
+                        .duration(3000)
+                        .attr("fill", "black");
+
                     typeInText(0, 0, 5);
                     waypoint1.disable();
                 },
@@ -139,21 +148,6 @@ require('waypoints/lib/jquery.waypoints.js');
                     var badge_svg = d3.select("#narrative_section2_svg").attr("height", $(window).height() * 0.7);
                     var badge_vivus = new vivus('narrative_section2_svg', {start: 'autostart', duration: 3000});
                     badge_vivus.play();
-                    //var narrative2_svg_path = d3.select("#narrative_section2_svg path");
-                    //var totalLength = narrative2_svg_path.node().getTotalLength();
-                    //
-                    //narrative2_svg_path
-                    //    .attr("stroke-dasharray", totalLength + " " + totalLength)
-                    //    .attr("stroke-dashoffset", totalLength)
-                    //    .transition()
-                    //    .duration(6000)
-                    //    .attr("stroke-dashoffset", 0);
-
-                    // show police badge
-                    //d3.select("#narrative_section2_svg")
-                    //    .transition()
-                    //    .duration(3000)
-                    //    .attr("opacity", 1.0);
 
                     typeInText(5, 0, partsOfNarrative.length);
                     waypoint2.disable();
