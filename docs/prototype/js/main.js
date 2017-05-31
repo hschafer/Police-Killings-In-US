@@ -14,6 +14,17 @@ $(document).ready(function() {
         fitToSection: false,
         navigation: true,
         navigationPosition: 'left',
+        navigationTooltips: [
+            "Title",
+            "John T. Williams' Story",
+            "John T. Williams' Story Result",
+            "Does the Government Track These Deaths?",
+            "Does Ethnicity Make a Difference?",
+            "TODO",
+            "Who are the Victims?",
+            "What Can We Do to Make a Difference?",
+            "Credits"
+        ],
         menu: '#menu'
     });
 
