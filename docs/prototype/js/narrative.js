@@ -155,7 +155,6 @@ require('waypoints/lib/jquery.waypoints.js');
 
     function typeInText(partIndex, sentenceIndex) {
         if (partIndex < partsOfNarrative.length) {
-            console.log("type text from " + partIndex + ", " + sentenceIndex + " now");
             var part = partsOfNarrative[partIndex];
 
             var p = d3.select(part.element);
@@ -178,8 +177,12 @@ require('waypoints/lib/jquery.waypoints.js');
                     });
                 toWait += duration * 1.1;
             } else {
-                console.log("Else branch");
                 p.html(originalText + text);
+
+                // so much work to attach an event listener on to one element
+                $(part.element + " .generatedCitation").click(function() {
+                    $.fn.fullpage.moveTo("aCredits");
+                });
             }
 
             setTimeout(function() {
@@ -197,7 +200,6 @@ require('waypoints/lib/jquery.waypoints.js');
 
     function done() {
         console.log("done");
-        $(".generatedCitation").click(citationClick);
     }
 }());
 
