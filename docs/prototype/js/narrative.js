@@ -17,15 +17,31 @@ require('waypoints/lib/jquery.waypoints.js');
                 "Officer Birk, a member of the Seattle Police " +
                 "Department, left his vehicle to handle the situation."
             ],
+            typed: true,
             durationBetween: 200
         },
         {
             element: "#narrative_text1 p",
             sentences: [
                 "Officer Birk approached the man, commanding him to put down the knife. ",
-
-                "4 seconds later, Officer Birk had fired four shots into the man, killing him."
             ],
+            typed: true,
+            durationBetween: 200
+        },
+        {
+            element: "#narrative_text1 p",
+            sentences: [
+                "Less than 5 seconds later, "
+            ],
+            typed: true,
+            durationBetween: 4500
+        },
+        {
+            element: "#narrative_text1 p",
+            sentences: [
+                "Officer Birk had fired four shots into the man, killing him."
+            ],
+            typed: true,
             durationBetween: 200
         },
         {
@@ -35,8 +51,19 @@ require('waypoints/lib/jquery.waypoints.js');
                 "the Nuu-chah-nulth tribal group native to nearby Vancouver Island. ",
 
                 "He was a local woodcarver, hard of hearing, and was carrying a block of " +
-                "wood and his carving knife."
+                "wood and his carving knife. ",
+
+                "Later reports by witnesses say that the knife was closed."
             ],
+            typed: true,
+            durationBetween: 200
+        },
+        {
+            element: "#narrative_text2 p",
+            sentences: [
+                "<sup class='generatedCitation citation'>[2]</sup>"
+            ],
+            typed: false,
             durationBetween: 200
         },
         {
@@ -45,11 +72,20 @@ require('waypoints/lib/jquery.waypoints.js');
                 "Birk's actions were found unjustifiable by the SPD Firearms Review Board, " +
                 "and subsequently reviewed by the Department of Justice. ",
 
-                "The Department of Justice decided not to press charges because they would have " +
+                "The DOJ decided not to press charges because they would have " +
                 "to prove intent, rather than negligence. ",
 
                 "The case was not prosecuted further after Birk resigned from the force."
             ],
+            typed: true,
+            durationBetween: 200
+        },
+        {
+            element: "#narrative_text3 p",
+            sentences: [
+                "<sup class='generatedCitation citation'>[3]</sup>"
+            ],
+            typed: false,
             durationBetween: 200
         },
         {
@@ -61,6 +97,7 @@ require('waypoints/lib/jquery.waypoints.js');
                 "This internal investigation is not federally mandated, and may not have " +
                 "been completed in a different district or with a less publicized case. "
             ],
+            typed: true,
             durationBetween: 200
         },
         {
@@ -68,16 +105,18 @@ require('waypoints/lib/jquery.waypoints.js');
             sentences: [
                 "The lack of federal guidelines following a police shooting makes it " +
                 "difficult to determine the number of incidents like this that are occuring " +
-                "in the US.  ",
+                "in the US. ",
 
                 "We have an even less concrete idea of the number of cases that are properly " +
                 "investigated."
             ],
+            typed: true,
             durationBetween: 200
         }
     ];
 
-    var duration = 3000;
+    // Approx 3 seconds for the first sentence
+    var durationPerChar = 3000 / 122;
 
     $(document).ready(function () {
         setTimeout(function () {
@@ -99,19 +138,27 @@ require('waypoints/lib/jquery.waypoints.js');
 
             var p = d3.select(part.element);
             var text = part.sentences[sentenceIndex];
-
-            var textLength = text.length;
             var originalText = p.html();
-            p.transition()
-                .duration(duration)
-                .ease(d3.easeLinear)
-                .tween('text', function() {
-                    return function(t) {
-                        var newText = text.substr(0,
-                                Math.round( t * textLength));
-                        p.html(originalText + newText);
-                    };
-                });
+
+            var toWait = part.durationBetween;
+            if (part.typed) {
+                var textLength = text.length;
+                var duration = textLength * durationPerChar;
+                p.transition()
+                    .duration(duration)
+                    .ease(d3.easeLinear)
+                    .tween('text', function() {
+                        return function(t) {
+                            var newText = text.substr(0,
+                                    Math.round( t * textLength));
+                            p.html(originalText + newText);
+                        };
+                    });
+                toWait += duration * 1.1;
+            } else {
+                console.log("Else branch");
+                p.html(originalText + text);
+            }
 
             setTimeout(function() {
                 sentenceIndex++;
@@ -120,13 +167,15 @@ require('waypoints/lib/jquery.waypoints.js');
                     sentenceIndex = 0;
                 }
                 typeInText(partIndex, sentenceIndex);
-            }, 1.1 * duration + part.durationBetween);
+            }, toWait);
         } else {
             done();
         }
     }
 
     function done() {
-        // stuff to do when we are out of text to type
+        console.log("done");
+        $(".generatedCitation").click(citationClick);
     }
 }());
+

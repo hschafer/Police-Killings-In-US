@@ -45,12 +45,14 @@ $(document).ready(function() {
     });
 
     // make citations clickable
-    $(".citation").click(function() {
-        // this is the location of the references slide.
-        // Please change if you add a new slide
-        $.fn.fullpage.moveTo(8);
-    });
+    $(".citation").click(citationClick);
 });
+
+function citationClick() {
+    // this is the location of the references slide.
+    // Please change if you add a new slide
+    $.fn.fullpage.moveTo(8);
+}
 
 function animateFlag(height_blue_box, red_stripe_height) {
 
