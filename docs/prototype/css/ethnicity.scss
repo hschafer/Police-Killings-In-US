@@ -1,10 +1,24 @@
 #ethnicitySectionContainer {
-    #ethnicityCanvasContainer, #ethnicitySectionText {
+    #ethnicityCanvasContainer, #ethnicitySectionText, #pieInstructions {
         display: table-cell;
     }
 
-    #ethnicitySectionText {
+    #ethnicitySectionHeaderRow {
+        width: 100%;
+        text-align: left;
+    }
+
+    #pieInstructions {
+        padding-bottom: 7pt;
+        font-size: 20px;
+        font-family: 'Ropa Sans', sans-serif;
+    }
+
+    #pieInstructions, #ethnicitySectionText {
         padding-left: 10px;
+    }
+
+    #ethnicitySectionText {
         vertical-align: top;
 
         .white ,.african-american, .asian, .hispanic,
@@ -17,7 +31,7 @@
         border-color: $secondary-color;
     }
 
-    #reveal {
+    .reveal {
         display: none;
     }
 

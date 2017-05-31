@@ -68,6 +68,11 @@
             <p></p>
           </div>
       </div>
+      <div id="narrative_text3" class="narrative_text">
+        <div class="narrative_text">
+           <p></p>
+        </div>
+      </div>
     </div>
     <div id="fbiSection" class="section" style="font-size: 35pt">
       <div id="fbiSectionContainer" class="sectionContainer">
@@ -85,8 +90,10 @@
             <p>
               The FBI reported 442 incidents of police officers shooting and killing civilians in 2015 <sup class="citation">[2]</sup>.  The Washington Post reported 991 incidents with the same description <sup class="citation">[3]</sup>.
             <p>
-              Creating a trusted and complete federal database is an important first step towards increasing accountability among the police. 
+              Creating a trusted and complete federal database is an important first step towards increasing accountability among the police. It seems impossible to recognize and potentially fix the problem of police brutality with incomplete knowledge of the nature, scale, and resulting investigations into civilian deaths.
             </p>
+
+            <p>Over the past few years, there has been public outcry for police reform due to the apparent targeting of minorities in instances of police brutality. With incomplete federal records, there is less impetus for the government to ackknowledge that minorites may be unfarily targetted by law enforcment.
             </p>
           </div>
 
@@ -112,9 +119,14 @@
     </div>
     <div id="ethnicitySection" class="section">
       <div id="ethnicitySectionContainer" class="sectionContainer">
-        <div class="sectionRow">
+        <div id="ethnicitySectionHeaderRow" class="sectionRow">
           <div class="sectionTitle">
             Does Ethnicity Make a Difference?
+          </div>
+          <div id="pieInstructions" class="instructions">
+              <div class="reveal">
+                  Click a section to line up that part of the chart.
+              </div>
           </div>
         </div>
         <div class="sectionRow">
@@ -123,16 +135,16 @@
             <p class="sectionText">
             Some argue that there isn't a systematic bias in the police force because nearly 50% of the
             victims shot by police officers are white. While this is true from the Guardian's data <sup class="citation">[4]</sup>, we see
-            a different trend when comparing to the overall population <sup class="citation">[5]</sup>.
+            a different trend when comparing to the overall population according to the Census<sup class="citation">[5]</sup>.
             </p>
 
 
             <button id="pieProceed" class="bigButton">Click to compare with general population</button>
-            <div id="reveal">
+            <div class="reveal">
               <p class="sectionText">
-              For most of the minorities listed by the U.S. census, they are overepresented in the victims
-              killed in altercations with the police while <span class="white">White</span> people
-              are actually a much smaller percentage of the victims when comapred to the whole population;
+              Most of the minorities listed by the U.S. census are overepresented in the victims
+              killed in altercations with the police, while <span class="white">White</span> people
+              are actually a much smaller percentage of the victims when compared to the whole population;
               the highest delta is for <span class="african-american">African Americans</span> who make up nearly
               twice the percentage of the victims as they do the overall population.
 
@@ -144,14 +156,24 @@
               </p>
 
               <p id="selectInstructions" class="sectionText">
-              Click to see how the demographics of the victims change whether they were armed or not.
+              Click to see how the demographics of the victims change depending on if they were armed or not.
               </p>
               <form id="selectArmed"></form>
-              <p class="instructions">
-              Clicking a wedge in the chart makes the corresponding sections line up.
-              </p>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div id="intermissionSection" class="section">
+      <div class="sectionContainer">
+        <div class="sectionText">
+          <p>
+            What if we add another section here that serves the following purposes:
+          </p>
+          <ul>
+            <li>Acts as a break between the busy ethnicity section and the busy map section</li>
+            <li>Better contextualizes why we included the map visualization the way we did. We added some "transitions" between sections to try to make it flow better but we are having trouble transitioning to the map</li>
+          </ul>
         </div>
       </div>
     </div>

@@ -38,6 +38,18 @@ require('waypoints/lib/jquery.waypoints.js');
                 "wood and his carving knife."
             ],
             durationBetween: 200
+        },
+        {
+            element: "#narrative_text3 p",
+            sentences: [
+                "This case was independently reviewed by the Department of Justice but Birk " +
+                "was not prosecuted further after he resigned from the force.",
+
+                "However, we only have a loose idea of how many cases like this are happening " +
+                "across the country and are even less sure to what extent they are being investigated " +
+                "in order to make sure our law enforcement ..."
+            ],
+            durationBetween: 200
         }
     ];
 

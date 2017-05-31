@@ -80,6 +80,15 @@ function tooltipLabel(tooltipItem, data, signed) {
         $("#ethnicitySectionText .white").click(rotateByLabel("White"));
         $("#ethnicitySectionText .african-american").click(rotateByLabel("African American"));
         $("#ethnicitySectionText .hispanic").click(rotateByLabel("Hispanic"));
+
+        // setting up the width of the rightmost instructions
+        var containerWidth = parseFloat(d3.select("#ethnicitySectionContainer").style("width"));
+        var chartWidth = parseFloat(d3.select("#ethnicityCanvasContainer").style("width"));
+        var instructionWidth = containerWidth - chartWidth
+            - parseFloat(d3.select("#pieInstructions").style("padding-left"));
+
+        d3.select("#ethnicitySectionContainer .sectionTitle").style("width", chartWidth + "px");
+        d3.select("#pieInstructions").style("width", instructionWidth + "px");
     }
 
     function prepareForm(victimData, censusData) {
@@ -193,7 +202,7 @@ function tooltipLabel(tooltipItem, data, signed) {
             text: "Race of Population",
         }
         setTimeout(function() { $("#diffChart").fadeIn("slow"); }, 750);
-        setTimeout(function() { $("#reveal").fadeIn("slow"); }, 750);
+        setTimeout(function() { $(".reveal").fadeIn("slow"); }, 750);
         chart.update(750, true);
         $("#pieProceed").fadeOut("fast");
     }
