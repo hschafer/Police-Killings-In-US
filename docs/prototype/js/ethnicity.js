@@ -67,7 +67,16 @@ function tooltipLabel(tooltipItem, data, signed) {
 
         // set this up now but it will remain hidden
         diffChart = makeDiffChart(allVictimData, censusData, colors);
-        $("#pieProceed").click(function() { animatePieChart(pieCharts, censusData); });
+        $("#pieProceed").click(function() {
+            animatePieChart(pieCharts, censusData);
+            setTimeout(function() { $(".reveal1").fadeIn("slow"); }, 750);
+            $("#pieProceed").fadeOut("fast");
+        });
+
+        $("#armedProceed").click(function() {
+            setTimeout(function() { $(".reveal2").fadeIn("slow"); }, 750);
+            $("#armedProceed").fadeOut("fast");
+        });
 
         // attach events to rotate when click on race name in text
         var rotateByLabel = function(label) {
@@ -202,9 +211,7 @@ function tooltipLabel(tooltipItem, data, signed) {
             text: "Race of Population",
         }
         setTimeout(function() { $("#diffChart").fadeIn("slow"); }, 750);
-        setTimeout(function() { $(".reveal").fadeIn("slow"); }, 750);
         chart.update(750, true);
-        $("#pieProceed").fadeOut("fast");
     }
 
     function rotateChart(index) {
