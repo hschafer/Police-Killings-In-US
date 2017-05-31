@@ -2,7 +2,6 @@
     #narrative_text0, #narrative_text1, #narrative_text2, #narrative_text3 {
 
       vertical-align: center;
-      width: 70%;
       margin: auto;
 
       p {
@@ -12,6 +11,21 @@
 
     .narrative_text {
         text-align: left;
+    }
+
+    .sectionRow {
+        width: 100%;
+    }
+
+    .col {
         width: 50%;
+        display: table-cell;
+    }
+
+    #blurry {
+        iframe {
+            position: relative;
+            filter: blur(5px);
+        }
     }
 }

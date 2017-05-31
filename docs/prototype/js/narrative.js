@@ -97,6 +97,12 @@ require('waypoints/lib/jquery.waypoints.js');
                 }
                 typeInText(partIndex, sentenceIndex);
             }, 1.1 * duration + part.durationBetween);
+        } else {
+            done();
         }
+    }
+
+    function done() {
+        // stuff to do when we are out of text to type
     }
 }());
