@@ -21,6 +21,9 @@
         display:table-cell;
         vertical-align: middle;
         text-align: center;
+    }
+
+    .col2, #wapoNumberTextHighlight {
         color: $outline-color;
     }
 
@@ -55,7 +58,7 @@
       height: $labelHeight;
     }
 
-    #fbiBracketLabel {
+    #fbiBracketLabel, #fbiNumberTextHighlight {
       color: $red;
     }
 

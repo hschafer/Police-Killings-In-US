@@ -5,6 +5,10 @@ require('waypoints/lib/jquery.waypoints.js');
 // to reduce scopes of variables and functions that are unnecessary
 (function() {
   var TIME_PER_PERSON = 20;
+  var NUM_PEOPLE = 100;
+  var PERCENT_REPORTED = 0.45;
+  var NUM_REPORTED = NUM_PEOPLE * PERCENT_REPORTED;
+
   var width = 20;
   var height = 5;
 
@@ -51,7 +55,7 @@ require('waypoints/lib/jquery.waypoints.js');
   // make people visible and highlight them w/ correct delays
   function drawPeople() {
     setTimeout(showPeople, 750);
-    setTimeout(highlightPeople, 1500 + 100 * TIME_PER_PERSON);
+    setTimeout(highlightPeople, 1500 + NUM_PEOPLE * TIME_PER_PERSON);
   }
 
   function highlightPeople() {
@@ -63,10 +67,11 @@ require('waypoints/lib/jquery.waypoints.js');
       .delay( function(d, i) { return i * TIME_PER_PERSON; })
       .attr("class", "fa fa-male highlighted");
 
-    setTimeout(function() { showLabel("#fbiBracket", "#fbiBracketLabel", 0.45); },
-        100 * 0.45 * TIME_PER_PERSON);
-    setTimeout(function() { showLegend(); }, 1500);
+    highlightText("#fbiNumberText", "#fbiNumberTextHighlight", NUM_REPORTED * TIME_PER_PERSON);
 
+    setTimeout(function() { showLabel("#fbiBracket", "#fbiBracketLabel", PERCENT_REPORTED); },
+        NUM_REPORTED * TIME_PER_PERSON);
+    setTimeout(function() { showLegend(); }, 1500);
   }
 
   // make people visible
@@ -79,12 +84,29 @@ require('waypoints/lib/jquery.waypoints.js');
       .delay( function(d, i) { return i * TIME_PER_PERSON; })
       .attr("style", "visibility:visible");
 
+    highlightText("#wapoNumberText", "#wapoNumberTextHighlight", NUM_PEOPLE * TIME_PER_PERSON);
     setTimeout(function() { showLabel("#wapoBracket", "#wapoBracketLabel", 1.0); },
-        100 * TIME_PER_PERSON);
+        NUM_PEOPLE * TIME_PER_PERSON);
+  }
+
+  function highlightText(sourceSpanId, targetSpanId, duration) {
+    var sourceSpan = d3.select(sourceSpanId);
+    var targetSpan = d3.select(targetSpanId);
+    var originalText = sourceSpan.html();
+    sourceSpan.transition()
+      .duration(duration)
+      .ease(d3.easeLinear)
+      .tween("text", function() {
+        return function(t) {
+          var stopIndex = Math.round(t * originalText.length);
+          targetSpan.html(originalText.substr(0, stopIndex));
+          sourceSpan.html(originalText.substr(stopIndex, originalText.length));
+        };
+      });
   }
 
   function showLabel(bracketId, bracketLabelId, percentOfWidth) {
-      var peopleWidth = $("#people").width();
+    var peopleWidth = $("#people").width();
       var bracket = $(bracketId);
       bracket.width(percentOfWidth * peopleWidth);
       bracket.fadeIn();
