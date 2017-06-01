@@ -20,7 +20,6 @@ $(document).ready(function() {
             "John T. Williams' Story Result",
             "Does the Government Track These Deaths?",
             "Does Ethnicity Make a Difference?",
-            "TODO",
             "Who are the Victims?",
             "What Can We Do to Make a Difference?",
             "Credits"
@@ -31,7 +30,6 @@ $(document).ready(function() {
             "aStory2",
             "aFbi",
             "aEthnicity",
-            "aTODO",
             "aVictims",
             "aNextSteps",
             "aCredits"
