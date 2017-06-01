@@ -1,0 +1,30 @@
+[
+   {
+      "key":"White",
+      "value":0.485994
+   },
+   {
+      "key":"Other",
+      "value":0.012450
+   },
+   {
+      "key":"Native American",
+      "value":0.012895
+   },
+   {
+      "key":"Hispanic",
+      "value":0.171632
+   },
+   {
+      "key":"Black",
+      "value":0.250778
+   },
+   {
+      "key":"Asian",
+      "value":0.015562
+   },
+   {
+      "key": "Unknown",
+      "value": 0.050689
+   }
+]

@@ -1,0 +1,377 @@
+#section2 {
+    text-align: left;
+    font-family: 'Ropa Sans', sans-serif;
+
+    .autoCompleteResult, #cityName, #cityCount {
+        margin-top: 1pt;
+        margin-bottom: 5px;
+        color: $outline-color;
+    }
+
+    .cityNameWrapper {
+        display: flex;
+        border: 1px solid transparent;
+
+        #cityNameAndSearch {
+            /*margin-top: 1pt;*/
+            /*margin-bottom: 5px;*/
+            color: $darker-gray;
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 90%;
+            position: relative;
+
+            font-family: 'Ropa Sans', sans-serif;
+            /* copy default h6 characteristics */
+            display: block;
+            font-size: 0.67em;
+            font-weight: bold;
+        }
+
+        #citySearchIcon {
+            visibility: hidden;
+        }
+    }
+
+    .citySearchFocused, .cityNameWrapper:hover {
+        border: 1px solid $secondary-color;
+
+        #citySearchIcon {
+            visibility: visible;
+        }
+    }
+
+    #cityLabel, #countLabel {
+        margin-top: 10px;
+        margin-bottom: 1pt;
+        color: $secondary-color;
+    }
+
+    #victimsLabel {
+        margin-top: 10px;
+        margin-bottom: 5pt;
+        color: $secondary-color;
+    }
+
+    #victimList {
+        list-style-type: none;
+        margin: 0pt;
+        padding: 0pt;
+        font-size: 1.7vh;
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+        color: $darker-gray;
+
+        li {
+            margin-bottom: 5pt;
+        }
+    }
+
+    #section2HeaderRow {
+        width: 100%;
+    }
+
+    .directionsParagraph {
+        font-size: 11pt;
+        margin-top: 0pt;
+        margin-bottom: 1pt;
+    }
+
+    .mapInfo {
+        display: table-cell;
+        font-size: 20pt;
+        vertical-align: top;
+        padding-left: 10px;
+        width: 100%;
+    }
+
+    .mapSVG {
+        display: table-cell;
+    }
+
+    .states {
+        fill: $gray;
+        stroke: #fff;
+        cursor: pointer;
+    }
+
+    .states.active {
+        fill: $outline-color;
+    }
+
+    .states.unclickable {
+        cursor: default;
+    }
+
+    .states.unclickable:hover {
+        fill: $secondary-color;
+    }
+
+    .states.unclickable.active {
+        fill: $outline-color;
+    }
+
+    .symbol {
+        fill: $secondary-color;
+        fill-opacity: .7;
+        //stroke: $secondary-;
+        cursor: pointer;
+    }
+
+    .symbol.highlightedCity, .symbol#highlightedCityDuplicate {
+        fill: $red;
+        stroke: #b11a1a;
+    }
+
+    .state-borders {
+        fill: none;
+        stroke: $background-color;
+        stroke-width: 0.5px;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        pointer-events: none;
+    }
+
+    .us-outline {
+        stroke: $outline-color;
+        stroke-width: 1px;
+        fill: none;
+    }
+
+    .legend {
+        rect {
+            stroke: $outline-color;
+            fill: $background-color;
+            opacity: 0.7;
+        }
+
+        .legendCircle {
+            stroke: $outline-color;
+            fill: none;
+        }
+
+        .legendLabel, #legendTitle {
+            font-size: small;
+            fill: $outline-color;
+        }
+    }
+
+    #hoverDirections {
+        display: table-cell;
+        padding-bottom: 7pt;
+        font-size: 20px;
+    }
+
+    #usSvgContainer {
+        position: relative;
+    }
+
+    button {
+        position: absolute;
+        width: 40px;
+        height: 25px;
+        left: 2px;
+        top: 2px;
+    }
+
+    #zoomOut {
+        left: 50px;
+    }
+
+    #citySearch {
+        float: right;
+        position: absolute;
+        width: 100;
+        height: 25px;
+        right: 2px;
+        top: 2px;
+        opacity: 0.5;
+        color: $secondary-color;
+        font-size: small;
+        text-align: center;
+        /*background-color: var(--background-color);*/
+        font-family: 'Ropa Sans', sans-serif;
+    }
+
+    .victimFilterContainer {
+        display: table-cell;
+    }
+
+    .backgroundRect {
+        fill: none;
+        stroke: $gray;
+        stroke-width: 1px;
+        pointer-events: all;
+    }
+
+    #victimDateFilter {
+        width: 30%;
+    }
+
+    #dateSlider {
+        width: 100%;
+        height: 60px;
+        display: block;
+    }
+
+    #ageSlider {
+        display:block;
+        width: 100%;
+        height: 60px;
+    }
+
+    #dateSliderGroup {
+        transform: translate(10px,30px);
+    }
+    #ageSliderGroup {
+        transform: translate(10px, 14px);
+    }
+
+    #victimDemographics {
+        display: table;
+        width: 100%;
+    }
+
+    #victimDemographicsContainer {
+        width: 70%;
+    }
+
+    #victimParamsCol1, #victimParamsCol2,
+    #victimParamsCol3, #victimParamsCol4,
+    #victimParamsCol5 {
+        display:table-cell;
+        padding-bottom: 0pt;
+    }
+
+    #victimParamsCol1 {
+        width: 40%;
+    }
+
+    #victimParamsCol2, #victimParamsCol3, #victimParamsCol4 {
+        width: 16%;
+    }
+
+    #victimParamsCol5 {
+        width: 12%;
+    }
+
+    .victimDemographicList {
+        font-size: 15pt;
+        list-style-type: none;
+    }
+
+    .victimDemographicList h6 {
+        margin: 0pt;
+        color: $darker-gray;
+    }
+
+    .victimFilterContainer h5 {
+        font-size: 20pt;
+        margin-top: 0pt;
+        margin-bottom: 0pt;
+    }
+
+    #victimMapFilters {
+        margin-top: 10px;
+        width: 100%;
+        padding: 6pt;
+        background-color: $light-gray;
+        border-style: solid;
+        border-color: $gray;
+        border-width: 1px;
+    }
+
+    .EthnicityCheckboxColumn {
+        display: table-cell;
+        width: 33%;
+    }
+
+    #EthnicityCheckboxContainer {
+        display: table;
+        width: 100%;
+    }
+
+    .checkboxItem {
+        font-size: 10pt;
+    }
+
+    .ticks {
+        /*stroke: var(--outline-color);*/
+        fill: $darker-gray;
+        font-size: medium;
+    }
+
+    .track, .track-inset, .track-overlay {
+        stroke-linecap: round;
+    }
+
+    .track {
+        /*stroke: var(--outline-color);*/
+        stroke-opacity: 0.3;
+        stroke-width: 6px;
+    }
+
+    #date_lowerTicks {
+        transform: translate(-3px,25px);
+    }
+
+    #age_lowerTicks {
+        transform: translate(-5px,25px);
+    }
+
+    #date_upperTicks {
+        transform: translate(0px,-16px);
+    }
+
+    #age_upperTicks {
+        transform: translate(0px,25px);
+    }
+
+    .track-inset {
+        stroke: $less-light-gray;
+        stroke-width: 4px;
+    }
+
+    #date-track-inset-selected-region, #age-track-inset-selected-region {
+        stroke-opacity: 1.0;
+        stroke: white;
+        stroke-width: 4px;
+    }
+
+    .track-overlay {
+        pointer-events: stroke;
+        stroke-width: 50px;
+        stroke: transparent;
+        cursor: crosshair;
+    }
+
+    .dateFilterHandle, .ageFilterHandle {
+        fill: #fff;
+        stroke: #000;
+        stroke-opacity: 0.5;
+        stroke-width: 1.25px;
+        r: 6;
+        //z-index: 10;
+    }
+}
+
+div.tooltip {
+    position: absolute;
+    max-height: 100px;
+    background: $background-color;
+    border: 0px;
+    font-family: 'Ropa Sans', sans-serif;
+    color: $outline-color;
+    padding: 4pt;
+}
+
+div.tooltip h2 {
+    margin: 0;
+}
+
+#EthnicityCheckboxItem {
+    width: 25px;
+    margin: 20px 100px;
+}

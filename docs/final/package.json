@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "./node_modules/webpack/bin/webpack.js --watch"
+    "watch": "./node_modules/webpack/bin/webpack.js --watch",
+    "build": "NODE_ENV=production webpack --progress -p --config ./webpack.production.config.js"
   },
   "repository": {
     "type": "git",
@@ -18,12 +19,22 @@
   },
   "homepage": "https://github.com/hschafer/dataviz-hw3-temp#readme",
   "devDependencies": {
-    "webpack": "^2.4.1",
-    "topojson": "^3.0.0"
+    "css-loader": "^0.28.3",
+    "file-loader": "^0.11.1",
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.5",
+    "style-loader": "^0.18.1",
+    "topojson": "^3.0.0",
+    "webpack": "^2.6.1"
   },
   "dependencies": {
+    "chart.js": "^2.5.0",
     "d3": "^4.8.0",
     "d3-queue": "^3.0.5",
-    "jquery": "^3.2.1"
+    "d3-scale-chromatic": "^1.1.1",
+    "fuse.js": "^3.0.3",
+    "jquery": "^3.2.1",
+    "vivus": "^0.4.0",
+    "waypoints": "^4.0.1"
   }
 }

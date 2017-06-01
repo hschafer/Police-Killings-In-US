@@ -1,172 +1,308 @@
-// Our modules are designed to execute when imported
-require('./ethnicity.js');
-require('./the_victims.js');
-require('./fbi_comparison.js');
-require('./narrative.js');
-
-require('../css/style.scss');
+const topojson = require('topojson');
 const d3 = require('d3');
 
-$(document).ready(function() {
-    // set up full page
+// size rectangle that holds map
+// proportional to window
+// not using CSS (i.e. width: 80%) for these
+// so that we can use the actual numerical values
+// to scale map
+var w = $(window).width() * (2.0 / 3);
+var h = $(window).height() * (3.0 / 4);
+var scale = w; // used to scale US map
+var radius = null; // global to recalculate radius
+
+var svg = null; // global for callbacks
+var activeState = d3.select(null);
+var tooltipActive = null;
+
+var projection = d3.geoAlbersUsa()
+    .translate([w / 2, h / 2])
+    .scale([scale]);
+
+var path = d3.geoPath()
+        .projection(projection);
+
+var zoom = d3.zoom()
+    .scaleExtent([1, 20])
+    .on("zoom", zoomed);
+
+var legendWidth = 100;
+var legendHeight = 70;
+var maxLegend = -1;
+
+$(document).ready(function () {
     $('#fullpage').fullpage({
         autoScrolling: false,
         fitToSection: false,
         navigation: true,
         navigationPosition: 'left',
-        navigationTooltips: [
-            "Title",
-            "John T. Williams' Story",
-            "John T. Williams' Story Result",
-            "Does the Government Track These Deaths?",
-            "Does Ethnicity Make a Difference?",
-            "Who are the Victims?",
-            "What Can We Do to Make a Difference?",
-            "Credits"
-        ],
-        anchors: [
-            "aTitle",
-            "aStory1",
-            "aStory2",
-            "aFbi",
-            "aEthnicity",
-            "aVictims",
-            "aNextSteps",
-            "aCredits"
-        ],
         menu: '#menu'
     });
 
-    // reposition title using absolute positioning
-    // TODO: fix this
-    d3.select("#titlebox").style("left",($(window).width() * 0.2 + "px"));
-    d3.select("#titlebox").style("top",($(window).height() * 0.3 + "px"));
-
-    // define flag specs
-    var flag_line_start_x = ($(window).width() * 0.2) - 120;
-    var height_blue_box = 200;
-    var red_stripe_height = 40;
-
-    // slow highlight of intro quote
-    setTimeout(highlightIntro, 1500);
-    positionFlag(flag_line_start_x, height_blue_box, red_stripe_height);
-    animateFlag(height_blue_box, red_stripe_height);
-
-    // next steps tabs
-    $("ul.tabs li").click(function() {
-        var me = $(this);
-        var tabbed = me.attr("data-tab");
-
-        $('ul.tabs li').removeClass('current');
-		$('.tab-content').removeClass('current');
-
-		me.addClass('current');
-		$('#' + tabbed).addClass('current');
-    });
-
-    // make citations clickable
-    $(".citation").click(function() {
-        $.fn.fullpage.moveTo("aCredits");
-    });
+    // NOTE: d3.geo functions all have new syntax as of D3 4.0 release
+    // d3.geo.albersUsa() call from example site is now d3.geoAlbersUsa
+    // see details of recent changes here: https://github.com/d3/d3/blob/master/CHANGES.md
+    d3.queue()
+        .defer(d3.json, "data/us-states.json")
+        .defer(d3.json, "data/who_are_victims.json")
+        .await(ready);
 });
 
-function animateFlag(height_blue_box, red_stripe_height) {
+function ready(error, us, cityData) {
+    if (error) throw error;
 
-    var max_timeout = 2000;
-    var default_duration = 4000;
+    cityData.sort(function(a, b) { d3.descending(a.num_records, b.num_records); });
 
-    // set all widths to 0 first (need this for animation)
-    d3.selectAll(".flagline")
-        .attr('width', 0);
+    radius = d3.scaleSqrt()
+        .domain([0, d3.max(cityData, function(d) { return d.num_records; })])
+        .range([0, 15]);
 
-    // animate width of rectangles, left to right
-    drawFlagLine("#flagbluetop", 300, Math.random() * max_timeout);
-    drawFlagLine("#flagbluebottom", 180, Math.random() * max_timeout);
-    drawFlagLine("#flagred1", 50, Math.random() * max_timeout);
-    drawFlagLine("#flagred2", 100, Math.random() * max_timeout);
-    drawFlagLine("#flagred3", 100, Math.random() * max_timeout);
-    drawFlagLine("#flagred4", 300, Math.random() * 200);
-    drawFlagLine("#flagred5", 700, Math.random() * 200);
-    drawFlagLine("#flagred6", 500, Math.random() * 200);
+    var section2Container =  d3.select("#section2Container");
+    var section2HeaderRow = d3.select("#section2HeaderRow");
+    var section2Row = d3.select(".sectionRow");
+    var svgContainer = d3.select("#usSvgContainer");
 
-    // draw vertical lines
-    // draw blue portion of vertical line
-    d3.select("#verticalblue").attr('height', 0);
-    d3.select("#verticalblue")
-        .transition()
-        .delay(2000)
-        .duration(3000)
-        .ease(d3.easeLinear)
-        .attr('height', height_blue_box);
+    // attach event listeners for zooming
+    svgContainer.select("#zoomIn")
+        .on("click", function() { zoomButtonClick(3/2); });
+    svgContainer.select("#zoomOut")
+        .on("click", function() { zoomButtonClick(2/3); });
 
-    // draw red portion of vertical line
-    d3.select('#verticalred').attr('height', 0);
-    d3.select('#verticalred')
-        .transition()
-        .delay(5000)
-        .duration(3000)
-        .ease(d3.easeLinear)
-        .attr('height', (red_stripe_height * 6) - 3);
-    // subtract 3 because width of flag lines is 3 px
-}
+    // disable body scrolling while inside SVG container
+    svgContainer.on("mouseover",
+            function () { document.body.style.overflow = 'hidden'; })
+        .on("mouseout",
+            function() { document.body.style.overflow = 'auto'; });
 
-function drawFlagLine(id_selector, width, delay) {
-    d3.select(id_selector)
-        .transition()
-        .delay(delay)
-        .duration(4000)
-        .attr('width', width);
-}
+    svg = svgContainer.append("svg")
+        .attr("width", w)
+        .attr("height", h)
+        .attr("class", "mapSVG")
+        .call(zoom);
 
+	svg.append("rect")
+        .attr("id", "background")
+        .attr("width", w)
+        .attr("height", h)
+        .style("fill", "none")
+        .style("pointer-events", "all")
 
-// TODO: make this work with many sized screens
-function positionFlag(flag_line_start_x, height_blue_box, red_stripe_height) {
+    svg.selectAll("path")
+        .data(us.features)
+        .enter()
+        .append("path")
+        .attr("class", "states")
+        .attr("d", path)
+        .on("click", clicked);
 
-    // position lines' starting x,y coords
-    var startblueY = ($(window).height() * 0.3) - 40;
-    var width_line = 3; // width of flag outlines
+    var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 
-    // position blue lines
-    d3.select("#flagbluetop")
-        .attr("x", flag_line_start_x + "px")
-        .attr("y", startblueY + "px");
-    d3.select("#flagbluebottom")
-        .attr("x", flag_line_start_x + "px")
-        .attr("y", startblueY + height_blue_box + "px");
+    svg.selectAll(".symbol")
+        .data(cityData)
+        .enter()
+        .append("circle")
+        .attr("class", "symbol")
+        .attr("cx", function (d) { return projection([d.longitude, d.latitude])[0]; })
+        .attr("cy", function (d) { return projection([d.longitude, d.latitude])[1]; })
+        .attr("r",  function (d) { return radius(d.num_records); })
+        .on("mouseover", function(d) {
+            selectCity(d);
 
-    // position red lines
-    var line_num = -1;
+            // set tooltip
+            if (d.records.length > 0) {
+                tooltipActive = true;
+                div.style("opacity", .9);
+                div.append("h2")
+                    .html(d.city + ", " + d.state);
+                div.style("left", (d3.event.pageX) + 15 + "px")
+                    .style("top", (d3.event.pageY) - 28 + "px")
+            }
+        })
+        .on("mouseout", function(d) {
+            // tooltip
+            div.style("opacity", 0);
+            div.selectAll("h2").remove();
+            tooltipActive = false;
 
-    // start red lines after blue section and one stripe's height
-    var startredY = startblueY + height_blue_box + red_stripe_height;
-    d3.selectAll(".flagred")
-        .attr("x", flag_line_start_x + "px")
-        .attr("y", function() {
-            line_num++;
-            return startredY + (red_stripe_height * line_num) + "px";
+            // apply invisibility
+            deselectCity();
         });
 
-    d3.select("#verticalblue")
-        .attr("x", flag_line_start_x + "px")
-        .attr("y", startblueY + "px");
+    randomSelection(cityData); // make it happen right away
+    var timer = setInterval(randomSelection, 3000, cityData);
 
-    d3.select("#verticalred")
-        .attr("x", flag_line_start_x)
-        .attr("y", startblueY + height_blue_box + width_line);
+    svg.on("mouseenter", function() {
+        if (timer) {
+            d3.select("#highlightedCity").remove();
+            clearInterval(timer);
+            deselectCity();
+            timer = null;
+        }
+    });
+    svg.on("mouseleave", function() {
+        timer = setInterval(randomSelection, 3000, cityData);
+    });
+
+    makeLegend(cityData);
+
+    // kind of hacky
+    // we have to do this last to get the position of the mapInfo sidebar
+    d3.select("#hoverDirections").style("width", function() {
+        var containerWidth = parseFloat(d3.select("#section2Container").style("width"));
+        var mapWidth = parseFloat(d3.select("#usSvgContainer").select("svg").attr("width"));
+        var result = containerWidth
+            - mapWidth - parseFloat(d3.select(".mapInfo").style("padding-left"));
+        return result + "px";
+    });
 }
 
-function highlightIntro() {
-    var original = $("#originalText");
-    var originalText = original.html();
+function randomSelection(cityData) {
+    var randCity = cityData[Math.floor(Math.random() * cityData.length)];
+    var svg = d3.select(".mapSVG");
+    var domNode = svg.selectAll(".symbol").filter(function(d) { return d.id === randCity.id; });
+    var circle = svg.selectAll("#highlightedCity").data([randCity]);
+    circle.enter().append('circle')
+        .attr("id", "highlightedCity")
+        .attr("class", "symbol")
+      .merge(circle)
+        .attr("cx", domNode.attr("cx"))
+        .attr("cy", domNode.attr("cy"))
+        .attr("r", domNode.attr("r"));
+    circle.exit().remove();
+    deselectCity();
+    selectCity(randCity);
+}
 
-    // "Typing" effect for red fade-in of motto
-    var characterDelay = 75;
+function selectCity(d) {
+    // remove invisibility
+    d3.select("#cityName").classed("invisibleText", false);
+    d3.select("#cityName").html(d.city + ", " + d.state);
 
-    if (originalText) {
-        var highlighted = $("#highlightedText");
-        highlighted.html(highlighted.html() + originalText[0]);
-        original.html(originalText.substring(1));
-        setTimeout(highlightIntro, characterDelay);
+    // add victims
+    var victimsList = d3.select("#victimList");
+    for (var person = 0; person < d.records.length; person++) {
+        victimsList.append("li").html(d.records[person].name);
     }
 }
 
+function deselectCity() {
+    d3.select("#cityName").classed("invisibleText", true);
+    d3.select("#cityName").html("...");
+    var listNodes = d3.select("#victimList").selectAll("*");
+    listNodes.remove();
+}
+
+function clicked(d) {
+    activeState.classed("active", false);
+    var zoomLevel;
+    if (activeState.node() === this) {
+		// If it is a click on the same state, we want to zoom out
+        activeState = d3.select(null);
+        zoomLevel = d3.zoomIdentity;
+    } else {
+		// We are clicking on a new state
+        activeState = d3.select(this).classed("active", true);
+        var bounds = path.bounds(d),
+            dx = bounds[1][0] - bounds[0][0],
+            dy = bounds[1][1] - bounds[0][1],
+            x = (bounds[0][0] + bounds[1][0]) / 2,
+            y = (bounds[0][1] + bounds[1][1]) / 2,
+            scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / w, dy / h))),
+            translate = [w / 2 - scale * x, h / 2 - scale * y];
+        zoomLevel = d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale);
+    }
+
+	svg.transition()
+        .duration(750)
+        .call(zoom.transform, zoomLevel);
+}
+
+function zoomed() {
+    var circles = svg.selectAll(".symbol");
+    var states = svg.selectAll(".states");
+
+    // If we are back at zoom level 1 then transition to center
+    var transform = d3.event.transform;
+    if (transform.k === 1) {
+        transform.x = 0;
+        transform.y = 0;
+    }
+
+    var scaleTransform = function(d, scale) {
+        scale = (typeof scale === "undefined") ? 4 : scale;
+        return d * (scale - 1 + transform.k) / scale;
+    }
+
+    states.attr("transform", transform);
+    circles.attr("cx", function(d) {
+        var projectedX = projection([d.longitude, d.latitude])[0];
+        return transform.applyX(projectedX);
+    }).attr("cy", function(d) {
+        var projectedY = projection([d.longitude, d.latitude])[1];
+        return transform.applyY(projectedY);
+    }).attr("r", function(d) { return scaleTransform(radius(d.num_records)); });
+
+    // resize the legend
+    var newLegendWidth = scaleTransform(legendWidth, 11);
+    var newLegendHeight = scaleTransform(legendHeight, 11);
+    svg.selectAll(".legend")
+        .attr("transform", "translate(" + (w - newLegendWidth) + "," + (h - newLegendHeight) + ")");
+    svg.selectAll(".legend rect")
+        .attr("width", newLegendWidth)
+        .attr("height", newLegendHeight);
+
+    svg.selectAll(".legendCircle")
+        .attr("r", function(d) { return scaleTransform(radius(d)); })
+        .attr("cy", function(d) {
+            return newLegendHeight / 2 - scaleTransform(radius(d)) + scaleTransform(radius(maxLegend));
+        }).attr("cx", newLegendWidth / 2 - 4);
+    svg.selectAll(".legendLabel")
+        .attr("y", function(d, i) {
+            return newLegendHeight / 2 + (newLegendHeight / 4) * (1 - i);
+        }).attr("x", newLegendWidth / 2 + scaleTransform(radius(maxLegend)) + 5)
+    svg.select("#legendTitle")
+        .attr("y", newLegendHeight - 5)
+        .attr("x", 5);
+
+}
+
+function zoomButtonClick(zoomLevel) {
+    zoom.scaleBy(svg.transition(), zoomLevel);
+}
+
+function makeLegend(cityData) {
+    maxLegend = d3.max(cityData, function(d) { return d.num_records; });
+    var toShow = [1, maxLegend / 2, maxLegend];
+
+    var legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", "translate(" + (w - legendWidth) + "," + (h - legendHeight) + ")");
+    legend.append("rect")
+        .attr("width", legendWidth)
+        .attr("height", legendHeight)
+        .text("Hello!");
+
+    legend.selectAll("circle")
+        .data(toShow)
+        .enter().append("circle")
+        .attr("class", "legendCircle")
+        .attr("cy", function(d) { return legendHeight / 2 - radius(d) + radius(maxLegend); })
+        .attr("cx", function(d, i) { return legendWidth / 2 - 5; })
+        .attr("r", function(d) { return radius(d); });
+    legend.selectAll("text")
+        .data(toShow)
+        .enter().append("text")
+        .attr("class", "legendLabel")
+        .attr("y", function(d, i) {
+            return legendHeight / 2 + (legendHeight / 4) * (1 - i);
+        })
+        .attr("x", legendWidth / 2 + radius(maxLegend) + 5)
+        .html(function(d) { return d; });
+    legend.append("text")
+        .attr("id", "legendTitle")
+        .attr("y", legendHeight - 5)
+        .attr("x", 5)
+        .html("Number of Victims");
+}
