@@ -15,7 +15,7 @@ const fuse = require('fuse.js');
 
     const RACE = {
         "W": "White",
-        "B": "African American",
+        "B": "Black",
         "H": "Hispanic",
         "N": "Native American",
         "A": "Asian",
