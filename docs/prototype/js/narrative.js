@@ -128,6 +128,7 @@ require('waypoints/lib/jquery.waypoints.js');
                 handler: function () {
                     var totem_vivus = new vivus('narrative_section_svg', {start: 'autostart', duration: 2000});
                     totem_vivus.play();
+                    $("#narrative_section_svg").removeClass("hidden");
 
                     var totem_svg = d3.select("#narrative_section_svg g")
                         .transition()
@@ -148,6 +149,7 @@ require('waypoints/lib/jquery.waypoints.js');
                     var badge_svg = d3.select("#narrative_section2_svg").attr("height", $(window).height() * 0.7);
                     var badge_vivus = new vivus('narrative_section2_svg', {start: 'autostart', duration: 3000});
                     badge_vivus.play();
+                    $("#narrative_section2_svg").removeClass("hidden");
 
                     typeInText(5, 0, partsOfNarrative.length);
                     waypoint2.disable();
