@@ -1,0 +1,51 @@
+#section1 {
+    //background: url(maxresdefault_dark.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+    .fp-tableCell {
+        background: $background-color;
+        text-align: center;
+    }
+
+    blockquote {
+        width: 775px;
+    }
+
+    #highlightedText {
+        color: $red;
+    }
+
+    #flagStarBoxTop {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+
+    #titlebox {
+        position: absolute;
+    }
+
+    .flagline {
+       height: 3px;
+    }
+
+    .flagline_vertical {
+        width: 3px;
+    }
+
+    #flagbluetop, #flagbluebottom, #verticalblue {
+        fill: $secondary-color;
+    }
+
+    .flagred, #verticalred {
+        fill: $red;
+    }
+
+    #verticalblue, #verticalred {
+
+    }
+
+}

@@ -1,0 +1,84 @@
+#fbiSection {
+
+    .row {
+        font-size:30pt;
+        padding-bottom: 5pt;
+    }
+
+    .col1 {
+        display:table-cell;
+        width:40%;
+        vertical-align: middle;
+        text-align: left;
+
+        p {
+            font-size:12pt;
+            margin: 30px 50px 30px 0px;
+        }
+    }
+
+    .col2 {
+        display:table-cell;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .col2, #wapoNumberTextHighlight {
+        color: $outline-color;
+    }
+
+    .fa.fa-male {
+        margin-left:5pt;
+    }
+
+    .fa.fa-male.highlighted {
+        color: $red;
+    }
+
+    $border: 1px solid black;
+    $bracketHeight: 25px;
+    $labelHeight: 50px;
+
+    #wapoBracket {
+        border-top: $border;
+    }
+
+    #fbiBracket {
+        border-bottom: $border;
+    }
+
+    #wapoBracket, #fbiBracket {
+        border-left: $border;
+        border-right: $border;
+        font-size: 20pt;
+        height: $bracketHeight;
+    }
+
+    #wapoBracketLabel, #fbiBracketLabel {
+      height: $labelHeight;
+    }
+
+    #fbiBracketLabel, #fbiNumberTextHighlight {
+      color: $red;
+    }
+
+    .labelContainer {
+      height: $labelHeight + $bracketHeight;
+    }
+
+    #legendLabel {
+        float:right;
+        font-size: 25pt;
+    }
+
+    .invisible {
+        display: none;
+    }
+
+    #peopleLegend {
+        text-align: right;
+        margin-right: 80pt;
+        color: $secondary-color;
+        font-size: 30pt;
+    }
+}

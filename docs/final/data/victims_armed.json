@@ -1,0 +1,135 @@
+[
+    {
+        "armed": "All",
+        "values": [
+            {
+                "key": "White",
+                "value": 0.51742627346
+            },
+            {
+                "key": "Unknown",
+                "value": 0.01742627346
+            },
+            {
+                "key": "Other",
+                "value": 0.00357462019
+            },
+            {
+                "key": "Native American",
+                "value": 0.01653261841
+            },
+            {
+                "key": "Hispanic",
+                "value": 0.16890080429
+            },
+            {
+                "key": "Black",
+                "value": 0.25603217158
+            },
+            {
+                "key": "Asian",
+                "value": 0.02010723861
+            }
+        ]
+    },
+    {
+        "armed": "Armed",
+        "values": [
+            {
+                "key": "White",
+                "value": 0.52603550296
+            },
+            {
+                "key": "Unknown",
+                "value": 0.01952662722
+            },
+            {
+                "key": "Other",
+                "value": 0.00295857989
+            },
+            {
+                "key": "Native American",
+                "value": 0.01656804734
+            },
+            {
+                "key": "Hispanic",
+                "value": 0.16686390533
+            },
+            {
+                "key": "Black",
+                "value": 0.24497041420
+            },
+            {
+                "key": "Asian",
+                "value": 0.02307692308
+            }
+        ]
+    },
+
+    {
+        "armed": "Unarmed",
+        "values": [
+            {
+                "key": "White",
+                "value": 0.49752475248
+            },
+            {
+                "key": "Unknown",
+                "value": 0.00742574257
+            },
+            {
+                "key": "Native American",
+                "value": 0.01485148515
+            },
+            {
+                "key": "Hispanic",
+                "value": 0.16336633663
+            },
+            {
+                "key": "Black",
+                "value": 0.29950495050
+            },
+            {
+                "key": "Asian",
+                "value": 0.01237623762
+            },
+            {
+                "key": "Other",
+                "value": 0.00495049505
+            }
+        ]
+    },
+    {
+        "armed": "Disputed",
+        "values": [
+            {
+                "key": "White",
+                "value": 0.47222222222
+            },
+            {
+                "key": "Unknown",
+                "value": 0.02083333333
+            },
+            {
+                "key": "Native American",
+                "value": 0.02083333333
+            },
+            {
+                "key": "Hispanic",
+                "value": 0.20833333333
+            },
+            {
+                "key": "Black",
+                "value": 0.26388888889
+            },
+            {
+                "key": "Asian",
+                "value": 0.00694444444
+            },
+            {
+                "key": "Other",
+                "value": 0.00694444444
+            }
+        ]
+    }
+]
