@@ -34,13 +34,19 @@ require('waypoints/lib/jquery.waypoints.js');
             var waypoint2 = new Waypoint({
                 element: $("#narrative_section2"),
                 handler: function () {
-
                     var badge_svg = d3.select("#narrative_section2_svg");
                     var badge_vivus = new vivus('narrative_section2_svg', {start: 'autostart', duration: 400});
+
                     badge_vivus.play();
                     $("#narrative_section2_svg").removeClass("hidden");
 
-                    setTimeout(function() { displayParagraphs(3, 5); }, 1000);
+                    setTimeout(function() {
+                        d3.select("#narrative_section2_svg path")
+                            .transition()
+                            .duration(3000)
+                            .attr("stroke-width", "12px");
+                        displayParagraphs(3, 5);
+                    }, 1000);
                     waypoint2.disable();
                 },
                 offset: 300
@@ -49,7 +55,6 @@ require('waypoints/lib/jquery.waypoints.js');
     });
 
     function displayParagraphs(start, stop) {
-        console.log("test", start, stop);
         if (start <= stop) {
             $("#narrative_text" + start + " p").fadeIn('slow');
             setTimeout(function() { displayParagraphs(start + 1, stop); }, 1500);
