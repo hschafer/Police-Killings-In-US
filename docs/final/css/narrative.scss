@@ -46,4 +46,12 @@
     justify-content: center;
     align-items: center;
   }
+
+  #totemCaption {
+    display: none;
+    font-size: 13pt;
+    font-family: 'Ropa Sans', sans-serif !important;
+    // Kind of a magic number, it works on multiple screens though!
+    padding-left: 50px;
+  }
 }

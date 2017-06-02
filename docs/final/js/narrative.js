@@ -127,6 +127,7 @@ require('waypoints/lib/jquery.waypoints.js');
                 element: $("#narrative_section"),
                 handler: function () {
                     var totem_vivus = new vivus('narrative_section_svg', {start: 'autostart', duration: 2000});
+
                     totem_vivus.play();
                     $("#narrative_section_svg").removeClass("hidden");
 
@@ -135,6 +136,10 @@ require('waypoints/lib/jquery.waypoints.js');
                         .delay(6000)
                         .duration(3000)
                         .attr("fill", "black");
+
+                    setTimeout(function() {
+                        $("#totemCaption").fadeIn();
+                    }, 8000);
 
                     typeInText(0, 0, 5);
                     waypoint1.disable();
@@ -146,7 +151,7 @@ require('waypoints/lib/jquery.waypoints.js');
                 element: $("#narrative_section2"),
                 handler: function () {
 
-                    var badge_svg = d3.select("#narrative_section2_svg").attr("height", $(window).height() * 0.7);
+                    var badge_svg = d3.select("#narrative_section2_svg");
                     var badge_vivus = new vivus('narrative_section2_svg', {start: 'autostart', duration: 3000});
                     badge_vivus.play();
                     $("#narrative_section2_svg").removeClass("hidden");
