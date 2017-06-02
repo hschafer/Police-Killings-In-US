@@ -1,4 +1,9 @@
 #narrative_section, #narrative_section2 {
+
+  .sectionRow {
+      width: 100%;
+  }
+
   #narrative_text0, #narrative_text1, #narrative_text2, #narrative_text3, #narrative_text4, #narrative_text5 {
 
     vertical-align: center;
@@ -11,6 +16,10 @@
 
   .narrative_text {
     text-align: left;
+
+    p {
+      display: none;
+    }
   }
 
   .sectionRow {
@@ -20,6 +29,7 @@
   .col {
     width: 50%;
     float: left;
+    min-height: 10px;
   }
 
 
