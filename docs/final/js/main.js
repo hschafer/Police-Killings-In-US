@@ -39,17 +39,26 @@ $(document).ready(function() {
 
     // reposition title using absolute positioning
     // TODO: fix this
-    d3.select("#titlebox").style("left",($(window).width() * 0.2 + "px"));
-    d3.select("#titlebox").style("top",($(window).height() * 0.3 + "px"));
+    var title_box_width = d3.select("#titlebox").node().getBoundingClientRect().width;
+    var title_box_height = d3.select("#titlebox").node().getBoundingClientRect().height;
+    //console.log("title box width: " + title_box_width);
+    //console.log("total width: " + $(window).width());
+
+    var title_box_start_x = ($(window).width() - title_box_width) / 2.0;
+    var title_box_start_y = ($(window).height() - title_box_height) / 2.0;
+
+    // we want to offset the title box by the remaining space / 2
+    d3.select("#titlebox").style("left",(title_box_start_x + "px"));
+    d3.select("#titlebox").style("top",(title_box_start_y + "px"));
 
     // define flag specs
-    var flag_line_start_x = ($(window).width() * 0.2) - 120;
+    var flag_line_start_x = title_box_start_x - 120;
     var height_blue_box = 200;
     var red_stripe_height = 40;
 
     // slow highlight of intro quote
     setTimeout(highlightIntro, 1500);
-    positionFlag(flag_line_start_x, height_blue_box, red_stripe_height);
+    positionFlag(flag_line_start_x, height_blue_box, red_stripe_height, title_box_start_y);
     animateFlag(height_blue_box, red_stripe_height);
 
     // next steps tabs
@@ -120,10 +129,10 @@ function drawFlagLine(id_selector, width, delay) {
 
 
 // TODO: make this work with many sized screens
-function positionFlag(flag_line_start_x, height_blue_box, red_stripe_height) {
+function positionFlag(flag_line_start_x, height_blue_box, red_stripe_height, title_box_start_y) {
 
     // position lines' starting x,y coords
-    var startblueY = ($(window).height() * 0.3) - 40;
+    var startblueY = title_box_start_y - 40;
     var width_line = 3; // width of flag outlines
 
     // position blue lines
