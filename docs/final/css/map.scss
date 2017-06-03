@@ -1,4 +1,6 @@
 #section2 {
+    $searchWidth: 90%;
+
     text-align: left;
     font-family: 'Ropa Sans', sans-serif;
 
@@ -10,7 +12,7 @@
 
     .cityNameWrapper {
         display: flex;
-        border: 1px solid transparent;
+        outline: transparent 1px solid;
 
         #cityNameAndSearch {
             /*margin-top: 1pt;*/
@@ -19,7 +21,7 @@
             background: transparent;
             border: none;
             outline: none;
-            width: 90%;
+            width: $searchWidth;
             position: relative;
 
             font-family: 'Ropa Sans', sans-serif;
@@ -35,7 +37,7 @@
     }
 
     .citySearchFocused, .cityNameWrapper:hover {
-        border: 1px solid $secondary-color;
+        outline: $secondary-color solid 1px;
 
         #citySearchIcon {
             visibility: visible;
@@ -85,6 +87,30 @@
         vertical-align: top;
         padding-left: 10px;
         width: 100%;
+    }
+
+    #cityVictims {
+        position: relative;
+
+        #searchResultsWrapper, #victimsSection {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #searchResultsWrapper {
+            background-color: white;
+            outline: $outline-color 1px solid;
+            z-index: 10;
+            width: 100%;
+            padding-top: 5px;
+            display: none;
+
+            h6 {
+                margin-left: 5px;
+            }
+        }
+
     }
 
     .mapSVG {

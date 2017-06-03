@@ -188,6 +188,7 @@ const fuse = require('fuse.js');
         // city when clicked
         function displayAutoComplete(foundCities) {
             clearAutoComplete();
+            var container = $("#searchResultsWrapper");
             for (var i = 0; i < Math.floor(Math.min(foundCities.length, 5)); i++) {
                 var cityName = foundCities[i].city + ", " + foundCities[i].state;
                 var result = $('<h6></h6>').addClass('autoCompleteResult').html(cityName);
@@ -215,7 +216,7 @@ const fuse = require('fuse.js');
                     // need "this" bound to a dom node, fill in rest of params
                     clickFun.bind(domNode, dataElem, false)();
                 });
-                $('#cityTipDiv').append(result).show();
+                container.append(result).show();
             }
         }
 
@@ -413,6 +414,7 @@ const fuse = require('fuse.js');
     // Get rid of all autocomplete results
     function clearAutoComplete() {
         $('.autoCompleteResult').remove();
+        $('#searchResultsWrapper').hide();
     }
 
     function getCityID(city, state) {
