@@ -195,10 +195,25 @@ const fuse = require('fuse.js');
                 result.on('click', function (d) {
                     clearAutoComplete();
                     var cityIndex = d.target.getAttribute('cityIndex');
+                    var city = cityData[cityIndex];
                     deselectCity();
-                    selectCity(cityData[cityIndex]);
-                    clickedCity = cityData[cityIndex];
-                    //cityZoom(cityData[cityIndex]);
+                    selectCity(city);
+                    clickedCity = city;
+
+
+                    // this is pretty gross, I'm sorry :(
+                    var domNode;
+                    var dataElem;
+                    var clickFun = d3.selectAll(".states")
+                        .filter(function(d) {
+                            return city.state === d.properties.abbreviation;
+                        }).each(function(d) {
+                            domNode = this;
+                            dataElem = d;
+                        }).on("click");
+
+                    // need "this" bound to a dom node, fill in rest of params
+                    clickFun.bind(domNode, dataElem, false)();
                 });
                 $('#cityTipDiv').append(result).show();
             }
@@ -649,9 +664,6 @@ const fuse = require('fuse.js');
                 var space_between_labels = Math.abs(parseInt(lower_x)
                     - parseInt(upper_x));
 
-                console.log("space between " + lower_x + " and " + upper_x + " is "
-                    + space_between_labels);
-
                 // fix label if necessary
                 if (space_between_labels < 15) {
                     //if labels within 15 px of each other, move the upper handle's label
@@ -693,8 +705,6 @@ const fuse = require('fuse.js');
                 var upper_x = upperLabel.attr('x');
                 var space_between_labels = Math.abs(parseInt(lower_x)
                     - parseInt(upper_x));
-                console.log("space between " + lower_x + " and " +
-                    upper_x + ": " + space_between_labels);
 
                 // fix label if necessary
                 if (space_between_labels < 10) {
@@ -702,8 +712,6 @@ const fuse = require('fuse.js');
                     // to accomodate
                     upperLabel.attr("x", function() {
                         var old_x = parseInt(d3.select(this).attr("x"));
-                        console.log("current x: " + old_x +
-                            " new x: " + (old_x + (10 - space_between_labels)));
                         return old_x + (10 - space_between_labels);
                     });
                 }
@@ -886,10 +894,12 @@ const fuse = require('fuse.js');
         d3.selectAll("#victimsLabel").html(label);
     }
 
-    function clicked(d) {
+    // if zoomOut is false, will not zoom out if the same state is clicked
+    function clicked(d, zoomOut) {
+        zoomOut = (typeof zoomOut === 'undefined') ? true : zoomOut;
         activeState.classed("active", false);
         var zoomLevel;
-        if (activeState.node() === this) {
+        if (activeState.node() === this && zoomOut) {
             // If it is a click on the same state, we want to zoom out
             activeState = d3.select(null);
             zoomLevel = d3.zoomIdentity;
