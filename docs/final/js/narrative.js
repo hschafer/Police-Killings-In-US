@@ -56,7 +56,8 @@ require('waypoints/lib/jquery.waypoints.js');
 
     function displayParagraphs(start, stop) {
         if (start <= stop) {
-            $("#narrative_text" + start + " p").fadeIn('slow');
+            //$("#narrative_text" + start + " p").fadeIn('slow');
+            d3.select("#narrative_text" + start + " p").transition().duration(1000).style("opacity", "1.0");
             setTimeout(function() { displayParagraphs(start + 1, stop); }, 1500);
         }
     }

@@ -38,7 +38,6 @@ $(document).ready(function() {
     });
 
     // reposition title using absolute positioning
-    // TODO: fix this
     var title_box_width = d3.select("#titlebox").node().getBoundingClientRect().width;
     var title_box_height = d3.select("#titlebox").node().getBoundingClientRect().height;
     //console.log("title box width: " + title_box_width);

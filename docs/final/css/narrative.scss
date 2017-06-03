@@ -18,7 +18,9 @@
     text-align: left;
 
     p {
-      display: none;
+      opacity: 0.0;
+      //visibility: hidden;
+      //display: none;
     }
   }
 
@@ -28,7 +30,6 @@
 
   .col {
     width: 50%;
-    float: left;
     min-height: 10px;
   }
 
@@ -43,7 +44,7 @@
       height: 400px;
   }
 
-  #narrative_section_row {
+  .narrative_section_row {
     height: 100%;
   }
 
@@ -63,5 +64,14 @@
     font-family: 'Ropa Sans', sans-serif !important;
     // Kind of a magic number, it works on multiple screens though!
     padding-left: 50px;
+  }
+
+  .narrative_col {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .blurry {
+    margin:auto;
   }
 }
