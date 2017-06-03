@@ -235,7 +235,7 @@ sup.citation {
         width: 100%;
     }
 
-    .col1, .col2 {
+    .col1, .col2, .col_ref {
         display: table-cell;
     }
 
@@ -246,5 +246,18 @@ sup.citation {
     .col2 {
         margin: 20px;
         width: 30%;
+    }
+
+    .col_ref {
+        //width: 50%;
+    }
+
+    #video_container {
+        display: flex;
+    }
+
+    #purpose_container {
+        width: 50%;
+        float: left;
     }
 }

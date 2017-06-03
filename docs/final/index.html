@@ -671,16 +671,19 @@
       <div id="referenceSlide" class="section sectionText">
         <div class="sectionContainer">
           <div class="sectionRow">
-            <div class="sectionTitle col1">
+            <div class="sectionTitle col2">
               References
             </div>
             <div class="sectionTitle col2">
               Authors
             </div>
+            <div class="sectionTitle col2">
+              Tools
+            </div>
           </div>
           <div class="sectionRow">
             <!-- Have fun changing the citation numbers if you add a link before another one. Note, 2 citations live in js/narrative.js -->
-            <div class="col1">
+            <div class="col2">
               <ol>
                 <li>The Law Enforcement Oath of Honor comes from the <a href="http://www.theiacp.org/oathofhonor">International
                     Association of Chiefs of Police</a></li>
@@ -721,24 +724,6 @@
                 <li>Nick Mooney</li>
               </ul>
             </div>
-          </div>
-          <div class="sectionRow">
-            <div class="sectionTitle col1">
-              Purpose
-            </div>
-            <div class="sectionTitle col2">
-              Tools
-            </div>
-          </div>
-          <div class="sectionRow">
-            <div class="col1">
-              <p>
-              The US has one of the highest rates of any country of civilian killings by police officers. Yet, there is no accurate federal database recording these incidents, no federal law or guideline on how individual departments should investigate these cases, and little movement towards actions that would increase officer accountability.</p>
-
-              <p>
-              Our goal was to create an interactive data story about fatal police shootings in the United States. The Washington Post and the Guardian maintain detailed records of incidents of civilian fatalities caused by police. We used this data to visualize aggregate information about these fatalities and incorporate narrative elements to tell the stories of victims and we make an argument for why we think it's important for the federal government to have more accurate records of this data.
-              </p>
-            </div>
             <div class="col2">
               <ul>
                 <li><a href="https://d3js.org/">d3.js</a> - To make map</li>
@@ -748,16 +733,29 @@
                 <li><a href="http://imakewebthings.com/waypoints/">waypoints.js</a> - Add interaction when scrolling</li>
                 <li><a href="http://fusejs.io/">fuse.js</a> - Search for map</li>
                 <li><a href="https://embed.joincampaignzero.org/">Campaign Zero Widget</a></li>
+                <li><a href="https://maxwellito.github.io/vivus/">Vivus</a> - Animated SVG</li>
+                <li><a href="http://www.flaticon.com/authors/icon-works">Icon Works</a> on <a href="http://www.flaticon.com/">Flat Icon</a></li>
               </ul>
             </div>
           </div>
           <div class="sectionRow">
-            <div class="sectionTitle col1">
+            <div class="sectionTitle col_ref">
+              Purpose
+            </div>
+            <div class="sectionTitle col_ref">
               Video
             </div>
           </div>
           <div class="sectionRow">
-            <div class="col1">
+            <div class="col_ref" id="purpose_container">
+              <p>
+              The US has one of the highest rates of any country of civilian killings by police officers. Yet, there is no accurate federal database recording these incidents, no federal law or guideline on how individual departments should investigate these cases, and little movement towards actions that would increase officer accountability.</p>
+
+              <p>
+              Our goal was to create an interactive data story about fatal police shootings in the United States. The Washington Post and the Guardian maintain detailed records of incidents of civilian fatalities caused by police. We used this data to visualize aggregate information about these fatalities and incorporate narrative elements to tell the stories of victims and we make an argument for why we think it's important for the federal government to have more accurate records of this data.
+              </p>
+            </div>
+            <div class="col_ref" id="video_container">
               <iframe src="https://player.vimeo.com/video/219802148" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
             </div>
           </div>
