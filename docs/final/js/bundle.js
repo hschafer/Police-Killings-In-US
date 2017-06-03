@@ -33736,6 +33736,7 @@ const fuse = __webpack_require__(174);
             $('.cityNameWrapper').addClass('citySearchFocused');
         }).on('focusout', function () {
             $('.cityNameWrapper').removeClass('citySearchFocused');
+            setTimeout(clearAutoComplete, 100); // this is hacky
         }).on('input', function () {
             disableRandomWalk();
             var foundCities = fuzzy.search($('#cityNameAndSearch').val());
