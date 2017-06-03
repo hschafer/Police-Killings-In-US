@@ -1,96 +1,109 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="icon" href="resources/favicon.png"/>
-    <title>Killings by Police Officers</title>
+<head>
+  <link rel="icon" href="resources/favicon.png"/>
+  <title>Killings by Police Officers</title>
 
-    <!-- Include stylesheets -->
-    <link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css"/>
-    <link href="https://fonts.googleapis.com/css?family=Ropa+Sans" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <!-- Include stylesheets -->
+  <link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css"/>
+  <link href="https://fonts.googleapis.com/css?family=Ropa+Sans" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
-    <!-- Include our dependencies -->
-    <script type="text/javascript" src="js/lib/jquery.min.js"></script>
-    <script type="text/javascript" src="js/lib/jquery.easings.min.js"></script>
-    <script type="text/javascript" src="js/lib/jquery.fullPage.min.js"></script>
-    <script type="text/javascript" src="js/lib/campaign-zero-widget.js"></script>
-    <script src="https://use.fontawesome.com/afd480914f.js"></script>
+  <!-- Include our dependencies -->
+  <script type="text/javascript" src="js/lib/jquery.min.js"></script>
+  <script type="text/javascript" src="js/lib/jquery.easings.min.js"></script>
+  <script type="text/javascript" src="js/lib/jquery.fullPage.min.js"></script>
+  <script type="text/javascript" src="js/lib/campaign-zero-widget.js"></script>
+  <script src="https://use.fontawesome.com/afd480914f.js"></script>
 
-    <!-- Include our files -->
-    <script type="text/javascript" src="js/bundle.js"></script>
+  <!-- Include our files -->
+  <script type="text/javascript" src="js/bundle.js"></script>
 
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+          }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-        ga('create', 'UA-100420265-1', 'auto');
-        ga('send', 'pageview');
-    </script>
-  </head>
+    ga('create', 'UA-100420265-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+</head>
 
-  <body>
-    <div id="fullpage">
-      <div id="section1" class="section">
-        <svg id="flag" height="100%" width="100%">
-          <!--top of blue part-->
-          <rect id="flagbluetop" class="flagline"></rect>
-          <!--bottom of blue part -->
-          <rect id="flagbluebottom" class="flagline"></rect>
+<body>
+<div id="fullpage">
+  <div id="section1" class="section">
+    <svg id="flag" height="100%" width="100%">
+      <!--top of blue part-->
+      <rect id="flagbluetop" class="flagline"></rect>
+      <!--bottom of blue part -->
+      <rect id="flagbluebottom" class="flagline"></rect>
 
-          <!--begin red stripes-->
-          <rect id="flagred1" class="flagline flagred"></rect>
-          <rect id="flagred2" class="flagline flagred"></rect>
-          <rect id="flagred3" class="flagline flagred"></rect>
-          <rect id="flagred4" class="flagline flagred"></rect>
-          <rect id="flagred5" class="flagline flagred"></rect>
-          <rect id="flagred6" class="flagline flagred"></rect>
+      <!--begin red stripes-->
+      <rect id="flagred1" class="flagline flagred"></rect>
+      <rect id="flagred2" class="flagline flagred"></rect>
+      <rect id="flagred3" class="flagline flagred"></rect>
+      <rect id="flagred4" class="flagline flagred"></rect>
+      <rect id="flagred5" class="flagline flagred"></rect>
+      <rect id="flagred6" class="flagline flagred"></rect>
 
-          <!--left vertical line-->
-          <rect id="verticalblue" class="flagline_vertical"></rect>
-          <rect id="verticalred" class="flagline_vertical"></rect>
+      <!--left vertical line-->
+      <rect id="verticalblue" class="flagline_vertical"></rect>
+      <rect id="verticalred" class="flagline_vertical"></rect>
 
-        </svg>
-        <div id="titlebox">
-          <div class="titleFont">Killings by Police Officers <br/>in the United States</div>
-          <blockquote>
-            On my honor, I will never betray my badge, my integrity, my character, or the public trust.<br/>
-            I will always have the courage to hold myself and others <span id="highlightedText"></span><span id="originalText">accountable for our actions.</span><br/>
-            I will always uphold the Constitution, the community, and the agency I serve, so help me God.
-            <cite>Law Enforcement Oath of Honor <sup class="citation">[1]</sup></cite>
-          </blockquote>
-        </div>
-      </div>
-      <div id="narrative_section" class="section narrative_section">
-        <div class="sectionContainer">
-          <div class="sectionRow narrative_section_row">
-            <div class="col narrative_col">
-              <div id="narrative_text0">
-                <div class="narrative_text">
-                  <p>One summer afternoon in Seattle, Washington in 2010, Officer Ian Birk noticed a man crossing a city street holding a knife. Officer Birk, a member of the Seattle Police Department, left his vehicle to handle the situation.</p>
-                </div>
-              </div>
-              <div id="narrative_text1" class="narrative_text">
-                <div class="narrative_text">
-                  <p>Officer Birk approached the man, commanding him to put down the knife. Less than 5 seconds later, Officer Birk had fired four shots into the man, killing him.</p>
-                </div>
-              </div>
-              <div id="narrative_text2" class="narrative_text">
-                <div class="narrative_text">
-                  <p>The man, John T. Williams, was a member of the Nuu-chah-nulth tribal group native to nearby Vancouver Island. He was a local woodcarver, hard of hearing, and was carrying a block of wood and his carving knife. Later reports by witnesses say that the knife was closed <sup class='citation'>[2]</sup>.</p>
-                </div>
-              </div>
+    </svg>
+    <div id="titlebox">
+      <div class="titleFont">Killings by Police Officers <br/>in the United States</div>
+      <blockquote>
+        On my honor, I will never betray my badge, my integrity, my character, or the public trust.<br/>
+        I will always have the courage to hold myself and others <span id="highlightedText"></span><span
+          id="originalText">accountable for our actions.</span><br/>
+        I will always uphold the Constitution, the community, and the agency I serve, so help me God.
+        <cite>Law Enforcement Oath of Honor <sup class="citation">[1]</sup></cite>
+      </blockquote>
+    </div>
+  </div>
+  <div id="narrative_section" class="section narrative_section">
+    <div class="sectionContainer">
+      <div class="sectionRow narrative_section_row">
+        <div class="col narrative_col">
+          <div id="narrative_text0">
+            <div class="narrative_text">
+              <p>One summer afternoon in Seattle, Washington in 2010, Officer Ian Birk noticed a man crossing a city
+                street holding a knife. Officer Birk, a member of the Seattle Police Department, left his vehicle to
+                handle the situation.</p>
             </div>
-            <div class="col blurry narrative_col">
-              <div class="svgWrapper">
-                <svg id="narrative_section_svg" class="hidden">
-                  <!-- Half tranlsate half the height back -->
-                  <g transform="translate(-185.000000,600.000000) scale(0.250000,-0.250000)"
-                     fill="transparent"
-                     stroke-width="2px"
-                     stroke="black">
-                  <path d="M1467 2171 c-10 -49 -8 -163 2 -157 5 3 14 -1 21 -9 7 -8 16 -15 21
+          </div>
+          <div id="narrative_text1" class="narrative_text">
+            <div class="narrative_text">
+              <p>Officer Birk approached the man, commanding him to put down the knife. Less than 5 seconds later,
+                Officer Birk had fired four shots into the man, killing him.</p>
+            </div>
+          </div>
+          <div id="narrative_text2" class="narrative_text">
+            <div class="narrative_text">
+              <p>The man, John T. Williams, was a member of the Nuu-chah-nulth tribal group native to nearby Vancouver
+                Island. He was a local woodcarver, hard of hearing, and was carrying a block of wood and his carving
+                knife. Later reports by witnesses say that the knife was closed <sup class='citation'>[2]</sup>.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col blurry narrative_col">
+          <div class="svgWrapper">
+            <svg id="narrative_section_svg" class="hidden">
+              <!-- Half tranlsate half the height back -->
+              <g transform="translate(-185.000000,600.000000) scale(0.250000,-0.250000)"
+                 fill="transparent"
+                 stroke-width="2px"
+                 stroke="black">
+                <path d="M1467 2171 c-10 -49 -8 -163 2 -157 5 3 14 -1 21 -9 7 -8 16 -15 21
                   -15 9 0 -6 33 -29 61 -12 15 -9 17 27 21 44 4 50 -2 26 -22 -18 -15 -21 -45
                   -3 -34 8 5 9 2 5 -10 -5 -11 -3 -15 5 -10 8 5 9 2 5 -10 -4 -10 -7 -21 -7 -26
                   0 -5 -7 -16 -16 -24 -9 -9 -11 -16 -4 -16 6 0 8 -5 4 -12 -4 -7 -3 -8 4 -4 7
@@ -164,70 +177,77 @@
                   4 0 5 -39 4 -86z m126 -424 c3 -6 -4 -10 -17 -10 -18 0 -20 2 -8 10 19 12 18
                   12 25 0z m-325 -20 c0 -5 -2 -10 -4 -10 -3 0 -8 5 -11 10 -3 6 -1 10 4 10 6 0
                   11 -4 11 -10z"/>
-                  <path d="M1486 1644 c-4 -9 -4 -19 -1 -22 2 -3 7 3 11 12 4 9 4 19 1 22 -2 3
+                <path d="M1486 1644 c-4 -9 -4 -19 -1 -22 2 -3 7 3 11 12 4 9 4 19 1 22 -2 3
                   -7 -3 -11 -12z"/>
-                  <path d="M1475 1469 c0 -41 2 -45 17 -35 13 8 23 8 36 0 15 -10 17 -6 17 35 0
+                <path d="M1475 1469 c0 -41 2 -45 17 -35 13 8 23 8 36 0 15 -10 17 -6 17 35 0
                   46 0 46 -35 46 -35 0 -35 0 -35 -46z m51 6 c-2 -11 -9 -20 -16 -20 -7 0 -14 9
                   -15 20 -1 14 5 21 16 21 13 0 17 -7 15 -21z"/>
-                  <path d="M1476 1312 c-8 -13 11 -35 31 -38 10 -2 24 6 31 16 7 12 8 20 2 20
+                <path d="M1476 1312 c-8 -13 11 -35 31 -38 10 -2 24 6 31 16 7 12 8 20 2 20
                   -5 0 -10 -4 -10 -8 0 -5 -10 -8 -22 -7 -13 2 -22 8 -20 14 2 13 -4 15 -12 3z"/>
-                  <path d="M1500 1235 c0 -14 5 -25 10 -25 6 0 10 11 10 25 0 14 -4 25 -10 25
+                <path d="M1500 1235 c0 -14 5 -25 10 -25 6 0 10 11 10 25 0 14 -4 25 -10 25
                   -5 0 -10 -11 -10 -25z"/>
-                  <path d="M1511 744 c0 -11 3 -14 6 -6 3 7 2 16 -1 19 -3 4 -6 -2 -5 -13z"/>
-                  <path d="M1532 630 c0 -14 2 -19 5 -12 2 6 2 18 0 25 -3 6 -5 1 -5 -13z"/>
-                  <path d="M1465 550 c-3 -5 -1 -10 4 -10 6 0 11 5 11 10 0 6 -2 10 -4 10 -3 0
+                <path d="M1511 744 c0 -11 3 -14 6 -6 3 7 2 16 -1 19 -3 4 -6 -2 -5 -13z"/>
+                <path d="M1532 630 c0 -14 2 -19 5 -12 2 6 2 18 0 25 -3 6 -5 1 -5 -13z"/>
+                <path d="M1465 550 c-3 -5 -1 -10 4 -10 6 0 11 5 11 10 0 6 -2 10 -4 10 -3 0
                   -8 -4 -11 -10z"/>
-                  <path d="M1520 550 c0 -5 5 -10 10 -10 6 0 10 5 10 10 0 6 -4 10 -10 10 -5 0
+                <path d="M1520 550 c0 -5 5 -10 10 -10 6 0 10 5 10 10 0 6 -4 10 -10 10 -5 0
                   -10 -4 -10 -10z"/>
-                  <path d="M1486 463 c-6 -14 -5 -15 5 -6 7 7 10 15 7 18 -3 3 -9 -2 -12 -12z"/>
-                  <path d="M1500 398 c0 -6 3 -8 7 -5 3 4 11 2 18 -3 8 -7 12 -5 12 5 0 8 -9 15
+                <path d="M1486 463 c-6 -14 -5 -15 5 -6 7 7 10 15 7 18 -3 3 -9 -2 -12 -12z"/>
+                <path d="M1500 398 c0 -6 3 -8 7 -5 3 4 11 2 18 -3 8 -7 12 -5 12 5 0 8 -9 15
                   -19 15 -10 0 -18 -5 -18 -12z"/>
-                  <path d="M1526 285 c-9 -26 -7 -32 5 -12 6 10 9 21 6 23 -2 3 -7 -2 -11 -11z"/>
-                  <path d="M1523 2149 c-12 -23 -17 -36 -10 -31 18 15 50 72 40 72 -4 0 -18 -19
+                <path d="M1526 285 c-9 -26 -7 -32 5 -12 6 10 9 21 6 23 -2 3 -7 -2 -11 -11z"/>
+                <path d="M1523 2149 c-12 -23 -17 -36 -10 -31 18 15 50 72 40 72 -4 0 -18 -19
                   -30 -41z"/>
-                  <path d="M1527 1733 c-4 -3 -7 -11 -7 -17 0 -6 5 -5 12 2 6 6 9 14 7 17 -3 3
+                <path d="M1527 1733 c-4 -3 -7 -11 -7 -17 0 -6 5 -5 12 2 6 6 9 14 7 17 -3 3
                   -9 2 -12 -2z"/>
-                  <path d="M1536 1101 c-4 -7 -5 -15 -2 -18 9 -9 19 4 14 18 -4 11 -6 11 -12 0z"/>
-                  <path d="M2992 25 c0 -17 2 -22 5 -12 2 9 2 23 0 30 -3 6 -5 -1 -5 -18z"/>
-                  </g>
-                </svg>
-              </div>
-              <div id="totemCaption" class="svgWrapper">
-                  Totem Pole Made in Memorium for John T. Williams
-              </div>
-            </div>
+                <path d="M1536 1101 c-4 -7 -5 -15 -2 -18 9 -9 19 4 14 18 -4 11 -6 11 -12 0z"/>
+                <path d="M2992 25 c0 -17 2 -22 5 -12 2 9 2 23 0 30 -3 6 -5 -1 -5 -18z"/>
+              </g>
+            </svg>
+          </div>
+          <div id="totemCaption" class="svgWrapper">
+            Totem Pole Made in Memorium for John T. Williams
           </div>
         </div>
       </div>
-      <div id="narrative_section2" class="section narrative_section">
-        <div class="sectionContainer">
-          <div class="sectionRow narrative_section_row">
-            <div class="col narrative_col">
-              <div id="narrative_text3" class="narrative_text">
-                <div class="narrative_text">
-                  <p>Birk's actions were found unjustifiable by the SPD Firearms Review Board, and subsequently reviewed by the Department of Justice. The DOJ decided not to press charges because they would have to prove intent, rather than negligence. The case was not prosecuted further after Birk resigned from the force <sup class='citation'>[3]</sup>.</p>
-                </div>
-              </div>
-              <div id="narrative_text4" class="narrative_text">
-                <div class="narrative_text">
-                  <p>Although Birk was not prosecuted, this case was at least reviewed independently to evaluate what happened. This internal investigation is not federally mandated, and may not have been completed in a different district or with a less publicized case.</p>
-                </div>
-              </div>
-              <div id="narrative_text5" class="narrative_text">
-                <div class="narrative_text">
-                  <p>The lack of federal guidelines following a police shooting makes it difficult to determine the number of incidents like this that are occuring in the US. We have an even less concrete idea of the number of cases that are properly investigated.</p>
-                </div>
-              </div>
+    </div>
+  </div>
+  <div id="narrative_section2" class="section narrative_section">
+    <div class="sectionContainer">
+      <div class="sectionRow narrative_section_row">
+        <div class="col narrative_col">
+          <div id="narrative_text3" class="narrative_text">
+            <div class="narrative_text">
+              <p>Birk's actions were found unjustifiable by the SPD Firearms Review Board, and subsequently reviewed by
+                the Department of Justice. The DOJ decided not to press charges because they would have to prove intent,
+                rather than negligence. The case was not prosecuted further after Birk resigned from the force <sup
+                    class='citation'>[3]</sup>.</p>
             </div>
-            <div class="col blurry narrative_col">
-              <div class="svgWrapper">
-                <svg id="narrative_section2_svg" opacity="1.0" class="hidden">
-                  <path id="badge_svg_path"
-                        transform="translate(0, 5) scale(0.5, 0.5)"
-                        fill="transparent"
-                        stroke="black"
-                        stroke-width="2px"
-                        d="M674.417,123.507c-0.224-9.759-7.216-18.177-16.982-19.511c-45.521-6.252-90.416-17.129-134.426-33.248
+          </div>
+          <div id="narrative_text4" class="narrative_text">
+            <div class="narrative_text">
+              <p>Although Birk was not prosecuted, this case was at least reviewed independently to evaluate what
+                happened. This internal investigation is not federally mandated, and may not have been completed in a
+                different district or with a less publicized case.</p>
+            </div>
+          </div>
+          <div id="narrative_text5" class="narrative_text">
+            <div class="narrative_text">
+              <p>The lack of federal guidelines following a police shooting makes it difficult to determine the number
+                of incidents like this that are occuring in the US. We have an even less concrete idea of the number of
+                cases that are properly investigated.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col blurry narrative_col">
+          <div class="svgWrapper">
+            <svg id="narrative_section2_svg" opacity="1.0" class="hidden">
+              <path id="badge_svg_path"
+                    transform="translate(0, 5) scale(0.5, 0.5)"
+                    fill="transparent"
+                    stroke="black"
+                    stroke-width="2px"
+                    d="M674.417,123.507c-0.224-9.759-7.216-18.177-16.982-19.511c-45.521-6.252-90.416-17.129-134.426-33.248
                         c-43.802-16.042-92.267-38.436-144.54-67.93c-6.637-3.747-12.88-3.77-19.51,0c-51.911,29.479-100.029,51.826-144.177,67.93
                         c-44.024,16.058-88.897,27.004-134.056,33.248c-9.767,1.349-16.62,9.752-17.707,19.511
                         c-4.332,185.366,36.27,337.036,121.414,454.934c46.384,64.222,104.431,116.349,174.526,156.096c5.419,3.978,13.915,3.677,20.235,0
@@ -236,535 +256,548 @@
                         c-77.458-107.962-115.269-246.08-113.828-414.463c42.637-6.868,84.92-18.432,127.195-33.972
                         c42.275-15.533,88.528-36.856,138.396-63.952c49.868,27.096,95.757,48.419,138.033,63.952
                         c42.275,15.541,84.912,27.104,127.557,33.972C635.75,310.684,597.699,448.995,520.48,555.677z">
-                  </path>
-                </svg>
-              </div>
-            </div>
+              </path>
+            </svg>
           </div>
         </div>
       </div>
-      <div id="fbiSection" class="section" style="font-size: 35pt">
-        <div id="fbiSectionContainer" class="sectionContainer">
-          <div class="sectionRow">
-            <div class="sectionTitle">Does the Government Track These Deaths?
-              <p class="sectionSubtitle">Comparing the incidents counted for 2015 by the Washington Post and by the FBI</p>
-            </div>
-          </div>
-          <div id="fbiSectionContainer">
-            <div class="col1 sectionText">
-              <p>
-              <!--             2015 - FBI: 442, WaPo:991 -> 0.446  -->
-              The federal government does not require individual police departments to report when an officer kills a
-              civilian. Because of this, the FBI records far fewer deaths than the Washington Post.
-              </p>
-              <p>
-              <span id="fbiNumberTextHighlight"></span><span id="fbiNumberText">The FBI reported 442 incidents of police officers shooting and killing civilians in 2015</span>
-              <sup class="citation">[4]</sup>. <span id="wapoNumberTextHighlight"></span><span id="wapoNumberText">The Washington Post reported 991 incidents with the same description</span>
-              <sup class="citation">[5]</sup>.
-              <p>
-              Creating a trusted and complete federal database is an important first step towards increasing
-              accountability
-              among the police. It seems impossible to recognize and potentially fix the problem of police brutality with
-              incomplete knowledge of the nature, scale, and resulting investigations into civilian deaths.
-              </p>
-
-              <p>Over the past few years, there has been public outcry for police reform due to the apparent targeting of
-              minorities in instances of police brutality. With incomplete federal records, there is less impetus for the
-              government to ackknowledge that minorites may be unfarily targetted by law enforcment.
-              </p>
-            </div>
-
-            <div id="fbiChartContainer" class="col2">
-              <div class="labelContainer">
-                <div id="wapoBracketLabel" class="invisible titleFont">Washington Post Reports</div>
-                <div id="wapoBracket" class="invisible"></div>
-              </div>
-              <div id="people" class="col2"></div>
-              <div class="labelContainer">
-                <div id="fbiBracket" class="invisible"></div>
-                <div id="fbiBracketLabel" class="invisible titleFont">FBI Reports</div>
-              </div>
-              <div style="height: 50px">
-                <div id="peopleLegend" class="invisible">
-                  <i class="fa fa-male"></i>
-                  <div id="legendLabel">&nbsp;= 9.91 people</div>
-                </div>
-              </div>
-            </div>
-          </div>
+    </div>
+  </div>
+  <div id="fbiSection" class="section" style="font-size: 35pt">
+    <div id="fbiSectionContainer" class="sectionContainer">
+      <div class="sectionRow">
+        <div class="sectionTitle">Does the Government Track These Deaths?
+          <p class="sectionSubtitle">Comparing the incidents counted for 2015 by the Washington Post and by the FBI</p>
         </div>
       </div>
-      <div id="ethnicitySection" class="section">
-        <div id="ethnicitySectionContainer" class="sectionContainer">
-          <div id="ethnicitySectionHeaderRow" class="sectionRow">
-            <div class="sectionTitle">
-              Does Ethnicity Make a Difference?
-            </div>
-            <div id="pieInstructions" class="instructions">
-              <div class="reveal1">
-                Click a section to line up that part of the chart.
-              </div>
-            </div>
-          </div>
-          <div class="sectionRow">
-            <div id="ethnicityCanvasContainer"></div>
-            <div id="ethnicitySectionText">
-              <p class="sectionText">
-              Some argue that there isn't a systematic bias in the police force because nearly 50% of the
-              victims shot by police officers are <span class="white">White</span>. While this is true from the Guardian's data <sup
-                                                        class="citation">[6]</sup>,
-                                                      we see
-                                                      a different trend when comparing to the overall population according to the Census<sup
-                                                        class="citation">[7]</sup>.
-              </p>
+      <div id="fbiSectionContainer">
+        <div class="col1 sectionText">
+          <p>
+            <!--             2015 - FBI: 442, WaPo:991 -> 0.446  -->
+            The federal government does not require individual police departments to report when an officer kills a
+            civilian. Because of this, the FBI records far fewer deaths than the Washington Post.
+          </p>
+          <p>
+            <span id="fbiNumberTextHighlight"></span><span id="fbiNumberText">The FBI reported 442 incidents of police officers shooting and killing civilians in 2015</span>
+            <sup class="citation">[4]</sup>. <span id="wapoNumberTextHighlight"></span><span id="wapoNumberText">The Washington Post reported 991 incidents with the same description</span>
+            <sup class="citation">[5]</sup>.
+          <p>
+            Creating a trusted and complete federal database is an important first step towards increasing
+            accountability
+            among the police. It seems impossible to recognize and potentially fix the problem of police brutality with
+            incomplete knowledge of the nature, scale, and resulting investigations into civilian deaths.
+          </p>
 
-
-              <button id="pieProceed" class="bigButton">Click to compare with general population</button>
-              <div class="reveal1">
-                <p class="sectionText">
-                Most of the minorities listed by the U.S. census are overepresented in the victims
-                killed in altercations with the police, while <span class="white">White</span> people
-                are actually a much smaller percentage of the victims when compared to the whole population;
-                the highest delta is for <span class="african-american">Black</span> people who make up nearly
-                twice the percentage of the victims as they do the overall population.
-                </p>
-
-                <button id="armedProceed" class="bigButton">Does being armed affect the demographics?</button>
-              </div>
-              <div class="reveal2">
-                <p class="sectionText">
-                For many minorities listed here, particularly <span class="african-american">Black</span>
-                and <span class="hispanic">Hispanic</span> people, the delta increases when only considering
-                victims that were unarmed or it is disputed if they were armed.
-                </p>
-
-                <p id="selectInstructions" class="sectionText">
-                Click to see how the demographics of the victims change depending on if they were armed or not.
-                </p>
-                <form id="selectArmed"></form>
-              </div>
-            </div>
-          </div>
+          <p>Over the past few years, there has been public outcry for police reform due to the apparent targeting of
+            minorities in instances of police brutality. With incomplete federal records, there is less impetus for the
+            government to ackknowledge that minorites may be unfarily targetted by law enforcment.
+          </p>
         </div>
-      </div>
-      <div id="section2" class="section">
-        <div id="section2Container" class="sectionContainer">
-          <div id="section2HeaderRow" class="sectionRow">
-            <div class="sectionTitle">
-              Who are the Victims?
-              <p class="sectionSubtitle">Every fatal shooting in the United States by a police officer in the line of duty
-              since Jan. 1, 2015 <sup class="citation">[5]</sup></p>
-            </div>
-            <div id="hoverDirections" class="instructions">
-              <p class="directionsParagraph" id="zoomDirection">Click on any state to zoom in/out on it.</p>
-              <p class="directionsParagraph">Zoom in/out further by scrolling on the map.</p>
-              <p class="directionsParagraph">Hover over any city to see details, and click on a city to select it.</p>
-            </div>
-          </div>
-          <div class="sectionRow">
-            <div id="usSvgContainer">
-              <button id="zoomIn"><img src="resources/zoom_in.svg"/></button>
-              <button id="zoomOut"><img src="resources/zoom_out.svg"/></button>
-            </div>
-            <div class="mapInfo">
-              <div id="cityTipDiv" class="cityTip">
-                <h5 id="cityLabel" class="titleFont">Location</h5>
-                <div class="cityNameWrapper">
-                  <input id="cityNameAndSearch" type="text"/>
-                  <i class="fa fa-search" id="citySearchIcon" aria-hidden="true"></i>
-                </div>
-              </div>
-              <div id="cityVictims">
-                <div id="searchResultsWrapper"></div>
-                <div id="victimsSection">
-                    <h5 id="victimsLabel" class="titleFont">Victims</h5>
-                    <div id="victimListDiv">
-                      <ul id="victimList">
-                      </ul>
-                    </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--Date (range slider)
-            Age (range slider)
-            Gender (checkbox)
-            Ethnicity (checkbox)
-            Armed/Unarmed (checkbox)
-            Mental Illness (checkbox)-->
-            <div class="sectionRow" id="victimMapFilters">
-              <div class="victimFilterContainer" id="victimDateFilter">
-                <h5 class="titleFont">Date of Incident</h5>
-                <svg id="dateSlider">
-                  <g class="slider" id="dateSliderGroup">
-                  <line class="track" id="dateSliderLine"></line>
-                  <line class="track-inset" id="date_track_inset"></line>
-                  <g class="track-overlay ticks" id="age_lowerTicks">
-                  <text class="victimDateFilterLabel" id="dateFilterLabelLower"></text>
-                  </g>
-                  <g class="track-overlay ticks" id="date_upperTicks">
-                  <text class="victimDateFilterLabel" id="dateFilterLabelUpper"></text>
-                  </g>
-                  <line class="track-overlay" id="date-track-overlay"></line>
-                  <line class="track" id="date-track-inset-selected-region"></line>
-                  <circle id="lowerDateFilterHandle" class="dateFilterHandle"></circle>
-                  <circle id="upperDateFilterHandle" class="dateFilterHandle"></circle>
-                  </g>
-                </svg>
-              </div>
-              <!--<div class="victimFilterContainer" id="victimAgeFilter">-->
-              <!--<h5>Age</h5>-->
-              <!--</div>-->
-              <!--<div class="victimFilterContainer" id="victimGenderFilter">-->
-              <!--<h5>Gender</h5>-->
-              <!--</div>-->
-              <div class="victimFilterContainer" id="victimDemographicsContainer">
-                <h5 class="titleFont">Victim Demographics</h5>
-                <div id="victimDemographics">
-                  <div id="victimParamsCol1">
-                    <div class="victimDemographicList">
-                      <div class="victimDemographicItem">
-                        <!--African American
-                          Asian
-                          Hispanic
-                          Native American
-                          Other
-                          Unknown
-                          White-->
-                          <h6>Ethnicity</h6>
-                          <div id="EthnicityCheckboxContainer">
-                            <div class="EthnicityCheckboxColumn">
-                              <div class="EthnicityCheckboxItem checkboxItem">
-                                <input name="African American" checked="true" type="checkbox" id="ChckAfricanAmerican"
-                                                                                              class="checkbox">
-                                <label class="checkbox_label" for="ChckAfricanAmerican">
-                                  Black
-                                </label>
-                              </div>
-                              <div class="EthnicityCheckboxItem checkboxItem">
-                                <input checked="true" name="Asian" type="checkbox" id="ChckAsian">
-                                <label class="checkbox_label" for="ChckAsian">
-                                  Asian
-                                </label>
-                              </div>
-                            </div>
-                            <div class="EthnicityCheckboxColumn">
-                              <div class="EthnicityCheckboxItem checkboxItem">
-                                <input name="Hispanic" checked="true" type="checkbox" id="ChckHispanic">
-                                <label class="checkbox_label" for="ChckHispanic">
-                                  Hispanic
-                                </label>
-                              </div>
-                              <div class="EthnicityCheckboxItem checkboxItem">
-                                <input name="Native American" checked="true" type="checkbox" id="ChckNativeAmerican">
-                                <label class="checkbox_label" for="ChckNativeAmerican">
-                                  Native American
-                                </label>
-                              </div>
-                              <div class="EthnicityCheckboxItem checkboxItem">
-                                <input name="Other" checked="true" type="checkbox" id="ChckOther">
-                                <label class="checkbox_label" for="ChckOther">
-                                  Other
-                                </label>
-                              </div>
-                            </div>
-                            <div class="EthnicityCheckboxColumn">
-                              <div class="EthnicityCheckboxItem checkboxItem">
-                                <input name="Unknown" checked="true" type="checkbox" id="ChckUnknown">
-                                <label class="checkbox_label" for="ChckUnknown">
-                                  Unknown
-                                </label>
-                              </div>
-                              <div class="EthnicityCheckboxItem checkboxItem">
-                                <input name="White" checked="true" type="checkbox" id="ChckWhite">
-                                <label class="checkbox_label" for="ChckWhite">
-                                  White
-                                </label>
-                              </div>
-                              <div class="EthnicityCheckboxItem checkboxItem">
-                                <input name="All" checked="true" type="checkbox" id="ChckEthnicityAll">
-                                <label class="checkbox_label" for="ChckEthnicityAll">
-                                  Select All
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div id="victimParamsCol2">
-                    <div class="victimDemographicList">
-                      <div class="victimDemographicItem">
-                        <h6>Age</h6>
-                        <div class="ageSliderContainer" id="victimAgeFilter">
-                          <svg id="ageSlider">
-                            <g class="slider" id="ageSliderGroup">
-                            <line class="track" id="ageSliderLine"></line>
-                            <line class="track-inset" id="age-track-inset"></line>
-                            <g class="track-overlay ticks" id="age_lowerTicks">
-                            <text class="ageFilterLabel" id="ageFilterLabelLower"></text>
-                            </g>
-                            <g class="track-overlay ticks" id="age_upperTicks">
-                            <text class="ageFilterLabel" id="ageFilterLabelUpper"></text>
-                            </g>
-                            <line class="track-overlay"></line>
-                            <line class="track" id="age-track-inset-selected-region"></line>
-                            </g>
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div id="victimParamsCol3">
-                    <div class="victimDemographicList">
-                      <div class="victimDemographicItem">
-                        <h6>Armed/Unarmed</h6>
-                        <div class="armedCheckedItem checkboxItem">
-                          <input name="Armed" checked="true" type="checkbox" value="Armed" id="ChckArmed">
-                          <label class="checkbox_label" for="ChckArmed">
-                            Armed
-                          </label>
-                        </div>
-                        <div class="armedCheckedItem checkboxItem">
-                          <input name="Armed" checked="true" type="checkbox" value="Unarmed" id="ChckUnarmed">
-                          <label class="checkbox_label" for="ChckUnarmed">
-                            Unarmed
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div id="victimParamsCol4">
-                    <div class="victimDemographicList">
-                      <div class="victimDemographicItem">
-                        <h6>Signs of Mental Illness</h6>
-                        <div class="mentalCheckedItem checkboxItem">
-                          <input name="Showed signs" checked="true" type="checkbox" value="True" id="ChckMentalTrue">
-                          <label class="checkbox_label" for="ChckMentalTrue">
-                            Showed signs
-                          </label>
-                        </div>
-                        <div class="mentalCheckedItem checkboxItem">
-                          <input name="Did not show signs" checked="true" type="checkbox" value="False" id="ChckMentalFalse">
-                          <label class="checkbox_label" for="ChckMentalFalse">
-                            Did not show signs
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div id="victimParamsCol5">
-                    <div class="victimDemographicList">
-                      <div class="victimDemographicItem">
-                        <h6>Gender</h6>
-                        <div class="genderCheckboxItem checkboxItem">
-                          <input name="Female" checked="true" type="checkbox" id="ChckFemale">
-                          <label class="checkbox_label" for="ChckFemale">
-                            Female
-                          </label>
-                        </div>
-                        <div class="genderCheckboxItem checkboxItem">
-                          <input name="Male" checked="true" type="checkbox" id="ChckMale">
-                          <label class="checkbox_label" for="ChckMale">
-                            Male
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--<div class="victimFilterContainer" id="victimMentalFilter">-->
-              <!--<h5>Mental Illness</h5>-->
-              <!--</div>-->
-            </div>
-        </div>
-      </div>
-      <div id="nextSteps" class="section">
-        <div id="nextStepsContainer" class="sectionContainer sectionText">
-          <div class="sectionRow">
-            <div class="sectionTitle">
-              What Can We Do to Make a Difference?
-            </div>
-          </div>
-          <div class="sectionRow">
-            <ul class="tabs">
-              <li class="tab-link current" data-tab="tab-1">Accountability</li>
-              <li class="tab-link" data-tab="tab-2">Policy</li>
-              <li class="tab-link" data-tab="tab-3">Reporting</li>
-            </ul>
 
-            <div id="tab-1" class="tab-content current">
-              <p>
-              Both sides of an interaction with the police need to be held accountable for their actions. In many cases brought
-                against police officers, the main evidence in the case is based on
-              conflicting accounts from the participants. The use of body cameras is something many push for as a step towards
-              reducing the number of negative interactions between law enforcement and civilians. Body cameras have been
-              shown by a Cambridge study to reduce complaints against police officers by 93% <sup
-                            class="citation">[8]</sup>,
-                          which many see as an indication that these negative interactions decrease with the use of body cameras. Some
-                          hope that funding body cameras by police officers will lead to fewer deadly conflicts with civilians.
-              </p>
-
-              <div>
-                <blockquote>
-                  Individual officers become more accountable, and modify their behaviour accordingly, while the more
-                  disingenuous complaints from the public fall by the wayside once footage is likely to reveal them as
-                  frivolous.
-                  <cite>Dr. Barak Ariel <sup class="citation">[9]</sup></cite>
-                </blockquote>
-              </div>
-
-              <p>
-              The Leadership Conference has assembled a score card to show the body camera policies in various large
-              cities
-              around the country. See where your city is in their progress to interactions with law enforecment more
-              accountable.
-              </p>
-
-              <a href="https://www.bwcscorecard.org/" target="_blank" class="bigButton">City Scorecard</a>
-            </div>
-            <div id="tab-2" class="tab-content">
-              <p>
-              There are many groups focused on solving this problem. One of these is <a
-                            href="https://www.joincampaignzero.org/">Campaign Zero</a>, which lays out ten focus areas for policy
-                          changes aimed at reducing police killings to zero. Examples of these focus areas in this campaign include <a
-                            href="https://www.joincampaignzero.org/representation">requiring regular surveys from the community about
-                            police satisfaction</a>, <a href="https://www.joincampaignzero.org/investigations">requiring independent
-                            investigations of every incident where civilians are seriously injured</a>, and <a
-                                                        href="https://cse442-17s.github.io/Police-Killings-In-US/prototype/">taking misconduct settlements from
-                                                        police department budgets rather than city budgets</a>.
-              </p>
-
-              <div class="halfPage">
-                <p>
-                Civil Services provides an API to help you as a citizen to reach out to your representatives and governing
-                officials to let them know how important these policy changes are to you and to the community at large.
-                Try
-                searching for your representative to the right using the widget made by Campaign Zero.
-                </p>
-
-                <p>
-                You can go to Campaign Zero's website to learn more about policy details they would like to have
-                implemented
-                and to support them by making a donation or volunteering.
-                </p>
-                <a href="https://www.joincampaignzero.org/" target="_blank" class="bigButton">Campaign Zero</a>
-              </div>
-              <div class="halfPage">
-                <div id="campaign-zero-widget" class="w320">
-                  <div class="wrapper animated fadeIn" style=""></div>
-                </div>
-              </div>
-            </div>
-            <div id="tab-3" class="tab-content">
-              <p>
-              Until the FBI report includes all cases of police shootings, the Guardian and Washington Post datasets are
-              the
-              only way for the public to stay informed about these incidents. Consider donating to the <a
-                            href="https://www.theguardian.com/us-news/ng-interactive/2015/jun/01/the-counted-police-killings-us-database">Guardian</a>
-              or subscribing to the <a href="https://www.washingtonpost.com/policeshootings/?utm_term=.a5c63b711c39">Washington
-                Post</a> to support these efforts since they provide the data and visualizations on their own cost.
-              </p>
-              <a class="bigButton" target="_blank" href="https://contribute.theguardian.com/us">Donate to the Guardian</a>
-            </div>
+        <div id="fbiChartContainer" class="col2">
+          <div class="labelContainer">
+            <div id="wapoBracketLabel" class="invisible titleFont">Washington Post Reports</div>
+            <div id="wapoBracket" class="invisible"></div>
           </div>
-        </div>
-      </div>
-      <div id="referenceSlide" class="section sectionText">
-        <div class="sectionContainer">
-          <div class="sectionRow">
-            <div class="sectionTitle col2">
-              References
-            </div>
-            <div class="sectionTitle col2">
-              Authors
-            </div>
-            <div class="sectionTitle col2">
-              Tools
-            </div>
+          <div id="people" class="col2"></div>
+          <div class="labelContainer">
+            <div id="fbiBracket" class="invisible"></div>
+            <div id="fbiBracketLabel" class="invisible titleFont">FBI Reports</div>
           </div>
-          <div class="sectionRow">
-            <!-- Have fun changing the citation numbers if you add a link before another one. Note, 2 citations live in js/narrative.js -->
-            <div class="col2">
-              <ol>
-                <li>The Law Enforcement Oath of Honor comes from the <a href="http://www.theiacp.org/oathofhonor">International
-                    Association of Chiefs of Police</a></li>
-                <li><a href="https://www.seattlemet.com/articles/2011/4/22/john-williams-the-carvers-life-may-2011">The
-                    Carver's Life</a> by SeattleMet author Neal Thompson</a></li>
-                <li><a href="http://www2.kuow.org/program.php?id=25691">Justice Department Declines To Prosecute Officer In
-                    John T. Williams Shooting</a></li>
-                <li>The FBI reports "justified" killings by law enforcment on their <a
-                       href="https://ucr.fbi.gov/crime-in-the-u.s/2015/crime-in-the-u.s.-2015/tables/expanded_homicide_data_table_14_justifiable_homicide_by_weapon_law_enforcement_2011-2015.xls">Crime
-                       in the United States Report</a></li>
-                <li>The Washington Post's collected <a
-                       href="https://www.washingtonpost.com/graphics/national/police-shootings/">dataset</a> on the people
-                     killed
-                     by law enforcment
-                </li>
-                <li>The Guardian's collected <a
-                       href="https://www.theguardian.com/us-news/ng-interactive/2015/jun/01/the-counted-police-killings-us-database">dataset</a>
-                  on the people killed by law enforcment
-                </li>
-                <li>The <a href="https://www.census.gov/quickfacts/table/PST045216/00">U.S. Census'</a> demographic
-                  estimates
-                  for 2015
-                </li>
-                <li>Cambgridge <a href="http://journals.sagepub.com/doi/pdf/10.1177/0093854816668218">study</a> by Dr. Barak
-                  Ariel on use of body cams
-                </li>
-                <li>Accompanying <a
-                                  href="http://www.cam.ac.uk/research/news/use-of-body-worn-cameras-sees-complaints-against-police-virtually-vanish-study-finds">press
-                                  release</a> for [6] on Cambgridge's research website
-                </li>
-              </ol>
-            </div>
-            <div class="col2">
-              <ul>
-                <li>Erika Wolfe</li>
-                <li>Hunter Schafer</li>
-                <li>Meredith Lampe</li>
-                <li>Nick Mooney</li>
-              </ul>
-            </div>
-            <div class="col2">
-              <ul>
-                <li><a href="https://d3js.org/">d3.js</a> - To make map</li>
-                <li><a href="http://www.chartjs.org/">chart.js</a> - To make doughnut charts</li>
-                <li><a href="https://jquery.com/">jquery.js</a> - Making JS easy since 2005</li>
-                <li><a href="https://alvarotrigo.com/fullPage/">fullpage.js</a> - To make narrative layout</li>
-                <li><a href="http://imakewebthings.com/waypoints/">waypoints.js</a> - Add interaction when scrolling</li>
-                <li><a href="http://fusejs.io/">fuse.js</a> - Search for map</li>
-                <li><a href="https://embed.joincampaignzero.org/">Campaign Zero Widget</a></li>
-                <li><a href="https://maxwellito.github.io/vivus/">Vivus</a> - Animated SVG</li>
-                <li><a href="http://www.flaticon.com/authors/icon-works">Icon Works</a> on <a href="http://www.flaticon.com/">Flat Icon</a></li>
-                <li><a href="http://picsvg.com/">PicSVG</a> - Make SVGs from pictures</li>
-              </ul>
-            </div>
-          </div>
-          <div class="sectionRow">
-            <div class="sectionTitle col_ref">
-              Purpose
-            </div>
-            <div class="sectionTitle col_ref">
-              Video
-            </div>
-          </div>
-          <div class="sectionRow">
-            <div class="col_ref" id="purpose_container">
-              <p>
-              The US has one of the highest rates of any country of civilian killings by police officers. Yet, there is no accurate federal database recording these incidents, no federal law or guideline on how individual departments should investigate these cases, and little movement towards actions that would increase officer accountability.</p>
-
-              <p>
-              Our goal was to create an interactive data story about fatal police shootings in the United States. The Washington Post and the Guardian maintain detailed records of incidents of civilian fatalities caused by police. We used this data to visualize aggregate information about these fatalities and incorporate narrative elements to tell the stories of victims and we make an argument for why we think it's important for the federal government to have more accurate records of this data.
-              </p>
-            </div>
-            <div class="col_ref" id="video_container">
-              <iframe src="https://player.vimeo.com/video/219802148" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+          <div style="height: 50px">
+            <div id="peopleLegend" class="invisible">
+              <i class="fa fa-male"></i>
+              <div id="legendLabel">&nbsp;= 9.91 people</div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </body>
+  </div>
+  <div id="ethnicitySection" class="section">
+    <div id="ethnicitySectionContainer" class="sectionContainer">
+      <div id="ethnicitySectionHeaderRow" class="sectionRow">
+        <div class="sectionTitle">
+          Does Ethnicity Make a Difference?
+        </div>
+        <div id="pieInstructions" class="instructions">
+          <div class="reveal1">
+            Click a section to line up that part of the chart.
+          </div>
+        </div>
+      </div>
+      <div class="sectionRow">
+        <div id="ethnicityCanvasContainer"></div>
+        <div id="ethnicitySectionText">
+          <p class="sectionText">
+            Some argue that there isn't a systematic bias in the police force because nearly 50% of the
+            victims shot by police officers are <span class="white">White</span>. While this is true from the Guardian's
+            data <sup
+              class="citation">[6]</sup>,
+            we see
+            a different trend when comparing to the overall population according to the Census<sup
+              class="citation">[7]</sup>.
+          </p>
+
+
+          <button id="pieProceed" class="bigButton">Click to compare with general population</button>
+          <div class="reveal1">
+            <p class="sectionText">
+              Most of the minorities listed by the U.S. census are overepresented in the victims
+              killed in altercations with the police, while <span class="white">White</span> people
+              are actually a much smaller percentage of the victims when compared to the whole population;
+              the highest delta is for <span class="african-american">Black</span> people who make up nearly
+              twice the percentage of the victims as they do the overall population.
+            </p>
+
+            <button id="armedProceed" class="bigButton">Does being armed affect the demographics?</button>
+          </div>
+          <div class="reveal2">
+            <p class="sectionText">
+              For many minorities listed here, particularly <span class="african-american">Black</span>
+              and <span class="hispanic">Hispanic</span> people, the delta increases when only considering
+              victims that were unarmed or it is disputed if they were armed.
+            </p>
+
+            <p id="selectInstructions" class="sectionText">
+              Click to see how the demographics of the victims change depending on if they were armed or not.
+            </p>
+            <form id="selectArmed"></form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="section2" class="section">
+    <div id="section2Container" class="sectionContainer">
+      <div id="section2HeaderRow" class="sectionRow">
+        <div class="sectionTitle">
+          Who are the Victims?
+          <p class="sectionSubtitle">Every fatal shooting in the United States by a police officer in the line of duty
+            since Jan. 1, 2015 <sup class="citation">[5]</sup></p>
+        </div>
+        <div id="hoverDirections" class="instructions">
+          <p class="directionsParagraph" id="zoomDirection">Click on any state to zoom in/out on it.</p>
+          <p class="directionsParagraph">Zoom in/out further by scrolling on the map.</p>
+          <p class="directionsParagraph">Hover over any city to see details, and click on a city to select it.</p>
+        </div>
+      </div>
+      <div class="sectionRow">
+        <div id="usSvgContainer">
+          <button id="zoomIn"><img src="resources/zoom_in.svg"/></button>
+          <button id="zoomOut"><img src="resources/zoom_out.svg"/></button>
+        </div>
+        <div class="mapInfo">
+          <div id="cityTipDiv" class="cityTip">
+            <h5 id="cityLabel" class="titleFont">Location</h5>
+            <div class="cityNameWrapper">
+              <input id="cityNameAndSearch" type="text"/>
+              <i class="fa fa-search" id="citySearchIcon" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div id="cityVictims">
+            <div id="searchResultsWrapper"></div>
+            <div id="victimsSection">
+              <h5 id="victimsLabel" class="titleFont">Victims</h5>
+              <div id="victimListDiv">
+                <ul id="victimList">
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Date (range slider)
+        Age (range slider)
+        Gender (checkbox)
+        Ethnicity (checkbox)
+        Armed/Unarmed (checkbox)
+        Mental Illness (checkbox)-->
+      <div class="sectionRow" id="victimMapFilters">
+        <div class="victimFilterContainer" id="victimDateFilter">
+          <h5 class="titleFont">Date of Incident</h5>
+          <svg id="dateSlider">
+            <g class="slider" id="dateSliderGroup">
+              <line class="track" id="dateSliderLine"></line>
+              <line class="track-inset" id="date_track_inset"></line>
+              <g class="track-overlay ticks" id="age_lowerTicks">
+                <text class="victimDateFilterLabel" id="dateFilterLabelLower"></text>
+              </g>
+              <g class="track-overlay ticks" id="date_upperTicks">
+                <text class="victimDateFilterLabel" id="dateFilterLabelUpper"></text>
+              </g>
+              <line class="track-overlay" id="date-track-overlay"></line>
+              <line class="track" id="date-track-inset-selected-region"></line>
+              <circle id="lowerDateFilterHandle" class="dateFilterHandle"></circle>
+              <circle id="upperDateFilterHandle" class="dateFilterHandle"></circle>
+            </g>
+          </svg>
+        </div>
+        <!--<div class="victimFilterContainer" id="victimAgeFilter">-->
+        <!--<h5>Age</h5>-->
+        <!--</div>-->
+        <!--<div class="victimFilterContainer" id="victimGenderFilter">-->
+        <!--<h5>Gender</h5>-->
+        <!--</div>-->
+        <div class="victimFilterContainer" id="victimDemographicsContainer">
+          <h5 class="titleFont">Victim Demographics</h5>
+          <div id="victimDemographics">
+            <div id="victimParamsCol1">
+              <div class="victimDemographicList">
+                <div class="victimDemographicItem">
+                  <!--African American
+                    Asian
+                    Hispanic
+                    Native American
+                    Other
+                    Unknown
+                    White-->
+                  <h6>Ethnicity</h6>
+                  <div id="EthnicityCheckboxContainer">
+                    <div class="EthnicityCheckboxColumn">
+                      <div class="EthnicityCheckboxItem checkboxItem">
+                        <input name="African American" checked="true" type="checkbox" id="ChckAfricanAmerican"
+                               class="checkbox">
+                        <label class="checkbox_label" for="ChckAfricanAmerican">
+                          Black
+                        </label>
+                      </div>
+                      <div class="EthnicityCheckboxItem checkboxItem">
+                        <input checked="true" name="Asian" type="checkbox" id="ChckAsian">
+                        <label class="checkbox_label" for="ChckAsian">
+                          Asian
+                        </label>
+                      </div>
+                    </div>
+                    <div class="EthnicityCheckboxColumn">
+                      <div class="EthnicityCheckboxItem checkboxItem">
+                        <input name="Hispanic" checked="true" type="checkbox" id="ChckHispanic">
+                        <label class="checkbox_label" for="ChckHispanic">
+                          Hispanic
+                        </label>
+                      </div>
+                      <div class="EthnicityCheckboxItem checkboxItem">
+                        <input name="Native American" checked="true" type="checkbox" id="ChckNativeAmerican">
+                        <label class="checkbox_label" for="ChckNativeAmerican">
+                          Native American
+                        </label>
+                      </div>
+                      <div class="EthnicityCheckboxItem checkboxItem">
+                        <input name="Other" checked="true" type="checkbox" id="ChckOther">
+                        <label class="checkbox_label" for="ChckOther">
+                          Other
+                        </label>
+                      </div>
+                    </div>
+                    <div class="EthnicityCheckboxColumn">
+                      <div class="EthnicityCheckboxItem checkboxItem">
+                        <input name="Unknown" checked="true" type="checkbox" id="ChckUnknown">
+                        <label class="checkbox_label" for="ChckUnknown">
+                          Unknown
+                        </label>
+                      </div>
+                      <div class="EthnicityCheckboxItem checkboxItem">
+                        <input name="White" checked="true" type="checkbox" id="ChckWhite">
+                        <label class="checkbox_label" for="ChckWhite">
+                          White
+                        </label>
+                      </div>
+                      <div class="EthnicityCheckboxItem checkboxItem">
+                        <input name="All" checked="true" type="checkbox" id="ChckEthnicityAll">
+                        <label class="checkbox_label" for="ChckEthnicityAll">
+                          Select All
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="victimParamsCol2">
+              <div class="victimDemographicList">
+                <div class="victimDemographicItem">
+                  <h6>Age</h6>
+                  <div class="ageSliderContainer" id="victimAgeFilter">
+                    <svg id="ageSlider">
+                      <g class="slider" id="ageSliderGroup">
+                        <line class="track" id="ageSliderLine"></line>
+                        <line class="track-inset" id="age-track-inset"></line>
+                        <g class="track-overlay ticks" id="age_lowerTicks">
+                          <text class="ageFilterLabel" id="ageFilterLabelLower"></text>
+                        </g>
+                        <g class="track-overlay ticks" id="age_upperTicks">
+                          <text class="ageFilterLabel" id="ageFilterLabelUpper"></text>
+                        </g>
+                        <line class="track-overlay"></line>
+                        <line class="track" id="age-track-inset-selected-region"></line>
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="victimParamsCol3">
+              <div class="victimDemographicList">
+                <div class="victimDemographicItem">
+                  <h6>Armed/Unarmed</h6>
+                  <div class="armedCheckedItem checkboxItem">
+                    <input name="Armed" checked="true" type="checkbox" value="Armed" id="ChckArmed">
+                    <label class="checkbox_label" for="ChckArmed">
+                      Armed
+                    </label>
+                  </div>
+                  <div class="armedCheckedItem checkboxItem">
+                    <input name="Armed" checked="true" type="checkbox" value="Unarmed" id="ChckUnarmed">
+                    <label class="checkbox_label" for="ChckUnarmed">
+                      Unarmed
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="victimParamsCol4">
+              <div class="victimDemographicList">
+                <div class="victimDemographicItem">
+                  <h6>Signs of Mental Illness</h6>
+                  <div class="mentalCheckedItem checkboxItem">
+                    <input name="Showed signs" checked="true" type="checkbox" value="True" id="ChckMentalTrue">
+                    <label class="checkbox_label" for="ChckMentalTrue">
+                      Showed signs
+                    </label>
+                  </div>
+                  <div class="mentalCheckedItem checkboxItem">
+                    <input name="Did not show signs" checked="true" type="checkbox" value="False" id="ChckMentalFalse">
+                    <label class="checkbox_label" for="ChckMentalFalse">
+                      Did not show signs
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="victimParamsCol5">
+              <div class="victimDemographicList">
+                <div class="victimDemographicItem">
+                  <h6>Gender</h6>
+                  <div class="genderCheckboxItem checkboxItem">
+                    <input name="Female" checked="true" type="checkbox" id="ChckFemale">
+                    <label class="checkbox_label" for="ChckFemale">
+                      Female
+                    </label>
+                  </div>
+                  <div class="genderCheckboxItem checkboxItem">
+                    <input name="Male" checked="true" type="checkbox" id="ChckMale">
+                    <label class="checkbox_label" for="ChckMale">
+                      Male
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--<div class="victimFilterContainer" id="victimMentalFilter">-->
+        <!--<h5>Mental Illness</h5>-->
+        <!--</div>-->
+      </div>
+    </div>
+  </div>
+  <div id="nextSteps" class="section">
+    <div id="nextStepsContainer" class="sectionContainer sectionText">
+      <div class="sectionRow">
+        <div class="sectionTitle">
+          What Can We Do to Make a Difference?
+        </div>
+      </div>
+      <div class="sectionRow">
+        <ul class="tabs">
+          <li class="tab-link current" data-tab="tab-1">Accountability</li>
+          <li class="tab-link" data-tab="tab-2">Policy</li>
+          <li class="tab-link" data-tab="tab-3">Reporting</li>
+        </ul>
+
+        <div id="tab-1" class="tab-content current">
+          <p>
+            Both sides of an interaction with the police need to be held accountable for their actions. In many cases
+            brought
+            against police officers, the main evidence in the case is based on
+            conflicting accounts from the participants. The use of body cameras is something many push for as a step
+            towards
+            reducing the number of negative interactions between law enforcement and civilians. Body cameras have been
+            shown by a Cambridge study to reduce complaints against police officers by 93% <sup
+              class="citation">[8]</sup>,
+            which many see as an indication that these negative interactions decrease with the use of body cameras. Some
+            hope that funding body cameras by police officers will lead to fewer deadly conflicts with civilians.
+          </p>
+
+          <div>
+            <blockquote>
+              Individual officers become more accountable, and modify their behaviour accordingly, while the more
+              disingenuous complaints from the public fall by the wayside once footage is likely to reveal them as
+              frivolous.
+              <cite>Dr. Barak Ariel <sup class="citation">[9]</sup></cite>
+            </blockquote>
+          </div>
+
+          <p>
+            The Leadership Conference has assembled a score card to show the body camera policies in various large
+            cities
+            around the country. See where your city is in their progress to interactions with law enforecment more
+            accountable.
+          </p>
+
+          <a href="https://www.bwcscorecard.org/" target="_blank" class="bigButton">City Scorecard</a>
+        </div>
+        <div id="tab-2" class="tab-content">
+          <p>
+            There are many groups focused on solving this problem. One of these is <a
+              href="https://www.joincampaignzero.org/">Campaign Zero</a>, which lays out ten focus areas for policy
+            changes aimed at reducing police killings to zero. Examples of these focus areas in this campaign include <a
+              href="https://www.joincampaignzero.org/representation">requiring regular surveys from the community about
+            police satisfaction</a>, <a href="https://www.joincampaignzero.org/investigations">requiring independent
+            investigations of every incident where civilians are seriously injured</a>, and <a
+              href="https://cse442-17s.github.io/Police-Killings-In-US/prototype/">taking misconduct settlements from
+            police department budgets rather than city budgets</a>.
+          </p>
+
+          <div class="halfPage">
+            <p>
+              Civil Services provides an API to help you as a citizen to reach out to your representatives and governing
+              officials to let them know how important these policy changes are to you and to the community at large.
+              Try
+              searching for your representative to the right using the widget made by Campaign Zero.
+            </p>
+
+            <p>
+              You can go to Campaign Zero's website to learn more about policy details they would like to have
+              implemented
+              and to support them by making a donation or volunteering.
+            </p>
+            <a href="https://www.joincampaignzero.org/" target="_blank" class="bigButton">Campaign Zero</a>
+          </div>
+          <div class="halfPage">
+            <div id="campaign-zero-widget" class="w320">
+              <div class="wrapper animated fadeIn" style=""></div>
+            </div>
+          </div>
+        </div>
+        <div id="tab-3" class="tab-content">
+          <p>
+            Until the FBI report includes all cases of police shootings, the Guardian and Washington Post datasets are
+            the
+            only way for the public to stay informed about these incidents. Consider donating to the <a
+              href="https://www.theguardian.com/us-news/ng-interactive/2015/jun/01/the-counted-police-killings-us-database">Guardian</a>
+            or subscribing to the <a href="https://www.washingtonpost.com/policeshootings/?utm_term=.a5c63b711c39">Washington
+            Post</a> to support these efforts since they provide the data and visualizations on their own cost.
+          </p>
+          <a class="bigButton" target="_blank" href="https://contribute.theguardian.com/us">Donate to the Guardian</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="referenceSlide" class="section sectionText">
+    <div class="sectionContainer">
+      <div class="sectionRow">
+        <div class="sectionTitle col_ref">
+          Why this website?
+        </div>
+        <!--<div class="sectionTitle col_ref">-->
+          <!--Watch our demo video-->
+        <!--</div>-->
+      </div>
+      <div class="sectionRow">
+        <div class="col_ref" id="purpose_container">
+          <p>
+            The US has one of the highest rates of any country of civilian killings by police officers. Yet, there is no
+            accurate federal database recording these incidents, no federal law or guideline on how individual
+            departments should investigate these cases, and little movement towards actions that would increase officer
+            accountability.</p>
+
+          <p>
+            Our goal was to create an interactive data story about fatal police shootings in the United States. The
+            Washington Post and the Guardian maintain detailed records of incidents of civilian fatalities caused by
+            police. We used this data to visualize aggregate information about these fatalities and incorporate
+            narrative elements to tell the stories of victims and we make an argument for why we think it's important
+            for the federal government to have more accurate records of this data.
+          </p>
+        </div>
+        <div class="col_ref" id="video_container">
+          <iframe src="https://player.vimeo.com/video/219802148" width="640" height="360" frameborder="0"
+                  webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="sectionRow">
+        <div class="sectionTitle col2" id="references_title">
+          References
+        </div>
+        <div class="sectionTitle col2" id="authors_title">
+          Authors
+        </div>
+        <div class="sectionTitle col2" id="tools_title">
+          Tools
+        </div>
+      </div>
+      <div class="sectionRow">
+        <!-- Have fun changing the citation numbers if you add a link before another one. Note, 2 citations live in js/narrative.js -->
+        <div class="col2" id="references_column">
+          <ol>
+            <li>The Law Enforcement Oath of Honor comes from the <a href="http://www.theiacp.org/oathofhonor">International
+              Association of Chiefs of Police</a></li>
+            <li><a href="https://www.seattlemet.com/articles/2011/4/22/john-williams-the-carvers-life-may-2011">The
+              Carver's Life</a> by SeattleMet author Neal Thompson</a></li>
+            <li><a href="http://www2.kuow.org/program.php?id=25691">Justice Department Declines To Prosecute Officer In
+              John T. Williams Shooting</a></li>
+            <li>The FBI reports "justified" killings by law enforcment on their <a
+                href="https://ucr.fbi.gov/crime-in-the-u.s/2015/crime-in-the-u.s.-2015/tables/expanded_homicide_data_table_14_justifiable_homicide_by_weapon_law_enforcement_2011-2015.xls">Crime
+              in the United States Report</a></li>
+            <li>The Washington Post's collected <a
+                href="https://www.washingtonpost.com/graphics/national/police-shootings/">dataset</a> on the people
+              killed
+              by law enforcment
+            </li>
+            <li>The Guardian's collected <a
+                href="https://www.theguardian.com/us-news/ng-interactive/2015/jun/01/the-counted-police-killings-us-database">dataset</a>
+              on the people killed by law enforcment
+            </li>
+            <li>The <a href="https://www.census.gov/quickfacts/table/PST045216/00">U.S. Census'</a> demographic
+              estimates
+              for 2015
+            </li>
+            <li>Cambgridge <a href="http://journals.sagepub.com/doi/pdf/10.1177/0093854816668218">study</a> by Dr. Barak
+              Ariel on use of body cams
+            </li>
+            <li>Accompanying <a
+                href="http://www.cam.ac.uk/research/news/use-of-body-worn-cameras-sees-complaints-against-police-virtually-vanish-study-finds">press
+              release</a> for [6] on Cambgridge's research website
+            </li>
+          </ol>
+        </div>
+        <div class="col2" id="authors_column">
+          <ul>
+            <li>Erika Wolfe</li>
+            <li>Hunter Schafer</li>
+            <li>Meredith Lampe</li>
+            <li>Nick Mooney</li>
+          </ul>
+        </div>
+        <div class="col2" id="tools_column">
+          <ul>
+            <li><a href="https://d3js.org/">d3.js</a> - To make map</li>
+            <li><a href="http://www.chartjs.org/">chart.js</a> - To make doughnut charts</li>
+            <li><a href="https://jquery.com/">jquery.js</a> - Making JS easy since 2005</li>
+            <li><a href="https://alvarotrigo.com/fullPage/">fullpage.js</a> - To make narrative layout</li>
+            <li><a href="http://imakewebthings.com/waypoints/">waypoints.js</a> - Add interaction when scrolling</li>
+            <li><a href="http://fusejs.io/">fuse.js</a> - Search for map</li>
+            <li><a href="https://embed.joincampaignzero.org/">Campaign Zero Widget</a></li>
+            <li><a href="https://maxwellito.github.io/vivus/">Vivus</a> - Animated SVG</li>
+            <li><a href="http://www.flaticon.com/authors/icon-works">Icon Works</a> on <a
+                href="http://www.flaticon.com/">Flat
+              Icon</a></li>
+            <li><a href="http://picsvg.com/">PicSVG</a> - Make SVGs from pictures</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
 </html>
