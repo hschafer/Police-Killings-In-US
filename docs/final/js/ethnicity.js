@@ -211,7 +211,7 @@ function tooltipLabel(tooltipItem, data, signed) {
             text: "Race of Population",
         }
         setTimeout(function() { $("#diffChart").fadeIn("slow"); }, 750);
-        chart.update(750, true);
+        chart.update(750, false);
     }
 
     function rotateChart(index) {
