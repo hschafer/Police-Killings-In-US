@@ -51,15 +51,25 @@
   #references_column,  #references_title {
     width: 50%;
   }
+
   #authors_column, #authors_title {
     width: 20%;
   }
+
   #tools_column, #tools_title {
     width: 30%;
   }
+
+  #video_container {
+    border-style: solid;
+    border-width: 1px;
+    border-color: $gray;
+  }
+
   #ref_row_2 {
     margin-top: 10pt;
   }
+
   #ref_row_2 .sectionTitle {
     //margin-bottom: 0pt;
     padding-bottom: 0pt;
@@ -74,6 +84,8 @@
     list-style: none;
     padding-left: 0pt;
   }
+
+
 
 }
 
