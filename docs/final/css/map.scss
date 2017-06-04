@@ -92,8 +92,8 @@
         }
 
         #searchResultsWrapper {
-            background-color: white;
-            outline: $outline-color 1px solid;
+            background-color: $light-gray;
+            outline: $darker-gray 1px solid;
             z-index: 10;
             width: 100%;
             padding-top: 5px;
@@ -101,6 +101,7 @@
 
             h6 {
                 margin-left: 5px;
+                color: $darker-gray;
             }
         }
 
