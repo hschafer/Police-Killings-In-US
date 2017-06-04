@@ -34,31 +34,14 @@ $(document).ready(function() {
             "aNextSteps",
             "aCredits"
         ],
-        menu: '#menu'
+        menu: '#menu',
+        afterLoad: function(anchor, index) {
+            console.log(index, anchor);
+            if (index == 1) {
+                drawTitle();
+            }
+        }
     });
-
-    // reposition title using absolute positioning
-    var title_box_width = d3.select("#titlebox").node().getBoundingClientRect().width;
-    var title_box_height = d3.select("#titlebox").node().getBoundingClientRect().height;
-    //console.log("title box width: " + title_box_width);
-    //console.log("total width: " + $(window).width());
-
-    var title_box_start_x = ($(window).width() - title_box_width) / 2.0;
-    var title_box_start_y = ($(window).height() - title_box_height) / 2.0;
-
-    // we want to offset the title box by the remaining space / 2
-    d3.select("#titlebox").style("left",(title_box_start_x + "px"));
-    d3.select("#titlebox").style("top",(title_box_start_y + "px"));
-
-    // define flag specs
-    var flag_line_start_x = title_box_start_x - 120;
-    var height_blue_box = 200;
-    var red_stripe_height = 40;
-
-    // slow highlight of intro quote
-    setTimeout(highlightIntro, 1500);
-    positionFlag(flag_line_start_x, height_blue_box, red_stripe_height, title_box_start_y);
-    animateFlag(height_blue_box, red_stripe_height);
 
     // next steps tabs
     $("ul.tabs li").click(function() {
@@ -78,8 +61,30 @@ $(document).ready(function() {
     });
 });
 
-function animateFlag(height_blue_box, red_stripe_height) {
+function drawTitle() {
+    // reposition title using absolute positioning
+    var title_box_width = d3.select("#titlebox").node().getBoundingClientRect().width;
+    var title_box_height = d3.select("#titlebox").node().getBoundingClientRect().height;
 
+    var title_box_start_x = ($(window).width() - title_box_width) / 2.0;
+    var title_box_start_y = ($(window).height() - title_box_height) / 2.0;
+
+    // we want to offset the title box by the remaining space / 2
+    d3.select("#titlebox").style("left",(title_box_start_x + "px"));
+    d3.select("#titlebox").style("top",(title_box_start_y + "px"));
+
+    // define flag specs
+    var flag_line_start_x = title_box_start_x - 120;
+    var height_blue_box = 200;
+    var red_stripe_height = 40;
+
+    // slow highlight of intro quote
+    setTimeout(highlightIntro, 1500);
+    positionFlag(flag_line_start_x, height_blue_box, red_stripe_height, title_box_start_y);
+    animateFlag(height_blue_box, red_stripe_height);
+}
+
+function animateFlag(height_blue_box, red_stripe_height) {
     var max_timeout = 2000;
     var default_duration = 4000;
 
