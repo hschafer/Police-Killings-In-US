@@ -1,7 +1,7 @@
 // Our modules are designed to execute when imported
 require('./ethnicity.js');
 require('./the_victims.js');
-require('./fbi_comparison.js');
+const fbiLoad = require('./fbi_comparison.js').default.load;
 require('./narrative.js');
 
 require('../css/style.scss');
@@ -37,28 +37,21 @@ $(document).ready(function() {
         menu: '#menu',
         afterLoad: function(anchor, index) {
             console.log(index, anchor);
-            if (index == 1) {
+            if (anchor === "aTitle") {
                 drawTitle();
+            } else if (anchor === "aFbi") {
+                fbiLoad();
+            }else if (anchor === "aNextSteps") {
+                setUpTabs();
             }
         }
-    });
-
-    // next steps tabs
-    $("ul.tabs li").click(function() {
-        var me = $(this);
-        var tabbed = me.attr("data-tab");
-
-        $('ul.tabs li').removeClass('current');
-		$('.tab-content').removeClass('current');
-
-		me.addClass('current');
-		$('#' + tabbed).addClass('current');
     });
 
     // make citations clickable
     $(".citation").click(function() {
         $.fn.fullpage.moveTo("aCredits");
     });
+
 });
 
 function drawTitle() {
@@ -181,5 +174,19 @@ function highlightIntro() {
         original.html(originalText.substring(1));
         setTimeout(highlightIntro, characterDelay);
     }
+}
+
+function setUpTabs() {
+    // next steps tabs
+    $("ul.tabs li").click(function() {
+        var me = $(this);
+        var tabbed = me.attr("data-tab");
+
+        $('ul.tabs li').removeClass('current');
+		$('.tab-content').removeClass('current');
+
+		me.addClass('current');
+		$('#' + tabbed).addClass('current');
+    });
 }
 

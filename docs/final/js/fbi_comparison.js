@@ -1,6 +1,7 @@
 const d3 = require('d3');
 require('waypoints/lib/jquery.waypoints.js');
 
+var onLoad;
 
 // to reduce scopes of variables and functions that are unnecessary
 (function() {
@@ -12,20 +13,17 @@ require('waypoints/lib/jquery.waypoints.js');
   var width = 20;
   var height = 5;
 
-  $(document).ready(function() {
+  onLoad = function() {
     genPeople(width, height);
-    // timeout because of the way fullpage loads sections
-    setTimeout(function() {
-      var waypoint = new Waypoint({
-        element: $("#fbiSectionContainer"),
-        handler: function() {
-          drawPeople();
-          waypoint.disable();
-        },
-        offset: 300
-      });}, 1000
-    );
-  });
+    var waypoint = new Waypoint({
+      element: $("#fbiSectionContainer"),
+      handler: function() {
+        drawPeople();
+        waypoint.disable();
+      },
+      offset: 300
+    });
+  };
 
   // create people but make them invisible
   function genPeople(w, h) {
@@ -121,3 +119,7 @@ require('waypoints/lib/jquery.waypoints.js');
       peopleLegend.fadeIn();
   }
 }());
+
+export default {
+    load: onLoad
+};
