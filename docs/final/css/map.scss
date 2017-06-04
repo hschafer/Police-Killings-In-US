@@ -12,17 +12,16 @@
 
     .cityNameWrapper {
         display: flex;
-        outline: transparent 1px solid;
+        box-shadow: 0 1px 0 $light-gray;
 
         #cityNameAndSearch {
             /*margin-top: 1pt;*/
             /*margin-bottom: 5px;*/
+            width: $searchWidth;
             color: $darker-gray;
             background: transparent;
             border: none;
             outline: none;
-            width: $searchWidth;
-            position: relative;
 
             font-family: 'Ropa Sans', sans-serif;
             /* copy default h6 characteristics */
@@ -32,15 +31,9 @@
         }
 
         #citySearchIcon {
-            visibility: hidden;
-        }
-    }
-
-    .citySearchFocused, .cityNameWrapper:hover {
-        outline: $secondary-color solid 1px;
-
-        #citySearchIcon {
-            visibility: visible;
+            color: $gray;
+            font-size: large;
+            margin: 1px;
         }
     }
 
