@@ -40,8 +40,12 @@
     display: flex;
   }
 
-  #authors_column, #references_column, #tools_column {
+  #references_column, #tools_column {
     font-size: small;
+  }
+
+  #authors_column {
+    font-size: medium;
   }
 
   #references_column,  #references_title {
@@ -61,10 +65,14 @@
     padding-bottom: 0pt;
   }
 
-  #references_column ol,
+  #references_column ol {
+    padding-left: 11pt; // width of the list markers
+  }
+
   #authors_column ul,
   #tools_column ul {
-    padding: 0pt;
+    list-style: none;
+    padding-left: 0pt;
   }
 
 }
