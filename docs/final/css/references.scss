@@ -1,0 +1,71 @@
+/*
+ * Reference slide
+ */
+#referenceSlide {
+
+  #purpose_container {
+    font-size: large;
+    padding-right: 30px;
+    padding-left: 10px;
+    width: 50%;
+    float: left;
+  }
+
+  #purpose_container p {
+    margin-top: 0px;
+  }
+
+  .sectionRow {
+    width: 100%;
+  }
+
+  .col1, .col2, .col_ref {
+    display: table-cell;
+  }
+
+  .col1 {
+    width: 60%;
+  }
+
+  .col2 {
+    margin: 20px;
+    width: 30%;
+  }
+
+  .col_ref {
+    //width: 50%;
+  }
+
+  #video_container {
+    display: flex;
+  }
+
+  #authors_column, #references_column, #tools_column {
+    font-size: small;
+  }
+
+  #references_column,  #references_title {
+    width: 50%;
+  }
+  #authors_column, #authors_title {
+    width: 20%;
+  }
+  #tools_column, #tools_title {
+    width: 30%;
+  }
+  #ref_row_2 {
+    margin-top: 10pt;
+  }
+  #ref_row_2 .sectionTitle {
+    //margin-bottom: 0pt;
+    padding-bottom: 0pt;
+  }
+
+  #references_column ol,
+  #authors_column ul,
+  #tools_column ul {
+    padding: 0pt;
+  }
+
+}
+
