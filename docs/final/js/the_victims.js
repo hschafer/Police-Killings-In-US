@@ -33,6 +33,12 @@ const fuse = require('fuse.js');
         return intended_date + " 00:00:00"; // by default assume all happened at midnight
     }
 
+    // constants for searching
+    const ENTER = 13;
+    const UP = 38;
+    const DOWN = 40;
+    const MAX_RESULTS = 5;
+
     // size rectangle that holds map
     // proportional to window
     // not using CSS (i.e. width: 80%) for these
@@ -47,6 +53,11 @@ const fuse = require('fuse.js');
     var activeState = d3.select(null);
     var tooltipDiv;
     var clickedCity = null;
+
+    // state for search box
+    var selectedResultIndex = -1;
+    var resultsFound = 0;
+
     var victimSymbols;
     var randomWalkTimer;
     var cities;
@@ -178,10 +189,35 @@ const fuse = require('fuse.js');
                 // first result
                 displayAutoComplete(foundCities);
             }
-        }).on('keypress', function(e) {
-            if (e.which == 13) {
-                // choose the first visible autocomplete result
-                var acr = $('.autoCompleteResult').first().click();
+        }).on('keydown', function(e) {
+            var selectResult = function(select) {
+                var result = $("#cityResult" + selectedResultIndex);
+                if (select) {
+                    result.addClass("selectedResult");
+                } else {
+                    result.removeClass("selectedResult");
+                }
+            }
+            if (e.which === ENTER) {
+                if (selectedResultIndex >= 0) {
+                    // know if it's non-negative it's within bound
+                    $("#cityResult" + selectedResultIndex).click();
+                } else {
+                    // choose the first visible autocomplete result
+                    var acr = $('.autoCompleteResult').first().click();
+                }
+            } else if (e.which === UP) {
+                if (selectedResultIndex > 0) {
+                    selectResult(false);
+                    selectedResultIndex--;
+                    selectResult(true);
+                }
+            } else if (e.which === DOWN) {
+                if (selectedResultIndex < resultsFound - 1) {
+                    selectResult(false);
+                    selectedResultIndex++;
+                    selectResult(true);
+                }
             }
         });
 
@@ -190,10 +226,12 @@ const fuse = require('fuse.js');
         function displayAutoComplete(foundCities) {
             clearAutoComplete();
             var container = $("#searchResultsWrapper");
-            for (var i = 0; i < Math.floor(Math.min(foundCities.length, 5)); i++) {
+            resultsFound = Math.floor(Math.min(foundCities.length, MAX_RESULTS));
+            for (var i = 0; i < resultsFound; i++) {
                 var cityName = foundCities[i].city + ", " + foundCities[i].state;
                 var result = $('<h6></h6>').addClass('autoCompleteResult').html(cityName);
                 result.attr('cityIndex', foundCities[i].index);
+                result.attr('id', 'cityResult' + i)
                 result.on('click', function (d) {
                     clearAutoComplete();
                     var cityIndex = d.target.getAttribute('cityIndex');
@@ -403,6 +441,8 @@ const fuse = require('fuse.js');
 
     // Get rid of all autocomplete results
     function clearAutoComplete() {
+        selectedResultIndex = -1;
+        resultsFound = 0;
         $('.autoCompleteResult').remove();
         $('#searchResultsWrapper').hide();
     }
