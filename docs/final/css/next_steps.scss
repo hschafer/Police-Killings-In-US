@@ -39,6 +39,22 @@
         vertical-align: top;
         display: inline-block;
         margin: 0;
-        width: 50%;
+        width: 48%;
+    }
+
+    blockquote {
+        width: 450px;
+    }
+
+    #tab-1 {
+      .halfPage {
+        margin-right: 15px;
+      }
+    }
+
+    #tab-2 {
+      #campaign-zero-widget {
+        margin-top: 1em;
+      }
     }
 }
