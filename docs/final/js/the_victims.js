@@ -249,20 +249,10 @@ const fuse = require('fuse.js');
             .attr("height", h)
             .attr("class", "mapSVG")
             .call(zoom)
-            .on("wheel.zoom", null); // disable wheel zooming by default
+            .on("wheel.zoom", null) // disable wheel zooming by default
+            .on("mousedown.zoom", null); // disable wheel zooming by default
 
         // disable body scrolling while inside SVG container
-        svgContainer.on("mouseenter",
-            function () {
-                document.body.style.overflow = 'hidden';
-                svg.call(zoom);
-            })
-            .on("mouseleave",
-                function () {
-                    document.body.style.overflow = 'auto';
-                    svg.on("wheel.zoom", null);
-                });
-
         svg.append("rect")
             .attr("class", "backgroundRect")
             .attr("width", w)
