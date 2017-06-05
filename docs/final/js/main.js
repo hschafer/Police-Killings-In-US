@@ -3,6 +3,7 @@ require('./ethnicity.js');
 require('./the_victims.js');
 require('./fbi_comparison.js');
 require('./narrative.js');
+require('./commentary.js');
 
 require('../css/style.scss');
 const d3 = require('d3');
@@ -20,6 +21,7 @@ $(document).ready(function() {
             "John T. Williams' Story Result",
             "Does the Government Track These Deaths?",
             "Does Ethnicity Make a Difference?",
+            "Commentary",
             "Who are the Victims?",
             "What Can We Do to Make a Difference?",
             "Credits"
@@ -30,6 +32,7 @@ $(document).ready(function() {
             "aStory2",
             "aFbi",
             "aEthnicity",
+            "aCommentary",
             "aVictims",
             "aNextSteps",
             "aCredits"

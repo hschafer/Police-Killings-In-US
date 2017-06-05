@@ -30,23 +30,23 @@ $less-light-gray: #c4c7bf;
  * * * * * * * * * *  * * * *  * * * * *  * *  * * */
 
 ::-webkit-scrollbar {
-    width: 0px;
-    background:: transparent;
-    height: 0px;
+  width: 0px;
+  background:: transparent;
+  height: 0px;
 }
 
 /* I know the !important is annoying but we are trying to override fullpages' styles */
 .fp-tooltip {
-    background-color: $light-gray;
-    font-family: 'Ropa Sans', sans-serif !important;
-    color: $secondary-color !important;
-    padding: 5px !important;
-    max-width: 250px !important;
-    border-radius: 2px;
+  background-color: $light-gray;
+  font-family: 'Ropa Sans', sans-serif !important;
+  color: $secondary-color !important;
+  padding: 5px !important;
+  max-width: 250px !important;
+  border-radius: 2px;
 }
 
 .active + .fp-tooltip {
-    background-color: $outline-color;
+  background-color: $outline-color;
 }
 
 /**
@@ -54,178 +54,184 @@ $less-light-gray: #c4c7bf;
  */
 
 .white {
-    color: $outline-color;
+  color: $outline-color;
 }
 
 .african-american {
-    color: $gray;
+  color: $gray;
 }
 
 .asian {
-    color: $secondary-color;
+  color: $secondary-color;
 }
 
 .hispanic {
-    color: $red-dark;
+  color: $red-dark;
 }
 
 .native-american {
-    color: $darker-gray;
+  color: $darker-gray;
 }
 
 .other-race {
-    color: $red-super-dark;
+  color: $red-super-dark;
 }
 
 .unknown-race {
-    color: $red-faded;
+  color: $red-faded;
 }
 
 body {
-    background-color: $background-color;
+  background-color: $background-color;
 }
 
 .section {
-    color: $secondary-color;
-    font-size: 6em;
-    text-align: center;
-    background-color: $background-color;
-    font-family: 'Open Sans', sans-serif;
+  color: $secondary-color;
+  font-size: 6em;
+  text-align: center;
+  background-color: $background-color;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .sectionTitle {
-    font-size: 30pt;
-    margin-bottom: 20pt;
-    display: table-cell;
-    color: $secondary-color;
-    padding-bottom: 15pt;
+  font-size: 30pt;
+  margin-bottom: 20pt;
+  display: table-cell;
+  color: $secondary-color;
+  padding-bottom: 15pt;
 }
 
 .sectionTitle, .titleFont {
-    font-family: 'Ropa Sans', sans-serif;
+  font-family: 'Ropa Sans', sans-serif;
 }
 
-
 .sectionSubtitle {
-    margin-top: 2pt;
-    font-size: 15pt;
-    color: $darker-gray;
-    margin-bottom: 4pt;
-    text-align: left;
+  margin-top: 2pt;
+  font-size: 15pt;
+  color: $darker-gray;
+  margin-bottom: 4pt;
+  text-align: left;
 }
 
 .sectionRow {
-    display: table;
+  display: table;
 }
 
 .sectionContainer {
-    width: 90%;
-    height: 90%;
-    margin: auto;
-    display: table;
+  width: 90%;
+  height: 90%;
+  margin: auto;
+  display: table;
 }
 
-
 .section3Subtitle, .section4Subtitle {
-    margin-top: 15pt;
-    font-size: 20pt;
-    color: $outline-color;
-    text-align: left;
-    margin: auto;
+  margin-top: 15pt;
+  font-size: 20pt;
+  color: $outline-color;
+  text-align: left;
+  margin: auto;
 }
 
 .sectionText {
-    font-size: 15px;
-    text-align: left;
+  font-size: 15px;
+  text-align: left;
 }
-
 
 /* Styles for instruction text */
 .instructions {
-    font-size: 13px;
-    opacity: .7;
-    text-align: left;
+  font-size: 13px;
+  opacity: .7;
+  text-align: left;
 }
 
 .footer {
-    font-size: 15pt;
-    color: white;
+  font-size: 15pt;
+  color: white;
 }
 
 .github-logo {
-    fill: $secondary-color;
+  fill: $secondary-color;
 }
 
 a {
-    color: $light-blue;
+  color: $light-blue;
 }
 
 /* Styles for our big button look */
 .bigButton {
-    display: block;
-    margin: 0 auto;
-    padding: 15px 45px;
-    font-size: 20px;
-    font-family: "Ropa Sans",serif;
-    line-height: 1.8;
-    appearance: none;
-    box-shadow: none;
-    border-radius: 2px;
-    color: $darker-gray;
-    background: transparent;
-    border: 2px solid $darker-gray;
+  display: block;
+  margin: 0 auto;
+  padding: 15px 45px;
+  font-size: 20px;
+  font-family: "Ropa Sans", serif;
+  line-height: 1.8;
+  appearance: none;
+  box-shadow: none;
+  border-radius: 2px;
+  color: $darker-gray;
+  background: transparent;
+  border: 2px solid $darker-gray;
 }
 
 .bigButton:focus {
-    outline: none
+  outline: none
 }
 
 .bigButton:hover {
-    background-color: $outline-color;
-    cursor: pointer;
-    color: $background-color
+  background-color: $outline-color;
+  cursor: pointer;
+  color: $background-color
 }
 
 .bigButton:active {
-    background-color: #27496d;
-    text-shadow: -1px 1px #193047;
+  background-color: #27496d;
+  text-shadow: -1px 1px #193047;
 }
 
 blockquote {
+  display: block;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  width: 500px;
+  margin: 0 auto;
+  padding: 0.25em 40px;
+  line-height: 1.45;
+  position: relative;
+
+  cite {
+    color: #999999;
+    font-size: 14px;
     display: block;
-    font-family: Georgia, serif;
-    font-size: 18px;
-    font-style: italic;
-    width: 500px;
-    margin: 0 auto;
-    padding: 0.25em 40px;
-    line-height: 1.45;
-    position: relative;
+    margin-top: 5px;
+  }
 
-    cite {
-        color: #999999;
-        font-size: 14px;
-        display: block;
-        margin-top: 5px;
-    }
-
-    cite:before {
-        content: "\2014 \2009";
-    }
+  cite:before {
+    content: "\2014 \2009";
+  }
 }
 
 blockquote:before {
-    display: block;
-    content: "\201C";
-    font-size: 80px;
-    position: absolute;
-    left: -20px;
-    top: -20px;
-    color: #7a7a7a;
+  display: block;
+  content: "\201C";
+  font-size: 80px;
+  position: absolute;
+  left: -20px;
+  top: -20px;
+  color: #7a7a7a;
 }
 
 sup.citation {
-    margin-left: 1px;
-    cursor: pointer;
+  margin-left: 1px;
+  cursor: pointer;
 }
 
+#ethnicity_victims_transition p {
+  font-size: 15pt;
+  opacity: 0.0;
+}
+
+#commentary_container {
+  width: 40%;
+  margin: auto;
+}
