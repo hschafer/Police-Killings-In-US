@@ -27,6 +27,11 @@
         color: $outline-color;
     }
 
+    .col {
+      display: inline-block;
+      width: 48%;
+    }
+
     .fa.fa-male {
         margin-left:5pt;
     }
@@ -75,10 +80,19 @@
         display: none;
     }
 
-    #peopleLegend {
+    #peopleLegendContainer {
         text-align: right;
-        margin-right: 80pt;
         color: $secondary-color;
         font-size: 30pt;
+        vertical-align: top;
+
+        #peopleLegend {
+            display: none;
+        }
+
+        #peopleLegendText {
+            font-size: 15pt;
+            vertical-align: middle;
+        }
     }
 }
