@@ -47,9 +47,37 @@
     }
 
     #tab-1 {
+
+        .table {
+            display:table;
+            width: 100%;
+        }
+
+       .col1 {
+           display: table-cell;
+           vertical-align: middle;
+           width: 50%;
+       }
+
+        .row {
+            width: 100%;
+        }
+
       .halfPage {
         margin-right: 15px;
       }
+
+        //#accountability_top {
+        //    margin-bottom: 15pt;
+        //}
+        //#accountability_bottom {
+        //    margin-top: 15pt;
+        //}
+
+        hr {
+            margin-top: 30pt;
+            margin-bottom: 30pt;
+        }
     }
 
     #tab-2 {
@@ -57,4 +85,6 @@
         margin-top: 1em;
       }
     }
+
+
 }
