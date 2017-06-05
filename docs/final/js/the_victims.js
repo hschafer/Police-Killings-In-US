@@ -98,8 +98,8 @@ const fuse = require('fuse.js');
         startDate: START_DATE,
         endDate: END_DATE,
         ethnicity: {
-            "African American": true,
             "Asian": true,
+            "Black": true,
             "Hispanic": true,
             "Native American": true,
             "Other": true,

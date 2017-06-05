@@ -35473,8 +35473,8 @@ const fuse = __webpack_require__(177);
         startDate: START_DATE,
         endDate: END_DATE,
         ethnicity: {
-            "African American": true,
             "Asian": true,
+            "Black": true,
             "Hispanic": true,
             "Native American": true,
             "Other": true,
