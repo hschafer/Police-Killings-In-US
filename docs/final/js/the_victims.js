@@ -249,8 +249,7 @@ const fuse = require('fuse.js');
             .attr("height", h)
             .attr("class", "mapSVG")
             .call(zoom)
-            .on("wheel.zoom", null) // disable wheel zooming by default
-            .on("mousedown.zoom", null); // disable wheel zooming by default
+            .on("wheel.zoom", null); // disable wheel zooming by default
 
         // disable body scrolling while inside SVG container
         svg.append("rect")
